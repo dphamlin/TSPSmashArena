@@ -12,7 +12,7 @@ public class Server {
 	
 	public Server() {
 		try {
-			serverSocket = new ServerSocket(5378);
+			serverSocket = new ServerSocket(5379);
 			s = serverSocket.accept();
 			pw = new PrintWriter(s.getOutputStream(),true);
 			pw.print("Hello World.");
@@ -23,5 +23,10 @@ public class Server {
 		catch (Exception e) {
 			System.out.println("Error.");
 		}
+	}
+	
+	public static void main(String []args) {
+		Server myServer = new Server();
+		
 	}
 }
