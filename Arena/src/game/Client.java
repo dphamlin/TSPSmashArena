@@ -3,13 +3,13 @@ package game;
 import java.io.*;
 import java.net.*;
 
-public class Cliant {
+public class Client {
 
 	private Socket mySocket;
 	private InetAddress loop = null;
 	private BufferedReader in;
 	
-	public Cliant() {
+	public Client() {
 		try {
 			loop = InetAddress.getByName("127.0.0.1");
 		} catch (UnknownHostException e) {
@@ -31,6 +31,6 @@ public class Cliant {
 	}
 	
 	public static void main(String []args) {
-		Cliant myCliant = new Cliant();
+		Client myClient = new Client();
 	}
 }
