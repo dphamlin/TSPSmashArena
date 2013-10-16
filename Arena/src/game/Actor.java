@@ -8,13 +8,13 @@ package game;
  */
 public class Actor extends GameObject {
 	
-	//private Player p;
+	private int owner;
 	private int airTime;
 	private int deadTime;
 	private int reloadTime;
 	private int dir;
 	private int animation;
-	//private Item equip;
+	private Item equip;
 	private Land onLand;
 	
 	private int runSpeed;
@@ -24,6 +24,12 @@ public class Actor extends GameObject {
 	private int shotWid, shotHei;
 	
 	/*getters and setters for attributes*/
+	public int getOwner() {
+		return owner;
+	}
+	public void setOwner(int owner) {
+		this.owner = owner;
+	}
 	public int getAirTime() {
 		return airTime;
 	}
