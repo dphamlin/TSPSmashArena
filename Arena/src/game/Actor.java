@@ -8,7 +8,7 @@ package game;
  */
 public class Actor extends GameObject {
 	
-	private int owner;
+	private Player owner;
 	private int airTime;
 	private int deadTime;
 	private int reloadTime;
@@ -24,10 +24,10 @@ public class Actor extends GameObject {
 	private int shotWid, shotHei;
 	
 	/*getters and setters for attributes*/
-	public int getOwner() {
+	public Player getOwner() {
 		return owner;
 	}
-	public void setOwner(int owner) {
+	public void setOwner(Player owner) {
 		this.owner = owner;
 	}
 	public int getAirTime() {
@@ -59,6 +59,12 @@ public class Actor extends GameObject {
 	}
 	public void setAnimation(int animation) {
 		this.animation = animation;
+	}
+	public Item getEquip() {
+		return equip;
+	}
+	public void setEquip(Item equip) {
+		this.equip = equip;
 	}
 	public Land getOnLand() {
 		return onLand;

@@ -1,7 +1,7 @@
 package game;
 
 /**
- * Class for the player's characters
+ * Class for general items and special effects
  * 
  * @author Jacob Charles, Dean Hamlin
  *
