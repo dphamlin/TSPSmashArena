@@ -14,6 +14,37 @@ public class ServerGameState extends GameState {
 	public static final int RIGHT = 1;
 
 	/**
+	 * Apply a player's controls to their character
+	 * 
+	 * @param p
+	 * 		the player associated with the input
+	 * @param c
+	 * 		the controller data object
+	 */
+	public void useControls(Player p, Controller c) {
+		Actor a = p.getAvatar();
+		
+		//running
+		if (c.getLeft() > 0) {
+			run(a, LEFT);
+		}
+		else if (c.getRight() > 0) {
+			run(a, RIGHT);
+		}
+		else {
+			run(a, STOP);
+		}
+		
+		//jumping
+		if (c.getJump() == 1 && a.getOnLand() == null) {
+			jump(a);
+		}
+		if (c.getJump() > 1 && c.getJump() <= 5) {
+			holdJump(a);
+		}
+	}
+	
+	/**
 	 * Make an actor jump
 	 * 
 	 * @param a
@@ -25,6 +56,18 @@ public class ServerGameState extends GameState {
 		a.setVy(-a.getJumpPower());
 	}
 
+	/**
+	 * Extend the height of an actor's jump
+	 * 
+	 * @param a
+	 * 		the actor to extend the jump of
+	 */
+	public void holdJump (Actor a) {
+		if (a.getVy() == 1-a.getJumpPower()) {
+			a.setVy(a.getJumpPower());
+		}
+	}
+	
 	/**
 	 * Make an actor fall
 	 * 
