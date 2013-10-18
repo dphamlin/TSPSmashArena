@@ -9,9 +9,9 @@ import java.util.*;
 
 public class ServerGameState extends GameState {
 
-	public final int LEFT = -1;
-	public final int STOP = 0;
-	public final int RIGHT = 1;
+	public static final int LEFT = -1;
+	public static final int STOP = 0;
+	public static final int RIGHT = 1;
 
 	/**
 	 * Make an actor jump
@@ -20,12 +20,37 @@ public class ServerGameState extends GameState {
 	 * 		the actor to make jump
 	 */
 	public void jump (Actor a) {
-		//TODO: Add checks if the jump can be done
 		a.setAirTime(1);
 		a.setOnLand(null);
 		a.setVy(-a.getJumpPower());
 	}
 
+	/**
+	 * Make an actor fall
+	 * 
+	 * @param a
+	 * 		the actor to make fall
+	 */
+	public void fall (Actor a) {
+		a.setAirTime(1);
+		a.setOnLand(null);
+		a.setVy(STOP);
+	}
+	
+	/**
+	 * Make an actor land on a piece of land
+	 * 
+	 * @param a
+	 * 		the actor to land
+	 * @param l
+	 * 		the land to land on
+	 */
+	public void land (Actor a, Land l) {
+		a.setVy(STOP);
+		a.setAirTime(-1);
+		a.setOnLand(l);
+	}
+	
 	/**
 	 * Make an actor run in the specified direction
 	 * 
@@ -35,7 +60,7 @@ public class ServerGameState extends GameState {
 	 * 		LEFT, RIGHT, or STOP, the direction to run
 	 */
 	public void run (Actor a, int dir) {
-		//TODO: Air/land checks?
+		//TODO: Air/land differences?
 		if (dir > RIGHT) dir = RIGHT;
 		if (dir < LEFT) dir = LEFT;
 
@@ -85,28 +110,26 @@ public class ServerGameState extends GameState {
 		//lined up for vertical collisions
 		if (a.getRightEdge() >= l.getLeftEdge() && a.getLeftEdge() <= l.getRightEdge()) {
 			//falling
-			if (a.getVy()-l.getVy() > 0 && a.getBottomEdge() >= l.getTopEdge()) {
+			if (a.getBottomEdge() < l.getTopEdge() && a.getBottomEdge()+a.getVy() >= l.getTopEdge()+l.getVy()) {
 				a.setBottomEdge(l.getTopEdge()-1);
-				a.setVy(STOP);
-				a.setAirTime(-1);
-				a.setOnLand(l);
+				land(a, l);
 			}
-			//moving up
-			else if (a.getVy()-l.getVy() < 0 && a.getTopEdge() <= l.getBottomEdge()) {
+			//rising
+			else if (a.getTopEdge() > l.getBottomEdge() && a.getBottomEdge()+a.getVy() >= l.getTopEdge()+l.getVy()) {
 				a.setTopEdge(l.getBottomEdge()+1);
 				a.setVy(STOP);
 			}
 		}
 
-		//horizontal cases
+		//lined up for horizontal collisions
 		if (a.getBottomEdge() >= l.getTopEdge() && a.getTopEdge() <= l.getBottomEdge()) {
 			//moving right
-			if (a.getVx()-l.getVx() > 0 && a.getRightEdge() >= l.getLeftEdge()) {
+			if (a.getRightEdge() < l.getLeftEdge() && a.getRightEdge()+a.getVx() >= l.getLeftEdge()+l.getVx()) {
 				a.setRightEdge(l.getLeftEdge()-1);
 				a.setVx(STOP);
 			}
 			//moving left
-			else if (a.getVx()-l.getVx() < 0 && a.getLeftEdge() <= l.getRightEdge()) {
+			else if (a.getLeftEdge() > l.getRightEdge() && a.getLeftEdge()+a.getVx() <= l.getRightEdge()+l.getVx()) {
 				a.setLeftEdge(l.getRightEdge()+1);
 				a.setVx(STOP);
 			}
@@ -120,7 +143,11 @@ public class ServerGameState extends GameState {
 	 * 		the actor to move
 	 */
 	public void move(Actor a) {
-		//TODO: loop through terrain and apply collisions
+		//check collisions with the level
+		for (Land l : getLevel()) {
+			collide(a, l);
+		}
+		
 		//move along the ground
 		a.setX(a.getX()+a.getVx());
 

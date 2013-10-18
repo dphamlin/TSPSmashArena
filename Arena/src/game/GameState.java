@@ -12,7 +12,11 @@ import java.util.*;
 
 public abstract class GameState {
 	//Important consideration: faster way to access pieces of a specific type
-	protected ArrayList<GameObject> pieces;
+	//protected ArrayList<GameObject> pieces;
+	protected ArrayList<Actor> fighters;
+	protected ArrayList<Land> level;
+	protected ArrayList<Shot> bullets;
+	protected ArrayList<Item> powerups;
 	protected ArrayList<Player> players;
 	protected int stage;
 	
@@ -20,8 +24,35 @@ public abstract class GameState {
 	 * @return
 	 * 		a list of all entities in the current game
 	 */
-	public Iterable<GameObject> getPieces() {
+	/*public Iterable<GameObject> getPieces() {
 		return pieces;
+	}*/
+	
+	/**
+	 * Get a list of the current fighters
+	 * 
+	 * @return an ArrayList of Actors
+	 */
+	public ArrayList<Actor> getFighters() {
+		return fighters;
+	}
+	
+	/**
+	 * Get a list of the level objects
+	 * 
+	 * @return an ArrayList of Land objects
+	 */
+	public ArrayList<Land> getLevel() {
+		return level;
+	}
+	
+	/**
+	 * Get a list of the bullets and projectiles
+	 * 
+	 * @return an ArrayList of Shots
+	 */
+	public ArrayList<Shot> getBullets() {
+		return bullets;
 	}
 	
 	/**
