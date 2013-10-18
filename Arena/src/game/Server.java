@@ -1,32 +1,27 @@
 package game;
-import java.net.*;
-import java.util.*;
-import java.io.*;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.util.Scanner;
 
 public class Server {
-
-	private ServerSocket serverSocket;
-	private ArrayList<Socket> clientList;
-	private Socket s;
-	private PrintWriter pw;
-	
-	public Server() {
-		try {
-			serverSocket = new ServerSocket(5379);
-			s = serverSocket.accept();
-			pw = new PrintWriter(s.getOutputStream(),true);
-			pw.print("Hello World.");
-			pw.close();
-			s.close();
-			serverSocket.close();
-		}
-		catch (Exception e) {
-			System.out.println("Error.");
-		}
-	}
-	
 	public static void main(String []args) {
-		Server myServer = new Server();
-		
+		ServerSocket serv = null;
+		try {
+			serv = new ServerSocket(5379);
+			Connection cliant0 = new Connection(serv);
+			System.out.println("What to send?");
+			Scanner input = new Scanner(System.in);
+			String in = " ";
+			while(in != "close"){
+				in = input.nextLine();
+				cliant0.send(in);
+				System.out.println("     "+cliant0.recieve());
+			}
+			cliant0.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
