@@ -11,6 +11,7 @@ package game;
 import java.util.*;
 
 public abstract class GameState {
+	//Important consideration: faster way to access pieces of a specific type
 	protected ArrayList<GameObject> pieces;
 	protected ArrayList<Player> players;
 	protected int stage;

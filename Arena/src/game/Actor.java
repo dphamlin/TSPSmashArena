@@ -24,6 +24,63 @@ public class Actor extends GameObject {
 	private int shotSpeed, shotLife;
 	private int shotWid, shotHei;
 	
+	/**
+	 * @return the leftmost edge of the object
+	 */
+	public int getLeftEdge() {
+		return getX()-getW()/2;
+	}
+	/**
+	 * @return the topmost edge of the object
+	 */
+	public int getTopEdge() {
+		return getY()-getH();
+	}
+	/**
+	 * @return the rightmost edge of the object
+	 */
+	public int getRightEdge() {
+		return getX()+getW()/2;
+	}
+	/**
+	 * @return the bottom-most edge of the object
+	 */
+	public int getBottomEdge() {
+		return getY();
+	}
+	/**
+	 * Set the position of the left edge without resizing
+	 * 
+	 * @param x the new left edge of the object
+	 */
+	public void setLeftEdge(int x) {
+		setX(x+getW()/2);
+	}
+	/**
+	 * Set the position of the top edge without resizing
+	 * 
+	 * @param y the new top edge of the object
+	 */
+	public void setTopEdge(int y) {
+		setY(y+getH());
+	}
+	/**
+	 * Set the position of the right edge without resizing
+	 * 
+	 * @param x the new right edge of the object
+	 */
+	public void setRightEdge(int x) {
+		setX(x-getW()/2);
+	}
+	/**
+	 * Set the position of the bottom edge without resizing
+	 * 
+	 * @param y the new bottom edge of the object
+	 */
+	public void setBottomEdge(int y) {
+		setY(y);
+	}
+	
 	/*getters and setters for attributes*/
 	public Player getOwner() {
 		return owner;
@@ -91,10 +148,10 @@ public class Actor extends GameObject {
 	public void setJumpPower(int jumpPower) {
 		this.jumpPower = jumpPower;
 	}
-	public int getshotTime() {
+	public int getShotTime() {
 		return shotTime;
 	}
-	public void setshotTime(int shotTime) {
+	public void setShotTime(int shotTime) {
 		this.shotTime = shotTime;
 	}
 	public int getShotSpeed() {
