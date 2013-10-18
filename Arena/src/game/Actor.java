@@ -11,15 +11,16 @@ public class Actor extends GameObject {
 	private Player owner;
 	private int airTime;
 	private int deadTime;
-	private int reloadTime;
+	private int reload;
 	private int dir;
 	private int animation;
-	private Item equip;
+	private int skin;
+	private int powerup;
 	private Land onLand;
 	
 	private int runSpeed;
 	private int jumpPower;
-	private int fireRate;
+	private int shotTime;
 	private int shotSpeed, shotLife;
 	private int shotWid, shotHei;
 	
@@ -42,11 +43,11 @@ public class Actor extends GameObject {
 	public void setDeadTime(int deadTime) {
 		this.deadTime = deadTime;
 	}
-	public int getReloadTime() {
-		return reloadTime;
+	public int getReload() {
+		return reload;
 	}
-	public void setReloadTime(int reloadTime) {
-		this.reloadTime = reloadTime;
+	public void setReload(int reload) {
+		this.reload = reload;
 	}
 	public int getDir() {
 		return dir;
@@ -60,11 +61,17 @@ public class Actor extends GameObject {
 	public void setAnimation(int animation) {
 		this.animation = animation;
 	}
-	public Item getEquip() {
-		return equip;
+	public int getSkin() {
+		return skin;
 	}
-	public void setEquip(Item equip) {
-		this.equip = equip;
+	public void setSkin(int skin) {
+		this.skin = skin;
+	}
+	public int getPowerup() {
+		return powerup;
+	}
+	public void setEquip(int powerup) {
+		this.powerup = powerup;
 	}
 	public Land getOnLand() {
 		return onLand;
@@ -84,11 +91,11 @@ public class Actor extends GameObject {
 	public void setJumpPower(int jumpPower) {
 		this.jumpPower = jumpPower;
 	}
-	public int getFireRate() {
-		return fireRate;
+	public int getshotTime() {
+		return shotTime;
 	}
-	public void setFireRate(int fireRate) {
-		this.fireRate = fireRate;
+	public void setshotTime(int shotTime) {
+		this.shotTime = shotTime;
 	}
 	public int getShotSpeed() {
 		return shotSpeed;
