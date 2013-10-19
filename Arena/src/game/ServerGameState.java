@@ -42,6 +42,11 @@ public class ServerGameState extends GameState {
 		if (c.getJump() > 1 && c.getJump() <= 5) {
 			holdJump(a);
 		}
+		
+		//shooting
+		if (c.getFire() == 1) {
+			shoot(a);
+		}
 	}
 
 	/**
@@ -223,6 +228,48 @@ public class ServerGameState extends GameState {
 			}
 		}
 	}
+	
+	/**
+	 * Check for actor/actor collisions and head bouncing
+	 * 
+	 * @param a
+	 * 		actor to collide
+	 * @param b
+	 * 		actor to check collisions with
+	 */
+	public void collide(Actor a, Actor b) {
+		//can't hit yourself
+		if (a == b) {
+			return;
+		}
+
+		//lined up for vertical collisions
+		if (a.getRightEdge() >= b.getLeftEdge()&& a.getLeftEdge() <= b.getRightEdge()) {
+			//land on the enemy's head
+			if (a.getBottomEdge() < a.getTopEdge() && b.getBottomEdge()+b.getVy() >= a.getTopEdge()+a.getVy()) {
+				a.setBottomEdge(b.getTopEdge());
+				b.setDeadTime(0);
+				a.setVy(b.getVy()+a.getJumpPower()/2);
+			}
+		}
+
+		//TODO: Make these do MUCH more interesting things?
+		/*//lined up for horizontal collisions
+		if (a.getBottomEdge() >= b.getTopEdge() && a.getTopEdge() <= b.getBottomEdge()) {
+			//moving right
+			if (a.getRightEdge() < b.getLeftEdge() && a.getRightEdge()+a.getVx() >= b.getLeftEdge()+b.getVx()) {
+				int t = a.getRightEdge();
+				a.setRightEdge(b.getLeftEdge());
+				b.setLeftEdge(t);
+			}
+			//moving left
+			else if (a.getLeftEdge() > b.getRightEdge() && a.getLeftEdge()+a.getVx() <= b.getRightEdge()+b.getVx()) {
+				int t = b.getRightEdge();
+				b.setRightEdge(a.getLeftEdge());
+				a.setLeftEdge(t);
+			}
+		}*/
+	}
 
 	/**
 	 * Check for collisions between a shot and the terrain
@@ -316,6 +363,11 @@ public class ServerGameState extends GameState {
 		//check collisions with the level
 		for (Land l : getLevel()) {
 			collide(a, l);
+		}
+		
+		//check for collisions with other actors
+		for (Actor b : getFighters()) {
+			collide(a, b);
 		}
 
 		//move along the ground
