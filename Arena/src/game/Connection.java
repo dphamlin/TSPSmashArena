@@ -8,7 +8,7 @@ public class Connection {
 	private ServerSocket serverSocket;
 	private ArrayList<Socket> clientList;
 	private Socket s;
-	private PrintWriter pw;
+	private PrintWriter out;
 	private BufferedReader in;
 	private InetAddress addr;
 	
@@ -24,12 +24,8 @@ public class Connection {
 		this.addr = null;
 	}
 	
-	public Connection(String ip){
-		try {
-			this.addr = InetAddress.getByName(ip);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
+	public Connection(InetAddress addr){
+			this.addr = addr;
 		try {
 			this.s = new Socket(this.addr, 5379);
 			System.out.println("Connected");
@@ -41,10 +37,9 @@ public class Connection {
 	
 	public void send(String m){
 		try {
-			this.pw = new PrintWriter(this.s.getOutputStream(),true);
-			this.pw.print(m);
+			this.out = new PrintWriter(this.s.getOutputStream(), true);
+			this.out.println(m);
 			System.out.println("Sent");
-			this.pw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -54,7 +49,6 @@ public class Connection {
 		String m = "Nothing";
 		try {
 			this.in = new BufferedReader(new InputStreamReader(this.s.getInputStream()));
-			while(!this.in.ready()){}
 			System.out.println("Received: ");
 			m = this.in.readLine();
 		} catch (IOException e) {
@@ -72,6 +66,13 @@ public class Connection {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+	}
+	
+	public Socket getSocket(){
+		return s;
+	}
+	
+	public ServerSocket getServerSocket() {
+		return serverSocket;
 	}
 }
