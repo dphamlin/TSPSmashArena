@@ -23,7 +23,7 @@ public class ServerGameState extends GameState {
 	 */
 	public void useControls(Player p, Controller c) {
 		Actor a = p.getAvatar();
-		
+
 		//running
 		if (c.getLeft() > 0) {
 			run(a, LEFT);
@@ -34,7 +34,7 @@ public class ServerGameState extends GameState {
 		else {
 			run(a, STOP);
 		}
-		
+
 		//jumping
 		if (c.getJump() == 1 && a.getOnLand() == null) {
 			jump(a);
@@ -43,7 +43,7 @@ public class ServerGameState extends GameState {
 			holdJump(a);
 		}
 	}
-	
+
 	/**
 	 * Make an actor jump
 	 * 
@@ -67,7 +67,7 @@ public class ServerGameState extends GameState {
 			a.setVy(a.getJumpPower());
 		}
 	}
-	
+
 	/**
 	 * Make an actor fall
 	 * 
@@ -79,7 +79,7 @@ public class ServerGameState extends GameState {
 		a.setOnLand(null);
 		a.setVy(STOP);
 	}
-	
+
 	/**
 	 * Make an actor land on a piece of land
 	 * 
@@ -93,7 +93,7 @@ public class ServerGameState extends GameState {
 		a.setAirTime(-1);
 		a.setOnLand(l);
 	}
-	
+
 	/**
 	 * Make an actor run in the specified direction
 	 * 
@@ -119,6 +119,36 @@ public class ServerGameState extends GameState {
 	}
 
 	/**
+	 * Make an actor fire their shot
+	 * 
+	 * @param a
+	 * 		the actor doing the shooting
+	 */
+	public void shoot (Actor a) {
+		//can't fire if you haven't reloaded
+		if (a.getReload() > 0) {
+			return;
+		}
+
+		a.setReload(a.getShotDelay());
+
+		//build a new shot, according to the Actor's specifications
+		Shot s = new Shot();
+		s.setSource(a);
+		s.setDead(false);
+		s.setX(a.getX()+a.getW()*a.getDir());
+		s.setY(a.getY()-a.getH()/2);
+		s.setVx(a.getShotSpeed()*a.getDir());
+		s.setVy(0);
+		s.setH(a.getShotHei());
+		s.setW(a.getShotWid());
+		s.setLifeTime(a.getShotLife());
+
+		//add the new bullet to the list of bullets
+		bullets.add(s);
+	}
+
+	/**
 	 * update the actor's status
 	 * 
 	 * @param a
@@ -131,9 +161,24 @@ public class ServerGameState extends GameState {
 		if (a.getDeadTime() > 0) a.setDeadTime(a.getDeadTime()+1); //respawn timer, potentially spawn armor
 
 		if (a.getReload() > 0) a.setReload(a.getReload()-1); //timer between shots
-		
+
 		move(a); //updates positions and speeds
 		//TODO: add more as other fields need updating
+	}
+
+	/**
+	 * update a shot's status
+	 * 
+	 * @param s
+	 * 		the shot to update
+	 */
+	public void update (Shot s) {
+		if (s.getLifeTime() <= 0) {
+			s.setDead(true);
+			return;
+		}
+		s.setLifeTime(s.getLifeTime()-1);
+		move(s);
 	}
 
 	/**
@@ -180,6 +225,88 @@ public class ServerGameState extends GameState {
 	}
 
 	/**
+	 * Check for collisions between a shot and the terrain
+	 * 
+	 * @param s
+	 * 		shot to collide
+	 * @param l
+	 * 		land to check for collisions with
+	 */
+	public void collide(Shot s, Land l) {
+		//non-solid platforms simply return for now
+		if (!l.isSolid()) {
+			return;
+		}
+
+		//lined up for vertical collisions
+		if (s.getRightEdge() >= l.getLeftEdge()&& s.getLeftEdge() <= l.getRightEdge()) {
+			//falling
+			if (s.getBottomEdge() < l.getTopEdge() && s.getBottomEdge()+s.getVy() >= l.getTopEdge()+l.getVy()) {
+				s.setDead(true);
+			}
+			//rising
+			if (s.getTopEdge() > l.getBottomEdge() && s.getBottomEdge()+s.getVy() >= l.getTopEdge()+l.getVy()) {
+				s.setDead(true);
+			}
+		}
+
+		//lined up for horizontal collisions
+		if (s.getBottomEdge() >= l.getTopEdge() && s.getTopEdge() <= l.getBottomEdge()) {
+			//moving right
+			if (s.getRightEdge() < l.getLeftEdge() && s.getRightEdge()+s.getVx() >= l.getLeftEdge()+l.getVx()) {
+				s.setDead(true);
+			}
+			//moving left
+			else if (s.getLeftEdge() > l.getRightEdge() && s.getLeftEdge()+s.getVx() <= l.getRightEdge()+l.getVx()) {
+				s.setDead(true);
+			}
+		}
+	}
+
+	/**
+	 * Check for shot-actor collisions
+	 * 
+	 * @param s
+	 * 		shot to collide
+	 * @param a
+	 * 		actor to check collisions with
+	 */
+	public void collide(Shot s, Actor a) {
+		//don't hit your own source
+		if (s.getSource() == a) {
+			return;
+		}
+
+		//lined up for vertical collisions
+		if (s.getRightEdge() >= a.getLeftEdge()&& s.getLeftEdge() <= a.getRightEdge()) {
+			//falling
+			if (s.getBottomEdge() < a.getTopEdge() && s.getBottomEdge()+s.getVy() >= a.getTopEdge()+a.getVy()) {
+				s.setDead(true);
+				a.setDeadTime(0);
+			}
+			//rising
+			if (s.getTopEdge() > a.getBottomEdge() && s.getBottomEdge()+s.getVy() >= a.getTopEdge()+a.getVy()) {
+				s.setDead(true);
+				a.setDeadTime(0);
+			}
+		}
+
+		//lined up for horizontal collisions
+		if (s.getBottomEdge() >= a.getTopEdge() && s.getTopEdge() <= a.getBottomEdge()) {
+			//moving right
+			if (s.getRightEdge() < a.getLeftEdge() && s.getRightEdge()+s.getVx() >= a.getLeftEdge()+a.getVx()) {
+				s.setDead(true);
+				a.setDeadTime(0);
+			}
+			//moving left
+			else if (s.getLeftEdge() > a.getRightEdge() && s.getLeftEdge()+s.getVx() <= a.getRightEdge()+a.getVx()) {
+				s.setDead(true);
+				a.setDeadTime(0);
+			}
+		}
+	}
+
+	/**
 	 * Move the actor according to their current speeds (with gravity)
 	 * 
 	 * @param a
@@ -190,7 +317,7 @@ public class ServerGameState extends GameState {
 		for (Land l : getLevel()) {
 			collide(a, l);
 		}
-		
+
 		//move along the ground
 		a.setX(a.getX()+a.getVx());
 
@@ -204,9 +331,25 @@ public class ServerGameState extends GameState {
 		Land l = a.getOnLand();
 		if (l != null) {
 			if (a.getRightEdge() < l.getLeftEdge() || a.getLeftEdge() > l.getRightEdge()) {
-				a.setAirTime(1);
-				a.setOnLand(null);
+				fall(a);
 			}
 		}
+	}
+
+	/**
+	 * Move the shot according to its speeds
+	 * 
+	 * @param s
+	 * 		the shot to be moved
+	 */
+	public void move(Shot s) {
+		for (Land l : getLevel()) {
+			collide(s, l);
+		}
+		for (Actor a : getFighters()) {
+			collide(s, a);
+		}
+		s.setX(s.getX()+s.getVx());
+		s.setY(s.getY()+s.getVy());
 	}
 }

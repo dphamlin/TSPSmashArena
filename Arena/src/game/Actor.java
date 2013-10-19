@@ -13,14 +13,13 @@ public class Actor extends GameObject {
 	private int deadTime;
 	private int reload;
 	private int dir;
-	private int animation;
 	private int skin;
 	private int powerup;
 	private Land onLand;
 	
 	private int runSpeed;
 	private int jumpPower;
-	private int shotTime;
+	private int shotDelay;
 	private int shotSpeed, shotLife;
 	private int shotWid, shotHei;
 	
@@ -112,12 +111,6 @@ public class Actor extends GameObject {
 	public void setDir(int dir) {
 		this.dir = dir;
 	}
-	public int getAnimation() {
-		return animation;
-	}
-	public void setAnimation(int animation) {
-		this.animation = animation;
-	}
 	public int getSkin() {
 		return skin;
 	}
@@ -148,11 +141,11 @@ public class Actor extends GameObject {
 	public void setJumpPower(int jumpPower) {
 		this.jumpPower = jumpPower;
 	}
-	public int getShotTime() {
-		return shotTime;
+	public int getShotDelay() {
+		return shotDelay;
 	}
-	public void setShotTime(int shotTime) {
-		this.shotTime = shotTime;
+	public void setShotDelay(int shotDelay) {
+		this.shotDelay = shotDelay;
 	}
 	public int getShotSpeed() {
 		return shotSpeed;

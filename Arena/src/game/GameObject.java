@@ -12,6 +12,7 @@ public abstract class GameObject {
 	protected int vx, vy;
 	protected int w, h;
 	protected int frame;
+	protected boolean dead;
 	
 	/**
 	 * @return the leftmost edge of the object
@@ -118,5 +119,11 @@ public abstract class GameObject {
 	}
 	public void setFrame(int frame) {
 		this.frame = frame;
+	}
+	public boolean isDead() {
+		return dead;
+	}
+	public void setDead(boolean dead) {
+		this.dead = dead;
 	}
 }
