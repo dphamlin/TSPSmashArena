@@ -12,6 +12,9 @@ public class ServerGameState extends GameState {
 	public static final int LEFT = -1;
 	public static final int STOP = 0;
 	public static final int RIGHT = 1;
+	public static final int TOP = -1;
+	public static final int BOTTOM = 1;
+	public static final int NONE = 0;
 
 	/**
 	 * Apply a player's controls to their character
@@ -42,7 +45,7 @@ public class ServerGameState extends GameState {
 		if (c.getJump() > 1 && c.getJump() <= 5) {
 			holdJump(a);
 		}
-		
+
 		//shooting
 		if (c.getFire() == 1) {
 			shoot(a);
@@ -187,6 +190,64 @@ public class ServerGameState extends GameState {
 	}
 
 	/**
+	 * Check collisions between two objects horizontally
+	 * 
+	 * @param a
+	 * 		the object to collide
+	 * @param b
+	 * 		the object it collides with
+	 * @return
+	 * 		LEFT if A is to the left of B
+	 * 		RIGHT if A is to the right of B
+	 * 		NONE if there is no collision
+	 */
+	public int hCollide (GameObject a, GameObject b) {
+		//lined up for horizontal collisions
+		if (a.getBottomEdge() >= b.getTopEdge() && a.getTopEdge() <= b.getBottomEdge()) {
+			//moving right
+			if (a.getRightEdge() < b.getLeftEdge() && a.getRightEdge()+a.getVx() >= b.getLeftEdge()+b.getVx()) {
+				return LEFT;
+			}
+			//moving left
+			else if (a.getLeftEdge() > b.getRightEdge() && a.getLeftEdge()+a.getVx() <= b.getRightEdge()+b.getVx()) {
+				return RIGHT;
+			}
+		}
+		
+		//no collisions
+		return 0;
+	}
+	
+	/**
+	 * Check collisions between two objects vertically
+	 * 
+	 * @param a
+	 * 		the object to collide
+	 * @param b
+	 * 		the object it collides with
+	 * @return
+	 * 		TOP if A is on top of B
+	 * 		BOTTOM if A is under B
+	 * 		NONE if there is no collision
+	 */
+	public int vCollide (GameObject a, GameObject b) {
+		//lined up for vertical collisions
+		if (a.getRightEdge() >= b.getLeftEdge() && a.getLeftEdge() <= b.getRightEdge()) {
+			//falling
+			if (a.getBottomEdge() < b.getTopEdge() && a.getBottomEdge()+a.getVy() >= b.getTopEdge()+b.getVy()) {
+				return TOP;
+			}
+			//rising
+			else if (a.getTopEdge() > b.getBottomEdge() && a.getBottomEdge()+a.getVy() >= b.getTopEdge()+b.getVy()) {
+				return BOTTOM;
+			}
+		}
+		
+		//no collisions
+		return 0;
+	}
+
+	/**
 	 * Check for and handle collision between an actor and the stage 
 	 * 
 	 * @param a
@@ -199,36 +260,30 @@ public class ServerGameState extends GameState {
 		if (!l.isSolid()) {
 			return;
 		}
-
-		//lined up for vertical collisions
-		if (a.getRightEdge() >= l.getLeftEdge() && a.getLeftEdge() <= l.getRightEdge()) {
-			//falling
-			if (a.getBottomEdge() < l.getTopEdge() && a.getBottomEdge()+a.getVy() >= l.getTopEdge()+l.getVy()) {
-				a.setBottomEdge(l.getTopEdge()-1);
-				land(a, l);
-			}
-			//rising
-			else if (a.getTopEdge() > l.getBottomEdge() && a.getBottomEdge()+a.getVy() >= l.getTopEdge()+l.getVy()) {
-				a.setTopEdge(l.getBottomEdge()+1);
-				a.setVy(STOP);
-			}
+		
+		//vertical collisions
+		int v = vCollide(a, l);
+		if (v == TOP) {
+			a.setBottomEdge(l.getTopEdge()-1);
+			land(a, l);
+		}
+		if (v == BOTTOM) {
+			a.setTopEdge(l.getBottomEdge()+1);
+			a.setVy(STOP);
 		}
 
-		//lined up for horizontal collisions
-		if (a.getBottomEdge() >= l.getTopEdge() && a.getTopEdge() <= l.getBottomEdge()) {
-			//moving right
-			if (a.getRightEdge() < l.getLeftEdge() && a.getRightEdge()+a.getVx() >= l.getLeftEdge()+l.getVx()) {
-				a.setRightEdge(l.getLeftEdge()-1);
-				a.setVx(STOP);
-			}
-			//moving left
-			else if (a.getLeftEdge() > l.getRightEdge() && a.getLeftEdge()+a.getVx() <= l.getRightEdge()+l.getVx()) {
-				a.setLeftEdge(l.getRightEdge()+1);
-				a.setVx(STOP);
-			}
+		//horizontal collisions
+		int h = hCollide(a, l);
+		if (h == LEFT) {
+			a.setRightEdge(l.getLeftEdge()-1);
+			a.setVx(STOP);
+		}
+		if (h == RIGHT) {
+			a.setLeftEdge(l.getRightEdge()+1);
+			a.setVx(STOP);
 		}
 	}
-	
+
 	/**
 	 * Check for actor/actor collisions and head bouncing
 	 * 
@@ -243,32 +298,14 @@ public class ServerGameState extends GameState {
 			return;
 		}
 
-		//lined up for vertical collisions
-		if (a.getRightEdge() >= b.getLeftEdge()&& a.getLeftEdge() <= b.getRightEdge()) {
-			//land on the enemy's head
-			if (a.getBottomEdge() < a.getTopEdge() && b.getBottomEdge()+b.getVy() >= a.getTopEdge()+a.getVy()) {
-				a.setBottomEdge(b.getTopEdge());
-				b.setDeadTime(0);
-				a.setVy(b.getVy()+a.getJumpPower()/2);
-			}
+		//land on enemy heads
+		if (vCollide(a, b) == TOP) {
+			a.setBottomEdge(b.getTopEdge());
+			b.setDeadTime(0);
+			a.setVy(b.getVy()+a.getJumpPower()/2);
 		}
 
-		//TODO: Make these do MUCH more interesting things?
-		/*//lined up for horizontal collisions
-		if (a.getBottomEdge() >= b.getTopEdge() && a.getTopEdge() <= b.getBottomEdge()) {
-			//moving right
-			if (a.getRightEdge() < b.getLeftEdge() && a.getRightEdge()+a.getVx() >= b.getLeftEdge()+b.getVx()) {
-				int t = a.getRightEdge();
-				a.setRightEdge(b.getLeftEdge());
-				b.setLeftEdge(t);
-			}
-			//moving left
-			else if (a.getLeftEdge() > b.getRightEdge() && a.getLeftEdge()+a.getVx() <= b.getRightEdge()+b.getVx()) {
-				int t = b.getRightEdge();
-				b.setRightEdge(a.getLeftEdge());
-				a.setLeftEdge(t);
-			}
-		}*/
+		//TODO: Make interesting side to side collisions
 	}
 
 	/**
@@ -285,28 +322,9 @@ public class ServerGameState extends GameState {
 			return;
 		}
 
-		//lined up for vertical collisions
-		if (s.getRightEdge() >= l.getLeftEdge()&& s.getLeftEdge() <= l.getRightEdge()) {
-			//falling
-			if (s.getBottomEdge() < l.getTopEdge() && s.getBottomEdge()+s.getVy() >= l.getTopEdge()+l.getVy()) {
-				s.setDead(true);
-			}
-			//rising
-			if (s.getTopEdge() > l.getBottomEdge() && s.getBottomEdge()+s.getVy() >= l.getTopEdge()+l.getVy()) {
-				s.setDead(true);
-			}
-		}
-
-		//lined up for horizontal collisions
-		if (s.getBottomEdge() >= l.getTopEdge() && s.getTopEdge() <= l.getBottomEdge()) {
-			//moving right
-			if (s.getRightEdge() < l.getLeftEdge() && s.getRightEdge()+s.getVx() >= l.getLeftEdge()+l.getVx()) {
-				s.setDead(true);
-			}
-			//moving left
-			else if (s.getLeftEdge() > l.getRightEdge() && s.getLeftEdge()+s.getVx() <= l.getRightEdge()+l.getVx()) {
-				s.setDead(true);
-			}
+		//check for any collision
+		if (vCollide(s, l) != NONE || hCollide(s, l) != NONE) {
+			s.setDead(true);
 		}
 	}
 
@@ -324,32 +342,10 @@ public class ServerGameState extends GameState {
 			return;
 		}
 
-		//lined up for vertical collisions
-		if (s.getRightEdge() >= a.getLeftEdge()&& s.getLeftEdge() <= a.getRightEdge()) {
-			//falling
-			if (s.getBottomEdge() < a.getTopEdge() && s.getBottomEdge()+s.getVy() >= a.getTopEdge()+a.getVy()) {
-				s.setDead(true);
-				a.setDeadTime(0);
-			}
-			//rising
-			if (s.getTopEdge() > a.getBottomEdge() && s.getBottomEdge()+s.getVy() >= a.getTopEdge()+a.getVy()) {
-				s.setDead(true);
-				a.setDeadTime(0);
-			}
-		}
-
-		//lined up for horizontal collisions
-		if (s.getBottomEdge() >= a.getTopEdge() && s.getTopEdge() <= a.getBottomEdge()) {
-			//moving right
-			if (s.getRightEdge() < a.getLeftEdge() && s.getRightEdge()+s.getVx() >= a.getLeftEdge()+a.getVx()) {
-				s.setDead(true);
-				a.setDeadTime(0);
-			}
-			//moving left
-			else if (s.getLeftEdge() > a.getRightEdge() && s.getLeftEdge()+s.getVx() <= a.getRightEdge()+a.getVx()) {
-				s.setDead(true);
-				a.setDeadTime(0);
-			}
+		//check for any collision
+		if (vCollide(s, a) != NONE || hCollide(s, a) != NONE) {
+			s.setDead(true);
+			a.setDeadTime(0);
 		}
 	}
 
@@ -364,7 +360,7 @@ public class ServerGameState extends GameState {
 		for (Land l : getLevel()) {
 			collide(a, l);
 		}
-		
+
 		//check for collisions with other actors
 		for (Actor b : getFighters()) {
 			collide(a, b);
