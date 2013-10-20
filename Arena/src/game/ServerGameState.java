@@ -9,6 +9,7 @@ import java.util.*;
 
 public class ServerGameState extends GameState {
 
+	//a bunch of positional and directional constants
 	public static final int LEFT = -1;
 	public static final int STOP = 0;
 	public static final int RIGHT = 1;
@@ -189,6 +190,15 @@ public class ServerGameState extends GameState {
 		move(s);
 	}
 
+	public boolean overlap (GameObject a, GameObject b) {
+		if (a.getBottomEdge() >= b.getTopEdge() && a.getTopEdge() <= b.getBottomEdge()) {
+			if (a.getRightEdge() >= b.getLeftEdge() && a.getLeftEdge() <= b.getRightEdge()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Check collisions between two objects horizontally
 	 * 
