@@ -6,16 +6,16 @@ import java.util.Scanner;
 
 public class Client {
 	public static void main(String []args) {
-		Connection server = new Connection("127.0.0.1");
-		String r = server.recieve();
-		while(r != "close"){
+		Connection con = new Connection(InetAddress.getLoopbackAddress());
+		String r = con.recieve();
+		while(r.compareTo("close\n") != 0){
 			System.out.println("    "+r);
-			String m = "Gotcha, here's the time -> "+System.currentTimeMillis();
+			String m = "Gotcha, here's the time -> "+System.currentTimeMillis()+"\n";
 			System.out.println("    "+m);
-			server.send(m);
-			r = server.recieve();
+			con.send(m);
+			r = con.recieve();
 		}
-		server.send("Good bye!");
-		server.close();
+		con.send("Good bye!\n");
+		con.close();
 	}
 }

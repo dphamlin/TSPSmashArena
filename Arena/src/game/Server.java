@@ -9,16 +9,17 @@ public class Server {
 		ServerSocket serv = null;
 		try {
 			serv = new ServerSocket(5379);
-			Connection cliant0 = new Connection(serv);
+			Connection con = new Connection(serv);
 			System.out.println("What to send?");
 			Scanner input = new Scanner(System.in);
 			String in = " ";
-			while(in != "close"){
+			while(in.compareTo("close\n") != 0){
 				in = input.nextLine();
-				cliant0.send(in);
-				System.out.println("     "+cliant0.recieve());
+				in = in + "\n";
+				con.send(in);
+				System.out.println("     "+con.recieve());
 			}
-			cliant0.close();
+			con.close();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
