@@ -29,8 +29,8 @@ public class ControlListener implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		//Set relevant buffers to true
 		int k = e.getKeyCode();
+		//Set relevant buffers to true
 		if (k == KeyEvent.VK_UP) c.setbUp(true);
 		if (k == KeyEvent.VK_DOWN) c.setbDown(true);
 		if (k == KeyEvent.VK_LEFT) c.setbLeft(true);
@@ -42,8 +42,8 @@ public class ControlListener implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		//Set relevant buffers to false
 		int k = e.getKeyCode();
+		//Set relevant buffers to false
 		if (k == KeyEvent.VK_UP) c.setbUp(false);
 		if (k == KeyEvent.VK_DOWN) c.setbDown(false);
 		if (k == KeyEvent.VK_LEFT) c.setbLeft(false);

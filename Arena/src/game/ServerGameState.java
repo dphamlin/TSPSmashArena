@@ -213,11 +213,13 @@ public class ServerGameState extends GameState {
 	 * 		true if they are overlapped
 	 */
 	public boolean overlap (GameObject a, GameObject b) {
+		//check that the edges are pushed through
 		if (a.getBottomEdge() >= b.getTopEdge() && a.getTopEdge() <= b.getBottomEdge()) {
 			if (a.getRightEdge() >= b.getLeftEdge() && a.getLeftEdge() <= b.getRightEdge()) {
 				return true;
 			}
 		}
+		//no overlap
 		return false;
 	}
 	
