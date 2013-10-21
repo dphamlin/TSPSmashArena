@@ -43,7 +43,7 @@ public class ServerGameState extends GameState {
 		if (c.getJump() == 1 && a.getOnLand() == null) {
 			jump(a);
 		}
-		if (c.getJump() > 1 && c.getJump() <= 5) {
+		if (c.getJump() > 1 && a.getAirTime() > 0 && a.getAirTime() <= 5) {
 			holdJump(a);
 		}
 
@@ -158,6 +158,16 @@ public class ServerGameState extends GameState {
 	}
 
 	/**
+	 * Kill the specified actor
+	 * 
+	 * @param a
+	 * 		the actor who dies
+	 */
+	public void die (Actor a) {
+		a.setDeadTime(0);
+	}
+	
+	/**
 	 * update the actor's status
 	 * 
 	 * @param a
@@ -171,6 +181,8 @@ public class ServerGameState extends GameState {
 
 		if (a.getReload() > 0) a.setReload(a.getReload()-1); //timer between shots
 
+		if (a.getOnLand() != null) a.setVy(a.getOnLand().getVy()); //match platform's vertical speed
+		
 		move(a); //updates positions and speeds
 		//TODO: add more as other fields need updating
 	}
@@ -190,6 +202,16 @@ public class ServerGameState extends GameState {
 		move(s);
 	}
 
+	/**
+	 * Check if two objects are overlapping
+	 * 
+	 * @param a
+	 * 		the first object
+	 * @param b
+	 * 		the second object
+	 * @return
+	 * 		true if they are overlapped
+	 */
 	public boolean overlap (GameObject a, GameObject b) {
 		if (a.getBottomEdge() >= b.getTopEdge() && a.getTopEdge() <= b.getBottomEdge()) {
 			if (a.getRightEdge() >= b.getLeftEdge() && a.getLeftEdge() <= b.getRightEdge()) {
@@ -383,6 +405,7 @@ public class ServerGameState extends GameState {
 		if (a.getAirTime() > 0) {
 			a.setY(a.getY()+a.getVy());
 			a.setVy(a.getVy()+1); //TODO: determine what exact gravity to use
+			if (a.getVy() < -8) a.setVy(-8); //TODO: Make a specific termian velocity
 		}
 
 		//falling off edges
