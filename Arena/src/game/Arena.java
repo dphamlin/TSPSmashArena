@@ -2,15 +2,18 @@ package game;
 import java.util.*;
 import java.io.*;
 import java.net.*;
+import com.google.gson.*;
 
 public class Arena {
 	public static void main(String[] args){
 		
-		Server theServer = null;
+		//Server theServer = null;
 		Client theClient = null;
 		int serverPort = 5379; // default port
+		Controller theContoller;
+		Message theMessage;
 		
-		Thread serverThread = null;
+		//Thread serverThread = null;
 
 		int choice = 0;
 		Scanner inputScanner = new Scanner(System.in);
@@ -57,15 +60,13 @@ public class Arena {
 		serverPort = 5379; // default port
 	
 		try {
-			if (choice == 0)  // If host, no prompt; just connect to loopback
-				;
-			else { // Otherwise, prompt for IP address and port, interpret, then connect
+			if (choice != 0){ // Otherwise, prompt for IP address and port, interpret, then connect
 				inputScanner = new Scanner(System.in);
 				System.out.println("Please enter the IP address of the server (in the typical format):");
 				String addrString = inputScanner.nextLine();
 				serverAddr = InetAddress.getByName(addrString);
-				System.out.println("Please enter the port number at which the server is listening:");
-				serverPort = inputScanner.nextInt();
+				//System.out.println("Please enter the port number at which the server is listening:");
+				//serverPort = inputScanner.nextInt();
 			}
 			theClient = new Client(serverAddr,serverPort);
 		}
@@ -77,26 +78,36 @@ public class Arena {
 			System.out.println("Could not connect to server.  Unspecified error.");
 			System.exit(1);
 		}
-			
+		int count = 0;
 		// Client should be connected; begin communication cycle
 		while (!theClient.getSocket().isClosed()) {
 			
-			inputScanner = new Scanner(System.in);
+			//inputScanner = new Scanner(System.in);
+			Gson jsonGen = new Gson();
 			
-			System.out.println("Enter a line to send to the server.");
-			String nextLine = inputScanner.nextLine();
-			theClient.writeToServer(nextLine);
+			//System.out.println("Enter a line to send to the server.");
+			//String nextLine = inputScanner.nextLine();
+			theMessage = new Message("Hey the time here is "+System.currentTimeMillis()+" ",count);
+			System.out.println(theMessage.getMessage());
+			//theClient.writeToServer(nextLine);
+			theClient.writeToServer(jsonGen.toJson(theMessage));
 			
 			try {
 				theClient.updateStateString(); // Have the client read the response from the server.
+				//Read the gamestate through json
+				//theCliant.setState(jsonGen.fromJson(theClient.getStateString(), GameState.class));  
+				
 			}
 			catch (Exception e) {
 				System.err.println("Failed to update state string from server.");
 				theClient.setStateString("Nothing received.");
+				
 			}
 			System.out.println("The server returned the following state:");
-			System.out.println(theClient.getStateString());
-			
+			Message response = jsonGen.fromJson(theClient.getStateString(), Message.class);
+			System.out.println("Response #: "+response.getNumber()+" : "+response.getMessage());
+			/*what ever updates view should use theCliant.getState() here*/
+			count++;
 		}
 		System.out.println("Thanks for playing.  Cheers.");
 		System.exit(0);

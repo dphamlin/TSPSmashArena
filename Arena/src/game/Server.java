@@ -3,14 +3,16 @@ package game;
 import java.util.*;
 import java.io.*;
 import java.net.*;
+import com.google.gson.*;
 
-public class Server /* implements Runnable */ {
+public class Server {
 	
-	
+	private Gson jsonGen;
 	private ServerSocket serverSocket;
 	private ArrayList<Participant> participantList;
 	private int numberOfPlayers = 0;
 	private String stateString = null;
+	private GameState game;
 	
 	Server() throws IOException {
 		serverSocket = new ServerSocket(5379);
@@ -23,7 +25,7 @@ public class Server /* implements Runnable */ {
 	}
 	
 	public void setNumberOfPlayers(int numberOfPlayers) { // Proper functioning only guaranteed for >=1 value.
-		this.numberOfPlayers = numberOfPlayers;
+		this.numberOfPlayers = (numberOfPlayers >= 1)? numberOfPlayers : 1;
 	}
 	
 	public int getNumberOfPlayers() {
@@ -48,6 +50,7 @@ public class Server /* implements Runnable */ {
 	}
 	
 	public void run() {
+		
 		/* Test code
 		for (int i=0;i<100;i++) {
 			System.out.println(i + " Server: in its own thread!");
@@ -60,7 +63,8 @@ public class Server /* implements Runnable */ {
 		}
 		Thread.currentThread().stop(); // Deprecated and bad, but I need results now
 		*/
-		
+		jsonGen = new Gson();
+		Scanner inputScanner = new Scanner(System.in);
 		// Connect clients and adds them to the clientList
 		Socket s = null;
 		for (int i=0;i<getNumberOfPlayers();i++) { 
@@ -83,11 +87,13 @@ public class Server /* implements Runnable */ {
 		}
 		
 		// All participants should connected; begin communication cycle
-		for (int i=0;i<10;i++) { // A round of ten exchanges for testing purposes
+		for (int i=0;i<100;i++) { // A round of One Hundred exchanges for testing purposes
 			
 			for (Participant p: participantList) {
 				try {
 					p.updateControllerString();
+					//when controller objs are sent.
+					//p.updateController(jsonGen.fromJson(p.getControllerString(), Controller.class));
 				}
 				catch (Exception e) {
 					System.err.println("Could not update controller string in a participant.");
@@ -97,9 +103,17 @@ public class Server /* implements Runnable */ {
 			// All controller strings should be updated; create updated state string from them
 			String newStateString = "";
 			for (int j=1;j<=participantList.size();j++) {
-				newStateString = newStateString + "Player " + j + " sent: " + participantList.get(j-1).getControllerString() + ", ";
+				Message response = jsonGen.fromJson(participantList.get(j-1).getControllerString(), Message.class);
+				newStateString = newStateString + "Player " + j + " sent: "+ "#:"+response.getNumber()+": "+response.getMessage() + ", ";
 			}
-			setStateString(newStateString);
+			System.out.println(newStateString);
+			System.out.println("Enter a line to send to the clients.");
+			String nextLine = inputScanner.nextLine();
+			
+			//setStateString(jsonGen.toJson(game/*GameState*/));
+			Message theMessage = new Message(nextLine+newStateString, i);
+			setStateString(jsonGen.toJson(theMessage));
+			
 			
 			// State string is ready; send to all participants
 			for (Participant p: participantList) {
@@ -109,7 +123,6 @@ public class Server /* implements Runnable */ {
 		
 		// Done with test round; stop thread
 		System.out.println("Done with test round; server going offline.");
-		// Thread.currentThread().stop(); // Deprecated, bad, sinful, etc., but useful for testing purposes at the moment
 	}
 	
 	public static void main(String []args) {
@@ -135,25 +148,5 @@ public class Server /* implements Runnable */ {
 		}
 		else
 			System.exit(1);
-		/*
-		ServerSocket serv = null;
-		try {
-			serv = new ServerSocket(5379);
-			Connection con = new Connection(serv);
-			System.out.println("What to send?");
-			Scanner input = new Scanner(System.in);
-			String in = " ";
-			while(in.compareTo("close\n") != 0){
-				in = input.nextLine();
-				in = in + "\n";
-				con.send(in);
-				System.out.println("     "+con.recieve());
-			}
-			con.close();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		*/
 	}
 }

@@ -10,46 +10,54 @@ public abstract class Participant {
 	protected PrintWriter writer;
 	
 	public Player getPlayer() {
-		return thePlayer;
+		return this.thePlayer;
 	}
 	
 	public void setPlayer(Player player) {
-		thePlayer = player;
+		this.thePlayer = player;
 	}
 	
 	public void setControllerString(String comm) {
-		controllerString = comm;
+		this.controllerString = comm;
 	}
 	
 	public String getControllerString() {
-		return controllerString;
+		return this.controllerString;
 	}
 
 	public Controller getController() { // For a human player, the socket will be read; for AI, no socket will be involved.
-		return controller;
+		return this.controller;
+	}
+	
+	public void setControler(Controller c){
+		this.controller = c;
 	}
 	
 	public void writeToClient(String outbound) {
-		getWriter().println(outbound);
+		this.getWriter().println(outbound);
 	}
 	
 	public void setWriter(PrintWriter printWriter) {
-		writer = printWriter;
+		this.writer = printWriter;
 	}
 	
 	public PrintWriter getWriter() {
-		return writer;
+		return this.writer;
 	}
 	
 	public void setReader(BufferedReader bufferedReader) {
-		reader = bufferedReader;
+		this.reader = bufferedReader;
 	}
 	
 	public BufferedReader getReader() {
-		return reader;
+		return this.reader;
+	}
+	public void updateController(Controller c){
+		this.controller = c;
 	}
 	
-	public abstract void updateController() throws IOException;
 	public abstract void updateControllerString() throws IOException;
+		// TODO Auto-generated method stub
+		
 	
 }
