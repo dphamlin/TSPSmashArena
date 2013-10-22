@@ -46,7 +46,7 @@ public class ServerGameState extends GameState {
 	 * @param c
 	 * 		the controller data object
 	 */
-	public void useControls(Player p, Controller c) {
+	public void readControls(Player p, Controller c) {
 		Actor a = p.getAvatar();
 
 		//running
