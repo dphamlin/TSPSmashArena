@@ -311,22 +311,19 @@ public class ServerGameState extends GameState {
 	 * 		the land to check for collisions with
 	 */
 	private void collide (Actor a, Land l) {
-		//non-solid platforms simply return for now
-		if (!l.isSolid()) {
-			return;
-		}
-		
+
 		//vertical collisions
 		int v = vCollide(a, l);
-		if (v == TOP) {
+		if (v == TOP && (l.isPlatform() || l.isSolid())) { //platform and solid both have tops
 			a.setBottomEdge(l.getTopEdge()-1);
 			land(a, l);
 		}
+		if (!l.isSolid()) return; //return early if it's not solid
 		if (v == BOTTOM) {
 			a.setTopEdge(l.getBottomEdge()+1);
 			a.setVy(STOP);
 		}
-
+		
 		//horizontal collisions
 		int h = hCollide(a, l);
 		if (h == LEFT) {
@@ -356,11 +353,11 @@ public class ServerGameState extends GameState {
 		//land on enemy heads
 		if (vCollide(a, b) == TOP) {
 			a.setBottomEdge(b.getTopEdge());
-			b.setDeadTime(0);
+			die(b);
 			a.setVy(b.getVy()+a.getJumpPower()/2);
 		}
 
-		//TODO: Make interesting side to side collisions
+		//TODO: Make interesting side to side collisions?
 	}
 
 	/**
@@ -400,7 +397,7 @@ public class ServerGameState extends GameState {
 		//check for any collision
 		if (vCollide(s, a) != NONE || hCollide(s, a) != NONE) {
 			s.setDead(true);
-			a.setDeadTime(0);
+			die(a);
 		}
 	}
 
@@ -428,7 +425,7 @@ public class ServerGameState extends GameState {
 		if (a.getAirTime() > 0) {
 			a.setY(a.getY()+a.getVy());
 			a.setVy(a.getVy()+1); //TODO: determine what exact gravity to use
-			if (a.getVy() < -8) a.setVy(-8); //TODO: Make a specific termian velocity
+			if (a.getVy() < -8) a.setVy(-8); //TODO: Make a specific terminal velocity
 		}
 
 		//falling off edges
