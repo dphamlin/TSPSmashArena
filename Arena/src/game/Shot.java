@@ -10,7 +10,7 @@ public class Shot extends GameObject {
 	private int type;
 	private int lifeTime;
 	private Actor source; //null means no source, can hurt anyone
-	
+
 	/*getters and setters for attributes*/
 	public int getType() {
 		return type;

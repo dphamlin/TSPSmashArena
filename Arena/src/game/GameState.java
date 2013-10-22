@@ -11,14 +11,13 @@ package game;
 import java.util.*;
 
 public abstract class GameState {
-	//Important consideration: faster way to access pieces of a specific type
-	//protected ArrayList<GameObject> pieces;
-	protected ArrayList<Actor> fighters;
-	protected ArrayList<Land> level;
-	protected ArrayList<Shot> bullets;
-	protected ArrayList<Item> powerups;
-	protected ArrayList<Player> players;
-	protected int stage;
+
+	private ArrayList<Actor> fighters = new ArrayList<Actor>();
+	private ArrayList<Land> level = new ArrayList<Land>();
+	private ArrayList<Shot> bullets = new ArrayList<Shot>();
+	private ArrayList<Item> powerups = new ArrayList<Item>();
+	private ArrayList<Player> players = new ArrayList<Player>();
+	private int stage;
 	
 	/**
 	 * @return
@@ -55,6 +54,15 @@ public abstract class GameState {
 		return bullets;
 	}
 	
+	/**
+	 * Get the list of powerups in the stage
+	 * 
+	 * @return an ArrayList of Items
+	 */
+	public ArrayList<Item> getPowerups() {
+		return powerups;
+	}
+
 	/**
 	 * Check the number of players in the current game
 	 * 

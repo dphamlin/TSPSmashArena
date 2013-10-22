@@ -1,13 +1,13 @@
 package game;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
 /**
  * Client implementation of the game state
  * 
  * @author Jacob Charles
  */
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class ClientGameState extends GameState {
 	
 	/**
@@ -16,10 +16,11 @@ public class ClientGameState extends GameState {
 	 * @param g
 	 */
 	public void draw(Graphics g) {
-		//draw the background
+		drawBackground(g);
 		drawLevel(g);
 		drawFighters(g);
-		//draw the projectiles
+		drawBullets(g);
+		//TODO: Draw items and special effects
 	}
 	
 	/**
@@ -28,7 +29,8 @@ public class ClientGameState extends GameState {
 	 * @param g
 	 * 		graphics object to draw through
 	 */
-	public void drawBackground(Graphics g) {
+	private void drawBackground(Graphics g) {
+		//TODO: Clear with a background image instead
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 640, 480); //TODO: Figure out actual level width/height for painting
 	}
@@ -39,7 +41,7 @@ public class ClientGameState extends GameState {
 	 * @param g
 	 * 		graphics object to draw through
 	 */
-	public void drawFighters(Graphics g) {
+	private void drawFighters(Graphics g) {
 		for (Actor a : getFighters()) {
 			draw(a, g);
 		}
@@ -51,33 +53,62 @@ public class ClientGameState extends GameState {
 	 * @param g
 	 * 		graphics object to draw through
 	 */
-	public void drawLevel(Graphics g) {
+	private void drawLevel(Graphics g) {
 		for (Land l : getLevel()) {
 			draw(l, g);
 		}
 	}
 	
 	/**
+	 * Draw the projectiles
+	 * 
+	 * @param g
+	 * 		graphics object to draw through
+	 */
+	private void drawBullets(Graphics g) {
+		for (Shot s : getBullets()) {
+			draw(s, g);
+		}
+	}
+	
+	/**
 	 * Draw an actor to the designated graphics object
+	 * 
 	 * @param a
 	 * 		Actor to be drawn
 	 * @param g
 	 * 		graphics object to draw through
 	 */
-	public void draw(Actor a, Graphics g) {
+	private void draw(Actor a, Graphics g) {
+		//TODO: Make this draw an image with transparency
 		g.setColor(Color.BLACK);
 		g.fillOval(a.getX(), a.getY(), 16, 16);
 	}
 	
 	/**
 	 * Draw a land to the designated graphics object
+	 * 
 	 * @param l
 	 * 		Land to be drawn
 	 * @param g
 	 * 		graphics object to draw through
 	 */
-	public void draw(Land l, Graphics g) {
+	private void draw(Land l, Graphics g) {
+		//TODO: Draw an image of some kind instead
 		g.setColor(Color.BLACK);
 		g.fillRect(l.getLeftEdge(), l.getBottomEdge(), l.getW()+1, l.getH()+1);
+	}
+	
+	/**
+	 * Draw a shot to the designated graphics object
+	 * 
+	 * @param s
+	 * 		Shot to be drawn
+	 * @param g
+	 * 		graphics object to draw through
+	 */
+	private void draw(Shot s, Graphics g) {
+		g.setColor(Color.RED);
+		g.fillRect(s.getLeftEdge(), s.getBottomEdge(), s.getW()+1, s.getH()+1);
 	}
 }

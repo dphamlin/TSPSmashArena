@@ -8,15 +8,36 @@ package game;
 import java.util.*;
 
 public class ServerGameState extends GameState {
-
+	
 	//a bunch of positional and directional constants
-	public static final int LEFT = -1;
-	public static final int STOP = 0;
-	public static final int RIGHT = 1;
-	public static final int TOP = -1;
-	public static final int BOTTOM = 1;
-	public static final int NONE = 0;
+	private static final int LEFT = -1;
+	private static final int STOP = 0;
+	private static final int RIGHT = 1;
+	private static final int TOP = -1;
+	private static final int BOTTOM = 1;
+	private static final int NONE = 0;
 
+	/**
+	 * Update the entire game state
+	 * 
+	 * Apply user input first!
+	 */
+	public void update() {
+		//player logic
+		for (Actor a : getFighters()) {
+			update(a);
+		}
+		//bullet logic (with removal)
+		for(int i = 0; i < getBullets().size(); i++) {
+			update(getBullets().get(i));
+			//remove dead bullets
+			if (getBullets().get(i).isDead()) {
+				getBullets().remove(i);
+				i--;
+			}
+		}
+	}
+	
 	/**
 	 * Apply a player's controls to their character
 	 * 
@@ -59,7 +80,7 @@ public class ServerGameState extends GameState {
 	 * @param a
 	 * 		the actor to make jump
 	 */
-	public void jump (Actor a) {
+	private void jump (Actor a) {
 		a.setAirTime(1);
 		a.setOnLand(null);
 		a.setVy(-a.getJumpPower());
@@ -71,7 +92,7 @@ public class ServerGameState extends GameState {
 	 * @param a
 	 * 		the actor to extend the jump of
 	 */
-	public void holdJump (Actor a) {
+	private void holdJump (Actor a) {
 		if (a.getVy() == 1-a.getJumpPower()) {
 			a.setVy(a.getJumpPower());
 		}
@@ -83,7 +104,7 @@ public class ServerGameState extends GameState {
 	 * @param a
 	 * 		the actor to make fall
 	 */
-	public void fall (Actor a) {
+	private void fall (Actor a) {
 		a.setAirTime(1);
 		a.setOnLand(null);
 		a.setVy(STOP);
@@ -97,7 +118,7 @@ public class ServerGameState extends GameState {
 	 * @param l
 	 * 		the land to land on
 	 */
-	public void land (Actor a, Land l) {
+	private void land (Actor a, Land l) {
 		a.setVy(STOP);
 		a.setAirTime(-1);
 		a.setOnLand(l);
@@ -111,7 +132,7 @@ public class ServerGameState extends GameState {
 	 * @param dir
 	 * 		LEFT, RIGHT, or STOP, the direction to run
 	 */
-	public void run (Actor a, int dir) {
+	private void run (Actor a, int dir) {
 		//TODO: Air/land differences?
 		if (dir > RIGHT) dir = RIGHT;
 		if (dir < LEFT) dir = LEFT;
@@ -133,7 +154,7 @@ public class ServerGameState extends GameState {
 	 * @param a
 	 * 		the actor doing the shooting
 	 */
-	public void shoot (Actor a) {
+	private void shoot (Actor a) {
 		//can't fire if you haven't reloaded
 		if (a.getReload() > 0) {
 			return;
@@ -154,7 +175,7 @@ public class ServerGameState extends GameState {
 		s.setLifeTime(a.getShotLife());
 
 		//add the new bullet to the list of bullets
-		bullets.add(s);
+		getBullets().add(s);
 	}
 
 	/**
@@ -163,7 +184,7 @@ public class ServerGameState extends GameState {
 	 * @param a
 	 * 		the actor who dies
 	 */
-	public void die (Actor a) {
+	private void die (Actor a) {
 		a.setDeadTime(0);
 	}
 	
@@ -173,7 +194,7 @@ public class ServerGameState extends GameState {
 	 * @param a
 	 * 		the actor to update
 	 */
-	public void update (Actor a) {
+	private void update (Actor a) {
 		if (a.getAirTime() > 0) a.setAirTime(a.getAirTime()+1); //time in mid-air
 		if (a.getAirTime() < 0) a.setAirTime(a.getAirTime()-1); //time on the ground
 
@@ -193,7 +214,7 @@ public class ServerGameState extends GameState {
 	 * @param s
 	 * 		the shot to update
 	 */
-	public void update (Shot s) {
+	private void update (Shot s) {
 		if (s.getLifeTime() <= 0) {
 			s.setDead(true);
 			return;
@@ -212,7 +233,7 @@ public class ServerGameState extends GameState {
 	 * @return
 	 * 		true if they are overlapped
 	 */
-	public boolean overlap (GameObject a, GameObject b) {
+	private boolean overlap (GameObject a, GameObject b) {
 		//check that the edges are pushed through
 		if (a.getBottomEdge() >= b.getTopEdge() && a.getTopEdge() <= b.getBottomEdge()) {
 			if (a.getRightEdge() >= b.getLeftEdge() && a.getLeftEdge() <= b.getRightEdge()) {
@@ -235,7 +256,7 @@ public class ServerGameState extends GameState {
 	 * 		RIGHT if A is to the right of B
 	 * 		NONE if there is no collision
 	 */
-	public int hCollide (GameObject a, GameObject b) {
+	private int hCollide (GameObject a, GameObject b) {
 		//lined up for horizontal collisions
 		if (a.getBottomEdge() >= b.getTopEdge() && a.getTopEdge() <= b.getBottomEdge()) {
 			//moving right
@@ -264,7 +285,7 @@ public class ServerGameState extends GameState {
 	 * 		BOTTOM if A is under B
 	 * 		NONE if there is no collision
 	 */
-	public int vCollide (GameObject a, GameObject b) {
+	private int vCollide (GameObject a, GameObject b) {
 		//lined up for vertical collisions
 		if (a.getRightEdge() >= b.getLeftEdge() && a.getLeftEdge() <= b.getRightEdge()) {
 			//falling
@@ -289,7 +310,7 @@ public class ServerGameState extends GameState {
 	 * @param l
 	 * 		the land to check for collisions with
 	 */
-	public void collide (Actor a, Land l) {
+	private void collide (Actor a, Land l) {
 		//non-solid platforms simply return for now
 		if (!l.isSolid()) {
 			return;
@@ -326,7 +347,7 @@ public class ServerGameState extends GameState {
 	 * @param b
 	 * 		actor to check collisions with
 	 */
-	public void collide(Actor a, Actor b) {
+	private void collide(Actor a, Actor b) {
 		//can't hit yourself
 		if (a == b) {
 			return;
@@ -350,7 +371,7 @@ public class ServerGameState extends GameState {
 	 * @param l
 	 * 		land to check for collisions with
 	 */
-	public void collide(Shot s, Land l) {
+	private void collide(Shot s, Land l) {
 		//non-solid platforms simply return for now
 		if (!l.isSolid()) {
 			return;
@@ -370,7 +391,7 @@ public class ServerGameState extends GameState {
 	 * @param a
 	 * 		actor to check collisions with
 	 */
-	public void collide(Shot s, Actor a) {
+	private void collide(Shot s, Actor a) {
 		//don't hit your own source
 		if (s.getSource() == a) {
 			return;
@@ -389,7 +410,7 @@ public class ServerGameState extends GameState {
 	 * @param a
 	 * 		the actor to move
 	 */
-	public void move(Actor a) {
+	private void move(Actor a) {
 		//check collisions with the level
 		for (Land l : getLevel()) {
 			collide(a, l);
@@ -425,7 +446,7 @@ public class ServerGameState extends GameState {
 	 * @param s
 	 * 		the shot to be moved
 	 */
-	public void move(Shot s) {
+	private void move(Shot s) {
 		for (Land l : getLevel()) {
 			collide(s, l);
 		}

@@ -8,11 +8,11 @@ package game;
  */
 public abstract class GameObject {
 	
-	protected int x, y;
-	protected int vx, vy;
-	protected int w, h;
-	protected int frame;
-	protected boolean dead;
+	private int x, y;
+	private int vx, vy;
+	private int w, h;
+	private int frame;
+	private boolean dead;
 	
 	/**
 	 * @return the leftmost edge of the object
