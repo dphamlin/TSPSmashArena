@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -28,7 +29,8 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	public void drawBackground(Graphics g) {
-		//TODO: Clear the panel to color
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 640, 480); //TODO: Figure out actual level width/height for painting
 	}
 	
 	/**
@@ -63,7 +65,8 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	public void draw(Actor a, Graphics g) {
-		//TODO: Draw a circle of the Actor
+		g.setColor(Color.BLACK);
+		g.fillOval(a.getX(), a.getY(), 16, 16);
 	}
 	
 	/**
@@ -74,6 +77,7 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	public void draw(Land l, Graphics g) {
-		//TODO: Draw a rectangle of the Land
+		g.setColor(Color.BLACK);
+		g.fillRect(l.getLeftEdge(), l.getBottomEdge(), l.getW()+1, l.getH()+1);
 	}
 }

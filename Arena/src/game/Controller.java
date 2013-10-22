@@ -7,6 +7,19 @@ package game;
  *
  */
 public class Controller {
+	//mask values
+	private static final int bUp = 1;
+	private static final int bDown = 2;
+	private static final int bLeft = 4;
+	private static final int bRight = 8;
+	private static final int bJump = 16;
+	private static final int bFire = 32;
+	private static final int bStart = 64;
+	private static final int bMax = 127; //sum of all previous
+	
+	//buffer (current state of buttons, a bitmask)
+	private int buf;
+	
 	//button hold times
 	private int up = 0;
 	private int down = 0;
@@ -16,14 +29,13 @@ public class Controller {
 	private int fire = 0;
 	private int start = 0;
 
-	//buffer (current state)
-	private boolean bUp;
+	/*private boolean bUp;
 	private boolean bDown;
 	private boolean bLeft;
 	private boolean bRight;
 	private boolean bJump;
 	private boolean bFire;
-	private boolean bStart;
+	private boolean bStart;*/
 
 	/**
 	 * Internal update method, track hold times for buttons
@@ -99,45 +111,52 @@ public class Controller {
 
 	//getters and setters for buffer fields
 	public boolean isbUp() {
-		return bUp;
+		return (buf&bUp) > 0;
 	}
-	public void setbUp(boolean bUp) {
-		this.bUp = bUp;
+	public void setbUp(boolean b) {
+		if (b) buf |= bUp;
+		else buf &= bMax-bUp;
 	}
 	public boolean isbDown() {
-		return bDown;
+		return (buf&bDown) > 0;
 	}
-	public void setbDown(boolean bDown) {
-		this.bDown = bDown;
+	public void setbDown(boolean b) {
+		if (b) buf |= bDown;
+		else buf &= bMax-bDown;
 	}
 	public boolean isbLeft() {
-		return bLeft;
+		return (buf&bLeft) > 0;
 	}
-	public void setbLeft(boolean bLeft) {
-		this.bLeft = bLeft;
+	public void setbLeft(boolean b) {
+		if (b) buf |= bLeft;
+		else buf &= bMax-bLeft;
 	}
 	public boolean isbRight() {
-		return bRight;
+		return (buf&bRight) > 0;
 	}
-	public void setbRight(boolean bRight) {
-		this.bRight = bRight;
+	public void setbRight(boolean b) {
+		if (b) buf |= bRight;
+		else buf &= bMax-bRight;
 	}
 	public boolean isbJump() {
-		return bJump;
+		return (buf&bJump) > 0;
 	}
-	public void setbJump(boolean bJump) {
-		this.bJump = bJump;
+	public void setbJump(boolean b) {
+		if (b) buf |= bJump;
+		else buf &= bMax-bJump;
 	}
 	public boolean isbFire() {
-		return bFire;
+		return (buf&bFire) > 0;
 	}
-	public void setbFire(boolean bFire) {
-		this.bFire = bFire;
+	public void setbFire(boolean b) {
+		if (b) buf |= bFire;
+		else buf &= bMax-bFire;
 	}
 	public boolean isbStart() {
-		return bStart;
+		return (buf&bStart) > 0;
 	}
-	public void setbStart(boolean bStart) {
-		this.bStart = bStart;
+	public void setbStart(boolean b) {
+		if (b) buf |= bStart;
+		else buf &= bMax-bStart;
 	}
 }
