@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,8 +14,9 @@ import javax.swing.JPanel;
  */
 
 public class View extends JFrame {
-	
-	//TODO: Implement double buffering
+
+	//for double buffering
+	Image backBuffer;
 	
 	/**
 	 * test constructor
@@ -22,6 +24,7 @@ public class View extends JFrame {
 	public View() {
 		super();
 		setSize(640, 480);
+		backBuffer = this.createImage(this.getWidth(), this.getHeight());
 		setVisible(true);
 	}
 	
@@ -42,7 +45,9 @@ public class View extends JFrame {
 	 * 		game state to draw
 	 */
 	public void reDraw(ClientGameState state){
-		state.draw(this.getContentPane().getGraphics());
+		//state.draw(this.getContentPane().getGraphics());
+		state.draw(backBuffer.getGraphics());
+		this.getContentPane().getGraphics().drawImage(backBuffer, 0, 0, null);
 	}
 }
 
