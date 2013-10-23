@@ -48,7 +48,7 @@ public class Actor extends GameObject {
 		runSpeed = 2;
 		jumpPower = 30;
 		shotDelay = 16;
-		shotSpeed = 4;
+		shotSpeed = 8;
 		shotLife = 30;
 		shotWid = 8;
 		shotHei = 8;

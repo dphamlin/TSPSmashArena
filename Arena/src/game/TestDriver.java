@@ -22,7 +22,9 @@ public class TestDriver {
 		gs.addPlayer(); //single player
 		
 		//main loop
-		while (c.getStart() == 0) {
+		//TODO: Make this terminate when the window is closed
+		//TODO: Time the loop to judge run speed
+		while (true) {
 			c.update();
 			gs.readControls(gs.getPlayer(0), c);
 			gs.update();

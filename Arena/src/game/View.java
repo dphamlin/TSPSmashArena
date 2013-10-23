@@ -1,8 +1,9 @@
 package game;
 
+import java.awt.Graphics;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 /**
  * Class for the GUI
@@ -14,7 +15,7 @@ import javax.swing.SwingUtilities;
 public class View extends JFrame {
 	
 	//TODO: Implement double buffering
-
+	
 	/**
 	 * test constructor
 	 */
