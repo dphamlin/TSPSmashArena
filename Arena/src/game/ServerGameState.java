@@ -18,6 +18,32 @@ public class ServerGameState extends GameState {
 	private static final int NONE = 0;
 	
 	/**
+	 * Generic constructor
+	 */
+	public ServerGameState(){
+		super();
+	}
+	
+	/**
+	 * Clone constructor from generic GameState
+	 * 
+	 * @param g
+	 * 		GameState to clone from
+	 */
+	public ServerGameState(GameState g){
+		super(g);
+	}
+	
+	/**
+	 * Convert ServerGameState to a ClientGameState
+	 * 
+	 * @return ClientGameState version of this object
+	 */
+	public ClientGameState convert() {
+		return new ClientGameState(this);
+	}
+	
+	/**
 	 * Update the entire game state
 	 * 
 	 * Apply user input first!

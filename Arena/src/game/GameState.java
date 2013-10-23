@@ -21,6 +21,28 @@ public abstract class GameState {
 	public static final int WIDTH = 640, HEIGHT = 480;
 	
 	/**
+	 * default constructor
+	 */
+	public GameState() {}
+	
+	/**
+	 * Clone constructor
+	 * 
+	 * @param g
+	 * 		GameState to control
+	 */
+	public GameState(GameState g) {
+		fighters = g.getFighters();
+		level = g.getLevel();
+		bullets = g.getBullets();
+		powerups = g.getPowerups();
+		for (int i = 0; i < g.getNumberOfPlayers(); i++) {
+			players.add(g.getPlayer(i));
+		}
+		stage = g.getStage();
+	}
+	
+	/**
 	 * Add another player to the game (test)
 	 */
 	public void addPlayer() {

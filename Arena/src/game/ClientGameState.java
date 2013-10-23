@@ -11,6 +11,23 @@ import java.awt.Graphics;
 public class ClientGameState extends GameState {
 	
 	/**
+	 * Generic constructor
+	 */
+	public ClientGameState(){
+		super();
+	}
+	
+	/**
+	 * Clone constructor from generic GameState
+	 * 
+	 * @param g
+	 * 		GameState to clone from
+	 */
+	public ClientGameState(GameState g){
+		super(g);
+	}
+	
+	/**
 	 * Draw everything
 	 * 
 	 * @param g
@@ -32,7 +49,7 @@ public class ClientGameState extends GameState {
 	private void drawBackground(Graphics g) {
 		//TODO: Clear with a background image instead
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 640, 480); //TODO: Figure out actual level width/height for painting
+		g.fillRect(0, 0, WIDTH, HEIGHT);
 	}
 	
 	/**
