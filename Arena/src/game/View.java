@@ -1,8 +1,8 @@
 package game;
 
-import javax.swing.JApplet;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.JLabel;
 
 /**
  * Class for the GUI
@@ -11,34 +11,8 @@ import javax.swing.JLabel;
  *
  */
 
-public class View extends JApplet {
+public class View extends JFrame {
 	
-	ClientGameState state;
-	
-	//Called when this applet is loaded into the browser.
-	public void init() {
-		//Execute a job on the event-dispatching thread; creating this applet's GUI.
-		try {
-			SwingUtilities.invokeAndWait(new Runnable() {
-				public void run() {
-					JLabel lbl = new JLabel("Hello World");
-					add(lbl);
-				}
-			});
-		} catch (Exception e) {
-			System.err.println("createGUI didn't complete successfully");
-		}
-	}
-	
-	/**
-	 * Assign a game state to be drawn
-	 * 
-	 * @param state
-	 * 		current game state to draw
-	 */
-	public void setGameState(ClientGameState state) {
-		this.state = state;
-	}
 	
 	/**
 	 * Connects a controller to the Applet
@@ -48,6 +22,10 @@ public class View extends JApplet {
 	 */
 	public void attachController(Controller c) {
 		this.addKeyListener(new ControlListener(c));
+	}
+	
+	public void reDraw(ClientGameState state){
+		state.draw(this.getGraphics());
 	}
 }
 
