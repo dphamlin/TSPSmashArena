@@ -43,63 +43,15 @@ public class Actor extends GameObject {
 		airTime = 1;
 		onLand = null;
 		powerup = 0;
-	}
-	
-	/**
-	 * @return the leftmost edge of the object
-	 */
-	public int getLeftEdge() {
-		return getX()-getW()/2;
-	}
-	/**
-	 * @return the topmost edge of the object
-	 */
-	public int getTopEdge() {
-		return getY()-getH();
-	}
-	/**
-	 * @return the rightmost edge of the object
-	 */
-	public int getRightEdge() {
-		return getX()+getW()/2;
-	}
-	/**
-	 * @return the bottom-most edge of the object
-	 */
-	public int getBottomEdge() {
-		return getY();
-	}
-	/**
-	 * Set the position of the left edge without resizing
-	 * 
-	 * @param x the new left edge of the object
-	 */
-	public void setLeftEdge(int x) {
-		setX(x+getW()/2);
-	}
-	/**
-	 * Set the position of the top edge without resizing
-	 * 
-	 * @param y the new top edge of the object
-	 */
-	public void setTopEdge(int y) {
-		setY(y+getH());
-	}
-	/**
-	 * Set the position of the right edge without resizing
-	 * 
-	 * @param x the new right edge of the object
-	 */
-	public void setRightEdge(int x) {
-		setX(x-getW()/2);
-	}
-	/**
-	 * Set the position of the bottom edge without resizing
-	 * 
-	 * @param y the new bottom edge of the object
-	 */
-	public void setBottomEdge(int y) {
-		setY(y);
+		
+		//default stats
+		runSpeed = 2;
+		jumpPower = 30;
+		shotDelay = 16;
+		shotSpeed = 4;
+		shotLife = 30;
+		shotWid = 8;
+		shotHei = 8;
 	}
 	
 	/*getters and setters for attributes*/

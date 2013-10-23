@@ -8,7 +8,7 @@ package game;
 import java.util.*;
 
 public class ServerGameState extends GameState {
-	
+
 	//a bunch of positional and directional constants
 	private static final int LEFT = -1;
 	private static final int STOP = 0;
@@ -16,14 +16,14 @@ public class ServerGameState extends GameState {
 	private static final int TOP = -1;
 	private static final int BOTTOM = 1;
 	private static final int NONE = 0;
-	
+
 	/**
 	 * Generic constructor
 	 */
 	public ServerGameState(){
 		super();
 	}
-	
+
 	/**
 	 * Clone constructor from generic GameState
 	 * 
@@ -33,7 +33,7 @@ public class ServerGameState extends GameState {
 	public ServerGameState(GameState g){
 		super(g);
 	}
-	
+
 	/**
 	 * Convert ServerGameState to a ClientGameState
 	 * 
@@ -42,7 +42,7 @@ public class ServerGameState extends GameState {
 	public ClientGameState convert() {
 		return new ClientGameState(this);
 	}
-	
+
 	/**
 	 * Update the entire game state
 	 * 
@@ -63,7 +63,7 @@ public class ServerGameState extends GameState {
 			}
 		}
 	}
-	
+
 	/**
 	 * Apply a player's controls to their character
 	 * 
@@ -87,10 +87,10 @@ public class ServerGameState extends GameState {
 		}
 
 		//jumping
-		if (c.getJump() == 1 && a.getOnLand() == null) {
+		if (c.getJump() == 1 && a.getOnLand() != null) {
 			jump(a);
 		}
-		if (c.getJump() > 1 && a.getAirTime() > 0 && a.getAirTime() <= 5) {
+		else if (c.getJump() >= 1 && a.getAirTime() > 0 && a.getAirTime() <= 5) {
 			holdJump(a);
 		}
 
@@ -209,7 +209,7 @@ public class ServerGameState extends GameState {
 	private void die (Actor a) {
 		a.setDeadTime(0);
 	}
-	
+
 	/**
 	 * update the actor's status
 	 * 
@@ -225,7 +225,7 @@ public class ServerGameState extends GameState {
 		if (a.getReload() > 0) a.setReload(a.getReload()-1); //timer between shots
 
 		if (a.getOnLand() != null) a.setVy(a.getOnLand().getVy()); //match platform's vertical speed
-		
+
 		move(a); //updates positions and speeds
 		//TODO: add more as other fields need updating
 	}
@@ -265,7 +265,7 @@ public class ServerGameState extends GameState {
 		//no overlap
 		return false;
 	}
-	
+
 	/**
 	 * Check collisions between two objects horizontally
 	 * 
@@ -290,11 +290,11 @@ public class ServerGameState extends GameState {
 				return RIGHT;
 			}
 		}
-		
+
 		//no collisions
 		return 0;
 	}
-	
+
 	/**
 	 * Check collisions between two objects vertically
 	 * 
@@ -315,11 +315,11 @@ public class ServerGameState extends GameState {
 				return TOP;
 			}
 			//rising
-			else if (a.getTopEdge() > b.getBottomEdge() && a.getBottomEdge()+a.getVy() >= b.getTopEdge()+b.getVy()) {
+			else if (a.getTopEdge() > b.getBottomEdge() && a.getBottomEdge()+a.getVy() <= b.getTopEdge()+b.getVy()) {
 				return BOTTOM;
 			}
 		}
-		
+
 		//no collisions
 		return 0;
 	}
@@ -336,25 +336,32 @@ public class ServerGameState extends GameState {
 
 		//vertical collisions
 		int v = vCollide(a, l);
-		if (v == TOP && (l.isPlatform() || l.isSolid())) { //platform and solid both have tops
-			a.setBottomEdge(l.getTopEdge()-1);
-			land(a, l);
+		if (v == TOP) {
+			if (l.isPlatform() || l.isSolid()) { //platform and solid tops
+				a.setBottomEdge(l.getTopEdge()-1);
+				land(a, l);
+			}
 		}
-		if (!l.isSolid()) return; //return early if it's not solid
 		if (v == BOTTOM) {
-			a.setTopEdge(l.getBottomEdge()+1);
-			a.setVy(STOP);
+			if (l.isSolid()) { //solid ceilings
+				a.setTopEdge(l.getBottomEdge()+1);
+				a.setVy(STOP);
+			}
 		}
-		
+
 		//horizontal collisions
 		int h = hCollide(a, l);
 		if (h == LEFT) {
-			a.setRightEdge(l.getLeftEdge()-1);
-			a.setVx(STOP);
+			if (l.isSolid()) { //solid walls
+				a.setRightEdge(l.getLeftEdge()-1);
+				a.setVx(STOP);
+			}
 		}
 		if (h == RIGHT) {
-			a.setLeftEdge(l.getRightEdge()+1);
-			a.setVx(STOP);
+			if (l.isSolid()) { //solid walls
+				a.setLeftEdge(l.getRightEdge()+1);
+				a.setVx(STOP);
+			}
 		}
 	}
 
@@ -447,7 +454,10 @@ public class ServerGameState extends GameState {
 		if (a.getAirTime() > 0) {
 			a.setY(a.getY()+a.getVy());
 			a.setVy(a.getVy()+1); //TODO: determine what exact gravity to use
-			if (a.getVy() < -8) a.setVy(-8); //TODO: Make a specific terminal velocity
+			if (a.getVy() < -5) a.setVy(-5); //TODO: Make a specific terminal velocity
+		}
+		else {
+			a.setVy(0);
 		}
 
 		//falling off edges
@@ -457,7 +467,7 @@ public class ServerGameState extends GameState {
 				fall(a);
 			}
 		}
-		
+
 		//out-of-bounds wraparound (temp)
 		if (a.getBottomEdge() < 0) a.setTopEdge(GameState.HEIGHT); //off top
 		if (a.getTopEdge() > GameState.HEIGHT) a.setBottomEdge(0); //off bottom
@@ -480,11 +490,11 @@ public class ServerGameState extends GameState {
 		for (Actor a : getFighters()) {
 			collide(s, a);
 		}
-		
+
 		//apply velocity (straight-only)
 		s.setX(s.getX()+s.getVx());
 		s.setY(s.getY()+s.getVy());
-		
+
 		//out of bounds removal
 		if (s.getBottomEdge() < 0 || s.getTopEdge() > GameState.HEIGHT
 				|| s.getRightEdge() < 0 || s.getLeftEdge() > GameState.WIDTH) {

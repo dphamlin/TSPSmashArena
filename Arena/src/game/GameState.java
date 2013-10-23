@@ -47,8 +47,10 @@ public abstract class GameState {
 	 */
 	public void addPlayer() {
 		Player p = new Player();
+		Actor a = new Actor((1+players.size())*100, 100, p);
+		p.setAvatar(a);
 		players.add(p);
-		fighters.add(new Actor((1+players.size())*100, 100, p));
+		fighters.add(a);
 	}
 	
 	/**

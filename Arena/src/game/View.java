@@ -13,9 +13,19 @@ import javax.swing.SwingUtilities;
 
 public class View extends JFrame {
 	
+	//TODO: Implement double buffering
+
+	/**
+	 * test constructor
+	 */
+	public View() {
+		super();
+		setSize(640, 480);
+		setVisible(true);
+	}
 	
 	/**
-	 * Connects a controller to the Applet
+	 * Connects a controller to the screen
 	 * 
 	 * @param c
 	 * 		the controller object to be connected
@@ -24,8 +34,14 @@ public class View extends JFrame {
 		this.addKeyListener(new ControlListener(c));
 	}
 	
+	/**
+	 * Draw a game state
+	 * 
+	 * @param state
+	 * 		game state to draw
+	 */
 	public void reDraw(ClientGameState state){
-		state.draw(this.getGraphics());
+		state.draw(this.getContentPane().getGraphics());
 	}
 }
 

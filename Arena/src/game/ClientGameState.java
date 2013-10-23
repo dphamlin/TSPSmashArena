@@ -99,7 +99,7 @@ public class ClientGameState extends GameState {
 	private void draw(Actor a, Graphics g) {
 		//TODO: Make this draw an image with transparency
 		g.setColor(Color.BLACK);
-		g.fillOval(a.getX(), a.getY(), 16, 16);
+		g.fillOval(a.getLeftEdge(), a.getTopEdge(), 16, 16);
 	}
 	
 	/**
@@ -113,7 +113,7 @@ public class ClientGameState extends GameState {
 	private void draw(Land l, Graphics g) {
 		//TODO: Draw an image of some kind instead
 		g.setColor(Color.BLACK);
-		g.fillRect(l.getLeftEdge(), l.getBottomEdge(), l.getW()+1, l.getH()+1);
+		g.fillRect(l.getLeftEdge(), l.getTopEdge(), l.getW()+1, l.getH()+1);
 	}
 	
 	/**
