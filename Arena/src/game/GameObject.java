@@ -9,10 +9,48 @@ package game;
 public abstract class GameObject {
 	
 	private int x, y;
-	private int vx, vy;
+	private int vx = 0, vy = 0;
 	private int w, h;
 	private int frame;
-	private boolean dead;
+	private boolean dead = false;
+	
+	/**
+	 * "Do nothing" generic constructor
+	 */
+	public GameObject() {
+	}
+	
+	/**
+	 * Create an object at a location
+	 * 
+	 * @param x
+	 * 		starting x position
+	 * @param y
+	 * 		starting y position
+	 */
+	public GameObject(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	/**
+	 * Create an object at a location with dimensions
+	 * 
+	 * @param x
+	 * 		starting x position
+	 * @param y
+	 * 		starting y position
+	 * @param w
+	 * 		starting width
+	 * @param h
+	 * 		starting height
+	 */
+	public GameObject(int x, int y, int w, int h) {
+		this.x = x;
+		this.y = y;
+		this.h = h;
+		this.w = w;
+	}
 	
 	/**
 	 * @return the leftmost edge of the object

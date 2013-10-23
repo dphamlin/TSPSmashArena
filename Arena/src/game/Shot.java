@@ -11,6 +11,25 @@ public class Shot extends GameObject {
 	private int lifeTime;
 	private Actor source; //null means no source, can hurt anyone
 
+	/**
+	 * Do-nothing constructor
+	 */
+	public Shot() {
+		super();
+	}
+	
+	/**
+	 * Spawn a shot at a location
+	 * @param x
+	 * 		starting x
+	 * @param y
+	 * 		starting y
+	 */
+	public Shot(int x, int y, Actor source) {
+		super(x, y);
+		this.source = source;
+	}
+	
 	/*getters and setters for attributes*/
 	public int getType() {
 		return type;

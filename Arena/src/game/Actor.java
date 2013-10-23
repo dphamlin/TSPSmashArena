@@ -8,20 +8,42 @@ package game;
  */
 public class Actor extends GameObject {
 	
+	//current data
 	private Player owner;
 	private int airTime;
 	private int deadTime;
 	private int reload;
-	private int dir;
-	private int skin;
+	private int dir = 1;
 	private int powerup;
 	private Land onLand;
 	
+	//eventually replace this with a reference to a "character archetype?"
+	private int skin;
 	private int runSpeed;
 	private int jumpPower;
 	private int shotDelay;
 	private int shotSpeed, shotLife;
 	private int shotWid, shotHei;
+	
+	/**
+	 * Spawn a player character a location
+	 * 
+	 * @param x
+	 * 		starting x
+	 * @param y
+	 * 		starting y
+	 * @param owner
+	 * 		associated player object
+	 * TODO: Associate this with a "base" player
+	 */
+	public Actor (int x, int y, Player owner) {
+		super(x, y, 16, 16);
+		this.owner = owner;
+		dir = 1;
+		airTime = 1;
+		onLand = null;
+		powerup = 0;
+	}
 	
 	/**
 	 * @return the leftmost edge of the object
@@ -111,12 +133,6 @@ public class Actor extends GameObject {
 	public void setDir(int dir) {
 		this.dir = dir;
 	}
-	public int getSkin() {
-		return skin;
-	}
-	public void setSkin(int skin) {
-		this.skin = skin;
-	}
 	public int getPowerup() {
 		return powerup;
 	}
@@ -128,6 +144,12 @@ public class Actor extends GameObject {
 	}
 	public void setOnLand(Land onLand) {
 		this.onLand = onLand;
+	}
+	public int getSkin() {
+		return skin;
+	}
+	public void setSkin(int skin) {
+		this.skin = skin;
 	}
 	public int getRunSpeed() {
 		return runSpeed;
@@ -171,5 +193,4 @@ public class Actor extends GameObject {
 	public void setShotHei(int shotHei) {
 		this.shotHei = shotHei;
 	}
-	
 }

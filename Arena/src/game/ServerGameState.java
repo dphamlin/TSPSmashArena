@@ -163,11 +163,7 @@ public class ServerGameState extends GameState {
 		a.setReload(a.getShotDelay());
 
 		//build a new shot, according to the Actor's specifications
-		Shot s = new Shot();
-		s.setSource(a);
-		s.setDead(false);
-		s.setX(a.getX()+a.getW()*a.getDir());
-		s.setY(a.getY()-a.getH()/2);
+		Shot s = new Shot(a.getX()+a.getW()*a.getDir(), a.getY(), a);
 		s.setVx(a.getShotSpeed()*a.getDir());
 		s.setVy(0);
 		s.setH(a.getShotHei());
