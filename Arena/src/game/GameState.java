@@ -18,14 +18,33 @@ public abstract class GameState {
 	private ArrayList<Item> powerups = new ArrayList<Item>();
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private int stage;
+	public static final int WIDTH = 640, HEIGHT = 480;
 	
 	/**
-	 * @return
-	 * 		a list of all entities in the current game
+	 * Add another player to the game (test)
 	 */
-	/*public Iterable<GameObject> getPieces() {
-		return pieces;
-	}*/
+	public void addPlayer() {
+		Player p = new Player();
+		players.add(p);
+		fighters.add(new Actor((1+players.size())*100, 100, p));
+	}
+	
+	/**
+	 * Construct a basic level (test)
+	 */
+	public void initTestLevel() {
+		fighters.clear();
+		level.clear();
+		bullets.clear();
+		powerups.clear();
+		players.clear();
+		stage = -1;
+		//a solid base and three platforms
+		level.add(new Land(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, Land.SOLID));
+		level.add(new Land(WIDTH/4, HEIGHT*3/4-20, WIDTH/8, 4, Land.PLATFORM));
+		level.add(new Land(WIDTH*7/16, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
+		level.add(new Land(WIDTH*5/8, HEIGHT*3/4-20, WIDTH/8, 4, Land.PLATFORM));
+	}
 	
 	/**
 	 * Get a list of the current fighters

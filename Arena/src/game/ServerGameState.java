@@ -16,7 +16,7 @@ public class ServerGameState extends GameState {
 	private static final int TOP = -1;
 	private static final int BOTTOM = 1;
 	private static final int NONE = 0;
-
+	
 	/**
 	 * Update the entire game state
 	 * 
@@ -417,7 +417,7 @@ public class ServerGameState extends GameState {
 		//move along the ground
 		a.setX(a.getX()+a.getVx());
 
-		//airborne
+		//move through the air
 		if (a.getAirTime() > 0) {
 			a.setY(a.getY()+a.getVy());
 			a.setVy(a.getVy()+1); //TODO: determine what exact gravity to use
@@ -431,6 +431,12 @@ public class ServerGameState extends GameState {
 				fall(a);
 			}
 		}
+		
+		//out-of-bounds wraparound (temp)
+		if (a.getBottomEdge() < 0) a.setTopEdge(GameState.HEIGHT); //off top
+		if (a.getTopEdge() > GameState.HEIGHT) a.setBottomEdge(0); //off bottom
+		if (a.getRightEdge() < 0) a.setLeftEdge(GameState.WIDTH); //off left
+		if (a.getLeftEdge() > GameState.WIDTH) a.setRightEdge(0); //off right
 	}
 
 	/**
@@ -440,13 +446,23 @@ public class ServerGameState extends GameState {
 	 * 		the shot to be moved
 	 */
 	private void move(Shot s) {
+		//terrain collisions
 		for (Land l : getLevel()) {
 			collide(s, l);
 		}
+		//target collisions
 		for (Actor a : getFighters()) {
 			collide(s, a);
 		}
+		
+		//apply velocity (straight-only)
 		s.setX(s.getX()+s.getVx());
 		s.setY(s.getY()+s.getVy());
+		
+		//out of bounds removal
+		if (s.getBottomEdge() < 0 || s.getTopEdge() > GameState.HEIGHT
+				|| s.getRightEdge() < 0 || s.getLeftEdge() > GameState.WIDTH) {
+			s.setDead(true);
+		}
 	}
 }
