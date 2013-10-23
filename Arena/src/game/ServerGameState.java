@@ -120,7 +120,7 @@ public class ServerGameState extends GameState {
 	 */
 	private void holdJump (Actor a) {
 		if (a.getVy() == 1-a.getJumpPower()) {
-			a.setVy(a.getJumpPower());
+			a.setVy(-a.getJumpPower());
 		}
 	}
 
@@ -342,6 +342,7 @@ public class ServerGameState extends GameState {
 				land(a, l);
 			}
 		}
+		//TODO: Double check this for glitches
 		if (v == BOTTOM) {
 			if (l.isSolid()) { //solid ceilings
 				a.setTopEdge(l.getBottomEdge()+1);
@@ -454,7 +455,7 @@ public class ServerGameState extends GameState {
 		if (a.getAirTime() > 0) {
 			a.setY(a.getY()+a.getVy());
 			a.setVy(a.getVy()+1); //TODO: determine what exact gravity to use
-			if (a.getVy() < -5) a.setVy(-5); //TODO: Make a specific terminal velocity
+			if (a.getVy() > 10) a.setVy(10); //TODO: Make a specific terminal velocity
 		}
 		else {
 			a.setVy(0);

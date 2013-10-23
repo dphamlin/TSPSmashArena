@@ -14,9 +14,6 @@ import javax.swing.JPanel;
  */
 
 public class View extends JFrame {
-
-	//for double buffering
-	Image backBuffer;
 	
 	/**
 	 * test constructor
@@ -24,8 +21,6 @@ public class View extends JFrame {
 	public View() {
 		super();
 		setSize(640, 480);
-		backBuffer = this.createImage(this.getWidth(), this.getHeight());
-		//TODO: make backBuffer able to return a non-null Graphics object
 		setVisible(true);
 	}
 	
@@ -40,13 +35,13 @@ public class View extends JFrame {
 	}
 	
 	/**
-	 * Draw a game state
+	 * Draw a game state (double buffered)
 	 * 
 	 * @param state
 	 * 		game state to draw
 	 */
 	public void reDraw(ClientGameState state){
-		//state.draw(this.getContentPane().getGraphics());
+		Image backBuffer = createImage(this.getWidth(), this.getHeight());
 		state.draw(backBuffer.getGraphics());
 		this.getContentPane().getGraphics().drawImage(backBuffer, 0, 0, null);
 	}

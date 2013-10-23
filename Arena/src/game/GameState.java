@@ -47,7 +47,7 @@ public abstract class GameState {
 	 */
 	public void addPlayer() {
 		Player p = new Player();
-		Actor a = new Actor((1+players.size())*100, 100, p);
+		Actor a = new Actor(200+players.size()*100, 100, p);
 		p.setAvatar(a);
 		players.add(p);
 		fighters.add(a);
@@ -65,9 +65,9 @@ public abstract class GameState {
 		stage = -1;
 		//a solid base and three platforms
 		level.add(new Land(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, Land.SOLID));
-		level.add(new Land(WIDTH/4, HEIGHT*3/4-20, WIDTH/8, 4, Land.PLATFORM));
-		level.add(new Land(WIDTH*7/16, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
-		level.add(new Land(WIDTH*5/8, HEIGHT*3/4-20, WIDTH/8, 4, Land.PLATFORM));
+		level.add(new Land(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
+		level.add(new Land(WIDTH*7/16, HEIGHT*3/4-80, WIDTH/8, 4, Land.PLATFORM));
+		level.add(new Land(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
 	}
 	
 	/**

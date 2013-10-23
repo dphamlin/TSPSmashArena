@@ -45,11 +45,11 @@ public class Actor extends GameObject {
 		powerup = 0;
 		
 		//default stats
-		runSpeed = 2;
-		jumpPower = 30;
+		runSpeed = 3;
+		jumpPower = 10;
 		shotDelay = 16;
-		shotSpeed = 8;
-		shotLife = 30;
+		shotSpeed = 16;
+		shotLife = 20;
 		shotWid = 8;
 		shotHei = 8;
 	}
