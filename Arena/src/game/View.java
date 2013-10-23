@@ -25,6 +25,7 @@ public class View extends JFrame {
 		super();
 		setSize(640, 480);
 		backBuffer = this.createImage(this.getWidth(), this.getHeight());
+		//TODO: make backBuffer able to return a non-null Graphics object
 		setVisible(true);
 	}
 	
