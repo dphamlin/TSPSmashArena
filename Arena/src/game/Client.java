@@ -158,7 +158,10 @@ public class Client {
 				theClient.readGameState(); // Read the game state from the server and update the current game state
 			}
 			catch (Exception e) {
-				System.err.println("Failed to receive the game state from the server.");
+				// System.err.println("Failed to receive the game state from the server.");
+				System.out.println("Game over. Thanks for playing!");
+				theClient.getView().setVisible(false);
+				System.exit(0);
 			}
 			
 			theClient.getView().reDraw(theClient.getState());// Client draws game state here!
