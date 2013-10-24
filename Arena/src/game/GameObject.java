@@ -77,6 +77,18 @@ public abstract class GameObject {
 		return getY()+getH();
 	}
 	/**
+	 * @return the horizontal center of the object
+	 */
+	public int getHCenter() {
+		return getX()+getW()/2;
+	}
+	/**
+	 * @return the vertical center of the object
+	 */
+	public int getVCenter() {
+		return getY()+getH()/2;
+	}
+	/**
 	 * Set the position of the left edge without resizing
 	 * 
 	 * @param x the new left edge of the object
@@ -108,7 +120,32 @@ public abstract class GameObject {
 	public void setBottomEdge(int y) {
 		setY(y-getH());
 	}
-	
+	/**
+	 * Set the position of the horizontal center
+	 * 
+	 * @param x the new horizontal center
+	 */
+	public void setHCenter(int x) {
+		setX(x-getW()/2);
+	}
+	/**
+	 * Set the position of the vertical center
+	 * 
+	 * @param y the new vertical center
+	 */
+	public void setVCenter(int y) {
+		setY(y-getH()/2);
+	}
+	/**
+	 * Set the position of the object's center
+	 * 
+	 * @param x the new horizontal center
+	 * @param y the new vertical center
+	 */
+	public void setCenter(int x, int y) {
+		setHCenter(x);
+		setVCenter(y);
+	}
 	/*
 	 * Getters for basic properties 
 	 */
