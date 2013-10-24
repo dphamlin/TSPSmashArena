@@ -4,18 +4,18 @@ import com.google.gson.*;
 
 public abstract class Participant {
 
-	protected Player thePlayer;
+	protected Actor thePlayer;
 	protected String controllerString;
 	protected Controller controller;
 	protected BufferedReader reader;
 	protected PrintWriter writer;
 	protected Gson json;
 	
-	public Player getPlayer() {
+	public Actor getPlayer() {
 		return this.thePlayer;
 	}
 	
-	public void setPlayer(Player player) {
+	public void setPlayer(Actor player) {
 		this.thePlayer = player;
 	}
 	

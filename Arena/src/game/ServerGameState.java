@@ -69,16 +69,27 @@ public class ServerGameState extends GameState {
 	}
 
 	/**
-	 * Apply a player's controls to their character
+	 * Apply a participant's controls to their character
 	 * 
 	 * @param p
-	 * 		the player associated with the input
+	 * 		the participant to update from
+	 */
+	public void readControls(Participant p) {
+		Actor a = p.getPlayer();
+		Controller c = p.getController();
+		readControls(a, c);
+	}
+	
+	/**
+	 * Apply a player's controls to their character
+	 * 
+	 * @param a
+	 * 		the actor associated with the input
 	 * @param c
 	 * 		the controller data object
 	 */
-	public void readControls(Player p, Controller c) {
-		Actor a = p.getAvatar();
-
+	//public void readControls(Player p, Controller c) {
+	public void readControls(Actor a, Controller c) {
 		if (a.isDead()) return;
 
 		//running

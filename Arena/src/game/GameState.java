@@ -16,7 +16,7 @@ public abstract class GameState {
 	private ArrayList<Land> level = new ArrayList<Land>();
 	private ArrayList<Shot> bullets = new ArrayList<Shot>();
 	private ArrayList<Item> powerups = new ArrayList<Item>();
-	private ArrayList<Player> players = new ArrayList<Player>();
+	//private ArrayList<Player> players = new ArrayList<Player>();
 	private int stage;
 	private int frameNumber = 0;
 	public static final int WIDTH = 640, HEIGHT = 480;
@@ -37,9 +37,9 @@ public abstract class GameState {
 		level = g.getLevel();
 		bullets = g.getBullets();
 		powerups = g.getPowerups();
-		for (int i = 0; i < g.getNumberOfPlayers(); i++) {
+		/*for (int i = 0; i < g.getNumberOfPlayers(); i++) {
 			players.add(g.getPlayer(i));
-		}
+		}*/
 		stage = g.getStage();
 		frameNumber = g.getFrameNumber();
 	}
@@ -47,13 +47,13 @@ public abstract class GameState {
 	/**
 	 * Add another player to the game (test)
 	 */
-	public Player addPlayer() {
-		Player p = new Player();
-		Actor a = new Actor(200+players.size()*100, 100, p);
-		p.setAvatar(a);
-		players.add(p);
+	public Actor addPlayer() {
+		//Player p = new Player();
+		Actor a = new Actor(200+fighters.size()*100, 100);
+		//p.setAvatar(a);
+		//players.add(p);
 		fighters.add(a);
-		return p;
+		return a;
 	}
 
 	/**
@@ -64,7 +64,7 @@ public abstract class GameState {
 		level.clear();
 		bullets.clear();
 		powerups.clear();
-		players.clear();
+		//players.clear();
 		stage = -1;
 		//a solid base and three platforms
 		level.add(new Land(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, Land.SOLID));
@@ -116,7 +116,7 @@ public abstract class GameState {
 	 * 		number of players in the game
 	 */
 	public int getNumberOfPlayers() {
-		return players.size();
+		return fighters.size();
 	}
 
 	/**
@@ -127,8 +127,8 @@ public abstract class GameState {
 	 * @return
 	 * 		a Player object
 	 */
-	public Player getPlayer(int n) {
-		return players.get(n);
+	public Actor getPlayer(int n) {
+		return fighters.get(n);
 	}
 
 	/**

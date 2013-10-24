@@ -7,15 +7,16 @@ package game;
  *
  */
 public class Actor extends GameObject {
-	
+
 	//current data
-	//private Player owner;
 	private int airTime;
 	private int deadTime;
 	private int reload;
 	private int dir = 1;
 	private int powerup;
 	private Land onLand;
+	private int score;
+	private int lives;
 	
 	//eventually replace this with a reference to a "character archetype?"
 	private int skin;
@@ -36,9 +37,8 @@ public class Actor extends GameObject {
 	 * 		associated player object
 	 * TODO: Associate this with a "base" player
 	 */
-	public Actor (int x, int y, Player owner) {
+	public Actor (int x, int y) {
 		super(x, y, 16, 16);
-		//this.owner = owner;
 		dir = 1;
 		airTime = 1;
 		onLand = null;
@@ -55,12 +55,6 @@ public class Actor extends GameObject {
 	}
 	
 	/*getters and setters for attributes*/
-	/*public Player getOwner() {
-		return owner;
-	}*/
-	public void setOwner(Player owner) {
-		//this.owner = owner;
-	}
 	public int getAirTime() {
 		return airTime;
 	}
@@ -97,6 +91,22 @@ public class Actor extends GameObject {
 	public void setOnLand(Land onLand) {
 		this.onLand = onLand;
 	}
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public int getLives() {
+		return lives;
+	}
+
+	public void setLives(int lives) {
+		this.lives = lives;
+	}
+
 	public int getSkin() {
 		return skin;
 	}

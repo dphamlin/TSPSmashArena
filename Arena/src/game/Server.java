@@ -112,7 +112,8 @@ public class Server {
 	
 	public void applyAllControls(ArrayList<Participant> aParticipantList) {
 		for (Participant p: aParticipantList) {
-			getGameState().readControls(p.getPlayer(), p.getController());
+			//getGameState().readControls(p.getPlayer(), p.getController());
+			getGameState().readControls(p);
 		}
 	}
 	
