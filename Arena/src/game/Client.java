@@ -13,8 +13,9 @@ public class Client {
 	private PrintWriter writer;
 	private ClientGameState game;
 	private Gson json;
-	private Controller controller = null;
+	private Controller controller;
 	private View view;
+	private StopWatch timer;
 	
 	Client (InetAddress addr, int port) throws IOException { 
 		setSocket(new Socket(addr,port)); // Establish connection
@@ -23,6 +24,7 @@ public class Client {
 		setWriter(new PrintWriter(getSocket().getOutputStream(),true));
 		setController(new Controller());
 		setView(new View());
+		setTimer(new StopWatch(20));
 		view.attachController(controller);
 		json = new Gson();
 	}
@@ -37,7 +39,7 @@ public class Client {
 		// in case client-side information is lost by the cast.
 	}
 	
-	public GameState getState(){
+	public ClientGameState getState(){
 		return this.game;
 	}
 	
@@ -103,6 +105,12 @@ public class Client {
 	public void updateController() {
 		getController().update();
 	}
+	public StopWatch getTimer() {
+		return timer;
+	}
+	public void setTimer(StopWatch timer) {
+		this.timer = timer;
+	}	
 	
 	// Imitate Arena test code but with Controllers.
 	public static void main (String []args) {
@@ -140,7 +148,10 @@ public class Client {
 		// Client should be connected; begin communication cycle. Consider reordering or adding initial send/receives
 		while (!theClient.getSocket().isClosed()) {
 			
+			theClient.getTimer().loopStart(); // Start the loop
+			
 			theClient.updateController(); // Update controller
+			
 			theClient.writeController(); // Write controller to the server
 			
 			try {
@@ -150,9 +161,11 @@ public class Client {
 				System.err.println("Failed to receive the game state from the server.");
 			}
 			
-			// Client draws game state here!
+			theClient.getView().reDraw(theClient.getState());// Client draws game state here!
+			
+			theClient.getTimer().loopRest();// Rest for the rest of the loop
 			
 		}
 		System.out.println("Game over. Thanks for playing!");
-	}	
+	}
 }
