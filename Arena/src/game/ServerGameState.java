@@ -230,6 +230,8 @@ public class ServerGameState extends GameState {
 		a.setDead(false);
 		a.setHCenter(WIDTH/2);
 		a.setTopEdge(50);
+		a.setOnLand(null);
+		a.setAirTime(1);
 	}
 
 	/**
@@ -243,7 +245,7 @@ public class ServerGameState extends GameState {
 		if (a.getAirTime() < 0) a.setAirTime(a.getAirTime()-1); //time on the ground
 
 		a.setDeadTime(a.getDeadTime()+1); //respawn timer, potentially spawn armor
-		if (a.getDeadTime() == 50) respawn(a);
+		if (a.getDeadTime() == 50 && a.isDead()) respawn(a);
 
 		if (a.getReload() > 0) a.setReload(a.getReload()-1); //timer between shots
 
@@ -412,7 +414,7 @@ public class ServerGameState extends GameState {
 		if (vCollide(a, b) == TOP) {
 			a.setBottomEdge(b.getTopEdge());
 			die(b);
-			a.setVy(b.getVy()+a.getJumpPower()/2);
+			jump(a);
 		}
 
 		//TODO: Make interesting side to side collisions?
