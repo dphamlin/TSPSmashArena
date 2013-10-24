@@ -10,7 +10,7 @@ public class Arena {
 		//Server theServer = null;
 		Client theClient = null;
 		int serverPort = 5379; // default port
-		Controller theContoller;
+		//Controller theContoller;
 		Message theMessage;
 		
 		//Thread serverThread = null;
@@ -18,7 +18,8 @@ public class Arena {
 		int choice = 0;
 		Scanner inputScanner = new Scanner(System.in);
 
-		System.out.println("Welcome.  Enter 0 if you wish to connect to loopback; otherwise, enter 1 to choose IP address and port.\n");
+		System.out.println("Welcome. " +
+				"Enter 0 if you wish to connect to loopback; otherwise, enter 1 to choose IP address and port.\n");
 		choice = inputScanner.nextInt();
 		
 		/*
@@ -95,7 +96,7 @@ public class Arena {
 			try {
 				theClient.readStateString(); // Have the client read the response from the server.
 				//Read the gamestate through json
-				//theCliant.setState(jsonGen.fromJson(theClient.getStateString(), GameState.class));  
+				//theClient.setState(jsonGen.fromJson(theClient.getStateString(), GameState.class));  
 				
 			}
 			catch (Exception e) {
@@ -106,7 +107,7 @@ public class Arena {
 			System.out.println("The server returned the following state:");
 			Message response = jsonGen.fromJson(theClient.getStateString(), Message.class);
 			System.out.println("Response #: "+response.getNumber()+" : "+response.getMessage());
-			/*what ever updates view should use theCliant.getState() here*/
+			//theClient.getView().reDraw(theClient.getState());
 			count++;
 		}
 		System.out.println("Thanks for playing.  Cheers.");

@@ -14,6 +14,7 @@ public class Client {
 	private ClientGameState game;
 	private Gson json;
 	private Controller controller = null;
+	private View view;
 	
 	Client (InetAddress addr, int port) throws IOException { 
 		setSocket(new Socket(addr,port)); // Establish connection
@@ -21,6 +22,8 @@ public class Client {
 		setReader(new BufferedReader(new InputStreamReader(getSocket().getInputStream())));
 		setWriter(new PrintWriter(getSocket().getOutputStream(),true));
 		setController(new Controller());
+		setView(new View());
+		view.attachController(controller);
 		json = new Gson();
 	}
 	
@@ -87,5 +90,13 @@ public class Client {
  	
 	public void writeController() {
 		writeToServer(json.toJson(getController())); // There is also a Gson method to directly write to a Writer
+	}
+
+	public View getView() {
+		return view;
+	}
+
+	public void setView(View view) {
+		this.view = view;
 	}
 }
