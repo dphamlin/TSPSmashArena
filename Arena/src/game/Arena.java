@@ -93,7 +93,7 @@ public class Arena {
 			theClient.writeToServer(jsonGen.toJson(theMessage));
 			
 			try {
-				theClient.updateStateString(); // Have the client read the response from the server.
+				theClient.readStateString(); // Have the client read the response from the server.
 				//Read the gamestate through json
 				//theCliant.setState(jsonGen.fromJson(theClient.getStateString(), GameState.class));  
 				

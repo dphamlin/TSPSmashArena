@@ -11,17 +11,20 @@ public class Server {
 	private ServerSocket serverSocket;
 	private ArrayList<Participant> participantList;
 	private int numberOfPlayers = 0;
-	private String stateString = null;
-	private GameState game;
+	// private String stateString = null;
+	private ServerGameState game;
+	private Gson json;
 	
 	Server() throws IOException {
 		serverSocket = new ServerSocket(5379);
 		participantList = new ArrayList<Participant>();
+		json = new Gson();
 	}
 	
 	Server(int port) throws IOException {
 		serverSocket = new ServerSocket(port);
 		participantList = new ArrayList<Participant>();
+		json = new Gson();
 	}
 	
 	public void setNumberOfPlayers(int numberOfPlayers) { // Proper functioning only guaranteed for >=1 value.
@@ -36,12 +39,66 @@ public class Server {
 		return serverSocket;
 	}
 	
+	/*
 	public void setStateString(String newStateString) {
 		stateString = newStateString;
 	}
-	
+	*/
+	/*
 	public String getStateString() {
 		return stateString;
+	}
+	*/
+	public ArrayList<Participant> getParticipantList() {
+		return participantList;
+	}
+	
+	public void setParticipantList(ArrayList<Participant> newParticipantList) {
+		participantList = newParticipantList;
+	}
+	
+	public ServerGameState getGameState() {
+		return game;
+	}
+	
+	// Reads new Controller objects from all participants in given list
+	public void readControllersFromAll(ArrayList<Participant> aParticipantList) throws IOException {
+		for (Participant p: aParticipantList) {
+			p.readController();
+		}
+	}
+	
+	// Writes the current game state to all clients as a JSON string
+	public void writeGameStateToAll(ArrayList<Participant> aParticipantList) { 
+		for (Participant p: aParticipantList) {
+			p.writeToClient(json.toJson(getGameState()));
+		}
+	}
+	
+	// Generate a list of participants from network connection
+	public ArrayList<Participant> connectParticipants(int num) throws IOException {
+		Socket s = null;
+		ArrayList<Participant> newParticipantList = new ArrayList<>();
+		
+		// Try to accept a connection; if successful, add a Participant with that connected socket
+		for (int i=0;i<num;i++) { 
+			try {
+				s = getServerSocket().accept();
+			}
+			catch (Exception e) {
+				s = null;
+			}
+			if (s != null) {
+				newParticipantList.add(new RemoteParticipant(s));
+			}
+		}
+		return newParticipantList;
+	}
+	
+	public void applyAllControls(ArrayList<Participant> aParticipantList) {
+		for (Participant p: aParticipantList) {
+			getGameState().readControls(p.getPlayer(), p.getController());
+		}
 	}
 	
 	public void run(int numberOfPlayers) {
@@ -65,42 +122,37 @@ public class Server {
 		*/
 		jsonGen = new Gson();
 		Scanner inputScanner = new Scanner(System.in);
-		// Connect clients and adds them to the clientList
-		Socket s = null;
-		for (int i=0;i<getNumberOfPlayers();i++) { 
-			try {
-				s = getServerSocket().accept();
-			}
-			catch (Exception e) {
-				System.err.println("Error connecting client to server. Exiting.\n");
-				s = null;
-			}
-			
-			if (s != null) {
-				try {
-					participantList.add(new RemoteParticipant(s));
-				}
-				catch(Exception e) {
-					System.err.println("Failed to create a remote participant.");
-				}
-			}	
+		
+		// Connect clients and adds them to the participantList
+		try {
+			setParticipantList(connectParticipants(getNumberOfPlayers()));
 		}
+		catch (Exception e) {
+			System.err.println("Error connecting client to server. Exiting.\n");
+		}
+		
 		
 		// All participants should connected; begin communication cycle
 		for (int i=0;i<100;i++) { // A round of One Hundred exchanges for testing purposes
 			
-			for (Participant p: participantList) {
-				try {
-					p.updateControllerString();
-					//when controller objs are sent.
-					//p.updateController(jsonGen.fromJson(p.getControllerString(), Controller.class));
-				}
-				catch (Exception e) {
-					System.err.println("Could not update controller string in a participant.");
-				}
+			try {
+				readControllersFromAll(getParticipantList()); // Reads updated controllers into all participants
+			}
+			catch (Exception e) {
+				System.err.println("Could not receive a participant's controller information.");
 			}
 			
+			// Controllers now ready for application to game state
+			// HERE GAME LOGIC SHOULD BE UPDATED USING THE CONTROLLERS
+			// My stab at it:
+			applyAllControls(getParticipantList()); // Applies controls for all participants
+			getGameState().update(); // updates game state using game logic
+			
+			// GameState is updated by this point; send it to all
+			writeGameStateToAll(getParticipantList());
+			
 			// All controller strings should be updated; create updated state string from them
+			/*
 			String newStateString = "";
 			for (int j=1;j<=participantList.size();j++) {
 				Message response = jsonGen.fromJson(participantList.get(j-1).getControllerString(), Message.class);
@@ -109,16 +161,18 @@ public class Server {
 			System.out.println(newStateString);
 			System.out.println("Enter a line to send to the clients.");
 			String nextLine = inputScanner.nextLine();
+			*/
 			
 			//setStateString(jsonGen.toJson(game/*GameState*/));
-			Message theMessage = new Message(nextLine+newStateString, i);
-			setStateString(jsonGen.toJson(theMessage));
-			
+			//Message theMessage = new Message(nextLine+newStateString, i);
+			//setStateString(jsonGen.toJson(theMessage));
 			
 			// State string is ready; send to all participants
+			/*
 			for (Participant p: participantList) {
 				p.writeToClient(getStateString());
 			}
+			*/
 		}
 		
 		// Done with test round; stop thread

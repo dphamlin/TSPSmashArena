@@ -1,5 +1,6 @@
 package game;
 import java.io.*;
+import com.google.gson.*;
 
 public abstract class Participant {
 
@@ -8,6 +9,7 @@ public abstract class Participant {
 	protected Controller controller;
 	protected BufferedReader reader;
 	protected PrintWriter writer;
+	protected Gson json;
 	
 	public Player getPlayer() {
 		return this.thePlayer;
@@ -25,11 +27,11 @@ public abstract class Participant {
 		return this.controllerString;
 	}
 
-	public Controller getController() { // For a human player, the socket will be read; for AI, no socket will be involved.
+	public Controller getController() {
 		return this.controller;
 	}
 	
-	public void setControler(Controller c){
+	public void setController(Controller c){
 		this.controller = c;
 	}
 	
@@ -52,12 +54,11 @@ public abstract class Participant {
 	public BufferedReader getReader() {
 		return this.reader;
 	}
-	public void updateController(Controller c){
-		this.controller = c;
+	
+	// Read controller from Reader. Reader may take from a connection or from an AI source.
+	public void readController() throws IOException {
+		setController(json.fromJson(getReader().readLine(), Controller.class));
 	}
 	
-	public abstract void updateControllerString() throws IOException;
-		// TODO Auto-generated method stub
-		
-	
+	public abstract void readControllerString() throws IOException;
 }
