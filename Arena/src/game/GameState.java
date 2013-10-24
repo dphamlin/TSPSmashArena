@@ -47,12 +47,13 @@ public abstract class GameState {
 	/**
 	 * Add another player to the game (test)
 	 */
-	public void addPlayer() {
+	public Player addPlayer() {
 		Player p = new Player();
 		Actor a = new Actor(200+players.size()*100, 100, p);
 		p.setAvatar(a);
 		players.add(p);
 		fighters.add(a);
+		return p;
 	}
 
 	/**
