@@ -116,7 +116,7 @@ public class Client {
 	public static void main (String []args) {
 		
 		Client theClient = null;
-		
+
 		Scanner inputScanner = new Scanner(System.in);
 		int choice = 0;
 		System.out.println("Welcome.  Enter 0 if you wish to connect to loopback; otherwise, enter 1 to choose IP address and port.\n");

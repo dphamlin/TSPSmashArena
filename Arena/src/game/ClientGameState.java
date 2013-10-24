@@ -101,8 +101,10 @@ public class ClientGameState extends GameState {
 		if (a.isDead()) return;
 		g.setColor(Color.BLACK);
 		g.fillOval(a.getLeftEdge(), a.getTopEdge(), 16, 16);
+		g.fillRect(a.getHCenter(), a.getTopEdge(), -a.getW()*a.getDir()/2, a.getH());
+		g.fillRect(a.getLeftEdge(), a.getTopEdge(), a.getW()*a.getDir()/2, a.getH());
 	}
-	
+
 	/**
 	 * Draw a land to the designated graphics object
 	 * 
