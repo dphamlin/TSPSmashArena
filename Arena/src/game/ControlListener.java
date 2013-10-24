@@ -39,26 +39,26 @@ public class ControlListener implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		int k = e.getKeyCode();
 		//Set relevant buffers to true
-		if (k == KEY_UP) c.setbUp(true);
-		if (k == KEY_DOWN) c.setbDown(true);
-		if (k == KEY_LEFT) c.setbLeft(true);
-		if (k == KEY_RIGHT) c.setbRight(true);
-		if (k == KEY_JUMP) c.setbJump(true);
-		if (k == KEY_FIRE) c.setbFire(true);
-		if (k == KEY_START) c.setbStart(true);
+		if (k == KEY_UP) c.setUp(true);
+		if (k == KEY_DOWN) c.setDown(true);
+		if (k == KEY_LEFT) c.setLeft(true);
+		if (k == KEY_RIGHT) c.setRight(true);
+		if (k == KEY_JUMP) c.setJump(true);
+		if (k == KEY_FIRE) c.setFire(true);
+		if (k == KEY_START) c.setStart(true);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int k = e.getKeyCode();
 		//Set relevant buffers to false
-		if (k == KEY_UP) c.setbUp(false);
-		if (k == KEY_DOWN) c.setbDown(false);
-		if (k == KEY_LEFT) c.setbLeft(false);
-		if (k == KEY_RIGHT) c.setbRight(false);
-		if (k == KEY_JUMP) c.setbJump(false);
-		if (k == KEY_FIRE) c.setbFire(false);
-		if (k == KEY_START) c.setbStart(false);
+		if (k == KEY_UP) c.setUp(false);
+		if (k == KEY_DOWN) c.setDown(false);
+		if (k == KEY_LEFT) c.setLeft(false);
+		if (k == KEY_RIGHT) c.setRight(false);
+		if (k == KEY_JUMP) c.setJump(false);
+		if (k == KEY_FIRE) c.setFire(false);
+		if (k == KEY_START) c.setStart(false);
 	}
 
 }

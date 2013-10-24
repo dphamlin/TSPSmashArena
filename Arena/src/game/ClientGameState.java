@@ -126,6 +126,6 @@ public class ClientGameState extends GameState {
 	 */
 	private void draw(Shot s, Graphics g) {
 		g.setColor(Color.RED);
-		g.fillRect(s.getLeftEdge(), s.getBottomEdge(), s.getW()+1, s.getH()+1);
+		g.fillRect(s.getLeftEdge(), s.getTopEdge(), s.getW()+1, s.getH()+1);
 	}
 }

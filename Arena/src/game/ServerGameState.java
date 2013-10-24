@@ -257,7 +257,7 @@ public class ServerGameState extends GameState {
 	 */
 	private boolean overlap (GameObject a, GameObject b) {
 		//check that the edges are pushed through
-		if (a.getBottomEdge() >= b.getTopEdge() && a.getTopEdge() <= b.getBottomEdge()) {
+		if (a.getBottomEdge()+a.getVy() >= b.getTopEdge() && a.getTopEdge() <= b.getBottomEdge()) {
 			if (a.getRightEdge() >= b.getLeftEdge() && a.getLeftEdge() <= b.getRightEdge()) {
 				return true;
 			}
@@ -280,7 +280,8 @@ public class ServerGameState extends GameState {
 	 */
 	private int hCollide (GameObject a, GameObject b) {
 		//lined up for horizontal collisions
-		if (a.getBottomEdge() >= b.getTopEdge() && a.getTopEdge() <= b.getBottomEdge()) {
+		if (a.getBottomEdge()+a.getVy() >= b.getTopEdge()+b.getVy() 
+				&& a.getTopEdge()+a.getVy()  <= b.getBottomEdge()+b.getVy()) {
 			//moving right
 			if (a.getRightEdge() < b.getLeftEdge() && a.getRightEdge()+a.getVx() >= b.getLeftEdge()+b.getVx()) {
 				return LEFT;
@@ -309,7 +310,8 @@ public class ServerGameState extends GameState {
 	 */
 	private int vCollide (GameObject a, GameObject b) {
 		//lined up for vertical collisions
-		if (a.getRightEdge() >= b.getLeftEdge() && a.getLeftEdge() <= b.getRightEdge()) {
+		if (a.getRightEdge()+a.getVx() >= b.getLeftEdge()+b.getVx()
+				&& a.getLeftEdge()+a.getVx() <= b.getRightEdge()+b.getVx()) {
 			//falling
 			if (a.getBottomEdge() < b.getTopEdge() && a.getBottomEdge()+a.getVy() >= b.getTopEdge()+b.getVy()) {
 				return TOP;
@@ -404,7 +406,7 @@ public class ServerGameState extends GameState {
 		}
 
 		//check for any collision
-		if (vCollide(s, l) != NONE || hCollide(s, l) != NONE) {
+		if (overlap(s, l) || vCollide(s, l) != NONE || hCollide(s, l) != NONE) {
 			s.setDead(true);
 		}
 	}

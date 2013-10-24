@@ -6,7 +6,7 @@ package game;
  * @author Jacob Charles
  */
 public class TestDriver {
-	
+
 	/**
 	 * Local game testing
 	 * 
@@ -20,22 +20,24 @@ public class TestDriver {
 		v.attachController(c);
 		gs.initTestLevel();
 		gs.addPlayer(); //single player
-		
+
 		//main loop
-		//TODO: Make this terminate when the window is closed
-		//TODO: Time the loop to judge run speed
-		while (true) {
+		while (v.isVisible() && c.getStart() < 1) {
+			long loopEnd = System.currentTimeMillis()+20;
 			c.update();
 			gs.readControls(gs.getPlayer(0), c);
 			gs.update();
 			v.reDraw(gs.convert());
 			//magical try-catch block for sleeping!
-			try {
-				Thread.sleep(30);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			while (System.currentTimeMillis() < loopEnd) {
+				try {
+					Thread.sleep(30);
+				} catch (InterruptedException e) {
+					// Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
+		System.exit(0);
 	}
 }

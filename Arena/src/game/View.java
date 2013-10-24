@@ -22,6 +22,7 @@ public class View extends JFrame {
 		super();
 		setSize(640, 480);
 		setVisible(true);
+		this.setTitle("TSPArena");
 	}
 	
 	/**

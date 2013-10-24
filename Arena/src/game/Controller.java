@@ -8,14 +8,14 @@ package game;
  */
 public class Controller {
 	//mask values
-	private static final int bUp = 1;
-	private static final int bDown = 2;
-	private static final int bLeft = 4;
-	private static final int bRight = 8;
-	private static final int bJump = 16;
-	private static final int bFire = 32;
-	private static final int bStart = 64;
-	private static final int bMax = 127; //sum of all previous
+	private static final int B_UP = 1;
+	private static final int B_DOWN = 2;
+	private static final int B_LEFT = 4;
+	private static final int B_RIGHT = 8;
+	private static final int B_JUMP = 16;
+	private static final int B_FIRE = 32;
+	private static final int B_START = 64;
+	private static final int B_MAX = 127; //sum of all previous
 	
 	//buffer (current state of buttons, a bitmask)
 	private int buf;
@@ -29,13 +29,13 @@ public class Controller {
 	private int fire = 0;
 	private int start = 0;
 
-	/*private boolean bUp;
-	private boolean bDown;
-	private boolean bLeft;
-	private boolean bRight;
-	private boolean bJump;
-	private boolean bFire;
-	private boolean bStart;*/
+	/*private boolean B_UP;
+	private boolean B_DOWN;
+	private boolean B_LEFT;
+	private boolean B_RIGHT;
+	private boolean B_JUMP;
+	private boolean B_FIRE;
+	private boolean B_START;*/
 
 	/**
 	 * Internal update method, track hold times for buttons
@@ -43,25 +43,25 @@ public class Controller {
 	 */
 	public void update() {
 		//up
-		if (isbUp()) setUp(getUp()+1);
+		if (isUp()) setUp(getUp()+1);
 		else setUp(0);
 		//down
-		if (isbDown()) setDown(getDown()+1);
+		if (isDown()) setDown(getDown()+1);
 		else setDown(0);
 		//left
-		if (isbLeft()) setLeft(getLeft()+1);
+		if (isLeft()) setLeft(getLeft()+1);
 		else setLeft(0);
 		//right
-		if (isbRight()) setRight(getRight()+1);
+		if (isRight()) setRight(getRight()+1);
 		else setRight(0);
 		//jump
-		if (isbJump()) setJump(getJump()+1);
+		if (isJump()) setJump(getJump()+1);
 		else setJump(0);
 		//fire
-		if (isbFire()) setFire(getFire()+1);
+		if (isFire()) setFire(getFire()+1);
 		else setFire(0);
 		//start
-		if (isbStart()) setStart(getStart()+1);
+		if (isStart()) setStart(getStart()+1);
 		else setStart(0);
 	}
 
@@ -110,53 +110,53 @@ public class Controller {
 	}
 
 	//getters and setters for buffer fields
-	public boolean isbUp() {
-		return (buf&bUp) > 0;
+	public boolean isUp() {
+		return (buf&B_UP) > 0;
 	}
-	public void setbUp(boolean b) {
-		if (b) buf |= bUp;
-		else buf &= bMax-bUp;
+	public void setUp(boolean b) {
+		if (b) buf |= B_UP;
+		else buf &= B_MAX-B_UP;
 	}
-	public boolean isbDown() {
-		return (buf&bDown) > 0;
+	public boolean isDown() {
+		return (buf&B_DOWN) > 0;
 	}
-	public void setbDown(boolean b) {
-		if (b) buf |= bDown;
-		else buf &= bMax-bDown;
+	public void setDown(boolean b) {
+		if (b) buf |= B_DOWN;
+		else buf &= B_MAX-B_DOWN;
 	}
-	public boolean isbLeft() {
-		return (buf&bLeft) > 0;
+	public boolean isLeft() {
+		return (buf&B_LEFT) > 0;
 	}
-	public void setbLeft(boolean b) {
-		if (b) buf |= bLeft;
-		else buf &= bMax-bLeft;
+	public void setLeft(boolean b) {
+		if (b) buf |= B_LEFT;
+		else buf &= B_MAX-B_LEFT;
 	}
-	public boolean isbRight() {
-		return (buf&bRight) > 0;
+	public boolean isRight() {
+		return (buf&B_RIGHT) > 0;
 	}
-	public void setbRight(boolean b) {
-		if (b) buf |= bRight;
-		else buf &= bMax-bRight;
+	public void setRight(boolean b) {
+		if (b) buf |= B_RIGHT;
+		else buf &= B_MAX-B_RIGHT;
 	}
-	public boolean isbJump() {
-		return (buf&bJump) > 0;
+	public boolean isJump() {
+		return (buf&B_JUMP) > 0;
 	}
-	public void setbJump(boolean b) {
-		if (b) buf |= bJump;
-		else buf &= bMax-bJump;
+	public void setJump(boolean b) {
+		if (b) buf |= B_JUMP;
+		else buf &= B_MAX-B_JUMP;
 	}
-	public boolean isbFire() {
-		return (buf&bFire) > 0;
+	public boolean isFire() {
+		return (buf&B_FIRE) > 0;
 	}
-	public void setbFire(boolean b) {
-		if (b) buf |= bFire;
-		else buf &= bMax-bFire;
+	public void setFire(boolean b) {
+		if (b) buf |= B_FIRE;
+		else buf &= B_MAX-B_FIRE;
 	}
-	public boolean isbStart() {
-		return (buf&bStart) > 0;
+	public boolean isStart() {
+		return (buf&B_START) > 0;
 	}
-	public void setbStart(boolean b) {
-		if (b) buf |= bStart;
-		else buf &= bMax-bStart;
+	public void setStart(boolean b) {
+		if (b) buf |= B_START;
+		else buf &= B_MAX-B_START;
 	}
 }
