@@ -30,6 +30,32 @@ public class Shot extends GameObject {
 		this.source = source;
 	}
 	
+	/**
+	 * Create a bullet from a generic type
+	 * @param base
+	 * 		bullet template
+	 * @param source
+	 * 		actor source
+	 */
+	//TODO: Add required classes for this to work
+	/*public Shot(ShotModel base, Actor source) {
+		this.source = source;
+		this.type = base.getType();
+		this.lifeTime = base.getLife();
+		setW(base.getW());
+		setH(base.getH());
+		setVCenter(source.getVCenter());
+		setVy(0);
+		if (source.getDir() > 0) {
+			setLeftEdge(source.getRightEdge());
+			setVx(base.getSpeed());
+		}
+		else {
+			setRightEdge(source.getLeftEdge());
+			setVx(-base.getSpeed());
+		}
+	}*/
+	
 	/*getters and setters for attributes*/
 	public int getType() {
 		return type;
