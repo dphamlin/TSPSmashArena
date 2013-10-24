@@ -26,7 +26,9 @@ public class TestDriver {
 		while (v.isVisible() && c.getStart() < 1) {
 			t.loopStart();
 			c.update();
-			gs.readControls(gs.getPlayer(0), c);
+			for (int i = 0; i < gs.getNumberOfPlayers(); i++){
+				gs.readControls(gs.getPlayer(i), c);				
+			}
 			gs.update();
 			v.reDraw(gs.convert());
 			t.loopRest();
