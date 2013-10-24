@@ -167,5 +167,6 @@ public class Client {
 			
 		}
 		System.out.println("Game over. Thanks for playing!");
+		System.exit(0); //super quit
 	}
 }

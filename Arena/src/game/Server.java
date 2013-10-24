@@ -14,12 +14,14 @@ public class Server {
 	// private String stateString = null;
 	private ServerGameState game;
 	private Gson json;
+	private StopWatch timer;
 	
 	Server() throws IOException {
 		serverSocket = new ServerSocket(5379);
 		participantList = new ArrayList<Participant>();
 		game = new ServerGameState();
 		json = new Gson();
+		timer = new StopWatch(19);
 	}
 	
 	Server(int port) throws IOException {
@@ -27,6 +29,7 @@ public class Server {
 		participantList = new ArrayList<Participant>();
 		game = new ServerGameState();
 		json = new Gson();
+		timer = new StopWatch(19);
 	}
 	
 	public void setNumberOfPlayers(int numberOfPlayers) { // Proper functioning only guaranteed for >=1 value.
@@ -61,6 +64,14 @@ public class Server {
 	
 	public ServerGameState getGameState() {
 		return game;
+	}
+	
+	public StopWatch getTimer() {
+		return timer;
+	}
+
+	public void setTimer(StopWatch timer) {
+		this.timer = timer;
 	}
 	
 	// Reads new Controller objects from all participants in given list
@@ -140,6 +151,8 @@ public class Server {
 		// All participants should connected; begin communication cycle
 		while (true) { // A round of One Hundred exchanges for testing purposes
 			
+			timer.loopStart(); //log start time
+			
 			try {
 				readControllersFromAll(getParticipantList()); // Reads updated controllers into all participants
 			}
@@ -152,9 +165,11 @@ public class Server {
 			// My stab at it:
 			applyAllControls(getParticipantList()); // Applies controls for all participants
 			getGameState().update(); // updates game state using game logic
-			
+	
 			// GameState is updated by this point; send it to all
 			writeGameStateToAll(getParticipantList());
+			
+			timer.loopRest(); //rest until loop end
 			
 			// All controller strings should be updated; create updated state string from them
 			/*
