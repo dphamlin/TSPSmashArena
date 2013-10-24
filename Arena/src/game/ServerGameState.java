@@ -315,7 +315,7 @@ public class ServerGameState extends GameState {
 				return TOP;
 			}
 			//rising
-			else if (a.getTopEdge() > b.getBottomEdge() && a.getBottomEdge()+a.getVy() <= b.getTopEdge()+b.getVy()) {
+			else if (a.getTopEdge() > b.getBottomEdge() && a.getTopEdge()+a.getVy() <= b.getBottomEdge()+b.getVy()) {
 				return BOTTOM;
 			}
 		}
@@ -342,7 +342,6 @@ public class ServerGameState extends GameState {
 				land(a, l);
 			}
 		}
-		//TODO: Double check this for glitches
 		if (v == BOTTOM) {
 			if (l.isSolid()) { //solid ceilings
 				a.setTopEdge(l.getBottomEdge()+1);
