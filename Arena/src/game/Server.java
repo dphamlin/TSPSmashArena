@@ -127,6 +127,8 @@ public class Server {
 		jsonGen = new Gson();
 		Scanner inputScanner = new Scanner(System.in);
 		
+		getGameState().initTestLevel();
+		
 		// Connect clients and adds them to the participantList
 		try {
 			setParticipantList(connectParticipants(getNumberOfPlayers()));
@@ -135,9 +137,8 @@ public class Server {
 			System.err.println("Error connecting client to server. Exiting.\n");
 		}
 		
-		
 		// All participants should connected; begin communication cycle
-		for (int i=0;i<100;i++) { // A round of One Hundred exchanges for testing purposes
+		while (true) { // A round of One Hundred exchanges for testing purposes
 			
 			try {
 				readControllersFromAll(getParticipantList()); // Reads updated controllers into all participants
@@ -180,7 +181,7 @@ public class Server {
 		}
 		
 		// Done with test round; stop thread
-		System.out.println("Done with test round; server going offline.");
+		//System.out.println("Done with test round; server going offline.");
 	}
 	
 	public static void main(String []args) {
