@@ -113,7 +113,12 @@ public class ClientGameState extends GameState {
 	private void draw(Land l, Graphics g) {
 		//TODO: Draw an image of some kind instead
 		g.setColor(Color.BLACK);
-		g.fillRect(l.getLeftEdge(), l.getTopEdge(), l.getW()+1, l.getH()+1);
+		if (l.isSolid()) {
+			g.fillRect(l.getLeftEdge(), l.getTopEdge(), l.getW()+1, l.getH()+1);
+		}
+		else {
+			g.drawRect(l.getLeftEdge(), l.getTopEdge(), l.getW()+1, l.getH()+1);
+		}
 	}
 	
 	/**

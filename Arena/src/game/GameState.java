@@ -18,13 +18,14 @@ public abstract class GameState {
 	private ArrayList<Item> powerups = new ArrayList<Item>();
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private int stage;
+	private int frameNumber = 0;
 	public static final int WIDTH = 640, HEIGHT = 480;
-	
+
 	/**
 	 * default constructor
 	 */
 	public GameState() {}
-	
+
 	/**
 	 * Clone constructor
 	 * 
@@ -40,8 +41,9 @@ public abstract class GameState {
 			players.add(g.getPlayer(i));
 		}
 		stage = g.getStage();
+		frameNumber = g.getFrameNumber();
 	}
-	
+
 	/**
 	 * Add another player to the game (test)
 	 */
@@ -52,7 +54,7 @@ public abstract class GameState {
 		players.add(p);
 		fighters.add(a);
 	}
-	
+
 	/**
 	 * Construct a basic level (test)
 	 */
@@ -69,7 +71,7 @@ public abstract class GameState {
 		level.add(new Land(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, Land.SOLID));
 		level.add(new Land(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
 	}
-	
+
 	/**
 	 * Get a list of the current fighters
 	 * 
@@ -78,7 +80,7 @@ public abstract class GameState {
 	public ArrayList<Actor> getFighters() {
 		return fighters;
 	}
-	
+
 	/**
 	 * Get a list of the level objects
 	 * 
@@ -87,7 +89,7 @@ public abstract class GameState {
 	public ArrayList<Land> getLevel() {
 		return level;
 	}
-	
+
 	/**
 	 * Get a list of the bullets and projectiles
 	 * 
@@ -96,7 +98,7 @@ public abstract class GameState {
 	public ArrayList<Shot> getBullets() {
 		return bullets;
 	}
-	
+
 	/**
 	 * Get the list of powerups in the stage
 	 * 
@@ -115,7 +117,7 @@ public abstract class GameState {
 	public int getNumberOfPlayers() {
 		return players.size();
 	}
-	
+
 	/**
 	 * Get a player object by index
 	 * 
@@ -127,7 +129,7 @@ public abstract class GameState {
 	public Player getPlayer(int n) {
 		return players.get(n);
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -135,5 +137,26 @@ public abstract class GameState {
 	 */
 	public int getStage() {
 		return stage;
+	}
+
+	/**
+	 * @return the frame number
+	 */
+	public int getFrameNumber() {
+		return frameNumber;
+	}
+
+	/**
+	 * reset the loop number
+	 */
+	public void resetFrames() {
+		this.frameNumber = 0;
+	}
+
+	/**
+	 * increment the loop number
+	 */
+	public void incrementFrames() {
+		this.frameNumber++;
 	}
 }

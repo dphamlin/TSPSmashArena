@@ -62,6 +62,9 @@ public class ServerGameState extends GameState {
 				i--;
 			}
 		}
+		//TODO: Other kinds of update logic here.
+		//track the number of frames passed
+		incrementFrames();
 	}
 
 	/**

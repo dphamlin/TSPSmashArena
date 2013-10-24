@@ -3,7 +3,6 @@ package game;
 public class StopWatch {
 	private int loopTime;
 	private long loopEnd;
-	private long loopNumber = 0;
 	
 	/**
 	 * Create a stop watch with the designated loop length
@@ -13,7 +12,6 @@ public class StopWatch {
 	 */
 	public StopWatch(int loopTime) {
 		this.loopTime = loopTime;
-		loopNumber++;
 	}
 	
 	/**
@@ -36,19 +34,5 @@ public class StopWatch {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	/**
-	 * @return the current loopNumber
-	 */
-	public long getLoopNumber() {
-		return loopNumber;
-	}
-
-	/**
-	 * Reset the loopNumber
-	 */
-	public void resetLoopNumber() {
-		this.loopNumber = 0;
 	}
 }
