@@ -9,7 +9,7 @@ package game;
 public class Actor extends GameObject {
 	
 	//current data
-	private Player owner;
+	//private Player owner;
 	private int airTime;
 	private int deadTime;
 	private int reload;
@@ -38,7 +38,7 @@ public class Actor extends GameObject {
 	 */
 	public Actor (int x, int y, Player owner) {
 		super(x, y, 16, 16);
-		this.owner = owner;
+		//this.owner = owner;
 		dir = 1;
 		airTime = 1;
 		onLand = null;
@@ -55,11 +55,11 @@ public class Actor extends GameObject {
 	}
 	
 	/*getters and setters for attributes*/
-	public Player getOwner() {
+	/*public Player getOwner() {
 		return owner;
-	}
+	}*/
 	public void setOwner(Player owner) {
-		this.owner = owner;
+		//this.owner = owner;
 	}
 	public int getAirTime() {
 		return airTime;
