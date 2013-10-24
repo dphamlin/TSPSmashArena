@@ -18,12 +18,14 @@ public class Server {
 	Server() throws IOException {
 		serverSocket = new ServerSocket(5379);
 		participantList = new ArrayList<Participant>();
+		game = new ServerGameState();
 		json = new Gson();
 	}
 	
 	Server(int port) throws IOException {
 		serverSocket = new ServerSocket(port);
 		participantList = new ArrayList<Participant>();
+		game = new ServerGameState();
 		json = new Gson();
 	}
 	
