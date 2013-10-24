@@ -80,7 +80,7 @@ public class Server {
 	// Generate a list of participants from network connection
 	public ArrayList<Participant> connectParticipants(int num) throws IOException {
 		Socket s = null;
-		ArrayList<Participant> newParticipantList = new ArrayList<>();
+		ArrayList<Participant> newParticipantList = new ArrayList<Participant>();
 		
 		// Try to accept a connection; if successful, add a Participant with that connected socket
 		for (int i=0;i<num;i++) { 
@@ -91,7 +91,9 @@ public class Server {
 				s = null;
 			}
 			if (s != null) {
-				newParticipantList.add(new RemoteParticipant(s));
+				RemoteParticipant p = new RemoteParticipant(s);
+				p.setPlayer(getGameState().addPlayer());
+				newParticipantList.add(p);
 			}
 		}
 		return newParticipantList;

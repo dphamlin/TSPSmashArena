@@ -9,7 +9,6 @@ public class RemoteParticipant extends Participant {
 	private Socket socket;
 	
 	RemoteParticipant (Socket clientSocket) throws IOException {
-		this.setPlayer(new Player());
 		this.setSocket(clientSocket);
 		this.setControllerString("No commands sent yet.");
 		this.setReader(new BufferedReader(new InputStreamReader(getSocket().getInputStream())));
