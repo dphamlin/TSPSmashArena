@@ -63,6 +63,7 @@ public class ServerGameState extends GameState {
 			}
 		}
 		//TODO: Other kinds of update logic here.
+
 		//track the number of frames passed
 		incrementFrames();
 	}
@@ -77,6 +78,8 @@ public class ServerGameState extends GameState {
 	 */
 	public void readControls(Player p, Controller c) {
 		Actor a = p.getAvatar();
+
+		if (a.isDead()) return;
 
 		//running
 		if (c.getLeft() > 0) {
@@ -214,6 +217,19 @@ public class ServerGameState extends GameState {
 	 */
 	private void die (Actor a) {
 		a.setDeadTime(0);
+		a.setDead(true);
+	}
+
+	/**
+	 * Respawn specified actor
+	 * 
+	 * @param a
+	 * 		actor to respawn
+	 */
+	private void respawn (Actor a) {
+		a.setDead(false);
+		a.setHCenter(WIDTH/2);
+		a.setTopEdge(50);
 	}
 
 	/**
@@ -226,13 +242,16 @@ public class ServerGameState extends GameState {
 		if (a.getAirTime() > 0) a.setAirTime(a.getAirTime()+1); //time in mid-air
 		if (a.getAirTime() < 0) a.setAirTime(a.getAirTime()-1); //time on the ground
 
-		if (a.getDeadTime() > 0) a.setDeadTime(a.getDeadTime()+1); //respawn timer, potentially spawn armor
+		a.setDeadTime(a.getDeadTime()+1); //respawn timer, potentially spawn armor
+		if (a.getDeadTime() == 50) respawn(a);
 
 		if (a.getReload() > 0) a.setReload(a.getReload()-1); //timer between shots
 
 		if (a.getOnLand() != null) a.setVy(a.getOnLand().getVy()); //match platform's vertical speed
 
-		move(a); //updates positions and speeds
+		if (!a.isDead()) {
+			move(a); //updates positions and speeds
+		}
 		//TODO: add more as other fields need updating
 	}
 
@@ -342,6 +361,8 @@ public class ServerGameState extends GameState {
 	 */
 	private void collide (Actor a, Land l) {
 
+		if (a.isDead()) return;
+		
 		//vertical collisions
 		int v = vCollide(a, l);
 		if (v == TOP) {
@@ -383,7 +404,7 @@ public class ServerGameState extends GameState {
 	 */
 	private void collide(Actor a, Actor b) {
 		//can't hit yourself
-		if (a == b) {
+		if (a == b || a.isDead() || b.isDead()) {
 			return;
 		}
 
@@ -427,7 +448,7 @@ public class ServerGameState extends GameState {
 	 */
 	private void collide(Shot s, Actor a) {
 		//don't hit your own source
-		if (s.getSource() == a) {
+		if (s.getSource() == a || a.isDead()) {
 			return;
 		}
 

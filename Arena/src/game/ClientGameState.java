@@ -98,6 +98,7 @@ public class ClientGameState extends GameState {
 	 */
 	private void draw(Actor a, Graphics g) {
 		//TODO: Make this draw an image with transparency
+		if (a.isDead()) return;
 		g.setColor(Color.BLACK);
 		g.fillOval(a.getLeftEdge(), a.getTopEdge(), 16, 16);
 	}
