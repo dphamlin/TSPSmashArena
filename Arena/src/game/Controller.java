@@ -21,13 +21,13 @@ public class Controller {
 	private int buf;
 	
 	//button hold times
-	private int up = 0;
-	private int down = 0;
-	private int left = 0;
-	private int right = 0;
-	private int jump = 0;
-	private int fire = 0;
-	private int start = 0;
+	private int u = 0;
+	private int d = 0;
+	private int l = 0;
+	private int r = 0;
+	private int j = 0;
+	private int f = 0;
+	private int s = 0;
 
 	/*private boolean B_UP;
 	private boolean B_DOWN;
@@ -67,46 +67,46 @@ public class Controller {
 
 	//getters and setters for button durations
 	public int getUp() {
-		return up;
+		return u;
 	}
 	public void setUp(int up) {
-		this.up = up;
+		this.u = up;
 	}
 	public int getDown() {
-		return down;
+		return d;
 	}
 	public void setDown(int down) {
-		this.down = down;
+		this.d = down;
 	}
 	public int getLeft() {
-		return left;
+		return l;
 	}
 	public void setLeft(int left) {
-		this.left = left;
+		this.l = left;
 	}
 	public int getRight() {
-		return right;
+		return r;
 	}
 	public void setRight(int right) {
-		this.right = right;
+		this.r = right;
 	}
 	public int getJump() {
-		return jump;
+		return j;
 	}
 	public void setJump(int jump) {
-		this.jump = jump;
+		this.j = jump;
 	}
 	public int getFire() {
-		return fire;
+		return f;
 	}
 	public void setFire(int fire) {
-		this.fire = fire;
+		this.f = fire;
 	}
 	public int getStart() {
-		return start;
+		return s;
 	}
 	public void setStart(int start) {
-		this.start = start;
+		this.s = start;
 	}
 
 	//getters and setters for buffer fields
