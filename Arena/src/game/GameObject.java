@@ -12,6 +12,7 @@ public abstract class GameObject {
 	private int vx = 0, vy = 0;
 	private int w, h;
 	private int frame;
+	private int skin;
 	private boolean dead = false;
 	
 	/**
@@ -170,6 +171,9 @@ public abstract class GameObject {
 	public int getFrame() {
 		return frame;
 	}
+	public int getSkin() {
+		return skin;
+	}
 
 	/*
 	 * Setters for basic properties
@@ -195,6 +199,10 @@ public abstract class GameObject {
 	public void setFrame(int frame) {
 		this.frame = frame;
 	}
+	public void setSkin(int skin) {
+		this.skin = skin;
+	}
+
 	public boolean isDead() {
 		return dead;
 	}

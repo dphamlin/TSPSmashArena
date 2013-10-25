@@ -19,7 +19,6 @@ public class Actor extends GameObject {
 	private int lives;
 
 	//eventually replace this with a reference to a "character archetype"
-	private int skin;
 	private int runSpeed;
 	private int jumpPower;
 	private int shotDelay;
@@ -66,6 +65,7 @@ public class Actor extends GameObject {
 		super(x, y);
 		RoleModel rm = Warehouse.getCharacters()[model];
 		setModel(model);
+		setSkin(rm.getSkin());
 		setW(rm.getW());
 		setH(rm.getH());
 	}*/
@@ -124,12 +124,6 @@ public class Actor extends GameObject {
 	}
 
 	//TODO: Make these reference a RoleModel's values instead
-	public int getSkin() {
-		return skin;
-	}
-	public void setSkin(int skin) {
-		this.skin = skin;
-	}
 	public int getRunSpeed() {
 		return runSpeed;
 	}

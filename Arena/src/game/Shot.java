@@ -40,6 +40,7 @@ public class Shot extends GameObject {
 	//TODO: Add required classes for this to work
 	/*public Shot(ShotModel base, Actor source) {
 		this.source = source;
+		setSkin(base.getSkin());
 		this.type = base.getType();
 		this.lifeTime = base.getLife();
 		setW(base.getW());
