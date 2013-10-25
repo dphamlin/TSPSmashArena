@@ -7,7 +7,6 @@ import com.google.gson.*;
 
 public class Server {
 	
-	private Gson jsonGen;
 	private ServerSocket serverSocket;
 	private ArrayList<Participant> participantList;
 	private int numberOfPlayers = 0;
@@ -22,6 +21,7 @@ public class Server {
 		game = new ServerGameState();
 		json = new Gson();
 		timer = new StopWatch(19);
+		System.out.println("Server started!"/*+Inet4Address.getLocalHost()*/);
 	}
 	
 	Server(int port) throws IOException {
@@ -83,6 +83,7 @@ public class Server {
 	
 	// Writes the current game state to all clients as a JSON string
 	public void writeGameStateToAll(ArrayList<Participant> aParticipantList) { 
+		System.out.println(json.toJson(getGameState()));
 		for (Participant p: aParticipantList) {
 			p.writeToClient(json.toJson(getGameState()));
 		}
@@ -105,6 +106,7 @@ public class Server {
 				RemoteParticipant p = new RemoteParticipant(s);
 				p.setPlayer(getGameState().addPlayer());
 				newParticipantList.add(p);
+				System.out.println("Player: "+(i+1)+" connected.");
 			}
 		}
 		return newParticipantList;
@@ -136,9 +138,6 @@ public class Server {
 		}
 		Thread.currentThread().stop(); // Deprecated and bad, but I need results now
 		*/
-		jsonGen = new Gson();
-		Scanner inputScanner = new Scanner(System.in);
-		
 		getGameState().initTestLevel();
 		
 		// Connect clients and adds them to the participantList
