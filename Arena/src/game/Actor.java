@@ -107,6 +107,7 @@ public class Actor extends GameObject {
 		this.lives = lives;
 	}
 
+	//TODO: Make these reference a RoleModel's values instead
 	public int getSkin() {
 		return skin;
 	}
