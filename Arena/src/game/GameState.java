@@ -37,9 +37,6 @@ public abstract class GameState {
 		level = g.getLevel();
 		bullets = g.getBullets();
 		powerups = g.getPowerups();
-		/*for (int i = 0; i < g.getNumberOfPlayers(); i++) {
-			players.add(g.getPlayer(i));
-		}*/
 		stage = g.getStage();
 		frameNumber = g.getFrameNumber();
 	}
@@ -48,10 +45,7 @@ public abstract class GameState {
 	 * Add another player to the game (test)
 	 */
 	public Actor addPlayer() {
-		//Player p = new Player();
 		Actor a = new Actor(200+fighters.size()*100, 100);
-		//p.setAvatar(a);
-		//players.add(p);
 		fighters.add(a);
 		return a;
 	}
@@ -72,6 +66,30 @@ public abstract class GameState {
 		level.add(new Land(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, Land.SOLID));
 		level.add(new Land(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
 	}
+	
+	/**
+	 * Initialize the level off of a Blueprint from the static list
+	 * @param i
+	 * 		the level number to load
+	 */
+	//TODO: The classes needed to use this
+	/*public void setLevel(int i) {
+		//clean up potential leftovers
+		level.clear();
+		bullets.clear();
+		powerups.clear();
+		//grab the level blueprint
+		Blueprint nMap = Warehouse.getMaps()[i];
+		
+		//construct level
+		stage = i;
+		//TODO: Store BG and BGM in GameState
+		for (LandModel lm : nMap.getPieces()) {
+			level.add(new Land(lm));
+		}
+		//TODO: Set spawn points?
+	}*/
+	
 
 	/**
 	 * Get a list of the current fighters

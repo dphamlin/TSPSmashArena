@@ -14,16 +14,17 @@ public class Server {
 	private ServerGameState game;
 	private Gson json;
 	private StopWatch timer;
+	private static int port = 5379;
 	
 	Server() throws IOException {
-		serverSocket = new ServerSocket(5379);
+		serverSocket = new ServerSocket(port);
 		participantList = new ArrayList<Participant>();
 		game = new ServerGameState();
 		json = new Gson();
 		timer = new StopWatch(19);
 		System.out.println("Server started!"/*+Inet4Address.getLocalHost()*/);
 	}
-	
+
 	Server(int port) throws IOException {
 		serverSocket = new ServerSocket(port);
 		participantList = new ArrayList<Participant>();

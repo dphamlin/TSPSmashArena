@@ -13,10 +13,11 @@ public class Land extends GameObject {
 	public static final int DANGER = 4;
 	public static final int WATER = 8;
 	public static final int SLIP = 16;
-	private static final int MAX = 31; //sum of all previous
+	public static final int LEVEL = 32; //for in-game level select
+	private static final int MAX = 63; //sum of all previous
 	
 	//current state is a bitmask
-	private int state;
+	private int type;
 	
 	/**
 	 * Construct a rectangular land at the set space
@@ -29,43 +30,56 @@ public class Land extends GameObject {
 	 */
 	public Land(int x, int y, int w, int h, int type) {
 		super(x, y, w, h);
-		state = type;
+		this.type = type;
 	}
+	
+	/**
+	 * Build a Land from storage
+	 * 
+	 * @param model
+	 * 		the stored form of the land
+	 */
+	//TODO: The classes required for this to work
+	/*public Land(LandModel model) {
+		super(model.getX(), model.getY(), model.getW(), model.getH());
+		this.type = model.getType();
+		setSkin(model.getSkin());
+	}*/
 	
 	/*land detail getter and setters*/
 	public boolean isSolid() {
-		return (state&SOLID) > 0;
+		return (type&SOLID) > 0;
 	}
 	public void setSolid(boolean b) {
-		if (b) state |= SOLID;
-		else state &= MAX-SOLID;
+		if (b) type |= SOLID;
+		else type &= MAX-SOLID;
 	}
 	public boolean isPlatform() {
-		return (state&PLATFORM) > 0;
+		return (type&PLATFORM) > 0;
 	}
 	public void setPlatform(boolean b) {
-		if (b) state |= PLATFORM;
-		else state &= MAX-PLATFORM;
+		if (b) type |= PLATFORM;
+		else type &= MAX-PLATFORM;
 	}
 	public boolean isDanger() {
-		return (state&DANGER) > 0;
+		return (type&DANGER) > 0;
 	}
 	public void setDanger(boolean b) {
-		if (b) state |= DANGER;
-		else state &= MAX-DANGER;
+		if (b) type |= DANGER;
+		else type &= MAX-DANGER;
 	}
 	public boolean isWater() {
-		return (state&WATER) > 0;
+		return (type&WATER) > 0;
 	}
 	public void setWater(boolean b) {
-		if (b) state |= WATER;
-		else state &= MAX-WATER;
+		if (b) type |= WATER;
+		else type &= MAX-WATER;
 	}
 	public boolean isSlip() {
-		return (state&SLIP) > 0;
+		return (type&SLIP) > 0;
 	}
 	public void setSlip(boolean b) {
-		if (b) state |= SLIP;
-		else state &= MAX-SLIP;
+		if (b) type |= SLIP;
+		else type &= MAX-SLIP;
 	}
 }

@@ -6,7 +6,7 @@ package game;
  * @author Jacob Charles
  */
 public class TestDriver {
-	
+
 	/**
 	 * Local game testing
 	 * 
@@ -27,7 +27,7 @@ public class TestDriver {
 			t.loopStart();
 			c.update();
 			for (int i = 0; i < gs.getNumberOfPlayers(); i++){
-				gs.readControls(gs.getPlayer(i), c);				
+				gs.readControls(gs.getPlayer(i), c); //using a hackish version to not create a Participant
 			}
 			gs.update();
 			v.reDraw(gs.convert());

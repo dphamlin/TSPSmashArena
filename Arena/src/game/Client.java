@@ -16,6 +16,7 @@ public class Client {
 	private Controller controller;
 	private View view;
 	private StopWatch timer;
+	private static int port = 5379;
 	
 	Client (InetAddress addr, int port) throws IOException { 
 		setSocket(new Socket(addr,port)); // Establish connection
@@ -123,7 +124,7 @@ public class Client {
 		choice = inputScanner.nextInt();
 		
 		InetAddress serverAddr = InetAddress.getLoopbackAddress(); // default IP address
-		int serverPort = 5379; // default port
+		int serverPort = port; // default port
 	
 		try {
 			if (choice != 0){ // Otherwise, prompt for IP address and port, interpret, then connect
