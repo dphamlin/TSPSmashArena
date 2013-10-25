@@ -11,9 +11,9 @@ public abstract class GameObject {
 	private int x, y;
 	private int vx = 0, vy = 0;
 	private int w, h;
-	private int frame;
-	private int skin;
-	private boolean dead = false;
+	private int f;
+	private int sk;
+	private boolean d = false;
 	
 	/**
 	 * "Do nothing" generic constructor
@@ -169,10 +169,10 @@ public abstract class GameObject {
 		return h;
 	}
 	public int getFrame() {
-		return frame;
+		return f;
 	}
 	public int getSkin() {
-		return skin;
+		return sk;
 	}
 
 	/*
@@ -197,16 +197,16 @@ public abstract class GameObject {
 		this.h = h;
 	}
 	public void setFrame(int frame) {
-		this.frame = frame;
+		this.f = frame;
 	}
 	public void setSkin(int skin) {
-		this.skin = skin;
+		this.sk = skin;
 	}
 
 	public boolean isDead() {
-		return dead;
+		return d;
 	}
 	public void setDead(boolean dead) {
-		this.dead = dead;
+		this.d = dead;
 	}
 }

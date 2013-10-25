@@ -12,13 +12,12 @@ import java.util.*;
 
 public abstract class GameState {
 
-	private ArrayList<Actor> fighters = new ArrayList<Actor>();
-	private ArrayList<Land> level = new ArrayList<Land>();
-	private ArrayList<Shot> bullets = new ArrayList<Shot>();
-	private ArrayList<Item> powerups = new ArrayList<Item>();
-	//private ArrayList<Player> players = new ArrayList<Player>();
-	private int stage;
-	private int frameNumber = 0;
+	private ArrayList<Actor> f = new ArrayList<Actor>();
+	private ArrayList<Land> l = new ArrayList<Land>();
+	private ArrayList<Shot> b = new ArrayList<Shot>();
+	private ArrayList<Item> p = new ArrayList<Item>();
+	private int s;
+	private int fn = 0;
 	public static final int WIDTH = 640, HEIGHT = 480;
 
 	/**
@@ -33,20 +32,20 @@ public abstract class GameState {
 	 * 		GameState to control
 	 */
 	public GameState(GameState g) {
-		fighters = g.getFighters();
-		level = g.getLevel();
-		bullets = g.getBullets();
-		powerups = g.getPowerups();
-		stage = g.getStage();
-		frameNumber = g.getFrameNumber();
+		f = g.getFighters();
+		l = g.getLevel();
+		b = g.getBullets();
+		p = g.getPowerups();
+		s = g.getStage();
+		fn = g.getFrameNumber();
 	}
 
 	/**
 	 * Add another player to the game (test)
 	 */
 	public Actor addPlayer() {
-		Actor a = new Actor(200+fighters.size()*100, 100);
-		fighters.add(a);
+		Actor a = new Actor(200+f.size()*100, 100);
+		f.add(a);
 		return a;
 	}
 
@@ -54,17 +53,16 @@ public abstract class GameState {
 	 * Construct a basic level (test)
 	 */
 	public void initTestLevel() {
-		fighters.clear();
-		level.clear();
-		bullets.clear();
-		powerups.clear();
-		//players.clear();
-		stage = -1;
+		f.clear();
+		l.clear();
+		b.clear();
+		p.clear();
+		s = -1;
 		//a solid base and three platforms
-		level.add(new Land(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, Land.SOLID));
-		level.add(new Land(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
-		level.add(new Land(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, Land.SOLID));
-		level.add(new Land(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
+		l.add(new Land(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, Land.SOLID));
+		l.add(new Land(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
+		l.add(new Land(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, Land.SOLID));
+		l.add(new Land(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
 	}
 	
 	/**
@@ -75,17 +73,17 @@ public abstract class GameState {
 	//TODO: The classes needed to use this
 	/*public void setLevel(int i) {
 		//clean up potential leftovers
-		level.clear();
-		bullets.clear();
-		powerups.clear();
+		l.clear();
+		b.clear();
+		p.clear();
 		//grab the level blueprint
 		Blueprint nMap = Warehouse.getMaps()[i];
 		
 		//construct level
-		stage = i;
+		s = i;
 		//TODO: Store BG and BGM in GameState
 		for (LandModel lm : nMap.getPieces()) {
-			level.add(new Land(lm));
+			l.add(new Land(lm));
 		}
 		//TODO: Set spawn points?
 	}*/
@@ -97,7 +95,7 @@ public abstract class GameState {
 	 * @return an ArrayList of Actors
 	 */
 	public ArrayList<Actor> getFighters() {
-		return fighters;
+		return f;
 	}
 
 	/**
@@ -106,7 +104,7 @@ public abstract class GameState {
 	 * @return an ArrayList of Land objects
 	 */
 	public ArrayList<Land> getLevel() {
-		return level;
+		return l;
 	}
 
 	/**
@@ -115,7 +113,7 @@ public abstract class GameState {
 	 * @return an ArrayList of Shots
 	 */
 	public ArrayList<Shot> getBullets() {
-		return bullets;
+		return b;
 	}
 
 	/**
@@ -124,7 +122,7 @@ public abstract class GameState {
 	 * @return an ArrayList of Items
 	 */
 	public ArrayList<Item> getPowerups() {
-		return powerups;
+		return p;
 	}
 
 	/**
@@ -134,7 +132,7 @@ public abstract class GameState {
 	 * 		number of players in the game
 	 */
 	public int getNumberOfPlayers() {
-		return fighters.size();
+		return f.size();
 	}
 
 	/**
@@ -146,7 +144,7 @@ public abstract class GameState {
 	 * 		a Player object
 	 */
 	public Actor getPlayer(int n) {
-		return fighters.get(n);
+		return f.get(n);
 	}
 
 	/**
@@ -155,27 +153,27 @@ public abstract class GameState {
 	 * 		the current stage number
 	 */
 	public int getStage() {
-		return stage;
+		return s;
 	}
 
 	/**
 	 * @return the frame number
 	 */
 	public int getFrameNumber() {
-		return frameNumber;
+		return fn;
 	}
 
 	/**
 	 * reset the loop number
 	 */
 	public void resetFrames() {
-		this.frameNumber = 0;
+		this.fn = 0;
 	}
 
 	/**
 	 * increment the loop number
 	 */
 	public void incrementFrames() {
-		this.frameNumber++;
+		this.fn++;
 	}
 }

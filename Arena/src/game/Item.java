@@ -9,27 +9,27 @@ package game;
 
 public class Item extends GameObject {
 
-	private int type;
-	private int subType;
-	private int lifeTime;
+	private int t;
+	private int st;
+	private int l;
 
 	/*getters and setters for attributes*/
 	public int getType() {
-		return type;
+		return t;
 	}
 	public void setType(int type) {
-		this.type = type;
+		this.t = type;
 	}
 	public int getSubType() {
-		return subType;
+		return st;
 	}
 	public void setSubType(int subType) {
-		this.subType = subType;
+		this.st = subType;
 	}
 	public int getLifeTime() {
-		return lifeTime;
+		return l;
 	}
 	public void setLifeTime(int lifeTime) {
-		this.lifeTime = lifeTime;
+		this.l = lifeTime;
 	}
 }

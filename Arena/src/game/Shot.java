@@ -7,9 +7,9 @@ package game;
  *
  */
 public class Shot extends GameObject {
-	private int type;
-	private int lifeTime;
-	private Actor source; //null means no source, can hurt anyone
+	private int t;
+	private int l;
+	private Actor s; //null means no source, can hurt anyone
 
 	/**
 	 * Do-nothing constructor
@@ -27,7 +27,7 @@ public class Shot extends GameObject {
 	 */
 	public Shot(int x, int y, Actor source) {
 		super(x, y);
-		this.source = source;
+		this.s = source;
 	}
 	
 	/**
@@ -59,21 +59,21 @@ public class Shot extends GameObject {
 	
 	/*getters and setters for attributes*/
 	public int getType() {
-		return type;
+		return t;
 	}
 	public void setType(int type) {
-		this.type = type;
+		this.t = type;
 	}
 	public int getLifeTime() {
-		return lifeTime;
+		return l;
 	}
 	public void setLifeTime(int lifeTime) {
-		this.lifeTime = lifeTime;
+		this.l = lifeTime;
 	}
 	public Actor getSource() {
-		return source;
+		return s;
 	}
 	public void setSource(Actor source) {
-		this.source = source;
+		this.s = source;
 	}
 }

@@ -13,11 +13,11 @@ public class Land extends GameObject {
 	public static final int DANGER = 4;
 	public static final int WATER = 8;
 	public static final int SLIP = 16;
-	public static final int LEVEL = 32; //for in-game level select
+	public static final int WARP = 32; //for in-game level select
 	private static final int MAX = 63; //sum of all previous
 	
-	//current state is a bitmask
-	private int type;
+	//current type is a bitmask
+	private int t;
 	
 	/**
 	 * Construct a rectangular land at the set space
@@ -25,12 +25,12 @@ public class Land extends GameObject {
 	 * @param y
 	 * @param w
 	 * @param h
-	 * @param type
-	 * 		bitmask of the platform type
+	 * @param t
+	 * 		bitmask of the platform t
 	 */
-	public Land(int x, int y, int w, int h, int type) {
+	public Land(int x, int y, int w, int h, int t) {
 		super(x, y, w, h);
-		this.type = type;
+		this.t = t;
 	}
 	
 	/**
@@ -42,44 +42,44 @@ public class Land extends GameObject {
 	//TODO: The classes required for this to work
 	/*public Land(LandModel model) {
 		super(model.getX(), model.getY(), model.getW(), model.getH());
-		this.type = model.getType();
+		this.t = model.gett();
 		setSkin(model.getSkin());
 	}*/
 	
 	/*land detail getter and setters*/
 	public boolean isSolid() {
-		return (type&SOLID) > 0;
+		return (t&SOLID) > 0;
 	}
 	public void setSolid(boolean b) {
-		if (b) type |= SOLID;
-		else type &= MAX-SOLID;
+		if (b) t |= SOLID;
+		else t &= MAX-SOLID;
 	}
 	public boolean isPlatform() {
-		return (type&PLATFORM) > 0;
+		return (t&PLATFORM) > 0;
 	}
 	public void setPlatform(boolean b) {
-		if (b) type |= PLATFORM;
-		else type &= MAX-PLATFORM;
+		if (b) t |= PLATFORM;
+		else t &= MAX-PLATFORM;
 	}
 	public boolean isDanger() {
-		return (type&DANGER) > 0;
+		return (t&DANGER) > 0;
 	}
 	public void setDanger(boolean b) {
-		if (b) type |= DANGER;
-		else type &= MAX-DANGER;
+		if (b) t |= DANGER;
+		else t &= MAX-DANGER;
 	}
 	public boolean isWater() {
-		return (type&WATER) > 0;
+		return (t&WATER) > 0;
 	}
 	public void setWater(boolean b) {
-		if (b) type |= WATER;
-		else type &= MAX-WATER;
+		if (b) t |= WATER;
+		else t &= MAX-WATER;
 	}
 	public boolean isSlip() {
-		return (type&SLIP) > 0;
+		return (t&SLIP) > 0;
 	}
 	public void setSlip(boolean b) {
-		if (b) type |= SLIP;
-		else type &= MAX-SLIP;
+		if (b) t |= SLIP;
+		else t &= MAX-SLIP;
 	}
 }

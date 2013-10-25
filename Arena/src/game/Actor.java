@@ -9,22 +9,22 @@ package game;
 public class Actor extends GameObject {
 
 	//current data
-	private int airTime;
-	private int deadTime;
-	private int reload;
+	private int at;
+	private int dt;
+	private int r;
 	private int dir = 1;
-	private int powerup;
-	private Land onLand;
-	private int score;
-	private int lives;
+	private int p;
+	private Land ol;
+	private int s;
+	private int l;
 
+	private int m; //selected RoleModel from the Warehouse
 	//eventually replace this with a reference to a "character archetype"
 	private int runSpeed;
 	private int jumpPower;
 	private int shotDelay;
 	private int shotSpeed, shotLife;
 	private int shotWid, shotHei;
-	//private int model; //selected RoleModel from the Warehouse
 	
 	/**
 	 * Spawn a player character a location
@@ -37,9 +37,9 @@ public class Actor extends GameObject {
 	public Actor (int x, int y) {
 		super(x, y, 16, 16);
 		dir = 1;
-		airTime = 1;
-		onLand = null;
-		powerup = 0;
+		at = 1;
+		ol = null;
+		p = 0;
 		
 		//default stats
 		runSpeed = 3;
@@ -72,22 +72,22 @@ public class Actor extends GameObject {
 	
 	/*getters and setters for attributes*/
 	public int getAirTime() {
-		return airTime;
+		return at;
 	}
 	public void setAirTime(int airTime) {
-		this.airTime = airTime;
+		this.at = airTime;
 	}
 	public int getDeadTime() {
-		return deadTime;
+		return dt;
 	}
 	public void setDeadTime(int deadTime) {
-		this.deadTime = deadTime;
+		this.dt = deadTime;
 	}
 	public int getReload() {
-		return reload;
+		return r;
 	}
 	public void setReload(int reload) {
-		this.reload = reload;
+		this.r = reload;
 	}
 	public int getDir() {
 		return dir;
@@ -96,31 +96,31 @@ public class Actor extends GameObject {
 		this.dir = dir;
 	}
 	public int getPowerup() {
-		return powerup;
+		return p;
 	}
 	public void setEquip(int powerup) {
-		this.powerup = powerup;
+		this.p = powerup;
 	}
 	public Land getOnLand() {
-		return onLand;
+		return ol;
 	}
 	public void setOnLand(Land onLand) {
-		this.onLand = onLand;
+		this.ol = onLand;
 	}
 	public int getScore() {
-		return score;
+		return s;
 	}
 
 	public void setScore(int score) {
-		this.score = score;
+		this.s = score;
 	}
 
 	public int getLives() {
-		return lives;
+		return l;
 	}
 
 	public void setLives(int lives) {
-		this.lives = lives;
+		this.l = lives;
 	}
 
 	//TODO: Make these reference a RoleModel's values instead
@@ -166,14 +166,13 @@ public class Actor extends GameObject {
 	public void setShotHei(int shotHei) {
 		this.shotHei = shotHei;
 	}
-
 	//TODO: add and adjust the getters and setters here, to use the RoleModel's other features
 
 	//getter and setter for basic player type
-	/*public int getModel() {
-		return model;
+	public int getModel() {
+		return m;
 	}
 	public void setModel(int model) {
-		this.model = model;
-	}*/
+		this.m = model;
+	}
 }
