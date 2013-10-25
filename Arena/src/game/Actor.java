@@ -17,14 +17,15 @@ public class Actor extends GameObject {
 	private Land onLand;
 	private int score;
 	private int lives;
-	
-	//eventually replace this with a reference to a "character archetype?"
+
+	//eventually replace this with a reference to a "character archetype"
 	private int skin;
 	private int runSpeed;
 	private int jumpPower;
 	private int shotDelay;
 	private int shotSpeed, shotLife;
 	private int shotWid, shotHei;
+	//private int model; //selected RoleModel from the Warehouse
 	
 	/**
 	 * Spawn a player character a location
@@ -33,9 +34,6 @@ public class Actor extends GameObject {
 	 * 		starting x
 	 * @param y
 	 * 		starting y
-	 * @param owner
-	 * 		associated player object
-	 * TODO: Associate this with a "base" player
 	 */
 	public Actor (int x, int y) {
 		super(x, y, 16, 16);
@@ -53,6 +51,24 @@ public class Actor extends GameObject {
 		shotWid = 8;
 		shotHei = 8;
 	}
+	
+	/**
+	 * Spawn a player with a given archetype and location
+	 * 
+	 * @param x
+	 *		start x
+	 * @param y
+	 * 		start y
+	 * @param model
+	 * 		which player the character is using
+	 */
+	/*public Actor (int x, int y, int model) {
+		super(x, y);
+		RoleModel rm = Warehouse.getCharacters()[model];
+		setModel(model);
+		setW(rm.getW());
+		setH(rm.getH());
+	}*/
 	
 	/*getters and setters for attributes*/
 	public int getAirTime() {
@@ -156,4 +172,14 @@ public class Actor extends GameObject {
 	public void setShotHei(int shotHei) {
 		this.shotHei = shotHei;
 	}
+
+	//TODO: add and adjust the getters and setters here, to use the RoleModel's other features
+
+	//getter and setter for basic player type
+	/*public int getModel() {
+		return model;
+	}
+	public void setModel(int model) {
+		this.model = model;
+	}*/
 }

@@ -70,6 +70,7 @@ public abstract class GameState {
 	/**
 	 * Initialize the level off of a Blueprint from the static list
 	 * @param i
+	 * 		the level number to load
 	 */
 	//TODO: The classes needed to use this
 	/*public void setLevel(int i) {
