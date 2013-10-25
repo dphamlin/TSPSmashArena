@@ -34,7 +34,10 @@ public class Client {
 		setStateString(getReader().readLine()); // Should block until line received from server
 	}
 	
-	public void setState(GameState g) {
+	public void setState(GameState g) throws Exception {
+		if (g == null)
+				throw new Exception("Null game state.");
+		
 		this.game = (ClientGameState) g; // Will be casting (ServerGameState) objects to ClientGameState
 		// May need to instead 'update' current game state with information from read game state
 		// in case client-side information is lost by the cast.
@@ -44,7 +47,7 @@ public class Client {
 		return this.game;
 	}
 	
-	public void readGameState() throws IOException {
+	public void readGameState() throws IOException, Exception {
 		setState(json.fromJson(getReader().readLine(), ClientGameState.class));
 	}
 	
