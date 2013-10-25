@@ -538,8 +538,8 @@ public class ServerGameState extends GameState {
 		s.setY(s.getY()+s.getVy());
 
 		//out of bounds removal
-		if (s.getBottomEdge() < s.getH() || s.getTopEdge() > GameState.HEIGHT+s.getH()
-				|| s.getRightEdge() < s.getW() || s.getLeftEdge() > GameState.WIDTH+s.getW()) {
+		if (s.getBottomEdge() < s.getH()*2 || s.getTopEdge() > GameState.HEIGHT+s.getH()*2
+				|| s.getRightEdge() < s.getW()*2 || s.getLeftEdge() > GameState.WIDTH+s.getW()*2) {
 			s.setDead(true);
 		}
 	}

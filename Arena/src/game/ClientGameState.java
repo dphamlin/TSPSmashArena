@@ -59,8 +59,12 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void drawFighters(Graphics g) {
-		for (Actor a : getFighters()) {
-			draw(a, g);
+		Color c[] = {Color.BLACK, Color.BLUE, Color.DARK_GRAY, Color.GREEN, Color.YELLOW, Color.LIGHT_GRAY};
+		//for (Actor a : getFighters()) {
+		for (int i = 0; i < getFighters().size(); i++) {
+			g.setColor(c[i]);
+			draw(getFighters().get(i), g);
+			//draw(a, g);
 		}
 	}
 	
@@ -99,7 +103,7 @@ public class ClientGameState extends GameState {
 	private void draw(Actor a, Graphics g) {
 		//TODO: Make this draw an image with transparency
 		if (a.isDead()) return;
-		g.setColor(Color.BLACK);
+		//g.setColor(Color.BLACK);
 		g.fillOval(a.getLeftEdge(), a.getTopEdge(), 16, 16);
 		g.fillRect(a.getHCenter(), a.getTopEdge(), -a.getW()*a.getDir()/2, a.getH());
 		g.fillRect(a.getLeftEdge(), a.getTopEdge(), a.getW()*a.getDir()/2, a.getH());
