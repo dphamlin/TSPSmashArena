@@ -10,6 +10,7 @@ public class Shot extends GameObject {
 	private int t; //type
 	private int l; //life time
 	private Actor s; //source, null means no source, can hurt anyone
+	//TODO: Remove the Actor reference here, to reduce gson packet size
 
 	/**
 	 * Do-nothing constructor

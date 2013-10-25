@@ -45,9 +45,7 @@ public abstract class GameState {
 	 * Add another player to the game (test)
 	 */
 	public Actor addPlayer() {
-		Actor a = new Actor(200+f.size()*100, 100, 0);
-		f.add(a);
-		return a;
+		return addPlayer(0);
 	}
 	
 	/**
@@ -57,7 +55,7 @@ public abstract class GameState {
 	 * 		the character they selected to spawn as
 	 */
 	public Actor addPlayer(int character) {
-		Actor a = new Actor(200+f.size()*100, 100, character);
+		Actor a = new Actor(200+f.size()*100, 100, character); //TODO: Proper spawn points
 		f.add(a);
 		return a;
 	}

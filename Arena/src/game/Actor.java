@@ -52,13 +52,13 @@ public class Actor extends GameObject {
 	 *		start x
 	 * @param y
 	 * 		start y
-	 * @param model
+	 * @param character
 	 * 		which player the character is using
 	 */
-	public Actor (int x, int y, int model) {
+	public Actor (int x, int y, int character) {
 		super(x, y);
-		RoleModel rm = Warehouse.getCharacters()[model];
-		setModel(model);
+		RoleModel rm = Warehouse.getCharacters()[character];
+		setModel(character);
 		setSkin(rm.getSkin());
 		setW(rm.getW());
 		setH(rm.getH());
@@ -117,17 +117,37 @@ public class Actor extends GameObject {
 		this.l = lives;
 	}
 
-	/*getters to the RoleModel's methods*/
+	/*getters to the RoleModel's properties*/
+	public int getSkin() {
+		return Warehouse.getCharacters()[m].getSkin();
+	}
 	public int getRunSpeed() {
 		return Warehouse.getCharacters()[m].getRunSpeed();
+	}
+	public int getAirSpeed() {
+		return Warehouse.getCharacters()[m].getAirSpeed();
+	}
+	public int getRunMomentum() {
+		return Warehouse.getCharacters()[m].getRunMomentum();
+	}
+	public int getAirMomentum() {
+		return Warehouse.getCharacters()[m].getAirMomentum();
 	}
 	public int getJumpPower() {
 		return Warehouse.getCharacters()[m].getJumpPower();
 	}
+	public int getTermVel() {
+		return Warehouse.getCharacters()[m].getTermVel();
+	}
+	public int getGravNum() {
+		return Warehouse.getCharacters()[m].getGravNum();
+	}
+	public int getGravDen() {
+		return Warehouse.getCharacters()[m].getGravDen();
+	}
 	public int getShotDelay() {
 		return Warehouse.getCharacters()[m].getShotDelay();
 	}
-	//TODO: add more getters here, to use the RoleModel's other features
 	public ShotModel getShot() {
 		return Warehouse.getCharacters()[m].getShotType();
 	}

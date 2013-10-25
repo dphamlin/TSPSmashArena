@@ -24,13 +24,39 @@ public class Warehouse {
 	//lizard man
 	private static RoleModel lizardman() {
 		RoleModel r = new RoleModel();
-		//TODO: fill out stats
+		//standard size
+		r.setW(16);
+		r.setH(16);
+		
+		//fast on the ground
+		r.setRunSpeed(4);
+		r.setRunMomentum(0);
+		
+		//sluggish in the air
+		r.setAirSpeed(1);
+		r.setAirMomentum(75);
+		
+		//fairly standard jump and fall
+		r.setJumpPower(10);
+		r.setTermVel(10);
+		
+		//standard gravity
+		r.setGravNum(1);
+		r.setGravNum(1);
+		
+		//slow-shooting
+		r.setShotDelay(40);
 		r.setShotType(lizardShot());
 		return r;
 	}
 	private static ShotModel lizardShot() {
 		ShotModel s = new ShotModel();
-		//TODO: fill out bullet stats
+		s.setH(8);
+		s.setW(24);
+		s.setLife(20);
+		s.setSpeed(20);
+		s.setType(0);
+		s.setSkin(0);
 		return s;
 	}
 	

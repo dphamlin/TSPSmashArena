@@ -136,7 +136,8 @@ public class ServerGameState extends GameState {
 	 * 		the actor to extend the jump of
 	 */
 	private void holdJump (Actor a) {
-		if (a.getVy() == 1-a.getJumpPower()) {
+		//TODO: Make sure this still works if I do smoother custom gravity
+		if (a.getVy() == a.getGravNum()-a.getJumpPower()) {
 			a.setVy(-a.getJumpPower());
 		}
 	}
@@ -176,18 +177,20 @@ public class ServerGameState extends GameState {
 	 * 		LEFT, RIGHT, or STOP, the direction to run
 	 */
 	private void run (Actor a, int dir) {
-		//TODO: Air/land differences?
+		//limit and set direction
 		if (dir > RIGHT) dir = RIGHT;
 		if (dir < LEFT) dir = LEFT;
-
-		if (dir == STOP) {
-			a.setVx(STOP);
-			return; //don't update anything else
-		}
-
-		a.setVx(dir*a.getRunSpeed());
 		if (dir != 0) {
 			a.setDir(dir);
+		}
+
+		//in the air
+		if (a.getAirTime() > 0) {
+			a.setVx(a.getVx()+a.getAirSpeed()*dir);
+		}
+		//on the ground
+		else {
+			a.setVx(a.getVx()+a.getRunSpeed()*dir);
 		}
 	}
 
@@ -481,17 +484,35 @@ public class ServerGameState extends GameState {
 			collide(a, b);
 		}
 
+		//TODO: factor in potentially moving ground for friction
+		
 		//move along the ground
 		a.setX(a.getX()+a.getVx());
+		//apply ground friction and momentum
+		if (a.getAirTime() <= 0) {
+			a.setVx(a.getVx()*a.getRunMomentum()/100); //retain "runMomentum" % of your speed
+		}
 
 		//move through the air
 		if (a.getAirTime() > 0) {
+			//apply air friction and momentum
+			a.setVx(a.getVx()*a.getAirMomentum()/100); //retain "airMomentum" % of your speed
+			
+			//move vertically
 			a.setY(a.getY()+a.getVy());
-			a.setVy(a.getVy()+1); //TODO: determine what exact gravity to use
-			if (a.getVy() > 10) a.setVy(10); //TODO: Make a specific terminal velocity
+			
+			//TODO: Consider making a smoother version of this that also 
+			//apply gravNum every gravDen frames (a bit hackish, but not a float value)
+			if (a.getAirTime() % a.getGravDen() == 0) {
+				a.setVy(a.getVy()+a.getGravNum());				
+			}
+			
+			//apply terminal velocity
+			if (a.getVy() > a.getTermVel()) a.setVy(a.getTermVel());
 		}
+		//on the ground, stop moving
 		else {
-			a.setVy(0);
+			a.setVy(0); //TODO: factor in potentially moving ground
 		}
 
 		//falling off edges

@@ -8,10 +8,10 @@ package game;
 public class RoleModel {
 	private int skin; //sprite set
 	private int w, h; //allow for variable dimensions
-	private int runSpeed, airSpeed; //horizontal 'thrust'
-	private int runFrict, airFrict; //friction values ('percent' out of 128)
+	private int runSpeed, airSpeed; //horizontal 'thrust's
+	private int runMomentum, airMomentum; //friction values (percent out of 100)
 	private int jumpPower, termVel; //rise and fall cap speeds
-	private int gravNum, gravDen; //gravity strength (N per D frames)
+	private int gravNum = 1, gravDen = 1; //gravity strength (N per D frames)
 	private int shotDelay; //shot frequency
 	private ShotModel shotType; //what kind of bullet you shoot
 
@@ -46,17 +46,17 @@ public class RoleModel {
 	public void setAirSpeed(int airSpeed) {
 		this.airSpeed = airSpeed;
 	}
-	public int getRunFrict() {
-		return runFrict;
+	public int getRunMomentum() {
+		return runMomentum;
 	}
-	public void setRunFrict(int runFrict) {
-		this.runFrict = runFrict;
+	public void setRunMomentum(int runMomentum) {
+		this.runMomentum = runMomentum;
 	}
-	public int getAirFrict() {
-		return airFrict;
+	public int getAirMomentum() {
+		return airMomentum;
 	}
-	public void setAirFrict(int airFrict) {
-		this.airFrict = airFrict;
+	public void setAirMomentum(int airMomentum) {
+		this.airMomentum = airMomentum;
 	}
 	public int getJumpPower() {
 		return jumpPower;
