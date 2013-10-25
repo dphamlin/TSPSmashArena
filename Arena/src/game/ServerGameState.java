@@ -501,7 +501,8 @@ public class ServerGameState extends GameState {
 			//move vertically
 			a.setY(a.getY()+a.getVy());
 			
-			//TODO: Consider making a smoother version of this that also 
+			//TODO: Consider making a smoother version of this
+			//TODO: Figure out why gravity doesn't seem to be applying
 			//apply gravNum every gravDen frames (a bit hackish, but not a float value)
 			if (a.getAirTime() % a.getGravDen() == 0) {
 				a.setVy(a.getVy()+a.getGravNum());				
