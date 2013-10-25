@@ -43,6 +43,7 @@ public class Land extends GameObject {
 	/*public Land(LandModel model) {
 		super(model.getX(), model.getY(), model.getW(), model.getH());
 		this.type = model.getType();
+		setSkin(model.getSkin());
 	}*/
 	
 	/*land detail getter and setters*/
