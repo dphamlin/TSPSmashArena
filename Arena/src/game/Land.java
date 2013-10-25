@@ -17,7 +17,7 @@ public class Land extends GameObject {
 	private static final int MAX = 63; //sum of all previous
 	
 	//current type is a bitmask
-	private int t;
+	private int t; //type
 	
 	/**
 	 * Construct a rectangular land at the set space
@@ -39,12 +39,11 @@ public class Land extends GameObject {
 	 * @param model
 	 * 		the stored form of the land
 	 */
-	//TODO: The classes required for this to work
-	/*public Land(LandModel model) {
+	public Land(LandModel model) {
 		super(model.getX(), model.getY(), model.getW(), model.getH());
-		this.t = model.gett();
+		this.t = model.getType();
 		setSkin(model.getSkin());
-	}*/
+	}
 	
 	/*land detail getter and setters*/
 	public boolean isSolid() {

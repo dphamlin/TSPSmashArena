@@ -7,9 +7,9 @@ package game;
  *
  */
 public class Shot extends GameObject {
-	private int t;
-	private int l;
-	private Actor s; //null means no source, can hurt anyone
+	private int t; //type
+	private int l; //life time
+	private Actor s; //source, null means no source, can hurt anyone
 
 	/**
 	 * Do-nothing constructor
@@ -37,12 +37,11 @@ public class Shot extends GameObject {
 	 * @param source
 	 * 		actor source
 	 */
-	//TODO: Add required classes for this to work
-	/*public Shot(ShotModel base, Actor source) {
-		this.source = source;
+	public Shot(ShotModel base, Actor source) {
+		this.s = source;
 		setSkin(base.getSkin());
-		this.type = base.getType();
-		this.lifeTime = base.getLife();
+		this.t = base.getType();
+		this.l = base.getLife();
 		setW(base.getW());
 		setH(base.getH());
 		setVCenter(source.getVCenter());
@@ -55,7 +54,7 @@ public class Shot extends GameObject {
 			setRightEdge(source.getLeftEdge());
 			setVx(-base.getSpeed());
 		}
-	}*/
+	}
 	
 	/*getters and setters for attributes*/
 	public int getType() {

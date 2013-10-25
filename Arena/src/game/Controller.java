@@ -21,13 +21,13 @@ public class Controller {
 	private int buf;
 	
 	//button hold times
-	private int u = 0;
-	private int d = 0;
-	private int l = 0;
-	private int r = 0;
-	private int j = 0;
-	private int f = 0;
-	private int s = 0;
+	private int u = 0; //up
+	private int d = 0; //down
+	private int l = 0; //left
+	private int r = 0; //right
+	private int j = 0; //jump
+	private int f = 0; //fire
+	private int s = 0; //start
 
 	/*private boolean B_UP;
 	private boolean B_DOWN;

@@ -18,6 +18,7 @@ public abstract class GameState {
 	private ArrayList<Item> p = new ArrayList<Item>();
 	private int s;
 	private int fn = 0;
+	
 	public static final int WIDTH = 640, HEIGHT = 480;
 
 	/**
@@ -44,7 +45,19 @@ public abstract class GameState {
 	 * Add another player to the game (test)
 	 */
 	public Actor addPlayer() {
-		Actor a = new Actor(200+f.size()*100, 100);
+		Actor a = new Actor(200+f.size()*100, 100, 0);
+		f.add(a);
+		return a;
+	}
+	
+	/**
+	 * Add another player to the game (test)
+	 * 
+	 * @param model
+	 * 		the character they selected to spawn as
+	 */
+	public Actor addPlayer(int character) {
+		Actor a = new Actor(200+f.size()*100, 100, character);
 		f.add(a);
 		return a;
 	}
@@ -70,8 +83,7 @@ public abstract class GameState {
 	 * @param i
 	 * 		the level number to load
 	 */
-	//TODO: The classes needed to use this
-	/*public void setLevel(int i) {
+	public void setLevel(int i) {
 		//clean up potential leftovers
 		l.clear();
 		b.clear();
@@ -86,7 +98,7 @@ public abstract class GameState {
 			l.add(new Land(lm));
 		}
 		//TODO: Set spawn points?
-	}*/
+	}
 	
 
 	/**

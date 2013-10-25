@@ -9,9 +9,9 @@ package game;
 
 public class Item extends GameObject {
 
-	private int t;
-	private int st;
-	private int l;
+	private int t; //type
+	private int st; //subtype
+	private int l; //life time
 
 	/*getters and setters for attributes*/
 	public int getType() {
