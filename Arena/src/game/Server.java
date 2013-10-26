@@ -21,7 +21,7 @@ public class Server {
 		participantList = new ArrayList<Participant>();
 		game = new ServerGameState();
 		json = new Gson();
-		timer = new StopWatch(19);
+		timer = new StopWatch(20);
 		System.out.println("Server started!"/*+Inet4Address.getLocalHost()*/);
 	}
 
@@ -30,7 +30,7 @@ public class Server {
 		participantList = new ArrayList<Participant>();
 		game = new ServerGameState();
 		json = new Gson();
-		timer = new StopWatch(19);
+		timer = new StopWatch(20);
 	}
 	
 	public void setNumberOfPlayers(int numberOfPlayers) { // Proper functioning only guaranteed for >=1 value.

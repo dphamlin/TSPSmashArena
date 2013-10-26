@@ -120,37 +120,6 @@ public class ServerGameState extends GameState {
 			shoot(a);
 		}
 	}
-
-	/**
-	 * Get a list of the winners
-	 * 
-	 * @return a list of the winners
-	 */
-	public ArrayList<Integer> getWinners() {
-		ArrayList<Integer> winners = new ArrayList<Integer>();
-		//find winners for time mode
-		if (getMode() == TIME && isGameOver()) {
-			int hiscore = 0;
-			for (Actor a : getFighters()) {
-				if (a.getScore() > hiscore) { //score is higher, lose old winners
-					hiscore = a.getScore();
-					winners.clear();
-				}
-				if (a.getScore() == hiscore) { //log more than one winner
-					winners.add(new Integer(a.getId()));
-				}
-			}
-		}
-		//find winners for stock mode
-		if (getMode() == STOCK && isGameOver()) {
-			for (Actor a : getFighters()) {
-				if (a.getLives() > 0) { //only up to one will qualify
-					winners.add(new Integer(a.getId()));
-				}
-			}
-		}
-		return winners;
-	}
 	
 	/**
 	 * Update whether the game has ended or not
