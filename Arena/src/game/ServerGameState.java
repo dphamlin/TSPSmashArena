@@ -64,6 +64,9 @@ public class ServerGameState extends GameState {
 		}
 		//TODO: Other kinds of update logic here.
 
+		//check for the end of the game
+		checkEnd();
+		
 		//track the number of frames passed
 		incrementFrames();
 	}
@@ -117,10 +120,23 @@ public class ServerGameState extends GameState {
 		}
 	}
 
+	private void checkEnd() {
+		//there is only one (survivor)
+		if (getMode() == STOCK) {
+			setEnd(getLivingPlayers() < 2);
+		}
+		//time out
+		if (getMode() == TIME) {
+			setEnd(getFrameNumber() > getTime());
+		}
+		//traditionally, no other way to end a game
+		setEnd(false);
+	}
+	
 	/**
 	 * @return the number of players still alive
 	 */
-	public int getLivingPlayers() {
+	private int getLivingPlayers() {
 		int n = 0;
 		for (Actor a : getFighters()) {
 			if (a.getLives() > 0) n++;
@@ -238,8 +254,8 @@ public class ServerGameState extends GameState {
 	private void die (Actor a) {
 		a.setDeadTime(0);
 		a.setDead(true);
-		if (getMode() == STOCK) {
-			a.setLives(a.getLives()-1);
+		if (getMode() == STOCK  && !isGameOver()) {
+			a.loseLife();
 		}
 	}
 
@@ -398,6 +414,10 @@ public class ServerGameState extends GameState {
 		//die on touching danger
 		if (l.isDanger() && (v != NONE || h != NONE || ov)) {
 			die(a);
+			//TODO: Determine if you should lose points for level deaths
+			/*if (getMode() == TIME) {
+				a.setScore(a.getScore()-1);
+			}*/
 		}
 		if (l.isDanger()) return; //escape after application
 
@@ -460,6 +480,10 @@ public class ServerGameState extends GameState {
 			a.setBottomEdge(b.getTopEdge());
 			die(b);
 			jump(a);
+			//score a point
+			if (getMode() == TIME && !isGameOver()) {
+				a.getPoint();
+			}
 		}
 
 		//bounce each other back
@@ -507,6 +531,10 @@ public class ServerGameState extends GameState {
 		if (overlap(s, a) || vCollide(s, a) != NONE || hCollide(s, a) != NONE) {
 			s.setDead(true);
 			die(a);
+			//score a point
+			if (getMode() == TIME && !isGameOver()) {
+				getPlayer(s.getSource()).getPoint();
+			}
 		}
 	}
 

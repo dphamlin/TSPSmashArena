@@ -100,11 +100,17 @@ public class Actor extends GameObject {
 	public void setScore(int score) {
 		this.s = score;
 	}
+	public void getPoint() {
+		this.s++;
+	}
 	public int getLives() {
 		return l;
 	}
 	public void setLives(int lives) {
 		this.l = lives;
+	}
+	public void loseLife() {
+		this.l--;
 	}
 
 	/*getters to the RoleModel's properties*/

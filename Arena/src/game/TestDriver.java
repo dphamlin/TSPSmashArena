@@ -22,6 +22,7 @@ public class TestDriver {
 		StopWatch t = new StopWatch(20);
 		v.attachController(c);
 		gs.setLevel(0);
+		gs.setMode(GameState.TIME); //temporary game mode
 		gs.addPlayer(Warehouse.LIZARD); //first player
 		gs.addPlayer(Warehouse.SLIME); //second player
 		//gs.addPlayer(Warehouse.LIZARD); //third player
@@ -32,7 +33,7 @@ public class TestDriver {
 		System.out.println(new Gson().toJson(gs));
 
 		//main loop
-		while (v.isVisible() && c.getStart() < 1) {
+		while (v.isVisible()) {
 			t.loopStart();
 			c.update();
 			for (int i = 0; i < gs.getNumberOfPlayers(); i++){

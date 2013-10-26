@@ -103,6 +103,19 @@ public class ClientGameState extends GameState {
 			if (getMode() == STOCK) {
 				g.drawString("x"+getPlayer(i).getLives(), 70+i*WIDTH/4, 35);
 			}
+			if (getMode() == TIME) {
+				g.drawString(":"+getPlayer(i).getScore(), 70+i*WIDTH/4, 35);
+			}
+		}
+		if (getMode() == TIME) {
+			//TODO: Adjust font and centering
+			g.setColor(Color.BLACK);
+			g.fillRoundRect(WIDTH/2-25, 10, 50, 35, 10, 10);
+			g.setColor(Color.WHITE);
+			int sec = getTimeLeft()/50; //TODO: Keep this accurate to the frame rate
+			int min = sec/60;
+			sec %= 60;
+			g.drawString(min+":"+sec, WIDTH/2-20, 35);
 		}
 	}
 	

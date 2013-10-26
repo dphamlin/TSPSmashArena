@@ -14,10 +14,12 @@ public abstract class GameState {
 
 	private ArrayList<Actor> f = new ArrayList<Actor>(); //fighters
 	private ArrayList<Shot> b = new ArrayList<Shot>(); //bullets
-	private ArrayList<Item> p = new ArrayList<Item>(); //powerups
+	private ArrayList<Item> p = new ArrayList<Item>(); //power ups
 	private int s; //stage
 	private int fn = 0; //frame number
-	private int m = 1; //mode
+	private int t; //overall game time
+	private int m; //mode
+	private int end = 0; //is the game over?
 
 	public static final int WIDTH = 640, HEIGHT = 480;
 	public static final int MENU = 0, STOCK = 1, TIME = 2; //game modes
@@ -39,6 +41,9 @@ public abstract class GameState {
 		p = g.getPowerups();
 		s = g.getStage();
 		fn = g.getFrameNumber();
+		t = g.getTime();
+		m = g.getMode();
+		setEnd(g.isGameOver());
 	}
 
 	/**
@@ -67,6 +72,7 @@ public abstract class GameState {
 	 */
 	public void initTestLevel() {
 		setLevel(0);
+		setMode(STOCK);
 	}
 	
 	/**
@@ -175,16 +181,58 @@ public abstract class GameState {
 	}
 
 	/**
-	 * @return the m
+	 * @return the end timer
+	 */
+	public int getTime() {
+		return t;
+	}
+
+	/**
+	 * @return the time remaining
+	 */
+	public int getTimeLeft() {
+		if (t-fn < 0) return 0;
+		return t-fn;
+	}
+	
+	/**
+	 * @param time the new end time
+	 */
+	public void setTime(int time) {
+		this.t = time;
+	}
+
+	/**
+	 * @return the game mode
 	 */
 	public int getMode() {
 		return m;
 	}
 
 	/**
-	 * @param m the m to set
+	 * @param m the new game mode
 	 */
 	public void setMode(int m) {
 		this.m = m;
+	}
+	
+	/**
+	 * Check if the game is over
+	 * 
+	 * @return true if the game is done
+	 */
+	public boolean isGameOver() {
+		return (end != 0);
+	}
+	
+	/**
+	 * Set the end state
+	 * 
+	 * @param end
+	 * 		0 keeps playing, 1 ends the game
+	 */
+	public void setEnd(boolean end) {
+		if (end) this.end = 1;
+		else this.end = 0;
 	}
 }
