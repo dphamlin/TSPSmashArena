@@ -125,6 +125,7 @@ public class Server {
 		run();
 	}
 	
+	// This method may no longer be needed.
 	public void run() {
 		
 		/* Test code
@@ -201,27 +202,59 @@ public class Server {
 	}
 	
 	public static void main(String []args) {
-
-		// Couldn't get the thread attempt to work, so hacked together this stand-alone approach
 		
-		Server thisServer = null;
+		Server theServer = null;
 		Scanner inputScanner = new Scanner(System.in);
 		
 		try {
-			thisServer = new Server();
+			theServer = new Server();
 		}
 		catch (Exception e) {
 			System.out.println("Could not start the server.");
 			System.exit(1);
 		}
 		
-		if (thisServer != null) {
-			System.out.println("Please enter the number of players:");
-			thisServer.setNumberOfPlayers(inputScanner.nextInt());
-			
-			thisServer.run();
-		}
-		else
+		if (theServer == null) {
 			System.exit(1);
+		}
+
+		System.out.println("Please enter the number of players:");
+		theServer.setNumberOfPlayers(inputScanner.nextInt());
+		
+		theServer.getGameState().initTestLevel();
+		
+		// Connect clients and adds them to the participantList
+		try {
+			theServer.setParticipantList(theServer.connectParticipants(theServer.getNumberOfPlayers()));
+		}
+		catch (Exception e) {
+			System.err.println("Error connecting client to server. Exiting.\n");
+		}
+		
+		// All participants should connected; begin communication cycle
+		while (true) { // A round of One Hundred exchanges for testing purposes
+			
+			theServer.getTimer().loopStart(); //log start time
+			
+			try {
+				theServer.readControllersFromAll(theServer.getParticipantList()); // Reads updated controllers into all participants
+			}
+			catch (Exception e) {
+				System.err.println("Could not receive a participant's controller information.");
+			}
+			
+			// Controllers now ready for application to game state
+			// HERE GAME LOGIC SHOULD BE UPDATED USING THE CONTROLLERS
+			// My stab at it:
+			theServer.applyAllControls(theServer.getParticipantList()); // Applies controls for all participants
+			theServer.getGameState().update(); // updates game state using game logic
+	
+			// GameState is updated by this point; send it to all
+			theServer.writeGameStateToAll(theServer.getParticipantList());
+			
+			theServer.getTimer().loopRest(); //rest until loop end
+			
+		}
+		
 	}
 }
