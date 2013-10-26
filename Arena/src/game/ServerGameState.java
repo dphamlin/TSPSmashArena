@@ -488,24 +488,23 @@ public class ServerGameState extends GameState {
 		//move along the ground
 		a.setX(a.getX()+a.getVx());
 		//apply ground friction and momentum
-		if (a.getAirTime() <= 0) {
-			a.setVx(a.getVx()*a.getRunMomentum()); //retain "runMomentum" of your speed
-			//TODO: factor in potentially moving ground for friction
+		if (a.getOnLand() != null && a.getOnLand().isSlip()) {
+			//a.setVx(a.getVx()*(1-a.getRunFrict()/2)); //TODO: Make a reduced-friction version
+		}
+		else if (a.getOnLand() != null) {
+			a.setVx(a.getVx()*a.getRunSlip()); //slide
 		}
 
 		//move through the air
 		if (a.getAirTime() > 0) {
 			
 			//apply air friction and momentum
-			a.setVx(a.getVx()*a.getAirMomentum()); //retain "airMomentum" of your speed
+			a.setVx(a.getVx()*a.getAirSlip()); //slide
 			
 			//move vertically
 			a.setY(a.getY()+a.getVy());
 			
-			//apply gravNum every gravDen frames (a bit hackish, but not a float value)
-			/*if (a.getAirTime() % a.getGravDen() == 0) {
-				a.setVy(a.getVy()+a.getGravNum());				
-			}*/
+			//gravity
 			a.setVy(a.getVy()+a.getGrav());
 			
 			//apply terminal velocity
@@ -514,7 +513,6 @@ public class ServerGameState extends GameState {
 		//on the ground, stop vertical motion
 		else {
 			a.setVy(0);
-			//TODO: factor in potentially rising/falling ground
 		}
 		
 		//falling off edges

@@ -115,11 +115,11 @@ public class Actor extends GameObject {
 	public float getAirSpeed() {
 		return Warehouse.getCharacters()[m].getAirSpeed();
 	}
-	public float getRunMomentum() {
-		return Warehouse.getCharacters()[m].getRunMomentum();
+	public float getRunSlip() {
+		return Warehouse.getCharacters()[m].getRunSlip();
 	}
-	public float getAirMomentum() {
-		return Warehouse.getCharacters()[m].getAirMomentum();
+	public float getAirSlip() {
+		return Warehouse.getCharacters()[m].getAirSlip();
 	}
 	public float getJumpPower() {
 		return Warehouse.getCharacters()[m].getJumpPower();
@@ -133,12 +133,6 @@ public class Actor extends GameObject {
 	public float getGrav() {
 		return Warehouse.getCharacters()[m].getGrav();
 	}
-	/*public int getGravNum() {
-		return Warehouse.getCharacters()[m].getGravNum();
-	}
-	public int getGravDen() {
-		return Warehouse.getCharacters()[m].getGravDen();
-	}*/
 	public int getShotDelay() {
 		return Warehouse.getCharacters()[m].getShotDelay();
 	}

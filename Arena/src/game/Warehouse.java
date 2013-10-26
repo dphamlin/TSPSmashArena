@@ -33,13 +33,10 @@ public class Warehouse {
 		r.setW(16);
 		r.setH(16);
 
-		//fast on the ground
-		r.setRunSpeed(5);
-		r.setRunMomentum(0);
-
-		//sluggish in the air
-		r.setAirSpeed(.5);
-		r.setAirMomentum(.9);
+		//agile on ground, sluggish in air
+		r.setRunFrict(1);
+		r.setAirFrict(.1);
+		r.setMaxSpeed(5);
 
 		//fairly standard jump and fall
 		r.setJumpPower(10);
@@ -48,8 +45,6 @@ public class Warehouse {
 
 		//standard gravity
 		r.setGrav(1);
-		/*r.setGravNum(1);
-		r.setGravDen(1);*/
 
 		//slow-shooting
 		r.setShotDelay(50);
@@ -82,21 +77,18 @@ public class Warehouse {
 		r.setW(16);
 		r.setH(16);
 
-		//fast on the ground
-		r.setRunSpeed(1);
-		r.setRunMomentum(.70);
-		r.setAirSpeed(1);
-		r.setAirMomentum(.70);
+		//always slippery, equal air and ground
+		r.setRunFrict(.2);
+		r.setAirFrict(.2);
+		r.setMaxSpeed(3);
 
 		//floaty jump, slow fall
-		r.setJumpPower(6);
-		r.setJumpHold(10);
-		r.setTermVel(4);
+		r.setJumpPower(4);
+		r.setJumpHold(20);
+		r.setTermVel(3);
 
 		//low gravity
-		r.setGrav(0.4);
-		/*r.setGravNum(1);
-		r.setGravDen(3);*/
+		r.setGrav(0.25);
 
 		//slow bullets
 		r.setShotDelay(35);

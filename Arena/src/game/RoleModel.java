@@ -9,7 +9,7 @@ public class RoleModel {
 	private int skin; //sprite set
 	private int w, h; //allow for variable dimensions
 	private float runSpeed, airSpeed; //horizontal 'thrust's
-	private float runMomentum, airMomentum; //friction values (percent out of 100)
+	private float runSlip, airSlip; //friction values (percent out of 100)
 	private float jumpPower, termVel; //jump and fall speeds
 	private int jumpHold; //jump control
 	//private int gravNum = 1, gravDen = 1; //gravity strength (N per D frames)
@@ -48,18 +48,57 @@ public class RoleModel {
 	public void setAirSpeed(double airSpeed) {
 		this.airSpeed = (float) airSpeed;
 	}
-	public float getRunMomentum() {
-		return runMomentum;
+	
+	//special setMaxSpeed methods
+	/*public float getMaxRunSpeed() {
+		return runSpeed/getRunFrict();
 	}
-	public void setRunMomentum(double runMomentum) {
-		this.runMomentum = (float) runMomentum;
+	public void setMaxRunSpeed(double maxRunSpeed) {
+		this.runSpeed = (float) maxRunSpeed*getRunFrict();
 	}
-	public float getAirMomentum() {
-		return airMomentum;
+	public float getMaxAirSpeed() {
+		return airSpeed/getAirFrict();
 	}
-	public void setAirMomentum(double airMomentum) {
-		this.airMomentum = (float) airMomentum;
+	public void setMaxAirSpeed(double maxAirSpeed) {
+		this.airSpeed = (float) maxAirSpeed*getAirFrict();
+	}*/
+	public float getMaxSpeed() {
+		return runSpeed/getRunFrict(); //run chosen arbitrarily
 	}
+	public void setMaxSpeed(double maxSpeed) {
+		this.runSpeed = (float) maxSpeed*getRunFrict();
+		this.airSpeed = (float) maxSpeed*getAirFrict();
+	}
+	//end special methods
+	
+	public float getRunSlip() {
+		return runSlip;
+	}
+	public void setRunSlip(double runSlip) {
+		this.runSlip = (float) runSlip;
+	}
+	public float getAirSlip() {
+		return airSlip;
+	}
+	public void setAirSlip(double airSlip) {
+		this.airSlip = (float) airSlip;
+	}
+	
+	//inverted forms for slip: friction
+	public float getRunFrict() {
+		return (float)1.0-runSlip;
+	}
+	public void setRunFrict(double runFrict) {
+		this.runSlip = (float) (1.0-runFrict);
+	}
+	public float getAirFrict() {
+		return (float)1.0-airSlip;
+	}
+	public void setAirFrict(double airFrict) {
+		this.airSlip = (float) (1.0-airFrict);
+	}
+	//end inverted forms
+	
 	public float getJumpPower() {
 		return jumpPower;
 	}
@@ -84,18 +123,6 @@ public class RoleModel {
 	public void setGrav(double grav) {
 		this.grav = (float) grav;
 	}
-	/*public int getGravNum() {
-		return gravNum;
-	}
-	public void setGravNum(int gravNum) {
-		this.gravNum = gravNum;
-	}
-	public int getGravDen() {
-		return gravDen;
-	}
-	public void setGravDen(int gravDen) {
-		this.gravDen = gravDen;
-	}*/
 	public int getShotDelay() {
 		return shotDelay;
 	}
