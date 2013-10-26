@@ -84,9 +84,9 @@ public class Server {
 	
 	// Writes the current game state to all clients as a JSON string
 	public void writeGameStateToAll(ArrayList<Participant> aParticipantList) { 
-		System.out.println(json.toJson(getGameState()));
+		System.out.println(json.toJson(getGameState().convert()));
 		for (Participant p: aParticipantList) {
-			p.writeToClient(json.toJson(getGameState()));
+			p.writeToClient(json.toJson(getGameState().convert()));
 		}
 	}
 	
