@@ -185,7 +185,7 @@ public class ServerGameState extends GameState {
 		}
 
 		//in the air
-		if (a.getAirTime() > 0) {
+		if (a.getAirTime() > 1) {
 			a.setVx(a.getVx()+a.getAirSpeed()*dir);
 		}
 		//on the ground
@@ -483,18 +483,18 @@ public class ServerGameState extends GameState {
 		for (Actor b : getFighters()) {
 			collide(a, b);
 		}
-
-		//TODO: factor in potentially moving ground for friction
 		
 		//move along the ground
 		a.setX(a.getX()+a.getVx());
 		//apply ground friction and momentum
 		if (a.getAirTime() <= 0) {
 			a.setVx(a.getVx()*a.getRunMomentum()/100); //retain "runMomentum" % of your speed
+			//TODO: factor in potentially moving ground for friction
 		}
 
 		//move through the air
 		if (a.getAirTime() > 0) {
+			
 			//apply air friction and momentum
 			a.setVx(a.getVx()*a.getAirMomentum()/100); //retain "airMomentum" % of your speed
 			
@@ -502,7 +502,6 @@ public class ServerGameState extends GameState {
 			a.setY(a.getY()+a.getVy());
 			
 			//TODO: Consider making a smoother version of this
-			//TODO: Figure out why gravity doesn't seem to be applying
 			//apply gravNum every gravDen frames (a bit hackish, but not a float value)
 			if (a.getAirTime() % a.getGravDen() == 0) {
 				a.setVy(a.getVy()+a.getGravNum());				
@@ -511,11 +510,12 @@ public class ServerGameState extends GameState {
 			//apply terminal velocity
 			if (a.getVy() > a.getTermVel()) a.setVy(a.getTermVel());
 		}
-		//on the ground, stop moving
+		//on the ground, stop vertical motion
 		else {
-			a.setVy(0); //TODO: factor in potentially moving ground
+			a.setVy(0);
+			//TODO: factor in potentially rising/falling ground
 		}
-
+		
 		//falling off edges
 		Land l = a.getOnLand();
 		if (l != null) {
@@ -552,8 +552,8 @@ public class ServerGameState extends GameState {
 		s.setY(s.getY()+s.getVy());
 
 		//out of bounds removal
-		if (s.getBottomEdge() < s.getH()*2 || s.getTopEdge() > GameState.HEIGHT+s.getH()*2
-				|| s.getRightEdge() < s.getW()*2 || s.getLeftEdge() > GameState.WIDTH+s.getW()*2) {
+		if (s.getBottomEdge() < -s.getH()*2 || s.getTopEdge() > GameState.HEIGHT+s.getH()*2
+				|| s.getRightEdge() < -s.getW()*2 || s.getLeftEdge() > GameState.WIDTH+s.getW()*2) {
 			s.setDead(true);
 		}
 	}
