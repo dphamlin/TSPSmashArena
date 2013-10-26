@@ -118,6 +118,17 @@ public class ServerGameState extends GameState {
 	}
 
 	/**
+	 * @return the number of players still alive
+	 */
+	public int getLivingPlayers() {
+		int n = 0;
+		for (Actor a : getFighters()) {
+			if (a.getLives() > 0) n++;
+		}
+		return n;
+	}
+
+	/**
 	 * Make an actor jump
 	 * 
 	 * @param a
