@@ -17,6 +17,8 @@ public class ServerGameState extends GameState {
 	private static final int BOTTOM = 1;
 	private static final int NONE = 0;
 
+	//TODO: add results- ranking, winner, order, game time, etc.
+	
 	/**
 	 * Generic constructor
 	 */
@@ -121,16 +123,18 @@ public class ServerGameState extends GameState {
 	}
 
 	private void checkEnd() {
+		//menu has no end
+		if (getMode() == MENU) {
+			setEnd(false);
+		}
 		//there is only one (survivor)
 		if (getMode() == STOCK) {
 			setEnd(getLivingPlayers() < 2);
 		}
 		//time out
-		if (getMode() == TIME) {
+		else if (getMode() == TIME) {
 			setEnd(getFrameNumber() > getTime());
 		}
-		//traditionally, no other way to end a game
-		setEnd(false);
 	}
 	
 	/**
@@ -254,7 +258,7 @@ public class ServerGameState extends GameState {
 	private void die (Actor a) {
 		a.setDeadTime(0);
 		a.setDead(true);
-		if (getMode() == STOCK  && !isGameOver()) {
+		if (!isGameOver() && getMode() != MENU) {
 			a.loseLife();
 		}
 	}
@@ -481,7 +485,7 @@ public class ServerGameState extends GameState {
 			die(b);
 			jump(a);
 			//score a point
-			if (getMode() == TIME && !isGameOver()) {
+			if (!isGameOver() && getMode() != MENU) {
 				a.getPoint();
 			}
 		}
@@ -532,7 +536,7 @@ public class ServerGameState extends GameState {
 			s.setDead(true);
 			die(a);
 			//score a point
-			if (getMode() == TIME && !isGameOver()) {
+			if (!isGameOver() && getMode() != MENU) {
 				getPlayer(s.getSource()).getPoint();
 			}
 		}

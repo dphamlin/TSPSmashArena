@@ -36,6 +36,7 @@ public class Actor extends GameObject {
 
 		dir = 1;
 		at = 1;
+		dt = 50;
 		ol = null;
 		p = 0;
 
@@ -48,7 +49,7 @@ public class Actor extends GameObject {
 
 	//check if they're invincible
 	public boolean isArmored() {
-		return (!isDead() && dt < 80); //TODO: Set up proper spawn armor constant
+		return (!isDead() && dt < 100); //TODO: Set up proper spawn armor constant
 	}
 
 	/*getters and setters for attributes*/

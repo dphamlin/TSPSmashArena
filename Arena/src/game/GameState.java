@@ -18,6 +18,7 @@ public abstract class GameState {
 	private int s; //stage
 	private int fn = 0; //frame number
 	private int t; //overall game time
+	private int ml; //starting lives
 	private int m; //mode
 	private int end = 0; //is the game over?
 
@@ -42,6 +43,7 @@ public abstract class GameState {
 		s = g.getStage();
 		fn = g.getFrameNumber();
 		t = g.getTime();
+		ml = g.getStock();
 		m = g.getMode();
 		setEnd(g.isGameOver());
 	}
@@ -63,6 +65,7 @@ public abstract class GameState {
 		Actor a = new Actor(200+f.size()*100, 100, character); //TODO: Proper spawn points
 		a.setLives(5); //TODO: make a "lives" setting
 		a.setId(f.size());
+		a.setLives(getStock());
 		f.add(a);
 		return a;
 	}
@@ -200,6 +203,23 @@ public abstract class GameState {
 	 */
 	public void setTime(int time) {
 		this.t = time;
+	}
+
+	/**
+	 * @return the number of lives for stock mode
+	 */
+	public int getStock() {
+		return ml;
+	}
+
+	/**
+	 * @param stock new maximum lives for stock mode
+	 */
+	public void setStock(int stock) {
+		this.ml = stock;
+		for (Actor a : getFighters()) {
+			a.setLives(stock);
+		}
 	}
 
 	/**

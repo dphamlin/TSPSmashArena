@@ -104,8 +104,10 @@ public class ClientGameState extends GameState {
 				g.drawString("x"+getPlayer(i).getLives(), 70+i*WIDTH/4, 35);
 			}
 			if (getMode() == TIME) {
-				g.drawString(":"+getPlayer(i).getScore(), 70+i*WIDTH/4, 35);
+				g.drawString(" "+getPlayer(i).getScore(), 70+i*WIDTH/4, 35);
 			}
+			//draw the character's current state in box
+			draw(getPlayer(i), 48+i*WIDTH/4, 21, g);
 		}
 		if (getMode() == TIME) {
 			//TODO: Adjust font and centering
@@ -132,14 +134,37 @@ public class ClientGameState extends GameState {
 		//don't draw dead guys
 		if (a.isDead()) return;
 		//make invulnerable characters blink
-		if (a.isArmored() && getFrameNumber() % 20 < 10) return;
+		if (a.isArmored() && a.getDeadTime() % 8 < 4) return;
 		
+		//temporary colors
 		Color c[] = {Color.GREEN, Color.BLUE, Color.YELLOW, Color.BLACK, Color.MAGENTA, Color.LIGHT_GRAY};
 		g.setColor(c[a.getSkin()]);
 		
+		//temporary shape
 		g.fillOval((int)a.getLeftEdge(), (int)a.getTopEdge(), 16, 16);
 		g.fillRect((int)a.getHCenter(), (int)a.getTopEdge(), -a.getW()*a.getDir()/2, a.getH());
 		g.fillRect((int)a.getLeftEdge(), (int)a.getTopEdge(), a.getW()*a.getDir()/2, a.getH());
+	}
+	
+	/**
+	 * Draw an actor to the designated graphics object
+	 * 
+	 * @param a
+	 * 		Actor to be drawn
+	 * @param g
+	 * 		graphics object to draw through
+	 */
+	private void draw(Actor a, int x, int y, Graphics g) {
+		//TODO: Make this draw an image with transparency instead
+		
+		//temporary colors
+		Color c[] = {Color.GREEN, Color.BLUE, Color.YELLOW, Color.BLACK, Color.MAGENTA, Color.LIGHT_GRAY};
+		g.setColor(c[a.getSkin()]);
+		
+		//temporary shape
+		g.fillOval(x, y, 16, 16);
+		g.fillRect((int)x+a.getW()/2, y, -a.getW()*a.getDir()/2, a.getH());
+		g.fillRect(x, y, a.getW()*a.getDir()/2, a.getH());
 	}
 
 	/**
