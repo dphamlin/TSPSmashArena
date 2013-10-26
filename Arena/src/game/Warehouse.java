@@ -3,6 +3,7 @@ package game;
 public class Warehouse {
 	public static final int LIZARDMAN = 0;
 	public static final int SLIME = 1;
+	private static final int WIDTH = 640, HEIGHT = 480;
 	private static RoleModel characters[] = 
 		{lizardman(), slime(), captain(), spaceMarine(), robot(), madScientist()};
 	private static Blueprint maps[] = 
@@ -33,12 +34,12 @@ public class Warehouse {
 		r.setH(16);
 
 		//fast on the ground
-		r.setRunSpeed(6);
+		r.setRunSpeed(5);
 		r.setRunMomentum(0);
 
 		//sluggish in the air
-		r.setAirSpeed(1);
-		r.setAirMomentum(80);
+		r.setAirSpeed(.5);
+		r.setAirMomentum(.9);
 
 		//fairly standard jump and fall
 		r.setJumpPower(10);
@@ -46,8 +47,9 @@ public class Warehouse {
 		r.setTermVel(8);
 
 		//standard gravity
-		r.setGravNum(1);
-		r.setGravDen(1);
+		r.setGrav(1);
+		/*r.setGravNum(1);
+		r.setGravDen(1);*/
 
 		//slow-shooting
 		r.setShotDelay(50);
@@ -81,19 +83,20 @@ public class Warehouse {
 		r.setH(16);
 
 		//fast on the ground
-		r.setRunSpeed(2);
-		r.setRunMomentum(60);
-		r.setAirSpeed(2);
-		r.setAirMomentum(60);
+		r.setRunSpeed(1);
+		r.setRunMomentum(.70);
+		r.setAirSpeed(1);
+		r.setAirMomentum(.70);
 
-		//fairly standard jump and fall
+		//floaty jump, slow fall
 		r.setJumpPower(6);
 		r.setJumpHold(10);
 		r.setTermVel(4);
 
-		//standard gravity
-		r.setGravNum(1);
-		r.setGravDen(3);
+		//low gravity
+		r.setGrav(0.4);
+		/*r.setGravNum(1);
+		r.setGravDen(3);*/
 
 		//slow bullets
 		r.setShotDelay(35);
@@ -110,7 +113,7 @@ public class Warehouse {
 
 		//slow-moving, long lasting
 		s.setLife(300);
-		s.setSpeed(1);
+		s.setSpeed(.8);
 
 		//standard
 		s.setType(0);
@@ -183,6 +186,10 @@ public class Warehouse {
 	private static Blueprint holodeck() {
 		Blueprint b = new Blueprint();
 		//TODO: build actual map details
+		b.getPieces().add(new Land(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, Land.SOLID));
+		b.getPieces().add(new Land(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
+		b.getPieces().add(new Land(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, Land.SOLID));
+		b.getPieces().add(new Land(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
 		return b;
 	}
 	//lava-and-meteors surface world

@@ -103,9 +103,9 @@ public class ClientGameState extends GameState {
 		Color c[] = {Color.GREEN, Color.BLUE, Color.YELLOW, Color.BLACK, Color.MAGENTA, Color.LIGHT_GRAY};
 		g.setColor(c[a.getSkin()]);
 		
-		g.fillOval(a.getLeftEdge(), a.getTopEdge(), 16, 16);
-		g.fillRect(a.getHCenter(), a.getTopEdge(), -a.getW()*a.getDir()/2, a.getH());
-		g.fillRect(a.getLeftEdge(), a.getTopEdge(), a.getW()*a.getDir()/2, a.getH());
+		g.fillOval((int)a.getLeftEdge(), (int)a.getTopEdge(), 16, 16);
+		g.fillRect((int)a.getHCenter(), (int)a.getTopEdge(), -a.getW()*a.getDir()/2, a.getH());
+		g.fillRect((int)a.getLeftEdge(), (int)a.getTopEdge(), a.getW()*a.getDir()/2, a.getH());
 	}
 
 	/**
@@ -120,10 +120,10 @@ public class ClientGameState extends GameState {
 		//TODO: Draw an image of some kind instead
 		g.setColor(Color.BLACK);
 		if (l.isSolid()) {
-			g.fillRect(l.getLeftEdge(), l.getTopEdge(), l.getW()+1, l.getH()+1);
+			g.fillRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW()+1, l.getH()+1);
 		}
 		else {
-			g.drawRect(l.getLeftEdge(), l.getTopEdge(), l.getW()+1, l.getH()+1);
+			g.drawRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW()+1, l.getH()+1);
 		}
 	}
 	
@@ -137,6 +137,6 @@ public class ClientGameState extends GameState {
 	 */
 	private void draw(Shot s, Graphics g) {
 		g.setColor(Color.RED);
-		g.fillRect(s.getLeftEdge(), s.getTopEdge(), s.getW()+1, s.getH()+1);
+		g.fillRect((int)s.getLeftEdge(), (int)s.getTopEdge(), s.getW()+1, s.getH()+1);
 	}
 }

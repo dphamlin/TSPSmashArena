@@ -8,8 +8,10 @@ package game;
  */
 public abstract class GameObject {
 	
-	private int x, y;
-	private int vx = 0, vy = 0;
+	//private int x, y;
+	private float x, y;
+	//private int vx = 0, vy = 0;
+	private float vx = 0, vy = 0;
 	private int w, h;
 	private int f;
 	private int sk;
@@ -56,45 +58,45 @@ public abstract class GameObject {
 	/**
 	 * @return the leftmost edge of the object
 	 */
-	public int getLeftEdge() {
+	public float getLeftEdge() {
 		return getX();
 	}
 	/**
 	 * @return the topmost edge of the object
 	 */
-	public int getTopEdge() {
+	public float getTopEdge() {
 		return getY();
 	}
 	/**
 	 * @return the rightmost edge of the object
 	 */
-	public int getRightEdge() {
-		return getX()+getW();
+	public float getRightEdge() {
+		return (getX()+getW());
 	}
 	/**
 	 * @return the bottom-most edge of the object
 	 */
-	public int getBottomEdge() {
-		return getY()+getH();
+	public float getBottomEdge() {
+		return (getY()+getH());
 	}
 	/**
 	 * @return the horizontal center of the object
 	 */
-	public int getHCenter() {
-		return getX()+getW()/2;
+	public float getHCenter() {
+		return (getX()+getW()/2);
 	}
 	/**
 	 * @return the vertical center of the object
 	 */
-	public int getVCenter() {
-		return getY()+getH()/2;
+	public float getVCenter() {
+		return (getY()+getH()/2);
 	}
 	/**
 	 * Set the position of the left edge without resizing
 	 * 
 	 * @param x the new left edge of the object
 	 */
-	public void setLeftEdge(int x) {
+	public void setLeftEdge(double x) {
 		setX(x);
 	}
 	/**
@@ -102,7 +104,7 @@ public abstract class GameObject {
 	 * 
 	 * @param y the new top edge of the object
 	 */
-	public void setTopEdge(int y) {
+	public void setTopEdge(double y) {
 		setY(y);
 	}
 	/**
@@ -110,7 +112,7 @@ public abstract class GameObject {
 	 * 
 	 * @param x the new right edge of the object
 	 */
-	public void setRightEdge(int x) {
+	public void setRightEdge(double x) {
 		setX(x-getW());
 	}
 	/**
@@ -118,7 +120,7 @@ public abstract class GameObject {
 	 * 
 	 * @param y the new bottom edge of the object
 	 */
-	public void setBottomEdge(int y) {
+	public void setBottomEdge(double y) {
 		setY(y-getH());
 	}
 	/**
@@ -126,7 +128,7 @@ public abstract class GameObject {
 	 * 
 	 * @param x the new horizontal center
 	 */
-	public void setHCenter(int x) {
+	public void setHCenter(double x) {
 		setX(x-getW()/2);
 	}
 	/**
@@ -134,7 +136,7 @@ public abstract class GameObject {
 	 * 
 	 * @param y the new vertical center
 	 */
-	public void setVCenter(int y) {
+	public void setVCenter(double y) {
 		setY(y-getH()/2);
 	}
 	/**
@@ -143,23 +145,23 @@ public abstract class GameObject {
 	 * @param x the new horizontal center
 	 * @param y the new vertical center
 	 */
-	public void setCenter(int x, int y) {
+	public void setCenter(double x, double y) {
 		setHCenter(x);
 		setVCenter(y);
 	}
 	/*
 	 * Getters for basic properties 
 	 */
-	public int getX() {
+	public float getX() {
 		return x;
 	}
-	public int getY() {
+	public float getY() {
 		return y;
 	}
-	public int getVx() {
+	public float getVx() {
 		return vx;
 	}
-	public int getVy() {
+	public float getVy() {
 		return vy;
 	}
 	public int getW() {
@@ -178,17 +180,17 @@ public abstract class GameObject {
 	/*
 	 * Setters for basic properties
 	 */
-	public void setX(int x) {
-		this.x = x;
+	public void setX(double x) {
+		this.x = (float) x;
 	}
-	public void setY(int y) {
-		this.y = y;
+	public void setY(double y) {
+		this.y = (float) y;
 	}
-	public void setVx(int vx) {
-		this.vx = vx;
+	public void setVx(double vx) {
+		this.vx = (float) vx;
 	}
-	public void setVy(int vy) {
-		this.vy = vy;
+	public void setVy(double vy) {
+		this.vy = (float) vy;
 	}
 	public void setW(int w) {
 		this.w = w;

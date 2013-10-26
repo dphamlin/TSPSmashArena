@@ -3,7 +3,7 @@ package game;
 import com.google.gson.Gson;
 
 /**
- * 
+ * Local test driver
  * 
  * @author Jacob Charles
  */
@@ -27,7 +27,7 @@ public class TestDriver {
 		//size examination
 		System.out.println("Start state:");
 		System.out.println(new Gson().toJson(gs));
-		
+
 		//main loop
 		while (v.isVisible() && c.getStart() < 1) {
 			t.loopStart();

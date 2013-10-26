@@ -7,7 +7,8 @@ package game;
  */
 public class ShotModel {
 	private int skin; //shot appearance
-	private int speed, life; //shot speed and duration
+	private float speed; //shot speed
+	private int life; //shot duration
 	private int w, h; //shot size
 	private int type; //shot specifics
 	
@@ -18,11 +19,11 @@ public class ShotModel {
 	public void setSkin(int skin) {
 		this.skin = skin;
 	}
-	public int getSpeed() {
+	public float getSpeed() {
 		return speed;
 	}
-	public void setSpeed(int speed) {
-		this.speed = speed;
+	public void setSpeed(double speed) {
+		this.speed = (float) speed;
 	}
 	public int getLife() {
 		return life;

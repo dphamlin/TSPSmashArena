@@ -13,7 +13,6 @@ import java.util.*;
 public abstract class GameState {
 
 	private ArrayList<Actor> f = new ArrayList<Actor>(); //fighters
-	private ArrayList<Land> l = new ArrayList<Land>(); //level
 	private ArrayList<Shot> b = new ArrayList<Shot>(); //bullets
 	private ArrayList<Item> p = new ArrayList<Item>(); //powerups
 	private int s; //stage
@@ -34,7 +33,6 @@ public abstract class GameState {
 	 */
 	public GameState(GameState g) {
 		f = g.getFighters();
-		l = g.getLevel();
 		b = g.getBullets();
 		p = g.getPowerups();
 		s = g.getStage();
@@ -65,16 +63,7 @@ public abstract class GameState {
 	 * Construct a basic level (test)
 	 */
 	public void initTestLevel() {
-		f.clear();
-		l.clear();
-		b.clear();
-		p.clear();
-		s = -1;
-		//a solid base and three platforms
-		l.add(new Land(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, Land.SOLID));
-		l.add(new Land(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
-		l.add(new Land(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, Land.SOLID));
-		l.add(new Land(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
+		setLevel(0);
 	}
 	
 	/**
@@ -84,18 +73,12 @@ public abstract class GameState {
 	 */
 	public void setLevel(int i) {
 		//clean up potential leftovers
-		l.clear();
 		b.clear();
 		p.clear();
-		//grab the level blueprint
-		Blueprint nMap = Warehouse.getMaps()[i];
 		
-		//construct level
+		//identify level
 		s = i;
-		//TODO: Store BG and BGM in GameState
-		for (LandModel lm : nMap.getPieces()) {
-			l.add(new Land(lm));
-		}
+		
 		//TODO: Set spawn points?
 	}
 	
@@ -115,7 +98,7 @@ public abstract class GameState {
 	 * @return an ArrayList of Land objects
 	 */
 	public ArrayList<Land> getLevel() {
-		return l;
+		return Warehouse.getMaps()[s].getPieces();
 	}
 
 	/**

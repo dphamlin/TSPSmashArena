@@ -8,11 +8,12 @@ package game;
 public class RoleModel {
 	private int skin; //sprite set
 	private int w, h; //allow for variable dimensions
-	private int runSpeed, airSpeed; //horizontal 'thrust's
-	private int runMomentum, airMomentum; //friction values (percent out of 100)
-	private int jumpPower, jumpHold; //jump ability
-	private int termVel; //fall speed max
-	private int gravNum = 1, gravDen = 1; //gravity strength (N per D frames)
+	private float runSpeed, airSpeed; //horizontal 'thrust's
+	private float runMomentum, airMomentum; //friction values (percent out of 100)
+	private float jumpPower, termVel; //jump and fall speeds
+	private int jumpHold; //jump control
+	//private int gravNum = 1, gravDen = 1; //gravity strength (N per D frames)
+	private float grav;
 	private int shotDelay; //shot frequency
 	private ShotModel shotType; //what kind of bullet you shoot
 
@@ -35,35 +36,35 @@ public class RoleModel {
 	public void setH(int h) {
 		this.h = h;
 	}
-	public int getRunSpeed() {
+	public float getRunSpeed() {
 		return runSpeed;
 	}
-	public void setRunSpeed(int runSpeed) {
-		this.runSpeed = runSpeed;
+	public void setRunSpeed(double runSpeed) {
+		this.runSpeed = (float) runSpeed;
 	}
-	public int getAirSpeed() {
+	public float getAirSpeed() {
 		return airSpeed;
 	}
-	public void setAirSpeed(int airSpeed) {
-		this.airSpeed = airSpeed;
+	public void setAirSpeed(double airSpeed) {
+		this.airSpeed = (float) airSpeed;
 	}
-	public int getRunMomentum() {
+	public float getRunMomentum() {
 		return runMomentum;
 	}
-	public void setRunMomentum(int runMomentum) {
-		this.runMomentum = runMomentum;
+	public void setRunMomentum(double runMomentum) {
+		this.runMomentum = (float) runMomentum;
 	}
-	public int getAirMomentum() {
+	public float getAirMomentum() {
 		return airMomentum;
 	}
-	public void setAirMomentum(int airMomentum) {
-		this.airMomentum = airMomentum;
+	public void setAirMomentum(double airMomentum) {
+		this.airMomentum = (float) airMomentum;
 	}
-	public int getJumpPower() {
+	public float getJumpPower() {
 		return jumpPower;
 	}
-	public void setJumpPower(int jumpPower) {
-		this.jumpPower = jumpPower;
+	public void setJumpPower(double jumpPower) {
+		this.jumpPower = (float) jumpPower;
 	}
 	public int getJumpHold() {
 		return jumpHold;
@@ -71,13 +72,19 @@ public class RoleModel {
 	public void setJumpHold(int jumpHold) {
 		this.jumpHold = jumpHold;
 	}
-	public int getTermVel() {
+	public float getTermVel() {
 		return termVel;
 	}
-	public void setTermVel(int termVel) {
-		this.termVel = termVel;
+	public void setTermVel(double termVel) {
+		this.termVel = (float) termVel;
 	}
-	public int getGravNum() {
+	public float getGrav() {
+		return grav;
+	}
+	public void setGrav(double grav) {
+		this.grav = (float) grav;
+	}
+	/*public int getGravNum() {
 		return gravNum;
 	}
 	public void setGravNum(int gravNum) {
@@ -88,7 +95,7 @@ public class RoleModel {
 	}
 	public void setGravDen(int gravDen) {
 		this.gravDen = gravDen;
-	}
+	}*/
 	public int getShotDelay() {
 		return shotDelay;
 	}

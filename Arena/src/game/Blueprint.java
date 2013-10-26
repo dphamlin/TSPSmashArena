@@ -8,14 +8,15 @@ package game;
 import java.util.ArrayList;
 
 public class Blueprint {
-	private ArrayList<LandModel> pieces; //objects in the level
+	//private ArrayList<LandModel> pieces; //objects in the level
+	private ArrayList<Land> pieces = new ArrayList<Land>();
 	private int bg, bgm; //image, music, etc?
 	private int tileset; //id for a tile set from a big storage set of them
-	
+
 	//TODO: Add a list of spawn points somehow 
-	
+
 	//getters and setters
-	public ArrayList<LandModel> getPieces() {
+	public ArrayList<Land> getPieces() {
 		return pieces;
 	}
 	public int getBg() {

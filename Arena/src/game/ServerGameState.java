@@ -136,8 +136,10 @@ public class ServerGameState extends GameState {
 	 * 		the actor to extend the jump of
 	 */
 	private void holdJump (Actor a) {
+		/*if (a.getAirTime() > 0 && a.getAirTime() <= a.getJumpHold()
+				&& a.getVy() == a.getGravNum()-a.getJumpPower()) {*/
 		if (a.getAirTime() > 0 && a.getAirTime() <= a.getJumpHold()
-				&& a.getVy() == a.getGravNum()-a.getJumpPower()) {
+				&& a.getVy() <= a.getGrav()-a.getJumpPower()+0.1) {
 			a.setVy(-a.getJumpPower());
 		}
 	}
@@ -487,7 +489,7 @@ public class ServerGameState extends GameState {
 		a.setX(a.getX()+a.getVx());
 		//apply ground friction and momentum
 		if (a.getAirTime() <= 0) {
-			a.setVx(a.getVx()*a.getRunMomentum()/100); //retain "runMomentum" % of your speed
+			a.setVx(a.getVx()*a.getRunMomentum()); //retain "runMomentum" of your speed
 			//TODO: factor in potentially moving ground for friction
 		}
 
@@ -495,15 +497,16 @@ public class ServerGameState extends GameState {
 		if (a.getAirTime() > 0) {
 			
 			//apply air friction and momentum
-			a.setVx(a.getVx()*a.getAirMomentum()/100); //retain "airMomentum" % of your speed
+			a.setVx(a.getVx()*a.getAirMomentum()); //retain "airMomentum" of your speed
 			
 			//move vertically
 			a.setY(a.getY()+a.getVy());
 			
 			//apply gravNum every gravDen frames (a bit hackish, but not a float value)
-			if (a.getAirTime() % a.getGravDen() == 0) {
+			/*if (a.getAirTime() % a.getGravDen() == 0) {
 				a.setVy(a.getVy()+a.getGravNum());				
-			}
+			}*/
+			a.setVy(a.getVy()+a.getGrav());
 			
 			//apply terminal velocity
 			if (a.getVy() > a.getTermVel()) a.setVy(a.getTermVel());

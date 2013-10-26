@@ -18,6 +18,7 @@ public class Land extends GameObject {
 	
 	//current type is a bitmask
 	private int t; //type
+	private int id;
 	
 	/**
 	 * Construct a rectangular land at the set space
@@ -39,11 +40,11 @@ public class Land extends GameObject {
 	 * @param model
 	 * 		the stored form of the land
 	 */
-	public Land(LandModel model) {
+	/*public Land(LandModel model) {
 		super(model.getX(), model.getY(), model.getW(), model.getH());
 		this.t = model.getType();
 		setSkin(model.getSkin());
-	}
+	}*/
 	
 	/*land detail getter and setters*/
 	public boolean isSolid() {
@@ -80,5 +81,13 @@ public class Land extends GameObject {
 	public void setSlip(boolean b) {
 		if (b) t |= SLIP;
 		else t &= MAX-SLIP;
+	}
+
+	//getter and setter for id number in array
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 }
