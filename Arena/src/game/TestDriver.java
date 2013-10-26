@@ -1,5 +1,7 @@
 package game;
 
+import com.google.gson.Gson;
+
 /**
  * 
  * 
@@ -22,6 +24,10 @@ public class TestDriver {
 		gs.initTestLevel();
 		gs.addPlayer(Warehouse.SLIME); //single player
 
+		//size examination
+		System.out.println("Start state:");
+		System.out.println(new Gson().toJson(gs));
+		
 		//main loop
 		while (v.isVisible() && c.getStart() < 1) {
 			t.loopStart();
@@ -33,6 +39,8 @@ public class TestDriver {
 			v.reDraw(gs.convert());
 			t.loopRest();
 		}
+		System.out.println("End state:");
+		System.out.println(new Gson().toJson(gs));
 		System.exit(0);
 	}
 }

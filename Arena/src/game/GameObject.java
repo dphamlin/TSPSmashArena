@@ -13,7 +13,7 @@ public abstract class GameObject {
 	private int w, h;
 	private int f;
 	private int sk;
-	private boolean d = false;
+	private int d = 0;
 	
 	/**
 	 * "Do nothing" generic constructor
@@ -204,9 +204,10 @@ public abstract class GameObject {
 	}
 
 	public boolean isDead() {
-		return d;
+		return d != 0;
 	}
 	public void setDead(boolean dead) {
-		this.d = dead;
+		if (dead) d = 1;
+		else d = 0;
 	}
 }

@@ -12,12 +12,12 @@ import java.util.*;
 
 public abstract class GameState {
 
-	private ArrayList<Actor> f = new ArrayList<Actor>();
-	private ArrayList<Land> l = new ArrayList<Land>();
-	private ArrayList<Shot> b = new ArrayList<Shot>();
-	private ArrayList<Item> p = new ArrayList<Item>();
-	private int s;
-	private int fn = 0;
+	private ArrayList<Actor> f = new ArrayList<Actor>(); //fighters
+	private ArrayList<Land> l = new ArrayList<Land>(); //level
+	private ArrayList<Shot> b = new ArrayList<Shot>(); //bullets
+	private ArrayList<Item> p = new ArrayList<Item>(); //powerups
+	private int s; //stage
+	private int fn = 0; //frame number
 	
 	public static final int WIDTH = 640, HEIGHT = 480;
 
