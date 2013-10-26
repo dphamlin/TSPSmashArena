@@ -9,7 +9,7 @@ package game;
 public class Shot extends GameObject {
 	private int t; //type
 	private int l; //life time
-	private Actor s; //source, null means no source, can hurt anyone
+	private int  s; //source, null means no source, can hurt anyone
 	//TODO: Remove the Actor reference here, to reduce gson packet size
 
 	/**
@@ -26,7 +26,7 @@ public class Shot extends GameObject {
 	 * @param y
 	 * 		starting y
 	 */
-	public Shot(int x, int y, Actor source) {
+	public Shot(int x, int y, int source) {
 		super(x, y);
 		this.s = source;
 	}
@@ -38,25 +38,25 @@ public class Shot extends GameObject {
 	 * @param source
 	 * 		actor source
 	 */
-	public Shot(ShotModel base, Actor source) {
-		this.s = source;
+	public Shot(ShotModel base, Actor a) {
+		this.s = a.getId();
 		setSkin(base.getSkin());
 		this.t = base.getType();
 		this.l = base.getLife();
 		setW(base.getW());
 		setH(base.getH());
-		setVCenter(source.getVCenter());
+		setVCenter(a.getVCenter());
 		setVy(0);
-		if (source.getDir() > 0) {
-			setLeftEdge(source.getRightEdge());
+		if (a.getDir() > 0) {
+			setLeftEdge(a.getRightEdge());
 			setVx(base.getSpeed());
 		}
 		else {
-			setRightEdge(source.getLeftEdge());
+			setRightEdge(a.getLeftEdge());
 			setVx(-base.getSpeed());
 		}
 	}
-	
+
 	/*getters and setters for attributes*/
 	public int getType() {
 		return t;
@@ -70,10 +70,10 @@ public class Shot extends GameObject {
 	public void setLifeTime(int lifeTime) {
 		this.l = lifeTime;
 	}
-	public Actor getSource() {
+	public int getSource() {
 		return s;
 	}
-	public void setSource(Actor source) {
+	public void setSource(int source) {
 		this.s = source;
 	}
 }

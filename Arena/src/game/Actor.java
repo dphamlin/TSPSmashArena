@@ -9,6 +9,7 @@ package game;
 public class Actor extends GameObject {
 
 	//current data
+	private int id; //used in place of references
 	private int at; //air time
 	private int dt; //dead time
 	private int r; //reload
@@ -46,6 +47,12 @@ public class Actor extends GameObject {
 	}
 	
 	/*getters and setters for attributes*/
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public int getAirTime() {
 		return at;
 	}

@@ -56,6 +56,7 @@ public abstract class GameState {
 	 */
 	public Actor addPlayer(int character) {
 		Actor a = new Actor(200+f.size()*100, 100, character); //TODO: Proper spawn points
+		a.setId(f.size());
 		f.add(a);
 		return a;
 	}

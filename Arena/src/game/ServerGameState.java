@@ -455,7 +455,7 @@ public class ServerGameState extends GameState {
 	 */
 	private void collide(Shot s, Actor a) {
 		//don't hit your own source
-		if (s.getSource() == a || a.isDead()) {
+		if (s.getSource() == a.getId() || a.isDead()) {
 			return;
 		}
 
