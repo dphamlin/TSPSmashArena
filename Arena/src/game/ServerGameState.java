@@ -79,7 +79,7 @@ public class ServerGameState extends GameState {
 		Controller c = p.getController();
 		readControls(a, c);
 	}
-	
+
 	/**
 	 * Apply a player's controls to their character
 	 * 
@@ -376,36 +376,55 @@ public class ServerGameState extends GameState {
 	 */
 	private void collide (Actor a, Land l) {
 
+		//dead men don't interact
 		if (a.isDead()) return;
-		
-		//vertical collisions
+
+		//collision values
 		int v = vCollide(a, l);
-		if (v == TOP) {
-			if (l.isPlatform() || l.isSolid()) { //platform and solid tops
-				a.setBottomEdge(l.getTopEdge()-1);
-				land(a, l);
-			}
-		}
-		if (v == BOTTOM) {
-			if (l.isSolid()) { //solid ceilings
-				a.setTopEdge(l.getBottomEdge()+1);
-				a.setVy(STOP);
-			}
+		int h = hCollide(a, l);
+		boolean ov = overlap(a, l);
+
+		//die on touching danger
+		if (l.isDanger() && (v != NONE || h != NONE || ov)) {
+			die(a);
 		}
 
-		//horizontal collisions
-		int h = hCollide(a, l);
-		if (h == LEFT) {
-			if (l.isSolid()) { //solid walls
-				a.setRightEdge(l.getLeftEdge()-1);
-				a.setVx(STOP);
-			}
+		//bouncy blocks
+		if (v == TOP && l.isBounce()) {
+			a.setBottomEdge(l.getTopEdge()-1);
+			a.setVy(-a.getVy());
 		}
-		if (h == RIGHT) {
-			if (l.isSolid()) { //solid walls
-				a.setLeftEdge(l.getRightEdge()+1);
-				a.setVx(STOP);
-			}
+		if (v == BOTTOM && l.isBounce()) {
+			a.setTopEdge(l.getBottomEdge()+1);
+			a.setVy(-a.getVy());
+		}
+		if (v == LEFT && l.isBounce()) {
+			a.setRightEdge(l.getLeftEdge()-1);
+			a.setVx(-a.getVx());
+		}
+		if (v == RIGHT && l.isBounce()) {
+			a.setLeftEdge(l.getRightEdge()+1);
+			a.setVx(-a.getVx());
+		}
+
+		//solid or platform floors
+		if (v == TOP && (l.isPlatform() || l.isSolid())) {
+			a.setBottomEdge(l.getTopEdge()-1);
+			land(a, l);
+		}
+		
+		//solid walls and ceilings
+		if (v == BOTTOM && l.isSolid()) {
+			a.setTopEdge(l.getBottomEdge()+1);
+			a.setVy(STOP);
+		}
+		if (h == LEFT && l.isSolid()) {
+			a.setRightEdge(l.getLeftEdge()-1);
+			a.setVx(STOP);
+		}
+		if (h == RIGHT && l.isSolid()) {
+			a.setLeftEdge(l.getRightEdge()+1);
+			a.setVx(STOP);
 		}
 	}
 
@@ -490,7 +509,7 @@ public class ServerGameState extends GameState {
 		for (Actor b : getFighters()) {
 			collide(a, b);
 		}
-		
+
 		//move along the ground
 		a.setX(a.getX()+a.getVx());
 		//apply ground friction and momentum
@@ -503,16 +522,16 @@ public class ServerGameState extends GameState {
 
 		//move through the air
 		if (a.getAirTime() > 0) {
-			
+
 			//apply air friction and momentum
 			a.setVx(a.getVx()*a.getAirSlip()); //slide
-			
+
 			//move vertically
 			a.setY(a.getY()+a.getVy());
-			
+
 			//gravity
 			a.setVy(a.getVy()+a.getGrav());
-			
+
 			//apply terminal velocity
 			if (a.getVy() > a.getTermVel()) a.setVy(a.getTermVel());
 		}
@@ -520,7 +539,7 @@ public class ServerGameState extends GameState {
 		else {
 			a.setVy(0);
 		}
-		
+
 		//falling off edges
 		Land l = a.getOnLand();
 		if (l != null) {
