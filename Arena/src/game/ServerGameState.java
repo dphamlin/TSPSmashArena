@@ -227,6 +227,9 @@ public class ServerGameState extends GameState {
 	private void die (Actor a) {
 		a.setDeadTime(0);
 		a.setDead(true);
+		if (getMode() == STOCK) {
+			a.setLives(a.getLives()-1);
+		}
 	}
 
 	/**
@@ -236,11 +239,14 @@ public class ServerGameState extends GameState {
 	 * 		actor to respawn
 	 */
 	private void respawn (Actor a) {
+		//don't respawn if you're out of lives in a stock match
+		if (a.getLives() <= 0 && getMode() == STOCK) {
+			return;
+		}
 		a.setDead(false);
-		a.setHCenter(WIDTH/2);
+		fall(a);
+		a.setHCenter(WIDTH/2); //TODO: Make proper spawn points in the level
 		a.setTopEdge(50);
-		a.setOnLand(null);
-		a.setAirTime(1);
 	}
 
 	/**
@@ -462,7 +468,7 @@ public class ServerGameState extends GameState {
 		}
 
 		//check for any collision
-		if (vCollide(s, a) != NONE || hCollide(s, a) != NONE) {
+		if (overlap(s, a) || vCollide(s, a) != NONE || hCollide(s, a) != NONE) {
 			s.setDead(true);
 			die(a);
 		}

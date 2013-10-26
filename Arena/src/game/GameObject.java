@@ -8,9 +8,7 @@ package game;
  */
 public abstract class GameObject {
 	
-	//private int x, y;
 	private float x, y;
-	//private int vx = 0, vy = 0;
 	private float vx = 0, vy = 0;
 	private int w, h;
 	private int f;
@@ -21,6 +19,8 @@ public abstract class GameObject {
 	 * "Do nothing" generic constructor
 	 */
 	public GameObject() {
+		this.vx = 0;
+		this.vy = 0;
 	}
 	
 	/**
@@ -34,6 +34,8 @@ public abstract class GameObject {
 	public GameObject(int x, int y) {
 		this.x = x;
 		this.y = y;
+		this.vx = 0;
+		this.vy = 0;
 	}
 	
 	/**

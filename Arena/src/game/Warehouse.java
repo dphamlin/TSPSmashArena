@@ -1,9 +1,18 @@
 package game;
 
 public class Warehouse {
-	public static final int LIZARDMAN = 0;
+	//characters
+	public static final int LIZARD = 0;
 	public static final int SLIME = 1;
+	public static final int CAPTAIN = 2;
+	public static final int MARINE = 3;
+	public static final int ROBOT = 4;
+	public static final int SCIENTIST = 5;
+	
+	//dimensions for easy level building
 	private static final int WIDTH = 640, HEIGHT = 480;
+	
+	//actual lists
 	private static RoleModel characters[] = 
 		{lizardman(), slime(), captain(), spaceMarine(), robot(), madScientist()};
 	private static Blueprint maps[] = 
@@ -35,19 +44,19 @@ public class Warehouse {
 
 		//agile on ground, sluggish in air
 		r.setRunFrict(1);
-		r.setAirFrict(.1);
-		r.setMaxSpeed(5);
+		r.setAirFrict(.15);
+		r.setMaxSpeed(4.8);
 
-		//fairly standard jump and fall
-		r.setJumpPower(10);
-		r.setJumpHold(5);
-		r.setTermVel(8);
+		//fairly standard jump
+		r.setJumpPower(9);
+		r.setJumpHold(6);
 
 		//standard gravity
-		r.setGrav(1);
+		r.setGrav(.9);
+		r.setTermVel(8);
 
 		//slow-shooting
-		r.setShotDelay(50);
+		r.setShotDelay(48);
 		r.setShotType(lizardShot());
 		return r;
 	}
@@ -60,8 +69,8 @@ public class Warehouse {
 		s.setW(40);
 
 		//medium range
-		s.setLife(25);
-		s.setSpeed(12);
+		s.setLife(30);
+		s.setSpeed(8);
 
 		//standard
 		s.setType(0);
@@ -82,16 +91,16 @@ public class Warehouse {
 		r.setAirFrict(.2);
 		r.setMaxSpeed(3);
 
-		//floaty jump, slow fall
-		r.setJumpPower(4);
-		r.setJumpHold(20);
-		r.setTermVel(3);
+		//floaty jump
+		r.setJumpPower(3.8);
+		r.setJumpHold(25);
 
-		//low gravity
+		//slow fall
 		r.setGrav(0.25);
+		r.setTermVel(3.5);
 
 		//slow bullets
-		r.setShotDelay(35);
+		r.setShotDelay(34);
 		r.setShotType(slimeShot());
 		return r;
 	}
@@ -105,7 +114,7 @@ public class Warehouse {
 
 		//slow-moving, long lasting
 		s.setLife(300);
-		s.setSpeed(.8);
+		s.setSpeed(.9);
 
 		//standard
 		s.setType(0);

@@ -17,8 +17,10 @@ public abstract class GameState {
 	private ArrayList<Item> p = new ArrayList<Item>(); //powerups
 	private int s; //stage
 	private int fn = 0; //frame number
-	
+	private int m = 1; //mode
+
 	public static final int WIDTH = 640, HEIGHT = 480;
+	public static final int MENU = 0, STOCK = 1, TIME = 2; //game modes
 
 	/**
 	 * default constructor
@@ -54,6 +56,7 @@ public abstract class GameState {
 	 */
 	public Actor addPlayer(int character) {
 		Actor a = new Actor(200+f.size()*100, 100, character); //TODO: Proper spawn points
+		a.setLives(5); //TODO: make a "lives" setting
 		a.setId(f.size());
 		f.add(a);
 		return a;
@@ -169,5 +172,19 @@ public abstract class GameState {
 	 */
 	public void incrementFrames() {
 		this.fn++;
+	}
+
+	/**
+	 * @return the m
+	 */
+	public int getMode() {
+		return m;
+	}
+
+	/**
+	 * @param m the m to set
+	 */
+	public void setMode(int m) {
+		this.m = m;
 	}
 }

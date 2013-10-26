@@ -38,6 +38,7 @@ public class ClientGameState extends GameState {
 		drawFighters(g);
 		drawBullets(g);
 		//TODO: Draw items and special effects
+		drawStatus(g);
 	}
 	
 	/**
@@ -85,6 +86,23 @@ public class ClientGameState extends GameState {
 	private void drawBullets(Graphics g) {
 		for (Shot s : getBullets()) {
 			draw(s, g);
+		}
+	}
+	
+	/**
+	 * Draw character statuses
+	 * 
+	 * @param g
+	 * 		graphics object to draw through
+	 */
+	private void drawStatus(Graphics g) {
+		for (int i = 0; i < getNumberOfPlayers(); i++) {
+			g.setColor(Color.BLACK);
+			g.fillRoundRect(40+i*WIDTH/4, 10, 50, 35, 10, 10);
+			g.setColor(Color.WHITE);
+			if (getMode() == STOCK) {
+				g.drawString("x"+getPlayer(i).getLives(), 70+i*WIDTH/4, 35);
+			}
 		}
 	}
 	
