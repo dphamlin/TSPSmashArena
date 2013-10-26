@@ -388,6 +388,7 @@ public class ServerGameState extends GameState {
 		if (l.isDanger() && (v != NONE || h != NONE || ov)) {
 			die(a);
 		}
+		if (l.isDanger()) return; //escape after application
 
 		//bouncy blocks
 		if (v == TOP && l.isBounce()) {
@@ -398,21 +399,22 @@ public class ServerGameState extends GameState {
 			a.setTopEdge(l.getBottomEdge()+1);
 			a.setVy(-a.getVy());
 		}
-		if (v == LEFT && l.isBounce()) {
+		if (h == LEFT && l.isBounce()) {
 			a.setRightEdge(l.getLeftEdge()-1);
 			a.setVx(-a.getVx());
 		}
-		if (v == RIGHT && l.isBounce()) {
+		if (h == RIGHT && l.isBounce()) {
 			a.setLeftEdge(l.getRightEdge()+1);
 			a.setVx(-a.getVx());
 		}
+		if (l.isBounce()) return; //escape after application
 
 		//solid or platform floors
 		if (v == TOP && (l.isPlatform() || l.isSolid())) {
 			a.setBottomEdge(l.getTopEdge()-1);
 			land(a, l);
 		}
-		
+
 		//solid walls and ceilings
 		if (v == BOTTOM && l.isSolid()) {
 			a.setTopEdge(l.getBottomEdge()+1);
@@ -437,8 +439,8 @@ public class ServerGameState extends GameState {
 	 * 		actor to check collisions with
 	 */
 	private void collide(Actor a, Actor b) {
-		//can't hit yourself
-		if (a == b || a.isDead() || b.isDead()) {
+		//can't hit yourself, a dead guy, or an invincible guy
+		if (a == b || a.isDead() || b.isDead() || b.isArmored()) {
 			return;
 		}
 
@@ -449,7 +451,11 @@ public class ServerGameState extends GameState {
 			jump(a);
 		}
 
-		//TODO: Make interesting side to side collisions?
+		//bounce each other back
+		if (hCollide(a, b) != NONE) {
+			a.setVx(-a.getVx());
+			b.setVx(-b.getVx());
+		}
 	}
 
 	/**
@@ -482,7 +488,7 @@ public class ServerGameState extends GameState {
 	 */
 	private void collide(Shot s, Actor a) {
 		//don't hit your own source
-		if (s.getSource() == a.getId() || a.isDead()) {
+		if (s.getSource() == a.getId() || a.isDead() || a.isArmored()) {
 			return;
 		}
 

@@ -116,7 +116,10 @@ public class ClientGameState extends GameState {
 	 */
 	private void draw(Actor a, Graphics g) {
 		//TODO: Make this draw an image with transparency instead
+		//don't draw dead guys
 		if (a.isDead()) return;
+		//make invulnerable characters blink
+		if (a.isArmored() && getFrameNumber() % 20 < 10) return;
 		
 		Color c[] = {Color.GREEN, Color.BLUE, Color.YELLOW, Color.BLACK, Color.MAGENTA, Color.LIGHT_GRAY};
 		g.setColor(c[a.getSkin()]);
@@ -135,12 +138,20 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void draw(Land l, Graphics g) {
-		//TODO: Draw an image of some kind instead
+		//TODO: Draw composite images instead
 		g.setColor(Color.BLACK);
-		if (l.isSolid()) {
+		if (l.isDanger()) {
+			g.setColor(Color.RED);
 			g.fillRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW()+1, l.getH()+1);
 		}
-		else {
+		else if (l.isBounce()) {
+			g.setColor(Color.GREEN);
+			g.fillRoundRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW()+1, l.getH()+1, 12, 12);
+		}
+		else if (l.isSolid()) {
+			g.fillRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW()+1, l.getH()+1);
+		}
+		else if (l.isPlatform()) {
 			g.drawRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW()+1, l.getH()+1);
 		}
 	}

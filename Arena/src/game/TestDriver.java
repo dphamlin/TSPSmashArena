@@ -24,8 +24,8 @@ public class TestDriver {
 		gs.setLevel(0);
 		gs.addPlayer(Warehouse.LIZARD); //first player
 		gs.addPlayer(Warehouse.SLIME); //second player
-		gs.addPlayer(Warehouse.LIZARD); //third player
-		gs.addPlayer(Warehouse.SLIME); //fourth player
+		//gs.addPlayer(Warehouse.LIZARD); //third player
+		//gs.addPlayer(Warehouse.SLIME); //fourth player
 
 		//size examination
 		System.out.println("Start state:");

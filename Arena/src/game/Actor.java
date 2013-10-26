@@ -20,7 +20,7 @@ public class Actor extends GameObject {
 	private int l; //lives
 
 	private int m; //selected RoleModel from the Warehouse
-	
+
 	/**
 	 * Spawn a player with a given archetype and location
 	 * 
@@ -33,19 +33,24 @@ public class Actor extends GameObject {
 	 */
 	public Actor (int x, int y, int character) {
 		super(x, y);
-		
+
 		dir = 1;
 		at = 1;
 		ol = null;
 		p = 0;
-		
+
 		RoleModel rm = Warehouse.getCharacters()[character];
 		setModel(character);
 		setSkin(rm.getSkin());
 		setW(rm.getW());
 		setH(rm.getH());
 	}
-	
+
+	//check if they're invincible
+	public boolean isArmored() {
+		return (!isDead() && dt < 80); //TODO: Set up proper spawn armor constant
+	}
+
 	/*getters and setters for attributes*/
 	public int getId() {
 		return id;
@@ -92,15 +97,12 @@ public class Actor extends GameObject {
 	public int getScore() {
 		return s;
 	}
-
 	public void setScore(int score) {
 		this.s = score;
 	}
-
 	public int getLives() {
 		return l;
 	}
-
 	public void setLives(int lives) {
 		this.l = lives;
 	}

@@ -15,6 +15,16 @@ public class Blueprint {
 
 	//TODO: Add a list of spawn points somehow 
 
+	/**
+	 * Add a new land to the blueprint
+	 * 
+	 * @param l
+	 * 		the land to be added
+	 */
+	public void add(Land l) {
+		pieces.add(l);
+	}
+	
 	//getters and setters
 	public ArrayList<Land> getPieces() {
 		return pieces;

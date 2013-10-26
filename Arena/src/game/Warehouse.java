@@ -8,10 +8,10 @@ public class Warehouse {
 	public static final int MARINE = 3;
 	public static final int ROBOT = 4;
 	public static final int SCIENTIST = 5;
-	
+
 	//dimensions for easy level building
 	private static final int WIDTH = 640, HEIGHT = 480;
-	
+
 	//actual lists
 	private static RoleModel characters[] = 
 		{lizardman(), slime(), captain(), spaceMarine(), robot(), madScientist()};
@@ -81,7 +81,7 @@ public class Warehouse {
 	private static RoleModel slime() {
 		RoleModel r = new RoleModel();
 		r.setSkin(1);
-		
+
 		//standard size
 		r.setW(16);
 		r.setH(16);
@@ -107,7 +107,7 @@ public class Warehouse {
 	private static ShotModel slimeShot() {
 		ShotModel s = new ShotModel();
 		s.setSkin(1);
-		
+
 		//medium sized bubbles
 		s.setH(16);
 		s.setW(16);
@@ -187,10 +187,12 @@ public class Warehouse {
 	private static Blueprint holodeck() {
 		Blueprint b = new Blueprint();
 		//TODO: build actual map details
-		b.getPieces().add(new Land(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, Land.SOLID));
-		b.getPieces().add(new Land(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
-		b.getPieces().add(new Land(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, Land.SOLID));
-		b.getPieces().add(new Land(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
+		b.add(new Land(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, Land.SOLID));
+		b.add(new Land(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
+		b.add(new Land(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, Land.BOUNCE+Land.SOLID));
+		b.add(new Land(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
+		b.add(new Land(20, HEIGHT/2-50, 50, 50, Land.DANGER));
+		b.add(new Land(WIDTH-70, HEIGHT/2-50, 50, 50, Land.DANGER));
 		return b;
 	}
 	//lava-and-meteors surface world

@@ -16,13 +16,14 @@ import javax.swing.JPanel;
 public class View extends JFrame {
 	
 	/**
-	 * test constructor
+	 * Standard constructor
 	 */
 	public View() {
 		super();
-		setSize(640, 480);
+		setSize(640, 480); //TODO: Factor in the borders when setting size, apparently
 		setVisible(true);
 		this.setTitle("TSPArena");
+		this.setResizable(false);
 	}
 	
 	/**
