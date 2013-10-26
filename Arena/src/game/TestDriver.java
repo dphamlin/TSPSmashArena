@@ -20,7 +20,7 @@ public class TestDriver {
 		StopWatch t = new StopWatch(20);
 		v.attachController(c);
 		gs.initTestLevel();
-		gs.addPlayer(); //single player
+		gs.addPlayer(1); //single player
 
 		//main loop
 		while (v.isVisible() && c.getStart() < 1) {

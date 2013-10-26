@@ -21,31 +21,6 @@ public class Actor extends GameObject {
 	private int m; //selected RoleModel from the Warehouse
 	
 	/**
-	 * Spawn a player character a location
-	 * 
-	 * @param x
-	 * 		starting x
-	 * @param y
-	 * 		starting y
-	 */
-	/*public Actor (int x, int y) {
-		super(x, y, 16, 16);
-		dir = 1;
-		at = 1;
-		ol = null;
-		p = 0;
-		
-		//default stats
-		runSpeed = 3;
-		jumpPower = 10;
-		shotDelay = 16;
-		shotSpeed = 16;
-		shotLife = 20;
-		shotWid = 8;
-		shotHei = 8;
-	}*/
-	
-	/**
 	 * Spawn a player with a given archetype and location
 	 * 
 	 * @param x

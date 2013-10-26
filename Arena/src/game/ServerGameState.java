@@ -206,6 +206,7 @@ public class ServerGameState extends GameState {
 			return;
 		}
 
+		//delay until next shot
 		a.setReload(a.getShotDelay());
 
 		//build a new shot, according to the Actor's specifications
@@ -251,11 +252,9 @@ public class ServerGameState extends GameState {
 		if (a.getAirTime() < 0) a.setAirTime(a.getAirTime()-1); //time on the ground
 
 		a.setDeadTime(a.getDeadTime()+1); //respawn timer, potentially spawn armor
-		if (a.getDeadTime() == 50 && a.isDead()) respawn(a);
+		if (a.getDeadTime() == 50 && a.isDead()) respawn(a); //TODO: Set up proper respawn timer somewhere
 
-		if (a.getReload() > 0) a.setReload(a.getReload()-1); //timer between shots
-
-		if (a.getOnLand() != null) a.setVy(a.getOnLand().getVy()); //match platform's vertical speed
+		a.setReload(a.getReload()-1); //timer between shots
 
 		if (!a.isDead()) {
 			move(a); //updates positions and speeds
