@@ -15,6 +15,7 @@ public class Actor extends GameObject {
 	private int r; //reload
 	private int dir = 1; //direction
 	private int p; //power up
+	private int pv; //power up extra variable
 	private Land ol; //current land underfoot
 	private int s; //score
 	private int l; //lives
@@ -86,8 +87,14 @@ public class Actor extends GameObject {
 	public int getPowerup() {
 		return p;
 	}
-	public void setEquip(int powerup) {
+	public void setPowerup(int powerup) {
 		this.p = powerup;
+	}
+	public int getPowerupVar() {
+		return pv;
+	}
+	public void setPowerupVar(int powerupVar) {
+		this.pv = powerupVar;
 	}
 	public Land getOnLand() {
 		return ol;
