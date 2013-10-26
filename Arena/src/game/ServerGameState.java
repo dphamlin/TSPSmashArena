@@ -107,7 +107,7 @@ public class ServerGameState extends GameState {
 		if (c.getJump() == 1 && a.getOnLand() != null) {
 			jump(a);
 		}
-		else if (c.getJump() >= 1 && a.getAirTime() > 0 && a.getAirTime() <= 5) {
+		else if (c.getJump() >= 1) {
 			holdJump(a);
 		}
 
@@ -136,8 +136,8 @@ public class ServerGameState extends GameState {
 	 * 		the actor to extend the jump of
 	 */
 	private void holdJump (Actor a) {
-		//TODO: Make sure this still works if I do smoother custom gravity
-		if (a.getVy() == a.getGravNum()-a.getJumpPower()) {
+		if (a.getAirTime() > 0 && a.getAirTime() <= a.getJumpHold()
+				&& a.getVy() == a.getGravNum()-a.getJumpPower()) {
 			a.setVy(-a.getJumpPower());
 		}
 	}
@@ -500,7 +500,6 @@ public class ServerGameState extends GameState {
 			//move vertically
 			a.setY(a.getY()+a.getVy());
 			
-			//TODO: Consider making a smoother version of this
 			//apply gravNum every gravDen frames (a bit hackish, but not a float value)
 			if (a.getAirTime() % a.getGravDen() == 0) {
 				a.setVy(a.getVy()+a.getGravNum());				

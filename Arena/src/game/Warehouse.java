@@ -1,6 +1,8 @@
 package game;
 
 public class Warehouse {
+	public static final int LIZARDMAN = 0;
+	public static final int SLIME = 1;
 	private static RoleModel characters[] = 
 		{lizardman(), slime(), captain(), spaceMarine(), robot(), madScientist()};
 	private static Blueprint maps[] = 
@@ -40,6 +42,7 @@ public class Warehouse {
 
 		//fairly standard jump and fall
 		r.setJumpPower(10);
+		r.setJumpHold(5);
 		r.setTermVel(8);
 
 		//standard gravity
@@ -85,6 +88,7 @@ public class Warehouse {
 
 		//fairly standard jump and fall
 		r.setJumpPower(6);
+		r.setJumpHold(10);
 		r.setTermVel(4);
 
 		//standard gravity

@@ -10,7 +10,8 @@ public class RoleModel {
 	private int w, h; //allow for variable dimensions
 	private int runSpeed, airSpeed; //horizontal 'thrust's
 	private int runMomentum, airMomentum; //friction values (percent out of 100)
-	private int jumpPower, termVel; //rise and fall cap speeds
+	private int jumpPower, jumpHold; //jump ability
+	private int termVel; //fall speed max
 	private int gravNum = 1, gravDen = 1; //gravity strength (N per D frames)
 	private int shotDelay; //shot frequency
 	private ShotModel shotType; //what kind of bullet you shoot
@@ -63,6 +64,12 @@ public class RoleModel {
 	}
 	public void setJumpPower(int jumpPower) {
 		this.jumpPower = jumpPower;
+	}
+	public int getJumpHold() {
+		return jumpHold;
+	}
+	public void setJumpHold(int jumpHold) {
+		this.jumpHold = jumpHold;
 	}
 	public int getTermVel() {
 		return termVel;

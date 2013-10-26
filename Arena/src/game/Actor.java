@@ -117,6 +117,9 @@ public class Actor extends GameObject {
 	public int getJumpPower() {
 		return Warehouse.getCharacters()[m].getJumpPower();
 	}
+	public int getJumpHold() {
+		return Warehouse.getCharacters()[m].getJumpHold();
+	}
 	public int getTermVel() {
 		return Warehouse.getCharacters()[m].getTermVel();
 	}
