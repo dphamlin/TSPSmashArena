@@ -57,6 +57,12 @@ public class Actor extends GameObject {
 	 */
 	public Actor (int x, int y, int character) {
 		super(x, y);
+		
+		dir = 1;
+		at = 1;
+		ol = null;
+		p = 0;
+		
 		RoleModel rm = Warehouse.getCharacters()[character];
 		setModel(character);
 		setSkin(rm.getSkin());
