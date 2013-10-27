@@ -90,7 +90,7 @@ public class Server {
 			p.writeToClient(json.toJson(getGameState().convert()));
 		}
 	}
-	
+
 	// Generate a list of participants from network connection
 	public ArrayList<Participant> connectParticipants(int num) throws IOException {
 		Socket s = null;
