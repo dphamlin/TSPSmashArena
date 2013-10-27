@@ -49,9 +49,9 @@ public class Warehouse {
 		r.setH(16);
 
 		//agile on ground, sluggish in air
-		r.setRunFrict(1);
-		r.setAirFrict(.15);
-		r.setMaxSpeed(4.8);
+		r.setRunFrict(.9);
+		r.setAirFrict(.12);
+		r.setMaxSpeed(4.6);
 
 		//fairly standard jump
 		r.setJumpPower(9);
@@ -250,7 +250,6 @@ public class Warehouse {
 
 		//TODO: add spawn points
 
-
 		return b;
 	}
 	//springs and conveyers machine world
@@ -269,9 +268,9 @@ public class Warehouse {
 		Blueprint b = new Blueprint();
 		b.setName("Test level");
 
-		//add terrain
-		b.add(new Land(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, Land.SOLID+Land.MOVE, 15));
-		b.add(new Land(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
+		//build actual map
+		b.add(new Land(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, Land.SOLID));
+		b.add(new Land(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM+Land.MOVE, 18));
 		b.add(new Land(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, Land.BOUNCE+Land.SOLID));
 		b.add(new Land(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM+Land.SLIP));
 		b.add(new Land(20, HEIGHT/2-50, 50, 50, Land.DANGER));

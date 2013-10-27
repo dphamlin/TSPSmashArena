@@ -395,11 +395,11 @@ public class ServerGameState extends GameState {
 		if (a.getBottomEdge()+a.getVy() >= b.getTopEdge()+b.getVy() 
 				&& a.getTopEdge()+a.getVy()  <= b.getBottomEdge()+b.getVy()) {
 			//moving right
-			if (a.getRightEdge() < b.getLeftEdge() && a.getRightEdge()+a.getVx() >= b.getLeftEdge()+b.getVx()) {
+			if (a.getRightEdge() <= b.getLeftEdge() && a.getRightEdge()+a.getVx() > b.getLeftEdge()+b.getVx()) {
 				return LEFT;
 			}
 			//moving left
-			else if (a.getLeftEdge() > b.getRightEdge() && a.getLeftEdge()+a.getVx() <= b.getRightEdge()+b.getVx()) {
+			else if (a.getLeftEdge() >= b.getRightEdge() && a.getLeftEdge()+a.getVx() < b.getRightEdge()+b.getVx()) {
 				return RIGHT;
 			}
 		}
@@ -425,11 +425,11 @@ public class ServerGameState extends GameState {
 		if (a.getRightEdge()+a.getVx() >= b.getLeftEdge()+b.getVx()
 				&& a.getLeftEdge()+a.getVx() <= b.getRightEdge()+b.getVx()) {
 			//falling
-			if (a.getBottomEdge() < b.getTopEdge() && a.getBottomEdge()+a.getVy() >= b.getTopEdge()+b.getVy()) {
+			if (a.getBottomEdge() <= b.getTopEdge() && a.getBottomEdge()+a.getVy() > b.getTopEdge()+b.getVy()) {
 				return TOP;
 			}
 			//rising
-			else if (a.getTopEdge() > b.getBottomEdge() && a.getTopEdge()+a.getVy() <= b.getBottomEdge()+b.getVy()) {
+			else if (a.getTopEdge() >= b.getBottomEdge() && a.getTopEdge()+a.getVy() < b.getBottomEdge()+b.getVy()) {
 				return BOTTOM;
 			}
 		}

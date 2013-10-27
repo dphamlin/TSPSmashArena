@@ -185,7 +185,12 @@ public class ClientGameState extends GameState {
 		}
 		else if (l.isBounce()) {
 			g.setColor(Color.GREEN);
-			g.fillRoundRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH(), 12, 12);
+			if (l.isPlatform()) {
+				g.drawRoundRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH(), 12, 12);
+			}
+			else {
+				g.fillRoundRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH(), 12, 12);
+			}
 		}
 		else if (l.isSolid()) {
 			g.fillRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH());

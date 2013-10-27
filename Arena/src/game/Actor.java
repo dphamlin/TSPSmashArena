@@ -121,7 +121,7 @@ public class Actor extends GameObject {
 	}
 	public float getRunSpeed() {
 		if (getOnLand() != null && getOnLand().isSlip()) { //slippery floor
-			return Warehouse.getCharacters()[m].getRunSpeed()/20;
+			return Warehouse.getCharacters()[m].getRunSpeed()/10;
 		}
 		return Warehouse.getCharacters()[m].getRunSpeed();
 	}
@@ -130,7 +130,7 @@ public class Actor extends GameObject {
 	}
 	public float getRunSlip() {
 		if (getOnLand() != null && getOnLand().isSlip()) { //slippery floor
-			return 1-Warehouse.getCharacters()[m].getRunFrict()/20;
+			return 1-Warehouse.getCharacters()[m].getRunFrict()/10;
 		}
 		return Warehouse.getCharacters()[m].getRunSlip();
 	}
