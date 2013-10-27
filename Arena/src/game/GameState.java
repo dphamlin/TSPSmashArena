@@ -15,11 +15,11 @@ public abstract class GameState {
 	private ArrayList<Actor> f = new ArrayList<Actor>(); //fighters
 	private ArrayList<Shot> b = new ArrayList<Shot>(); //bullets
 	private ArrayList<Item> p = new ArrayList<Item>(); //power ups
-	private int s; //stage
+	private int s = 0; //stage
 	private int fn = 0; //frame number
-	private int t; //overall game time
-	private int ml; //starting lives
-	private int m, nm; //mode and impending mode
+	private int t = 50*60; //overall game time
+	private int ml = 5; //starting lives
+	private int m = MENU, nm = STOCK; //mode and impending mode
 	private int end = 0; //is the game over?
 
 	public static final int WIDTH = 640, HEIGHT = 480;

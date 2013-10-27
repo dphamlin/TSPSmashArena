@@ -25,15 +25,41 @@ public class Land extends GameObject {
 	/**
 	 * Construct a rectangular land at the set space
 	 * @param x
+	 * 		left edge
 	 * @param y
+	 * 		top edge
 	 * @param w
+	 * 		width
 	 * @param h
+	 * 		height
 	 * @param t
-	 * 		bitmask of the platform t
+	 * 		bitmask of the platform type
 	 */
 	public Land(int x, int y, int w, int h, int t) {
 		super(x, y, w, h);
 		this.t = t;
+	}
+	
+	/**
+	 * Construct a rectangular land at the set space
+	 * 
+	 * @param x
+	 * 		left edge
+	 * @param y
+	 * 		top edge
+	 * @param w
+	 * 		width
+	 * @param h
+	 * 		height
+	 * @param t
+	 * 		bitmask of the platform type
+	 * @param v
+	 * 		extra data for certain types
+	 */
+	public Land(int x, int y, int w, int h, int t, int v) {
+		super(x, y, w, h);
+		this.t = t;
+		this.v = v;
 	}
 	
 	/*land detail getter and setters*/

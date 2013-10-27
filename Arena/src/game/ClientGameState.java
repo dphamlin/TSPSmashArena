@@ -175,7 +175,7 @@ public class ClientGameState extends GameState {
 		
 		//slippery tiles are blue
 		if (l.isSlip()) {
-			g.setColor(Color.CYAN);
+			g.setColor(Color.BLUE);
 		}
 
 		//various drawing styles
@@ -193,6 +193,8 @@ public class ClientGameState extends GameState {
 		else if (l.isPlatform()) {
 			g.drawRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH());
 		}
+
+		//TODO: Indicate conveyer belts somehow
 	}
 	
 	/**

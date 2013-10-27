@@ -108,10 +108,10 @@ public class ServerGameState extends GameState {
 		}
 
 		//jumping
-		if (c.getJump() == 1 && a.getOnLand() != null) {
+		if ((c.getJump() == 1 || c.getUp() == 1) && a.getOnLand() != null) {
 			jump(a);
 		}
-		else if (c.getJump() >= 1) {
+		else if (c.getJump() > 0 || c.getUp() > 0) {
 			holdJump(a);
 		}
 
@@ -250,7 +250,7 @@ public class ServerGameState extends GameState {
 	}
 
 	/**
-	 * Kill the specified actor
+	 * The specified actor dies
 	 * 
 	 * @param a
 	 * 		the actor who dies
@@ -260,6 +260,23 @@ public class ServerGameState extends GameState {
 		a.setDead(true);
 		if (!isGameOver() && getMode() != MENU) {
 			a.loseLife();
+		}
+	}
+	
+	/**
+	 * An actor kills another
+	 * 
+	 * @param a
+	 * 		the killer
+	 * @param b
+	 * 		the kill-ee
+	 */
+	private void kill (Actor a, Actor b) {
+		//target dies
+		die(b);
+		//score a point
+		if (!isGameOver() && getMode() != MENU) {
+			a.getPoint();
 		}
 	}
 
@@ -429,15 +446,16 @@ public class ServerGameState extends GameState {
 			a.setBottomEdge(l.getTopEdge()-1);
 			a.setVy(-a.getVy());
 		}
-		if (v == BOTTOM && l.isBounce()) {
+		//bouncy platforms only have a top
+		if (v == BOTTOM && l.isBounce() && !l.isPlatform()) {
 			a.setTopEdge(l.getBottomEdge()+1);
 			a.setVy(-a.getVy());
 		}
-		if (h == LEFT && l.isBounce()) {
+		if (h == LEFT && l.isBounce() && !l.isPlatform()) {
 			a.setRightEdge(l.getLeftEdge()-1);
 			a.setVx(-a.getVx());
 		}
-		if (h == RIGHT && l.isBounce()) {
+		if (h == RIGHT && l.isBounce() && !l.isPlatform()) {
 			a.setLeftEdge(l.getRightEdge()+1);
 			a.setVx(-a.getVx());
 		}
@@ -481,12 +499,8 @@ public class ServerGameState extends GameState {
 		//land on enemy heads
 		if (vCollide(a, b) == TOP) {
 			a.setBottomEdge(b.getTopEdge());
-			die(b);
 			jump(a);
-			//score a point
-			if (!isGameOver() && getMode() != MENU) {
-				a.getPoint();
-			}
+			kill(a, b);
 		}
 
 		//bounce each other back
@@ -533,11 +547,7 @@ public class ServerGameState extends GameState {
 		//check for any collision
 		if (overlap(s, a) || vCollide(s, a) != NONE || hCollide(s, a) != NONE) {
 			s.setDead(true);
-			die(a);
-			//score a point
-			if (!isGameOver() && getMode() != MENU) {
-				getPlayer(s.getSource()).getPoint();
-			}
+			kill(getPlayer(s.getSource()), a);
 		}
 	}
 
@@ -560,8 +570,13 @@ public class ServerGameState extends GameState {
 
 		//move along the ground
 		a.setX(a.getX()+a.getVx());
-		//apply ground friction and momentum
-		if (a.getOnLand() != null) {
+		//apply ground friction (moving ground)
+		if (a.getOnLand() != null && a.getOnLand().isMove()) {
+			Land l = a.getOnLand();
+			a.setVx((a.getVx()-l.getVar())*a.getRunSlip()+l.getVar()); //slip + movement
+		}
+		//apply ground friction (normal ground)
+		else if (a.getOnLand() != null) {
 			a.setVx(a.getVx()*a.getRunSlip()); //slide
 		}
 
