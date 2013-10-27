@@ -55,6 +55,10 @@ public class Warehouse {
 		r.setGrav(.9);
 		r.setTermVel(8);
 
+		//standard respawn
+		r.setSpawnTime(50);
+		r.setSpawnInv(50);
+		
 		//slow-shooting
 		r.setShotDelay(48);
 		r.setShotType(lizardShot());
@@ -98,6 +102,10 @@ public class Warehouse {
 		//slow fall
 		r.setGrav(0.25);
 		r.setTermVel(3.5);
+		
+		//slightly respawn
+		r.setSpawnTime(45);
+		r.setSpawnInv(50);
 
 		//slow bullets
 		r.setShotDelay(34);

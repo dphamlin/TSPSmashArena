@@ -35,22 +35,24 @@ public class Actor extends GameObject {
 	public Actor (int x, int y, int character) {
 		super(x, y);
 
-		dir = 1;
-		at = 1;
-		dt = 50;
-		ol = null;
-		p = 0;
-
+		//bind to their RoleModel
 		RoleModel rm = Warehouse.getCharacters()[character];
 		setModel(character);
 		setSkin(rm.getSkin());
 		setW(rm.getW());
 		setH(rm.getH());
+
+		//initialize some basic values
+		dir = 1;
+		at = 1;
+		dt = getSpawnTime();
+		ol = null;
+		p = 0;
 	}
 
 	//check if they're invincible
 	public boolean isArmored() {
-		return (!isDead() && dt < 100); //TODO: Set up proper spawn armor constant
+		return (!isDead() && dt < getSpawnTime()+getSpawnInv());
 	}
 
 	/*getters and setters for attributes*/
@@ -148,6 +150,12 @@ public class Actor extends GameObject {
 	}
 	public float getGrav() {
 		return Warehouse.getCharacters()[m].getGrav();
+	}
+	public int getSpawnTime() {
+		return Warehouse.getCharacters()[m].getSpawnTime();
+	}
+	public int getSpawnInv() {
+		return Warehouse.getCharacters()[m].getSpawnInv();
 	}
 	public int getShotDelay() {
 		return Warehouse.getCharacters()[m].getShotDelay();

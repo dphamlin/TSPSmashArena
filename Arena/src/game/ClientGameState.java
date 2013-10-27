@@ -138,15 +138,6 @@ public class ClientGameState extends GameState {
 		
 		//fall through to position drawing method
 		draw(a, (int)a.getLeftEdge(), (int)a.getTopEdge(), g);
-		
-		/*//temporary colors
-		Color c[] = {Color.GREEN, Color.BLUE, Color.YELLOW, Color.BLACK, Color.MAGENTA, Color.LIGHT_GRAY};
-		g.setColor(c[a.getSkin()]);
-		
-		//temporary shape
-		g.fillOval((int)a.getLeftEdge(), (int)a.getTopEdge(), 16, 16);
-		g.fillRect((int)a.getHCenter(), (int)a.getTopEdge(), -a.getW()*a.getDir()/2, a.getH());
-		g.fillRect((int)a.getLeftEdge(), (int)a.getTopEdge(), a.getW()*a.getDir()/2, a.getH());*/
 	}
 	
 	/**

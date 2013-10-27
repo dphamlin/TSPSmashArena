@@ -292,8 +292,8 @@ public class ServerGameState extends GameState {
 		if (a.getAirTime() > 0) a.setAirTime(a.getAirTime()+1); //time in mid-air
 		if (a.getAirTime() < 0) a.setAirTime(a.getAirTime()-1); //time on the ground
 
-		a.setDeadTime(a.getDeadTime()+1); //respawn timer, potentially spawn armor
-		if (a.getDeadTime() == 50 && a.isDead()) respawn(a); //TODO: Set up proper respawn timer somewhere
+		a.setDeadTime(a.getDeadTime()+1); //respawn timer and spawn invincibility
+		if (a.getDeadTime() == a.getSpawnTime() && a.isDead()) respawn(a);
 
 		a.setReload(a.getReload()-1); //timer between shots
 

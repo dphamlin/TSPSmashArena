@@ -10,10 +10,10 @@ public class RoleModel {
 	private int w, h; //allow for variable dimensions
 	private float runSpeed, airSpeed; //horizontal 'thrust's
 	private float runSlip, airSlip; //friction values (percent out of 100)
-	private float jumpPower, termVel; //jump and fall speeds
+	private float jumpPower; //jump power
 	private int jumpHold; //jump control
-	//private int gravNum = 1, gravDen = 1; //gravity strength (N per D frames)
-	private float grav;
+	private float grav, termVel; //gravity
+	private int spawnTime, spawnInv; //respawn values
 	private int shotDelay; //shot frequency
 	private ShotModel shotType; //what kind of bullet you shoot
 
@@ -122,6 +122,18 @@ public class RoleModel {
 	}
 	public void setGrav(double grav) {
 		this.grav = (float) grav;
+	}
+	public int getSpawnTime() {
+		return spawnTime;
+	}
+	public void setSpawnTime(int spawnTime) {
+		this.spawnTime = spawnTime;
+	}
+	public int getSpawnInv() {
+		return spawnInv;
+	}
+	public void setSpawnInv(int spawnInv) {
+		this.spawnInv = spawnInv;
 	}
 	public int getShotDelay() {
 		return shotDelay;
