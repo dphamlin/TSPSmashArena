@@ -97,11 +97,13 @@ public abstract class GameState {
 		
 		//move all players to spawn points and remove their powerups
 		for (Actor a : f) {
-			a.setHCenter(getSpawnX(a.getId()));
-			a.setVCenter(getSpawnX(a.getId()));
-			a.setVx(0);
-			a.setVy(0);
-			a.setPowerup(0);
+			if (getMode() != STOCK || a.getLives() > 0) { //spawn the living characters
+				a.setHCenter(getSpawnX(a.getId()));
+				a.setVCenter(getSpawnX(a.getId()));
+				a.setVx(0);
+				a.setVy(0);
+				a.setPowerup(0);				
+			}
 		}
 
 		//reset the timer and end state
