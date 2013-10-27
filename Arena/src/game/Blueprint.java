@@ -8,14 +8,12 @@ package game;
 import java.util.ArrayList;
 
 public class Blueprint {
-	//private ArrayList<LandModel> pieces; //objects in the level
-	private ArrayList<Land> pieces = new ArrayList<Land>();
-	private int spawnX[] = {0,0,0,0};
+	private String name; //name, may or may not get used
+	private ArrayList<Land> pieces = new ArrayList<Land>(); //the level terrain
+	private int spawnX[] = {0,0,0,0}; //spawn point array (max 4 players)
 	private int spawnY[] = {0,0,0,0};
 	private int bg, bgm; //image, music, etc?
-	private int tileset; //id for a tile set from a big storage set of them
-
-	//TODO: Add a list of spawn points somehow 
+	private int tileset; //id for a tile set from a big storage set of them 
 
 	/**
 	 * Add a new land to the blueprint
@@ -26,8 +24,14 @@ public class Blueprint {
 	public void add(Land l) {
 		pieces.add(l);
 	}
-	
+
 	//getters and setters
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public ArrayList<Land> getPieces() {
 		return pieces;
 	}

@@ -8,12 +8,12 @@ public class Warehouse {
 	public static final int MARINE = 3;
 	public static final int ROBOT = 4;
 	public static final int SCIENTIST = 5;
-	
+
 	//levels
-	public static final int HOLODECK = -1;
-	public static final int DEMO = 1;
-	public static final int PLANET = 2;
-	public static final int FACTORY = 3;
+	public static final int HOLODECK = 0;
+	public static final int PLANET = 1;
+	public static final int FACTORY = 2;
+	public static final int DEMO = 3; //will be eventually removed
 
 	//dimensions for easy level building
 	private static final int WIDTH = 640, HEIGHT = 480;
@@ -22,7 +22,7 @@ public class Warehouse {
 	private static RoleModel characters[] = 
 		{lizardman(), slime(), captain(), spaceMarine(), robot(), madScientist()};
 	private static Blueprint maps[] = 
-		{demo(), alienPlanet(), factory()};
+		{holodeck(), alienPlanet(), factory(), demo()};
 
 	/**
 	 * @return Array of selectable characters
@@ -230,9 +230,44 @@ public class Warehouse {
 
 	/*private methods to init each map*/
 
-	//level select environment
+	//level select menu world
+	private static Blueprint holodeck() {
+		Blueprint b = new Blueprint();
+		b.setName("Level select");
+
+		//TODO: build actual map
+
+		//TODO: add spawn points
+
+		return b;
+	}
+	//lava and sand surface world
+	private static Blueprint alienPlanet() {
+		Blueprint b = new Blueprint();
+		b.setName("Alien Planet: Surface");
+
+		//TODO: build actual map
+
+		//TODO: add spawn points
+
+
+		return b;
+	}
+	//springs and conveyers machine world
+	private static Blueprint factory() {
+		Blueprint b = new Blueprint();
+		b.setName("Factory");
+
+		//TODO: build actual map
+
+		//TODO: add spawn points
+
+		return b;
+	}
+	//test environment
 	private static Blueprint demo() {
 		Blueprint b = new Blueprint();
+		b.setName("Test level");
 
 		//add terrain
 		b.add(new Land(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, Land.SOLID+Land.MOVE, 15));
@@ -248,20 +283,6 @@ public class Warehouse {
 		b.setSpawn(2, 250, 50);
 		b.setSpawn(3, 300, 60);
 
-		return b;
-	}
-	//lava and sand surface world
-	private static Blueprint alienPlanet() {
-		Blueprint b = new Blueprint();
-		//TODO: build actual map
-		//TODO: add spawn points
-		return b;
-	}
-	//springs and conveyers factory
-	private static Blueprint factory() {
-		Blueprint b = new Blueprint();
-		//TODO: build actual map
-		//TODO: add spawn points
 		return b;
 	}
 }

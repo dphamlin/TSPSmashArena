@@ -15,11 +15,11 @@ public abstract class GameState {
 	private ArrayList<Actor> f = new ArrayList<Actor>(); //fighters
 	private ArrayList<Shot> b = new ArrayList<Shot>(); //bullets
 	private ArrayList<Item> p = new ArrayList<Item>(); //power ups
-	private int s = 0; //stage
+	private int s = 0; //stage (default: holodeck)
 	private int fn = 0; //frame number
-	private int t = 50*60; //overall game time
-	private int ml = 5; //starting lives
-	private int m = MENU, nm = STOCK; //mode and impending mode
+	private int t = 50*60; //overall game time (default 1 min)
+	private int ml = 5; //starting lives (default 5)
+	private int m = MENU, nm = STOCK; //mode and impending mode (default starts on MENU)
 	private int end = 0; //is the game over?
 
 	public static final int WIDTH = 640, HEIGHT = 480;
@@ -78,7 +78,7 @@ public abstract class GameState {
 	 * Construct a basic level (test)
 	 */
 	public void initTestLevel() {
-		setLevel(0);
+		setLevel(Warehouse.DEMO);
 		setMode(STOCK);
 	}
 	

@@ -52,13 +52,13 @@ public class ServerGameState extends GameState {
 	 * @return the game results, in a nice package
 	 */
 	public GameResults getResults() {
-		res.setMode(getNextMode()); //nextMode is preserved in case of Sudden Death
+		res.setMode(getNextMode()); //nextMode is preserved in case of Sudden Death Match
 		res.setStock(getStock());
 		res.setTime(getTime());
 		res.setWinners(getWinners());
 		return res;
 	}
-	
+
 	/**
 	 * Update the entire game state
 	 * 

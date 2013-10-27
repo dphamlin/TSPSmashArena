@@ -21,7 +21,7 @@ public class TestDriver {
 		ServerGameState gs = new ServerGameState();
 		StopWatch t = new StopWatch(20);
 		v.attachController(c);
-		gs.setLevel(0);
+		gs.setLevel(Warehouse.DEMO); //temporary level
 		gs.setMode(GameState.STOCK); //temporary game mode
 		gs.setTime(60*50); //one minute for time
 		gs.setStock(5); //five lives for stock
