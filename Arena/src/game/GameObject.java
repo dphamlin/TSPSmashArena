@@ -8,19 +8,21 @@ package game;
  */
 public abstract class GameObject {
 	
-	private float x, y;
-	private float vx = 0, vy = 0;
+	//private float x, y;
+	//private float vx = 0, vy = 0;
+	private int x, y;
+	private int vx = 0, vy = 0;
 	private int w, h;
 	private int f;
 	private int sk;
 	private int d = 0;
 	
+	private static final float scale = 100;
+	
 	/**
 	 * "Do nothing" generic constructor
 	 */
 	public GameObject() {
-		this.vx = 0;
-		this.vy = 0;
 	}
 	
 	/**
@@ -32,10 +34,10 @@ public abstract class GameObject {
 	 * 		starting y position
 	 */
 	public GameObject(int x, int y) {
-		this.x = x;
-		this.y = y;
-		this.vx = 0;
-		this.vy = 0;
+		/*this.x = x;
+		this.y = y;*/
+		this.x = (int)(x*scale);
+		this.y = (int)(y*scale);
 	}
 	
 	/**
@@ -51,8 +53,10 @@ public abstract class GameObject {
 	 * 		starting height
 	 */
 	public GameObject(int x, int y, int w, int h) {
-		this.x = x;
-		this.y = y;
+		/*this.x = x;
+		this.y = y;*/
+		this.x = (int)(x*scale);
+		this.y = (int)(y*scale);
 		this.h = h;
 		this.w = w;
 	}
@@ -155,16 +159,20 @@ public abstract class GameObject {
 	 * Getters for basic properties 
 	 */
 	public float getX() {
-		return x;
+		//return x;
+		return (float)(x/scale);
 	}
 	public float getY() {
-		return y;
+		//return y;
+		return (float)(y/scale);
 	}
 	public float getVx() {
-		return vx;
+		//return vx;
+		return (float)(vx/scale);
 	}
 	public float getVy() {
-		return vy;
+		//return vy;
+		return (float)(vy/scale);
 	}
 	public int getW() {
 		return w;
@@ -183,16 +191,20 @@ public abstract class GameObject {
 	 * Setters for basic properties
 	 */
 	public void setX(double x) {
-		this.x = (float) x;
+		//this.x = (float) x;
+		this.x = (int)(scale*x);
 	}
 	public void setY(double y) {
-		this.y = (float) y;
+		//this.y = (float) y;
+		this.y = (int)(scale*y);
 	}
 	public void setVx(double vx) {
-		this.vx = (float) vx;
+		//this.vx = (float) vx;
+		this.vx = (int)(scale*vx);
 	}
 	public void setVy(double vy) {
-		this.vy = (float) vy;
+		//this.vy = (float) vy;
+		this.vy = (int)(scale*vy);
 	}
 	public void setW(int w) {
 		this.w = w;
