@@ -111,6 +111,15 @@ public class Arena {
 			
 			theClient.getTimer().loopRest();// Rest for the rest of the loop
 		}
+		
+		if (serverProcess != null) {
+			try {
+				serverProcess.waitFor();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 			
 		System.out.println("Game over. Thanks for playing!");
 		System.exit(0); //super quit
