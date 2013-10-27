@@ -36,11 +36,7 @@ public class Actor extends GameObject {
 		super(x, y);
 
 		//bind to their RoleModel
-		RoleModel rm = Warehouse.getCharacters()[character];
 		setModel(character);
-		setSkin(rm.getSkin());
-		setW(rm.getW());
-		setH(rm.getH());
 
 		//initialize some basic values
 		dt = getSpawnTime();
@@ -170,7 +166,12 @@ public class Actor extends GameObject {
 	public int getModel() {
 		return m;
 	}
+	//also sets derived fields
 	public void setModel(int model) {
 		this.m = model;
+		RoleModel rm = Warehouse.getCharacters()[model];
+		setSkin(rm.getSkin());
+		setW(rm.getW());
+		setH(rm.getH());
 	}
 }

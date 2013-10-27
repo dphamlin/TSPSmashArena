@@ -18,7 +18,7 @@ public class ServerGameState extends GameState {
 	private static final int NONE = 0;
 
 	//TODO: add results- ranking, winner, order, game time, etc.
-	
+
 	/**
 	 * Generic constructor
 	 */
@@ -68,7 +68,7 @@ public class ServerGameState extends GameState {
 
 		//check for the end of the game
 		checkEnd();
-		
+
 		//track the number of frames passed
 		incrementFrames();
 	}
@@ -120,7 +120,7 @@ public class ServerGameState extends GameState {
 			shoot(a);
 		}
 	}
-	
+
 	/**
 	 * Update whether the game has ended or not
 	 */
@@ -138,7 +138,7 @@ public class ServerGameState extends GameState {
 			setEnd(getFrameNumber() > getTime());
 		}
 	}
-	
+
 	/**
 	 * @return the number of players still alive
 	 */
@@ -262,7 +262,7 @@ public class ServerGameState extends GameState {
 			a.loseLife();
 		}
 	}
-	
+
 	/**
 	 * An actor kills another
 	 * 
@@ -432,12 +432,36 @@ public class ServerGameState extends GameState {
 		int h = hCollide(a, l);
 		boolean ov = overlap(a, l);
 
-		//activate warp points
+		//activate warp blocks
 		if (l.isWarp() && (v != NONE || h != NONE || ov)) {
-			setLevel(l.getVar()); //warp to new level
+			setLevel(l.getVar()); //warp to chosen level
 			setMode(getNextMode()); //change to appropriate game mode
 		}
-		
+
+		//character change blocks
+		if (l.isWarp() && (v != NONE || h != NONE || ov)) {
+			a.setModel(l.getVar());
+			respawn(a);
+		}
+
+		//option changing blocks
+		if (l.isOption() && (v != NONE || h != NONE || ov)) {
+			//mode changing
+			if (l.getVar() == 0) {
+				//cycle up
+				if (getNextMode() == STOCK) {
+					setNextMode(TIME);
+				}
+				//loop back
+				else {
+					setNextMode(STOCK);
+				}
+			}
+			//TODO: add variable changing blocks, somehow...?
+		}
+
+		//TODO: Setting (lives/time) changing block
+
 		//die on touching danger
 		if (l.isDanger() && (v != NONE || h != NONE || ov)) {
 			die(a);
@@ -579,7 +603,7 @@ public class ServerGameState extends GameState {
 		//apply ground friction (moving ground)
 		if (a.getOnLand() != null && a.getOnLand().isMove()) {
 			Land l = a.getOnLand();
-			a.setVx((a.getVx()-l.getVar())*a.getRunSlip()+l.getVar()); //slip + movement
+			a.setVx((a.getVx()-l.getVar()*.1)*a.getRunSlip()+l.getVar()*.1); //slip + movement
 		}
 		//apply ground friction (normal ground)
 		else if (a.getOnLand() != null) {

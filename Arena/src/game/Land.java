@@ -15,9 +15,10 @@ public class Land extends GameObject {
 	public static final int SLIP = 16;
 	public static final int MOVE = 32;
 	public static final int WARP = 64; //for in-game level select
-	public static final int OPTION = 128; //for in game options
-	private static final int MAX = 255; //sum of all previous
-	
+	public static final int CHAR = 128; //change characters
+	public static final int OPTION = 256; //for in game options 
+	private static final int MAX = 511; //sum of all previous
+
 	//current type is a bitmask
 	private int t; //type
 	private int v; //extra data
