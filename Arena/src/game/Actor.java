@@ -134,8 +134,14 @@ public class Actor extends GameObject {
 		}
 		return Warehouse.getCharacters()[m].getRunSlip();
 	}
+	public float getRunFrict() {
+		return Warehouse.getCharacters()[m].getRunFrict();
+	}
 	public float getAirSlip() {
 		return Warehouse.getCharacters()[m].getAirSlip();
+	}
+	public float getAirFrict() {
+		return Warehouse.getCharacters()[m].getAirFrict();
 	}
 	public float getJumpPower() {
 		return Warehouse.getCharacters()[m].getJumpPower();
