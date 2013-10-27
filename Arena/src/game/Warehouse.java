@@ -8,6 +8,12 @@ public class Warehouse {
 	public static final int MARINE = 3;
 	public static final int ROBOT = 4;
 	public static final int SCIENTIST = 5;
+	
+	//levels
+	public static final int HOLODECK = -1;
+	public static final int DEMO = 1;
+	public static final int PLANET = 2;
+	public static final int FACTORY = 3;
 
 	//dimensions for easy level building
 	private static final int WIDTH = 640, HEIGHT = 480;
@@ -16,7 +22,7 @@ public class Warehouse {
 	private static RoleModel characters[] = 
 		{lizardman(), slime(), captain(), spaceMarine(), robot(), madScientist()};
 	private static Blueprint maps[] = 
-		{holodeck(), alienPlanet(), factory()};
+		{demo(), alienPlanet(), factory()};
 
 	/**
 	 * @return Array of selectable characters
@@ -225,14 +231,14 @@ public class Warehouse {
 	/*private methods to init each map*/
 
 	//level select environment
-	private static Blueprint holodeck() {
+	private static Blueprint demo() {
 		Blueprint b = new Blueprint();
 
 		//add terrain
 		b.add(new Land(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, Land.SOLID+Land.MOVE, 15));
 		b.add(new Land(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
 		b.add(new Land(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, Land.BOUNCE+Land.SOLID));
-		b.add(new Land(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
+		b.add(new Land(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM+Land.SLIP));
 		b.add(new Land(20, HEIGHT/2-50, 50, 50, Land.DANGER));
 		b.add(new Land(WIDTH-70, HEIGHT/2-50, 50, 50, Land.DANGER));
 
@@ -247,13 +253,15 @@ public class Warehouse {
 	//lava and sand surface world
 	private static Blueprint alienPlanet() {
 		Blueprint b = new Blueprint();
-		//TODO: build actual map details
+		//TODO: build actual map
+		//TODO: add spawn points
 		return b;
 	}
 	//springs and conveyers factory
 	private static Blueprint factory() {
 		Blueprint b = new Blueprint();
-		//TODO: build actual map details
+		//TODO: build actual map
+		//TODO: add spawn points
 		return b;
 	}
 }

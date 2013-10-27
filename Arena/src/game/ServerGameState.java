@@ -17,7 +17,8 @@ public class ServerGameState extends GameState {
 	private static final int BOTTOM = 1;
 	private static final int NONE = 0;
 
-	//TODO: add results- ranking, winner, order, game time, etc.
+	//non-synchronized game results
+	GameResults res = new GameResults();
 
 	/**
 	 * Generic constructor
@@ -45,6 +46,19 @@ public class ServerGameState extends GameState {
 		return new ClientGameState(this);
 	}
 
+	/**
+	 * Get the results of a game
+	 * 
+	 * @return the game results, in a nice package
+	 */
+	public GameResults getResults() {
+		res.setMode(getNextMode()); //nextMode is preserved in case of Sudden Death
+		res.setStock(getStock());
+		res.setTime(getTime());
+		res.setWinners(getWinners());
+		return res;
+	}
+	
 	/**
 	 * Update the entire game state
 	 * 
@@ -86,7 +100,8 @@ public class ServerGameState extends GameState {
 	}
 
 	/**
-	 * Apply a player's controls to their character (make private eventually)
+	 * Apply a player's controls to their character
+	 * TODO: make private eventually
 	 * 
 	 * @param a
 	 * 		the actor associated with the input
@@ -121,6 +136,12 @@ public class ServerGameState extends GameState {
 		}
 	}
 
+	@Override
+	public Actor addPlayer(int character) {
+		res.addPlayer();
+		return super.addPlayer(character);
+	}
+	
 	/**
 	 * Update whether the game has ended or not
 	 */
@@ -278,6 +299,9 @@ public class ServerGameState extends GameState {
 		if (!isGameOver() && getMode() != MENU) {
 			a.getPoint();
 		}
+		//a gets a kill, b gets a death
+		res.addKill(a.getId(), b.getId());
+		res.addDeath(b.getId(), a.getId());
 	}
 
 	/**
@@ -465,6 +489,7 @@ public class ServerGameState extends GameState {
 		//die on touching danger
 		if (l.isDanger() && (v != NONE || h != NONE || ov)) {
 			die(a);
+			res.addDeath(a.getId(), -1); //-1 is a level death
 			//TODO: Determine if you should lose points for level deaths
 			/*if (getMode() == TIME) {
 				a.setScore(a.getScore()-1);
