@@ -244,7 +244,7 @@ public class Warehouse {
 
 		return b;
 	}
-	//lava-and-meteors surface world
+	//lava and sand surface world
 	private static Blueprint alienPlanet() {
 		Blueprint b = new Blueprint();
 		//TODO: build actual map details

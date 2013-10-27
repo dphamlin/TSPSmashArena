@@ -95,11 +95,36 @@ public abstract class GameState {
 		//identify level
 		s = i;
 		
-		//move all players to spawn points
+		//move all players to spawn points and remove powerups
 		for (Actor a : f) {
 			a.setHCenter(getSpawnX(a.getId()));
 			a.setVCenter(getSpawnX(a.getId()));
+			a.setVx(0);
+			a.setVy(0);
+			a.setPowerup(0);
 		}
+		
+		//reset the timer
+		resetFrameNumber();
+	}
+	
+	/**
+	 * Initiates sudden death mode
+	 * 
+	 * @param players
+	 * 		the participating player's IDs
+	 */
+	public void startSuddenDeath(ArrayList<Integer> players) {
+		setMode(STOCK); //always a stock match
+		//assume dead
+		for (Actor a : f) {
+			a.setLives(0);
+		}
+		//revive participants with 1 life
+		for (Integer i : players) {
+			getPlayer(i).setLives(1);
+		}
+		setLevel(s); //restart the stage
 	}
 	
 	/**
@@ -234,7 +259,7 @@ public abstract class GameState {
 	/**
 	 * reset the loop number
 	 */
-	public void resetFrames() {
+	public void resetFrameNumber() {
 		this.fn = 0;
 	}
 
