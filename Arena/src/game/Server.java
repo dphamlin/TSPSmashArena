@@ -149,6 +149,11 @@ public class Server {
 		int numberOfPlayers = 2;
 		if (args.length > 0)
 			numberOfPlayers = Integer.parseInt(args[0]); // args[0] is not just program name in Java
+		else {
+			System.out.println("Please enter the number of players:");
+			Scanner inputScanner = new Scanner(System.in);
+			numberOfPlayers = inputScanner.nextInt();
+		} 
 		
 		writer.println(numberOfPlayers);
 		
