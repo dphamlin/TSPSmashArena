@@ -10,14 +10,14 @@ public class Actor extends GameObject {
 
 	//current data
 	private int id; //used in place of references
-	private int at; //air time
+	private int at = 1; //air time
 	private int dt; //dead time
 	private int r; //reload
 	private int dir = 1; //direction
-	private int p; //power up
+	private int p = 0; //power up
 	private int pv; //power up extra variable
-	private Land ol; //current land underfoot
-	private int s; //score
+	private Land ol = null; //current land underfoot
+	private int s = 0; //score
 	private int l; //lives
 
 	private int m; //selected RoleModel from the Warehouse
@@ -43,11 +43,7 @@ public class Actor extends GameObject {
 		setH(rm.getH());
 
 		//initialize some basic values
-		dir = 1;
-		at = 1;
 		dt = getSpawnTime();
-		ol = null;
-		p = 0;
 	}
 
 	//check if they're invincible

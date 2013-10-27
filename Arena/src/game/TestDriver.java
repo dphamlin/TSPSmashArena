@@ -22,7 +22,7 @@ public class TestDriver {
 		StopWatch t = new StopWatch(20);
 		v.attachController(c);
 		gs.setLevel(0);
-		gs.setMode(GameState.TIME); //temporary game mode
+		gs.setMode(GameState.STOCK); //temporary game mode
 		gs.setTime(60*50); //one minute for time
 		gs.setStock(5); //five lives for stock
 		

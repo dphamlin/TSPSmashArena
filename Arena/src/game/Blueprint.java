@@ -10,6 +10,8 @@ import java.util.ArrayList;
 public class Blueprint {
 	//private ArrayList<LandModel> pieces; //objects in the level
 	private ArrayList<Land> pieces = new ArrayList<Land>();
+	private int spawnX[] = {0,0,0,0};
+	private int spawnY[] = {0,0,0,0};
 	private int bg, bgm; //image, music, etc?
 	private int tileset; //id for a tile set from a big storage set of them
 
@@ -47,4 +49,15 @@ public class Blueprint {
 	public void setTileset(int tileset) {
 		this.tileset = tileset;
 	}
+	public int getSpawnX(int i) {
+		return spawnX[i];
+	}
+	public int getSpawnY(int i) {
+		return spawnY[i];
+	}
+	public void setSpawn(int i, int x, int y) {
+		spawnX[i] = x;
+		spawnY[i] = y;
+	}
+	
 }

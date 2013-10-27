@@ -62,10 +62,14 @@ public abstract class GameState {
 	 * 		the character they selected to spawn as
 	 */
 	public Actor addPlayer(int character) {
-		Actor a = new Actor(200+f.size()*100, 100, character); //TODO: Proper spawn points
-		a.setLives(5); //TODO: make a "lives" setting
+		//Actor a = new Actor(200+f.size()*100, 100, character); //TODO: Proper spawn points
+		Actor a = new Actor(0, 0, character); //start somewhere
+		//move to spawn point, assign starting values
+		a.setLives(getStock());
 		a.setId(f.size());
 		a.setLives(getStock());
+		a.setHCenter(getSpawnX(a.getId()));
+		a.setVCenter(getSpawnX(a.getId()));
 		f.add(a);
 		return a;
 	}
@@ -91,7 +95,11 @@ public abstract class GameState {
 		//identify level
 		s = i;
 		
-		//TODO: Set spawn points?
+		//move all players to spawn points
+		for (Actor a : f) {
+			a.setHCenter(getSpawnX(a.getId()));
+			a.setVCenter(getSpawnX(a.getId()));
+		}
 	}
 	
 	/**
@@ -142,7 +150,31 @@ public abstract class GameState {
 	public ArrayList<Land> getLevel() {
 		return Warehouse.getMaps()[s].getPieces();
 	}
+	
+	/**
+	 * Find the x position of player's spawn point
+	 * 
+	 * @param i
+	 * 		the player's spawn to get
+	 * @return
+	 * 		the x position of a spawn point
+	 */
+	public int getSpawnX (int i) {
+		return Warehouse.getMaps()[s].getSpawnX(i);
+	}
 
+	/**
+	 * Find the y position of player's spawn point
+	 * 
+	 * @param i
+	 * 		the player's spawn to get
+	 * @return
+	 * 		the y position of a spawn point
+	 */
+	public int getSpawnY (int i) {
+		return Warehouse.getMaps()[s].getSpawnY(i);
+	}
+	
 	/**
 	 * Get a list of the bullets and projectiles
 	 * 
@@ -269,7 +301,7 @@ public abstract class GameState {
 	/**
 	 * @return the next game mode
 	 */
-	public int getNextNMode() {
+	public int getNextMode() {
 		return nm;
 	}
 

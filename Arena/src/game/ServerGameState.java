@@ -293,8 +293,8 @@ public class ServerGameState extends GameState {
 		}
 		a.setDead(false);
 		fall(a);
-		a.setHCenter(WIDTH/2); //TODO: Make proper spawn points in the level
-		a.setTopEdge(50);
+		a.setHCenter(getSpawnX(a.getId()));
+		a.setVCenter(getSpawnX(a.getId()));
 	}
 
 	/**
@@ -432,6 +432,12 @@ public class ServerGameState extends GameState {
 		int h = hCollide(a, l);
 		boolean ov = overlap(a, l);
 
+		//activate warp points
+		if (l.isWarp() && (v != NONE || h != NONE || ov)) {
+			setLevel(l.getVar()); //warp to new level
+			setMode(getNextMode()); //change to appropriate game mode
+		}
+		
 		//die on touching danger
 		if (l.isDanger() && (v != NONE || h != NONE || ov)) {
 			die(a);

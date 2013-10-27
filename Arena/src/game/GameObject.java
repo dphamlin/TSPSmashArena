@@ -10,6 +10,7 @@ public abstract class GameObject {
 	
 	//private float x, y;
 	//private float vx = 0, vy = 0;
+	//Secretly, x, y, vx, and vy are fixed point values multiplied by scale, and shown outside as floats
 	private int x, y;
 	private int vx = 0, vy = 0;
 	private int w, h;
@@ -17,7 +18,7 @@ public abstract class GameObject {
 	private int sk;
 	private int d = 0;
 	
-	private static final float scale = 100;
+	private static final float scale = 100; //multiplier for fixed point storage
 	
 	/**
 	 * "Do nothing" generic constructor
@@ -34,8 +35,8 @@ public abstract class GameObject {
 	 * 		starting y position
 	 */
 	public GameObject(int x, int y) {
-		/*this.x = x;
-		this.y = y;*/
+		//this.x = x;
+		//this.y = y;
 		this.x = (int)(x*scale);
 		this.y = (int)(y*scale);
 	}
@@ -53,8 +54,8 @@ public abstract class GameObject {
 	 * 		starting height
 	 */
 	public GameObject(int x, int y, int w, int h) {
-		/*this.x = x;
-		this.y = y;*/
+		//this.x = x;
+		//this.y = y;
 		this.x = (int)(x*scale);
 		this.y = (int)(y*scale);
 		this.h = h;

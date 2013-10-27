@@ -193,6 +193,16 @@ public class ClientGameState extends GameState {
 		else if (l.isPlatform()) {
 			g.drawRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH());
 		}
+		//VERY hackish temporary "move" indicators
+		if (l.isMove()) {
+			int y = (int)l.getTopEdge()-2;
+			int sx = (int)l.getLeftEdge();
+			int ex = (int)l.getLeftEdge()+l.getW()*3/4;
+			for (int x = sx; x <= ex; x += l.getW()/4) {
+				int x2 = x+l.getW()/8;
+				g.drawLine(x+l.getW()/16, y, x2+l.getW()/16, y);				
+			}
+		}
 
 		//TODO: Indicate conveyer belts somehow
 	}

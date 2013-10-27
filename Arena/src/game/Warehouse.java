@@ -227,13 +227,21 @@ public class Warehouse {
 	//level select environment
 	private static Blueprint holodeck() {
 		Blueprint b = new Blueprint();
-		//TODO: build actual map details
+		
+		//add terrain
 		b.add(new Land(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, Land.SOLID+Land.MOVE, 1));
 		b.add(new Land(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
 		b.add(new Land(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, Land.BOUNCE+Land.SOLID));
 		b.add(new Land(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM));
 		b.add(new Land(20, HEIGHT/2-50, 50, 50, Land.DANGER));
 		b.add(new Land(WIDTH-70, HEIGHT/2-50, 50, 50, Land.DANGER));
+		
+		//add spawn points
+		b.setSpawn(0, 150, 60);
+		b.setSpawn(1, 200, 50);
+		b.setSpawn(2, 250, 50);
+		b.setSpawn(3, 300, 60);
+		
 		return b;
 	}
 	//lava-and-meteors surface world
