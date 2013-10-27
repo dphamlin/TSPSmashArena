@@ -2,35 +2,34 @@ package game;
 import java.util.*;
 import java.io.*;
 import java.net.*;
+import java.nio.file.Paths;
+
 import com.google.gson.*;
 
 public class Arena {
+	
+	private static int port = 5379;
+	
 	public static void main(String[] args){
 		
-		//Server theServer = null;
-		Client theClient = null;
-		int serverPort = 5379; // default port
-		//Controller theContoller;
-		Message theMessage;
-		
-		//Thread serverThread = null;
-
-		int choice = 0;
+		String selection = "0";
+		int choice = -1;
 		Scanner inputScanner = new Scanner(System.in);
 
 		System.out.println("Welcome. " +
-				"Enter 0 if you wish to connect to loopback; otherwise, enter 1 to choose IP address and port.\n");
-		choice = inputScanner.nextInt();
+				"Enter 0 if you wish to host a game; otherwise, enter the IP address of the game you wish to join.\n");
+		selection = inputScanner.nextLine();
+		try {
+			choice = Integer.parseInt(selection);
+		}
+		catch (NumberFormatException nfe) {
+			choice = -1;
+		}
 		
-		/*
-		if (choice == 0) { // Elected to host a game
-			try {
-				theServer = new Server(serverPort);
-			}
-			catch (Exception e) {
-				System.err.println("Failed to create game server. Exiting.");
-				System.exit(1);
-			}
+		Process serverProcess = null;
+		if (choice == 0) { // Host and connect on loopback
+
+			inputScanner = new Scanner(System.in); // Crudely reset scanner
 			
 			int numberOfPlayers = 0;
 			while (numberOfPlayers < 1) {
@@ -38,79 +37,82 @@ public class Arena {
 				numberOfPlayers = inputScanner.nextInt();
 			}
 			
-			theServer.setNumberOfPlayers(numberOfPlayers);
-			serverThread = new Thread(theServer); // Need a proper synchronized approach here
-			serverThread.start();
-		}
-		*/
-		
-		/* Test code 
-		while (serverThread.isAlive()){
+			String currentPath = Paths.get("").toAbsolutePath().toString();
+			String[] commandArgs = {"java","-cp",currentPath + File.pathSeparator + currentPath + "/lib/gson-2.2.4.jar" + File.pathSeparator + currentPath + "/bin","game.Server",String.valueOf(numberOfPlayers)};
+			
 			try {
-				Thread.sleep(10);
+				ProcessBuilder processBuilder = new ProcessBuilder(commandArgs);
+				System.out.println(processBuilder.directory());
+				for (String s: processBuilder.command())
+					System.out.println(s);
+				serverProcess = processBuilder.start();
 			}
-			catch (Exception e) {
-				System.err.println("Can't sleep. Clown will eat me.");
+			catch (IOException ioe) {
+				System.err.println("IOException attempting to start the server.");
+				System.exit(1);
 			}
-			System.out.println("Main Arena thread.");
+			
+			if (serverProcess == null) {
+				System.err.println("Failed to execute the server.");
+				System.exit(1);
+			}
 		}
-		*/
-		// The client section begins here
-
+		inputScanner.close();
+		
 		InetAddress serverAddr = InetAddress.getLoopbackAddress(); // default IP address
-		serverPort = 5379; // default port
+		int serverPort = port;
 	
-		try {
-			if (choice != 0){ // Otherwise, prompt for IP address and port, interpret, then connect
-				inputScanner = new Scanner(System.in);
-				System.out.println("Please enter the IP address of the server (in the typical format):");
-				String addrString = inputScanner.nextLine();
-				serverAddr = InetAddress.getByName(addrString);
-				//System.out.println("Please enter the port number at which the server is listening:");
-				//serverPort = inputScanner.nextInt();
+		Client theClient = null;
+		if (choice != 0) {
+			try {
+				serverAddr = InetAddress.getByName(selection);
 			}
-			theClient = new Client(serverAddr,serverPort);
-		}
-		catch (UnknownHostException uhe) {
+			catch (UnknownHostException uhe) {
 			System.out.println("Could not connect to server.  Unknown host.");
 			System.exit(1);
-		}
-		catch (Exception e) {
-			System.out.println("Could not connect to server.  Unspecified error.");
-			System.exit(1);
-		}
-		int count = 0;
-		// Client should be connected; begin communication cycle
-		while (!theClient.getSocket().isClosed()) {
-			
-			//inputScanner = new Scanner(System.in);
-			Gson jsonGen = new Gson();
-			
-			//System.out.println("Enter a line to send to the server.");
-			//String nextLine = inputScanner.nextLine();
-			theMessage = new Message("Hey the time here is "+System.currentTimeMillis()+" ",count);
-			System.out.println(theMessage.getMessage());
-			//theClient.writeToServer(nextLine);
-			theClient.writeToServer(jsonGen.toJson(theMessage));
-			
-			try {
-				theClient.readStateString(); // Have the client read the response from the server.
-				//Read the gamestate through json
-				//theClient.setState(jsonGen.fromJson(theClient.getStateString(), GameState.class));  
-				
 			}
 			catch (Exception e) {
-				System.err.println("Failed to update state string from server.");
-				theClient.setStateString("Nothing received.");
-				
+			System.out.println("Could not connect to server.  Unspecified error.");
+			System.exit(1);
 			}
-			System.out.println("The server returned the following state:");
-			Message response = jsonGen.fromJson(theClient.getStateString(), Message.class);
-			System.out.println("Response #: "+response.getNumber()+" : "+response.getMessage());
-			//theClient.getView().reDraw(theClient.getState());
-			count++;
 		}
-		System.out.println("Thanks for playing.  Cheers.");
-		System.exit(0);
+
+		try {
+			theClient = new Client(serverAddr,serverPort);
+		}
+		catch (IOException e) {
+			System.err.println("Failed to create game client. " + e.getMessage());
+			System.exit(1);
+		}
+		
+		
+		while (!theClient.getSocket().isConnected());
+		
+		// Client should be connected; begin communication cycle. Consider reordering or adding initial send/receives
+		while (theClient.getSocket().isConnected()) {
+			
+			theClient.getTimer().loopStart(); // Start the loop
+			
+			theClient.updateController(); // Update controller
+			
+			theClient.writeController(); // Write controller to the server
+			
+			try {
+				theClient.readGameState(); // Read the game state from the server and update the current game state
+			}
+			catch (Exception e) {
+				// System.err.println("Failed to receive the game state from the server.");
+				System.out.println("Game over. Thanks for playing!");
+				theClient.getView().setVisible(false);
+				System.exit(0);
+			}
+			
+			theClient.getView().reDraw(theClient.getState());// Client draws game state here!
+			
+			theClient.getTimer().loopRest();// Rest for the rest of the loop
+		}
+			
+		System.out.println("Game over. Thanks for playing!");
+		System.exit(0); //super quit
 	}
 }

@@ -3,13 +3,14 @@ package game;
 import java.util.*;
 import java.io.*;
 import java.net.*;
+
 import com.google.gson.*;
 
 public class Server {
 	
 	private ServerSocket serverSocket;
 	private ArrayList<Participant> participantList;
-	private int numberOfPlayers = 0;
+	private int numberOfPlayers = 1;
 	// private String stateString = null;
 	private ServerGameState game;
 	private Gson json;
@@ -96,11 +97,12 @@ public class Server {
 		ArrayList<Participant> newParticipantList = new ArrayList<Participant>();
 		
 		// Try to accept a connection; if successful, add a Participant with that connected socket
+		PrintWriter pw = new PrintWriter("special.txt");
 		for (int i=0;i<num;i++) { 
 			try {
 				s = getServerSocket().accept();
 			}
-			catch (Exception e) {
+			catch (IOException e) {
 				s = null;
 			}
 			if (s != null) {
@@ -108,8 +110,12 @@ public class Server {
 				p.setPlayer(getGameState().addPlayer());
 				newParticipantList.add(p);
 				System.out.println("Player: "+(i+1)+" connected.");
+				pw.println("Player: "+(i+1)+" connected.");
 			}
 		}
+		pw.close();
+		setNumberOfPlayers(newParticipantList.size());
+		getServerSocket().close(); // Stop accepting connections
 		return newParticipantList;
 	}
 	
@@ -119,107 +125,34 @@ public class Server {
 			getGameState().readControls(p);
 		}
 	}
-	
-	public void run(int numberOfPlayers) {
-		setNumberOfPlayers(numberOfPlayers);
-		run();
-	}
-	
-	// This method may no longer be needed.
-	public void run() {
 		
-		/* Test code
-		for (int i=0;i<100;i++) {
-			System.out.println(i + " Server: in its own thread!");
-			try {
-				Thread.sleep(15);
-			}
-			catch (Exception e) {
-				System.out.println("Can't sleep. Clown will eat me.");
-			}
-		}
-		Thread.currentThread().stop(); // Deprecated and bad, but I need results now
-		*/
-		getGameState().initTestLevel();
-		
-		// Connect clients and adds them to the participantList
-		try {
-			setParticipantList(connectParticipants(getNumberOfPlayers()));
-		}
-		catch (Exception e) {
-			System.err.println("Error connecting client to server. Exiting.\n");
-		}
-		
-		// All participants should connected; begin communication cycle
-		while (true) { // A round of One Hundred exchanges for testing purposes
-			
-			timer.loopStart(); //log start time
-			
-			try {
-				readControllersFromAll(getParticipantList()); // Reads updated controllers into all participants
-			}
-			catch (Exception e) {
-				System.err.println("Could not receive a participant's controller information.");
-			}
-			
-			// Controllers now ready for application to game state
-			// HERE GAME LOGIC SHOULD BE UPDATED USING THE CONTROLLERS
-			// My stab at it:
-			applyAllControls(getParticipantList()); // Applies controls for all participants
-			getGameState().update(); // updates game state using game logic
-	
-			// GameState is updated by this point; send it to all
-			writeGameStateToAll(getParticipantList());
-			
-			timer.loopRest(); //rest until loop end
-			
-			// All controller strings should be updated; create updated state string from them
-			/*
-			String newStateString = "";
-			for (int j=1;j<=participantList.size();j++) {
-				Message response = jsonGen.fromJson(participantList.get(j-1).getControllerString(), Message.class);
-				newStateString = newStateString + "Player " + j + " sent: "+ "#:"+response.getNumber()+": "+response.getMessage() + ", ";
-			}
-			System.out.println(newStateString);
-			System.out.println("Enter a line to send to the clients.");
-			String nextLine = inputScanner.nextLine();
-			*/
-			
-			//setStateString(jsonGen.toJson(game/*GameState*/));
-			//Message theMessage = new Message(nextLine+newStateString, i);
-			//setStateString(jsonGen.toJson(theMessage));
-			
-			// State string is ready; send to all participants
-			/*
-			for (Participant p: participantList) {
-				p.writeToClient(getStateString());
-			}
-			*/
-		}
-		
-		// Done with test round; stop thread
-		//System.out.println("Done with test round; server going offline.");
-	}
-	
 	public static void main(String []args) {
 		
-		Server theServer = null;
-		Scanner inputScanner = new Scanner(System.in);
+		PrintWriter writer = new PrintWriter(System.out);
+		try {
+			writer = new PrintWriter("output.txt");
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
+		Server theServer = null;
 		try {
 			theServer = new Server();
 		}
 		catch (Exception e) {
 			System.out.println("Could not start the server.");
+			writer.println("Could not start the server.");
 			System.exit(1);
 		}
 		
-		if (theServer == null) {
-			System.exit(1);
-		}
-
-		System.out.println("Please enter the number of players:");
-		theServer.setNumberOfPlayers(inputScanner.nextInt());
+		int numberOfPlayers = 2;
+		if (args.length > 0)
+			numberOfPlayers = Integer.parseInt(args[0]); // args[0] is not just program name in Java
+		
+		writer.println(numberOfPlayers);
+		
+		theServer.setNumberOfPlayers(numberOfPlayers);
 		
 		theServer.getGameState().initTestLevel();
 		
@@ -228,11 +161,17 @@ public class Server {
 			theServer.setParticipantList(theServer.connectParticipants(theServer.getNumberOfPlayers()));
 		}
 		catch (Exception e) {
-			System.err.println("Error connecting client to server. Exiting.\n");
+			System.err.println("Error connecting client to server.\n");
+			writer.println("Error connecting client to server.\n");
 		}
 		
+		for (Participant p: theServer.getParticipantList())
+			writer.println(p);
+		
+		writer.println("About to enter loop.");
+		writer.close();
 		// All participants should connected; begin communication cycle
-		while (true) { // A round of One Hundred exchanges for testing purposes
+		while (true) {
 			
 			theServer.getTimer().loopStart(); //log start time
 			
@@ -241,6 +180,7 @@ public class Server {
 			}
 			catch (Exception e) {
 				System.err.println("Could not receive a participant's controller information.");
+				System.exit(1);
 			}
 			
 			// Controllers now ready for application to game state

@@ -145,12 +145,12 @@ public class Client {
 			System.exit(1);
 		}
 		catch (Exception e) {
-			System.out.println("Could not connect to server.  Unspecified error.");
+			System.out.println("Could not connect to server. " + e.getMessage());
 			System.exit(1);
 		}
 		
 		// Client should be connected; begin communication cycle. Consider reordering or adding initial send/receives
-		while (!theClient.getSocket().isClosed()) {
+		while (theClient.getSocket().isConnected()) {
 			
 			theClient.getTimer().loopStart(); // Start the loop
 			
