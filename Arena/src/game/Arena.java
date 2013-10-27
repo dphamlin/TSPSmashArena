@@ -85,9 +85,6 @@ public class Arena {
 			System.exit(1);
 		}
 		
-		
-		while (!theClient.getSocket().isConnected());
-		
 		// Client should be connected; begin communication cycle. Consider reordering or adding initial send/receives
 		while (theClient.getSocket().isConnected()) {
 			
