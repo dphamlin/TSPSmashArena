@@ -13,11 +13,14 @@ public class Land extends GameObject {
 	public static final int DANGER = 4;
 	public static final int BOUNCE = 8;
 	public static final int SLIP = 16;
-	public static final int WARP = 32; //for in-game level select
-	private static final int MAX = 63; //sum of all previous
+	public static final int MOVE = 32;
+	public static final int WARP = 64; //for in-game level select
+	public static final int OPTION = 128; //for in game options
+	private static final int MAX = 255; //sum of all previous
 	
 	//current type is a bitmask
 	private int t; //type
+	private int v; //extra data
 	
 	/**
 	 * Construct a rectangular land at the set space
@@ -69,11 +72,32 @@ public class Land extends GameObject {
 		if (b) t |= SLIP;
 		else t &= MAX-SLIP;
 	}
+	public boolean isMove() {
+		return (t&MOVE) > 0;
+	}
+	public void setMove(boolean b) {
+		if (b) t |= MOVE;
+		else t &= MAX-MOVE;
+	}
 	public boolean isWarp() {
 		return (t&WARP) > 0;
 	}
 	public void setWarp(boolean b) {
 		if (b) t |= WARP;
 		else t &= MAX-WARP;
+	}
+	public boolean isOption() {
+		return (t&OPTION) > 0;
+	}
+	public void setOption(boolean b) {
+		if (b) t |= OPTION;
+		else t &= MAX-OPTION;
+	}
+	
+	public int getVar() {
+		return v;
+	}
+	public void setVar(int var) {
+		this.v = var;
 	}
 }

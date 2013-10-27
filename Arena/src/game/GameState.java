@@ -19,7 +19,7 @@ public abstract class GameState {
 	private int fn = 0; //frame number
 	private int t; //overall game time
 	private int ml; //starting lives
-	private int m; //mode
+	private int m, nm; //mode and impending mode
 	private int end = 0; //is the game over?
 
 	public static final int WIDTH = 640, HEIGHT = 480;
@@ -262,8 +262,22 @@ public abstract class GameState {
 	/**
 	 * @param m the new game mode
 	 */
-	public void setMode(int m) {
-		this.m = m;
+	public void setMode(int mode) {
+		this.m = mode;
+	}
+	
+	/**
+	 * @return the next game mode
+	 */
+	public int getNextNMode() {
+		return nm;
+	}
+
+	/**
+	 * @param m the new next game mode
+	 */
+	public void setNextMode(int nextMode) {
+		this.nm = nextMode;
 	}
 	
 	/**
