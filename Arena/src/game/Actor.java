@@ -128,12 +128,18 @@ public class Actor extends GameObject {
 		return Warehouse.getCharacters()[m].getSkin();
 	}
 	public float getRunSpeed() {
+		if (getOnLand() != null && getOnLand().isSlip()) { //slippery floor
+			return Warehouse.getCharacters()[m].getRunSpeed()/20;
+		}
 		return Warehouse.getCharacters()[m].getRunSpeed();
 	}
 	public float getAirSpeed() {
 		return Warehouse.getCharacters()[m].getAirSpeed();
 	}
 	public float getRunSlip() {
+		if (getOnLand() != null && getOnLand().isSlip()) { //slippery floor
+			return 1-Warehouse.getCharacters()[m].getRunFrict()/20;
+		}
 		return Warehouse.getCharacters()[m].getRunSlip();
 	}
 	public float getAirSlip() {

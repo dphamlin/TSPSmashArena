@@ -172,6 +172,13 @@ public class ClientGameState extends GameState {
 	private void draw(Land l, Graphics g) {
 		//TODO: Draw composite images instead
 		g.setColor(Color.BLACK);
+		
+		//slippery tiles are blue
+		if (l.isSlip()) {
+			g.setColor(Color.CYAN);
+		}
+
+		//various drawing styles
 		if (l.isDanger()) {
 			g.setColor(Color.RED);
 			g.fillRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH());

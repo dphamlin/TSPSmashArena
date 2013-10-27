@@ -169,8 +169,6 @@ public class ServerGameState extends GameState {
 	 * 		the actor to extend the jump of
 	 */
 	private void holdJump (Actor a) {
-		/*if (a.getAirTime() > 0 && a.getAirTime() <= a.getJumpHold()
-				&& a.getVy() == a.getGravNum()-a.getJumpPower()) {*/
 		if (a.getAirTime() > 0 && a.getAirTime() <= a.getJumpHold()
 				&& a.getVy() <= a.getGrav()-a.getJumpPower()+0.1) {
 			a.setVy(-a.getJumpPower());
@@ -425,7 +423,6 @@ public class ServerGameState extends GameState {
 				a.setScore(a.getScore()-1);
 			}*/
 		}
-		if (l.isDanger()) return; //escape after application
 
 		//bouncy blocks
 		if (v == TOP && l.isBounce()) {
@@ -444,7 +441,7 @@ public class ServerGameState extends GameState {
 			a.setLeftEdge(l.getRightEdge()+1);
 			a.setVx(-a.getVx());
 		}
-		if (l.isBounce()) return; //escape after application
+		if (l.isBounce()) return; //bounced off, no other action
 
 		//solid or platform floors
 		if (v == TOP && (l.isPlatform() || l.isSolid())) {
@@ -564,10 +561,7 @@ public class ServerGameState extends GameState {
 		//move along the ground
 		a.setX(a.getX()+a.getVx());
 		//apply ground friction and momentum
-		if (a.getOnLand() != null && a.getOnLand().isSlip()) {
-			//a.setVx(a.getVx()*(1-a.getRunFrict()/2)); //TODO: Make a reduced-friction version
-		}
-		else if (a.getOnLand() != null) {
+		if (a.getOnLand() != null) {
 			a.setVx(a.getVx()*a.getRunSlip()); //slide
 		}
 

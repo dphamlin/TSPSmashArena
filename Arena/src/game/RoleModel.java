@@ -50,18 +50,6 @@ public class RoleModel {
 	}
 	
 	//special setMaxSpeed methods
-	/*public float getMaxRunSpeed() {
-		return runSpeed/getRunFrict();
-	}
-	public void setMaxRunSpeed(double maxRunSpeed) {
-		this.runSpeed = (float) maxRunSpeed*getRunFrict();
-	}
-	public float getMaxAirSpeed() {
-		return airSpeed/getAirFrict();
-	}
-	public void setMaxAirSpeed(double maxAirSpeed) {
-		this.airSpeed = (float) maxAirSpeed*getAirFrict();
-	}*/
 	public float getMaxSpeed() {
 		return runSpeed/getRunFrict(); //run chosen arbitrarily
 	}
