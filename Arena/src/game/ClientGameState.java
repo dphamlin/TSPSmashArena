@@ -174,17 +174,17 @@ public class ClientGameState extends GameState {
 		g.setColor(Color.BLACK);
 		if (l.isDanger()) {
 			g.setColor(Color.RED);
-			g.fillRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW()+1, l.getH()+1);
+			g.fillRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH());
 		}
 		else if (l.isBounce()) {
 			g.setColor(Color.GREEN);
-			g.fillRoundRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW()+1, l.getH()+1, 12, 12);
+			g.fillRoundRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH(), 12, 12);
 		}
 		else if (l.isSolid()) {
-			g.fillRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW()+1, l.getH()+1);
+			g.fillRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH());
 		}
 		else if (l.isPlatform()) {
-			g.drawRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW()+1, l.getH()+1);
+			g.drawRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH());
 		}
 	}
 	
@@ -198,6 +198,6 @@ public class ClientGameState extends GameState {
 	 */
 	private void draw(Shot s, Graphics g) {
 		g.setColor(Color.RED);
-		g.fillRect((int)s.getLeftEdge(), (int)s.getTopEdge(), s.getW()+1, s.getH()+1);
+		g.fillRect((int)s.getLeftEdge(), (int)s.getTopEdge(), s.getW(), s.getH());
 	}
 }

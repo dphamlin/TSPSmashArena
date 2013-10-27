@@ -58,7 +58,7 @@ public class Warehouse {
 		//standard respawn
 		r.setSpawnTime(50);
 		r.setSpawnInv(50);
-		
+
 		//slow-shooting
 		r.setShotDelay(48);
 		r.setShotType(lizardShot());
@@ -76,7 +76,7 @@ public class Warehouse {
 		s.setLife(30);
 		s.setSpeed(8);
 
-		//standard
+		//standard type
 		s.setType(0);
 		return s;
 	}
@@ -102,8 +102,8 @@ public class Warehouse {
 		//slow fall
 		r.setGrav(0.25);
 		r.setTermVel(3.5);
-		
-		//slightly respawn
+
+		//slightly faster respawn
 		r.setSpawnTime(45);
 		r.setSpawnInv(50);
 
@@ -124,7 +124,7 @@ public class Warehouse {
 		s.setLife(300);
 		s.setSpeed(.9);
 
-		//standard
+		//standard type
 		s.setType(0);
 		return s;
 	}
@@ -133,14 +133,47 @@ public class Warehouse {
 	private static RoleModel captain() {
 		RoleModel r = new RoleModel();
 		r.setSkin(2);
-		//TODO: fill out stats
+		
+		//standard size
+		r.setW(16);
+		r.setH(16);
+
+		//average land speed, a bit weaker in the air
+		r.setRunFrict(.5);
+		r.setAirFrict(.25);
+		r.setMaxSpeed(3);
+
+		//middling jump
+		r.setJumpPower(8);
+		r.setJumpHold(5);
+
+		//average fall
+		r.setGrav(.9);
+		r.setTermVel(7.5);
+
+		//average respawn, long spawn armor
+		r.setSpawnTime(50);
+		r.setSpawnInv(85);
+
+		//quick fire rate
+		r.setShotDelay(25);
 		r.setShotType(captainShot());
 		return r;
 	}
 	private static ShotModel captainShot() {
 		ShotModel s = new ShotModel();
 		s.setSkin(2);
-		//TODO: fill out bullet stats
+
+		//small lasers
+		s.setH(2);
+		s.setW(8);
+
+		//mid speed long range
+		s.setLife(100);
+		s.setSpeed(10);
+
+		//standard type
+		s.setType(0);
 		return s;
 	}
 
