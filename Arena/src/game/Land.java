@@ -22,6 +22,7 @@ public class Land extends GameObject {
 	//current type is a bitmask
 	private int t; //type
 	private int v; //extra data
+	private int id, m; //id and map number
 	
 	/**
 	 * Construct a rectangular land at the set space
@@ -126,5 +127,17 @@ public class Land extends GameObject {
 	}
 	public void setVar(int var) {
 		this.v = var;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getMap() {
+		return m;
+	}
+	public void setMap(int map) {
+		this.m = map;
 	}
 }

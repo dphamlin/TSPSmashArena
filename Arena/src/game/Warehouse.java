@@ -50,7 +50,7 @@ public class Warehouse {
 
 		//agile on ground, sluggish in air
 		r.setRunFrict(.9);
-		r.setAirFrict(.12);
+		r.setAirFrict(.045);
 		r.setMaxSpeed(4.6);
 
 		//fairly standard jump
@@ -233,6 +233,7 @@ public class Warehouse {
 	//level select menu world
 	private static Blueprint holodeck() {
 		Blueprint b = new Blueprint();
+		b.setId(HOLODECK);
 		b.setName("Level select");
 
 		//TODO: build actual map
@@ -244,6 +245,7 @@ public class Warehouse {
 	//lava and sand surface world
 	private static Blueprint alienPlanet() {
 		Blueprint b = new Blueprint();
+		b.setId(PLANET);
 		b.setName("Alien Planet: Surface");
 
 		//TODO: build actual map
@@ -255,6 +257,7 @@ public class Warehouse {
 	//springs and conveyers machine world
 	private static Blueprint factory() {
 		Blueprint b = new Blueprint();
+		b.setId(FACTORY);
 		b.setName("Factory");
 
 		//TODO: build actual map
@@ -266,6 +269,7 @@ public class Warehouse {
 	//test environment
 	private static Blueprint demo() {
 		Blueprint b = new Blueprint();
+		b.setId(DEMO);
 		b.setName("Test level");
 
 		//build actual map

@@ -16,7 +16,8 @@ public class Actor extends GameObject {
 	private int dir = 1; //direction
 	private int p = 0; //power up
 	private int pv; //power up extra variable
-	private Land ol = null; //current land underfoot
+	//private Land ol = null; //current land underfoot
+	private int lid = -1, lm = -1; //id and map id of the current land
 	private int s = 0; //score
 	private int l; //lives
 
@@ -91,10 +92,22 @@ public class Actor extends GameObject {
 		this.pv = powerupVar;
 	}
 	public Land getOnLand() {
-		return ol;
+		//return ol;
+		if (lm == -1 || lid == -1) {
+			return null;
+		}
+		return Warehouse.getMaps()[lm].getPieces().get(lid);
 	}
 	public void setOnLand(Land onLand) {
-		this.ol = onLand;
+		//this.ol = onLand;
+		if (onLand == null) {
+			lm = -1;
+			lid = -1;
+		}
+		else {
+			lm = onLand.getMap();
+			lid = onLand.getId();
+		}
 	}
 	public int getScore() {
 		return s;

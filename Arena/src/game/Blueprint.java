@@ -13,7 +13,8 @@ public class Blueprint {
 	private int spawnX[] = {0,0,0,0}; //spawn point array (max 4 players)
 	private int spawnY[] = {0,0,0,0};
 	private int bg, bgm; //image, music, etc?
-	private int tileset; //id for a tile set from a big storage set of them 
+	private int tileset; //id for a tile set from a big storage set of them
+	private int id; //map number for internal use
 
 	/**
 	 * Add a new land to the blueprint
@@ -22,6 +23,8 @@ public class Blueprint {
 	 * 		the land to be added
 	 */
 	public void add(Land l) {
+		l.setId(pieces.size());
+		l.setMap(id);
 		pieces.add(l);
 	}
 
@@ -62,6 +65,12 @@ public class Blueprint {
 	public void setSpawn(int i, int x, int y) {
 		spawnX[i] = x;
 		spawnY[i] = y;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }
