@@ -42,9 +42,8 @@ public class Arena {
 			
 			try {
 				ProcessBuilder processBuilder = new ProcessBuilder(commandArgs);
-				System.out.println(processBuilder.directory());
-				for (String s: processBuilder.command())
-					System.out.println(s);
+				processBuilder.redirectErrorStream(true);
+				processBuilder.redirectOutput(new File("server_output.txt"));
 				serverProcess = processBuilder.start();
 			}
 			catch (IOException ioe) {
@@ -84,6 +83,7 @@ public class Arena {
 			System.err.println("Failed to create game client. " + e.getMessage());
 			System.exit(1);
 		}
+		
 		
 		// Client should be connected; begin communication cycle. Consider reordering or adding initial send/receives
 		while (theClient.getSocket().isConnected()) {

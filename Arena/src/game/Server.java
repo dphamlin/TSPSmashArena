@@ -97,7 +97,6 @@ public class Server {
 		ArrayList<Participant> newParticipantList = new ArrayList<Participant>();
 		
 		// Try to accept a connection; if successful, add a Participant with that connected socket
-		PrintWriter pw = new PrintWriter("special.txt");
 		for (int i=0;i<num;i++) { 
 			try {
 				s = getServerSocket().accept();
@@ -110,10 +109,8 @@ public class Server {
 				p.setPlayer(getGameState().addPlayer());
 				newParticipantList.add(p);
 				System.out.println("Player: "+(i+1)+" connected.");
-				pw.println("Player: "+(i+1)+" connected.");
 			}
 		}
-		pw.close();
 		setNumberOfPlayers(newParticipantList.size());
 		getServerSocket().close(); // Stop accepting connections
 		return newParticipantList;
@@ -128,21 +125,12 @@ public class Server {
 		
 	public static void main(String []args) {
 		
-		PrintWriter writer = new PrintWriter(System.out);
-		try {
-			writer = new PrintWriter("output.txt");
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
 		Server theServer = null;
 		try {
 			theServer = new Server();
 		}
 		catch (Exception e) {
 			System.out.println("Could not start the server.");
-			writer.println("Could not start the server.");
 			System.exit(1);
 		}
 		
@@ -155,8 +143,6 @@ public class Server {
 			numberOfPlayers = inputScanner.nextInt();
 		} 
 		
-		writer.println(numberOfPlayers);
-		
 		theServer.setNumberOfPlayers(numberOfPlayers);
 		
 		theServer.getGameState().initTestLevel();
@@ -167,14 +153,8 @@ public class Server {
 		}
 		catch (Exception e) {
 			System.err.println("Error connecting client to server.\n");
-			writer.println("Error connecting client to server.\n");
 		}
 		
-		for (Participant p: theServer.getParticipantList())
-			writer.println(p);
-		
-		writer.println("About to enter loop.");
-		writer.close();
 		// All participants should connected; begin communication cycle
 		while (true) {
 			
