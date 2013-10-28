@@ -17,7 +17,7 @@ public class Blueprint {
 	private int id; //map number for internal use
 
 	/**
-	 * Add a new land to the blueprint
+	 * Add a land to the blueprint
 	 * 
 	 * @param l
 	 * 		the land to be added
@@ -26,6 +26,44 @@ public class Blueprint {
 		l.setId(pieces.size());
 		l.setMap(id);
 		pieces.add(l);
+	}
+	
+	/**
+	 * Add a new land to the blueprint
+	 * @param x
+	 * 		left edge
+	 * @param y
+	 * 		top edge
+	 * @param h
+	 * 		height
+	 * @param w
+	 * 		width
+	 * @param t
+	 * 		land type bitmask
+	 */
+	public void add(int x, int y, int h, int w, int t) {
+		Land l = new Land(x, y, h, w, t);
+		add(l);
+	}
+	
+	/**
+	 * Add a new land to the blueprint
+	 * @param x
+	 * 		left edge
+	 * @param y
+	 * 		top edge
+	 * @param h
+	 * 		height
+	 * @param w
+	 * 		width
+	 * @param t
+	 * 		land type bitmask
+	 * @param v
+	 * 		extra data for certain types
+	 */
+	public void add(int x, int y, int h, int w, int t, int v) {
+		Land l = new Land(x, y, h, w, t, v);
+		add(l);
 	}
 
 	//getters and setters

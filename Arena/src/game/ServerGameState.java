@@ -499,20 +499,20 @@ public class ServerGameState extends GameState {
 		//bouncy blocks
 		if (v == TOP && l.isBounce()) {
 			a.setBottomEdge(l.getTopEdge()-1);
-			a.setVy(-a.getVy());
+			a.setVy(-a.getVy()*l.getVar()/10);
 		}
 		//bouncy platforms only have a top
 		if (v == BOTTOM && l.isBounce() && !l.isPlatform()) {
 			a.setTopEdge(l.getBottomEdge()+1);
-			a.setVy(-a.getVy());
+			a.setVy(-a.getVy()*l.getVar()/10);
 		}
 		if (h == LEFT && l.isBounce() && !l.isPlatform()) {
 			a.setRightEdge(l.getLeftEdge()-1);
-			a.setVx(-a.getVx());
+			a.setVx(-a.getVx()*l.getVar()/10);
 		}
 		if (h == RIGHT && l.isBounce() && !l.isPlatform()) {
 			a.setLeftEdge(l.getRightEdge()+1);
-			a.setVx(-a.getVx());
+			a.setVx(-a.getVx()*l.getVar()/10);
 		}
 		if (l.isBounce()) return; //bounced off, no other action
 

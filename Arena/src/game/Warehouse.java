@@ -2,12 +2,13 @@ package game;
 
 public class Warehouse {
 	//characters
-	public static final int LIZARD = 0;
-	public static final int SLIME = 1;
-	public static final int CAPTAIN = 2;
-	public static final int MARINE = 3;
-	public static final int ROBOT = 4;
-	public static final int SCIENTIST = 5;
+	public static final int NOP = 0; //no player selected
+	public static final int LIZARD = 1;
+	public static final int SLIME = 2;
+	public static final int CAPTAIN = 3;
+	public static final int MARINE = 4;
+	public static final int ROBOT = 5;
+	public static final int SCIENTIST = 6;
 
 	//levels
 	public static final int HOLODECK = 0;
@@ -20,7 +21,7 @@ public class Warehouse {
 
 	//actual lists
 	private static RoleModel characters[] = 
-		{lizardman(), slime(), captain(), spaceMarine(), robot(), madScientist()};
+		{noP(), lizardman(), slime(), captain(), spaceMarine(), robot(), madScientist()};
 	private static Blueprint maps[] = 
 		{holodeck(), alienPlanet(), factory(), demo()};
 
@@ -39,10 +40,57 @@ public class Warehouse {
 	}
 
 	/*private method to init each character*/
+	//pre-selection player
+	private static RoleModel noP() {
+		RoleModel r = new RoleModel();
+		r.setSkin(NOP);
+
+		//standard size
+		r.setW(16);
+		r.setH(16);
+
+		//meh on air and ground
+		r.setRunFrict(.5);
+		r.setAirFrict(.5);
+		r.setMaxSpeed(3);
+
+		//pretty eh jump
+		r.setJumpPower(8);
+		r.setJumpHold(5);
+
+		//standard gravity
+		r.setGrav(.9);
+		r.setTermVel(8);
+
+		//standard respawn
+		r.setSpawnTime(50);
+		r.setSpawnInv(50);
+
+		//doesn't have a bullet
+		r.setShotDelay(0);
+		r.setShotType(noShot());
+		return r;
+	}
+	private static ShotModel noShot() {
+		ShotModel s = new ShotModel();
+		s.setSkin(NOP);
+
+		//invisible
+		s.setH(0);
+		s.setW(0);
+
+		//no range
+		s.setLife(0);
+		s.setSpeed(0);
+
+		//who cares what type?
+		s.setType(0);
+		return s;
+	}
 	//lizard man
 	private static RoleModel lizardman() {
 		RoleModel r = new RoleModel();
-		r.setSkin(0);
+		r.setSkin(LIZARD);
 
 		//standard size
 		r.setW(16);
@@ -72,7 +120,7 @@ public class Warehouse {
 	}
 	private static ShotModel lizardShot() {
 		ShotModel s = new ShotModel();
-		s.setSkin(0);
+		s.setSkin(LIZARD);
 
 		//wide lasers
 		s.setH(8);
@@ -90,7 +138,7 @@ public class Warehouse {
 	//slime alien
 	private static RoleModel slime() {
 		RoleModel r = new RoleModel();
-		r.setSkin(1);
+		r.setSkin(SLIME);
 
 		//standard size
 		r.setW(16);
@@ -120,7 +168,7 @@ public class Warehouse {
 	}
 	private static ShotModel slimeShot() {
 		ShotModel s = new ShotModel();
-		s.setSkin(1);
+		s.setSkin(SLIME);
 
 		//medium sized bubbles
 		s.setH(16);
@@ -138,7 +186,7 @@ public class Warehouse {
 	//dashing captain
 	private static RoleModel captain() {
 		RoleModel r = new RoleModel();
-		r.setSkin(2);
+		r.setSkin(CAPTAIN);
 
 		//standard size
 		r.setW(16);
@@ -168,7 +216,7 @@ public class Warehouse {
 	}
 	private static ShotModel captainShot() {
 		ShotModel s = new ShotModel();
-		s.setSkin(2);
+		s.setSkin(CAPTAIN);
 
 		//small lasers
 		s.setH(2);
@@ -186,14 +234,14 @@ public class Warehouse {
 	//space marine
 	private static RoleModel spaceMarine() {
 		RoleModel r = new RoleModel();
-		r.setSkin(3);
+		r.setSkin(MARINE);
 		//TODO: fill out stats
 		r.setShotType(marineShot());
 		return r;
 	}
 	private static ShotModel marineShot() {
 		ShotModel s = new ShotModel();
-		s.setSkin(3);
+		s.setSkin(MARINE);
 		//TODO: fill out bullet stats
 		return s;
 	}
@@ -201,14 +249,14 @@ public class Warehouse {
 	//sentai robot
 	private static RoleModel robot() {
 		RoleModel r = new RoleModel();
-		r.setSkin(4);
+		r.setSkin(ROBOT);
 		//TODO: fill out stats
 		r.setShotType(robotShot());
 		return r;
 	}
 	private static ShotModel robotShot() {
 		ShotModel s = new ShotModel();
-		s.setSkin(4);
+		s.setSkin(ROBOT);
 		//TODO: fill out bullet stats
 		return s;
 	}
@@ -216,21 +264,53 @@ public class Warehouse {
 	//mad scientist
 	private static RoleModel madScientist() {
 		RoleModel r = new RoleModel();
-		r.setSkin(5);
+		r.setSkin(SCIENTIST);
 		//TODO: fill out stats
 		r.setShotType(scienceShot());
 		return r;
 	}
 	private static ShotModel scienceShot() {
 		ShotModel s = new ShotModel();
-		s.setSkin(5);
+		s.setSkin(SCIENTIST);
 		//TODO: fill out bullet stats
 		return s;
 	}
 
 	/*private methods to init each map*/
 
-	//level select menu world
+	/**
+	 * TODO: Make some levels, baby!
+	 * 
+	 * How to make a level:
+	 * 
+	 * b is the map itself. Call b.setId, and tell it its position in the array of maps.
+	 * 
+	 * Call b.setName and give it some name. These may be used internally.
+	 * 
+	 * Call b.add to add a terrain object. First specify the x and y of the upper left corner,
+	 * then give it a width and height (positive values), then create a bitmask of traits it has.
+	 * 
+	 * To create a bitmask, simply sum(+) or OR(|) together some of the flags below as one argument.
+	 * 
+	 * To specify a Var (used by some flags), simply add one more argument afterward with the value for Var.
+	 * 
+	 * Lastly, use b.setSpawn(i, x, y) to specify 4 spawn points on the level (0-3). i tells which point you're setting.
+	 * 
+	 * Eventually, bg, bgm, and skins will matter, but not yet.
+	 */
+	
+	public static final int SOLID = 1; //solid all around (includes top)
+	public static final int PLATFORM = 2; //solid top
+	public static final int DANGER = 4; //kill on contact
+	public static final int BOUNCE = 8; //bouncy (var = multiplier for bounciness * 10)
+	public static final int SLIP = 16; //slippery
+	public static final int MOVE = 32; //(var = vx * 10. 10 is 1 px/s right, -20 is 2 px/s left, etc.) 
+	public static final int WARP = 64; //go to a new level (var = level to change to)
+	public static final int CHAR = 128; //change characters (var = character to become)
+	public static final int OPTION = 256; //edit in game options  (var = various special things) (WIP)
+	public static final int LEAVE = 512; //disconnect from server? (UNIMPLEMENTED)
+	
+	//level select / menu world
 	private static Blueprint holodeck() {
 		Blueprint b = new Blueprint();
 		b.setId(HOLODECK);
@@ -273,12 +353,12 @@ public class Warehouse {
 		b.setName("Test level");
 
 		//build actual map
-		b.add(new Land(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, Land.SOLID));
-		b.add(new Land(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM+Land.MOVE, 18));
-		b.add(new Land(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, Land.BOUNCE+Land.SOLID));
-		b.add(new Land(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, Land.PLATFORM+Land.SLIP));
-		b.add(new Land(20, HEIGHT/2-50, 50, 50, Land.DANGER));
-		b.add(new Land(WIDTH-70, HEIGHT/2-50, 50, 50, Land.DANGER));
+		b.add(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, SOLID);
+		b.add(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, PLATFORM|MOVE, 18);
+		b.add(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, BOUNCE|SOLID, 12);
+		b.add(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, PLATFORM|SLIP);
+		b.add(20, HEIGHT/2-50, 50, 50, SOLID|DANGER);
+		b.add(WIDTH-70, HEIGHT/2-50, 50, 50, SOLID|DANGER);
 
 		//add spawn points
 		b.setSpawn(0, 150, 60);

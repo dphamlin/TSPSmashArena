@@ -152,7 +152,7 @@ public class ClientGameState extends GameState {
 		//TODO: Make this draw an image with transparency instead
 		
 		//temporary colors
-		Color c[] = {Color.GREEN, Color.BLUE, Color.YELLOW, Color.BLACK, Color.MAGENTA, Color.LIGHT_GRAY};
+		Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.BLACK, Color.MAGENTA, Color.GRAY};
 		g.setColor(c[a.getSkin()]);
 		
 		//temporary shape

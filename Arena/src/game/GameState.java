@@ -91,7 +91,7 @@ public abstract class GameState {
 		//clean up potential leftovers
 		b.clear();
 		p.clear();
-		
+
 		//identify level
 		s = i;
 		
