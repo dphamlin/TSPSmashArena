@@ -115,6 +115,13 @@ public class Land extends GameObject {
 		if (b) t |= WARP;
 		else t &= MAX-WARP;
 	}
+	public boolean isChar() {
+		return (t&CHAR) > 0;
+	}
+	public void setChar(boolean b) {
+		if (b) t |= CHAR;
+		else t &= MAX-CHAR;
+	}
 	public boolean isOption() {
 		return (t&OPTION) > 0;
 	}

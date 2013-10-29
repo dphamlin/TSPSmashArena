@@ -115,8 +115,11 @@ public class Actor extends GameObject {
 	public void setScore(int score) {
 		this.s = score;
 	}
-	public void getPoint() {
+	public void gainPoint() {
 		this.s++;
+	}
+	public void losePoint() {
+		this.s--;
 	}
 	public int getLives() {
 		return l;
@@ -126,6 +129,9 @@ public class Actor extends GameObject {
 	}
 	public void loseLife() {
 		this.l--;
+	}
+	public void gainLife() {
+		this.l++;
 	}
 
 	/*getters to the RoleModel's properties*/
@@ -148,6 +154,9 @@ public class Actor extends GameObject {
 		return Warehouse.getCharacters()[m].getRunSlip();
 	}
 	public float getRunFrict() {
+		if (getOnLand() != null && getOnLand().isSlip()) { //slippery floor
+			return Warehouse.getCharacters()[m].getRunFrict()/10;
+		}
 		return Warehouse.getCharacters()[m].getRunFrict();
 	}
 	public float getAirSlip() {

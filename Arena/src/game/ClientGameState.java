@@ -50,7 +50,7 @@ public class ClientGameState extends GameState {
 	private void drawBackground(Graphics g) {
 		//TODO: Clear with a background image instead
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, WIDTH, HEIGHT);
+		g.fillRect(0, 0, 640, 480);
 	}
 	
 	/**
@@ -76,7 +76,7 @@ public class ClientGameState extends GameState {
 			draw(l, g);
 		}
 	}
-	
+
 	/**
 	 * Draw the projectiles
 	 * 
@@ -105,6 +105,9 @@ public class ClientGameState extends GameState {
 			}
 			if (getMode() == TIME) {
 				g.drawString(" "+getPlayer(i).getScore(), 70+i*WIDTH/4, 35);
+			}
+			if (getMode() == RESULTS) {
+				//TODO: some way to know winners and results, for display reasons?
 			}
 			//draw the character's current state in box
 			draw(getPlayer(i), 48+i*WIDTH/4, 21, g);

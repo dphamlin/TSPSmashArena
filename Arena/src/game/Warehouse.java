@@ -15,6 +15,7 @@ public class Warehouse {
 	public static final int PLANET = 1;
 	public static final int FACTORY = 2;
 	public static final int DEMO = 3; //will be eventually removed
+	public static final int RESULTS = 4; //the final level, warp to it after the game
 
 	//dimensions for easy level building
 	private static final int WIDTH = 640, HEIGHT = 480;
@@ -23,7 +24,7 @@ public class Warehouse {
 	private static RoleModel characters[] = 
 		{noP(), lizardman(), slime(), captain(), spaceMarine(), robot(), madScientist()};
 	private static Blueprint maps[] = 
-		{holodeck(), alienPlanet(), factory(), demo()};
+		{holodeck(), alienPlanet(), factory(), demo(), results()};
 
 	/**
 	 * @return Array of selectable characters
@@ -297,8 +298,10 @@ public class Warehouse {
 	 * Lastly, use b.setSpawn(i, x, y) to specify 4 spawn points on the level (0-3). i tells which point you're setting.
 	 * 
 	 * Eventually, bg, bgm, and skins will matter, but not yet.
+	 * Remember: The player wraps around the level, but only when he is completely offscreen.
+	 * The level is 640 x 480
 	 */
-	
+
 	public static final int SOLID = 1; //solid all around (includes top)
 	public static final int PLATFORM = 2; //solid top
 	public static final int DANGER = 4; //kill on contact
@@ -309,7 +312,7 @@ public class Warehouse {
 	public static final int CHAR = 128; //change characters (var = character to become)
 	public static final int OPTION = 256; //edit in game options  (var = various special things) (WIP)
 	public static final int LEAVE = 512; //disconnect from server? (UNIMPLEMENTED)
-	
+
 	//level select / menu world
 	private static Blueprint holodeck() {
 		Blueprint b = new Blueprint();
@@ -365,6 +368,24 @@ public class Warehouse {
 		b.setSpawn(1, 200, 50);
 		b.setSpawn(2, 250, 50);
 		b.setSpawn(3, 300, 60);
+
+		return b;
+	}
+	//results screen (interactive)
+	private static Blueprint results() {
+		Blueprint b = new Blueprint();
+		b.setId(RESULTS);
+		b.setName("Results");
+
+		//build actual map (very bland)
+		b.add(-32, HEIGHT-20, WIDTH+64, 52, SOLID);
+		//TODO: add some options or something?
+
+		//add spawn points (evenly spaced)
+		b.setSpawn(0, WIDTH*1/5, HEIGHT/2);
+		b.setSpawn(1, WIDTH*2/5, HEIGHT/2);
+		b.setSpawn(2, WIDTH*3/5, HEIGHT/2);
+		b.setSpawn(3, WIDTH*4/5, HEIGHT/2);
 
 		return b;
 	}

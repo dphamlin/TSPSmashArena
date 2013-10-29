@@ -1,6 +1,6 @@
 package game;
 
-import java.awt.Graphics;
+import java.awt.Dimension;
 import java.awt.Image;
 
 import javax.swing.JFrame;
@@ -20,9 +20,10 @@ public class View extends JFrame {
 	 */
 	public View() {
 		super();
-		setSize(640, 480); //TODO: Factor in the borders when setting size, apparently
-		setVisible(true);
 		this.setTitle("TSPArena");
+		this.getContentPane().setPreferredSize(new Dimension(640, 480));
+		this.pack(); //FORCE it to be 640 x 480, this has given me grief
+		this.setVisible(true);
 		this.setResizable(false);
 	}
 	
@@ -43,7 +44,8 @@ public class View extends JFrame {
 	 * 		game state to draw
 	 */
 	public void reDraw(ClientGameState state){
-		Image backBuffer = createImage(this.getWidth(), this.getHeight());
+		this.setTitle("TSPArena: "+state.getMapName());
+		Image backBuffer = createImage(640, 480);
 		state.draw(backBuffer.getGraphics());
 		this.getContentPane().getGraphics().drawImage(backBuffer, 0, 0, null);
 	}

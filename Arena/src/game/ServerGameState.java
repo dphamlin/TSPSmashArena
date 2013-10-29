@@ -5,7 +5,6 @@ package game;
  * 
  * @author Jacob Charles
  */
-import java.util.*;
 
 public class ServerGameState extends GameState {
 
@@ -78,10 +77,34 @@ public class ServerGameState extends GameState {
 				i--;
 			}
 		}
-		//TODO: Other kinds of update logic here.
+		//power-up/item logic (with removal)
+		for(int i = 0; i < getPowerups().size(); i++) {
+			update(getPowerups().get(i));
+			//remove dead items
+			if (getPowerups().get(i).isDead()) {
+				getPowerups().remove(i);
+				i--;
+			}
+		}
+		//TODO: Special effects update here
 
 		//check for the end of the game
 		checkEnd();
+
+		//game is over, move on
+		if (isGameOver() && getMode() != RESULTS) {
+			GameResults r = getResults();
+			//sudden death on a tie
+			if (r.getWinners().size() > 2){
+				startSuddenDeath(r.getWinners());
+			}
+			//go to results screen
+			else {
+				setMode(RESULTS);
+				setLevel(Warehouse.RESULTS);
+			}
+		}
+		//TODO: Some way to go back to the first menu? Delays in there, for better looks?
 
 		//track the number of frames passed
 		incrementFrames();
@@ -101,7 +124,6 @@ public class ServerGameState extends GameState {
 
 	/**
 	 * Apply a player's controls to their character
-	 * TODO: make private eventually
 	 * 
 	 * @param a
 	 * 		the actor associated with the input
@@ -141,7 +163,7 @@ public class ServerGameState extends GameState {
 		res.addPlayer();
 		return super.addPlayer(character);
 	}
-	
+
 	/**
 	 * Update whether the game has ended or not
 	 */
@@ -151,12 +173,20 @@ public class ServerGameState extends GameState {
 			setEnd(false);
 		}
 		//there is only one (survivor)
-		if (getMode() == STOCK) {
+		if (getMode() == STOCK && getNumberOfPlayers() > 1) {
 			setEnd(getLivingPlayers() < 2);
+		}
+		//single player match (for testing mostly)
+		else if (getMode() == STOCK) {
+			setEnd(getLivingPlayers() <= 0);
 		}
 		//time out
 		else if (getMode() == TIME) {
 			setEnd(getFrameNumber() > getTime());
+		}
+		//results are always ended
+		if (getMode() == RESULTS) {
+			setEnd(true);
 		}
 	}
 
@@ -167,6 +197,18 @@ public class ServerGameState extends GameState {
 		int n = 0;
 		for (Actor a : getFighters()) {
 			if (a.getLives() > 0) n++;
+		}
+		return n;
+	}
+	
+	/**
+	 * 
+	 * @return the number of players without a chosen character
+	 */
+	private int getNoPs() {
+		int n = 0;
+		for (Actor a : getFighters()) {
+			if (a.getModel() == Warehouse.NOP) n++;
 		}
 		return n;
 	}
@@ -295,13 +337,25 @@ public class ServerGameState extends GameState {
 	private void kill (Actor a, Actor b) {
 		//target dies
 		die(b);
-		//score a point
-		if (!isGameOver() && getMode() != MENU) {
-			a.getPoint();
+
+		//killed by a target
+		if (a != null) {
+			//score a point
+			if (!isGameOver() && getMode() != MENU) {
+				a.gainPoint();
+			}
+			//a gets a kill, b gets a death
+			res.addKill(a.getId(), b.getId());
+			res.addDeath(b.getId(), a.getId());
 		}
-		//a gets a kill, b gets a death
-		res.addKill(a.getId(), b.getId());
-		res.addDeath(b.getId(), a.getId());
+		else {
+			//lose a point
+			if (!isGameOver() && getMode() != MENU) {
+				b.losePoint();
+			}
+			//death by level
+			res.addDeath(b.getId(), -1);
+		}
 	}
 
 	/**
@@ -355,6 +409,17 @@ public class ServerGameState extends GameState {
 		}
 		s.setLifeTime(s.getLifeTime()-1);
 		move(s);
+	}
+
+	/**
+	 * update an item's status
+	 * 
+	 * @param p
+	 * 		the item to update
+	 */
+	private void update (Item p) {
+		//TODO: item updates
+		move(p);
 	}
 
 	/**
@@ -457,13 +522,14 @@ public class ServerGameState extends GameState {
 		boolean ov = overlap(a, l);
 
 		//activate warp blocks
-		if (l.isWarp() && (v != NONE || h != NONE || ov)) {
-			setLevel(l.getVar()); //warp to chosen level
-			setMode(getNextMode()); //change to appropriate game mode
+		if (l.isWarp() && getNoPs() == 0 && (v != NONE || h != NONE || ov)) {
+			/*setLevel(l.getVar()); //warp to chosen level
+			setMode(getNextMode()); //change to appropriate game mode*/
+			//TODO: Take a vote- enough people and you can warp
 		}
 
 		//character change blocks
-		if (l.isWarp() && (v != NONE || h != NONE || ov)) {
+		if (l.isChar() && (v != NONE || h != NONE || ov)) {
 			a.setModel(l.getVar());
 			respawn(a);
 		}
@@ -486,14 +552,11 @@ public class ServerGameState extends GameState {
 
 		//TODO: Setting (lives/time) changing block
 
+		//TODO: "Exit server" blocks?
+
 		//die on touching danger
 		if (l.isDanger() && (v != NONE || h != NONE || ov)) {
-			die(a);
-			res.addDeath(a.getId(), -1); //-1 is a level death
-			//TODO: Determine if you should lose points for level deaths
-			/*if (getMode() == TIME) {
-				a.setScore(a.getScore()-1);
-			}*/
+			kill(null, a); //killed by no one
 		}
 
 		//bouncy blocks
@@ -501,7 +564,7 @@ public class ServerGameState extends GameState {
 			a.setBottomEdge(l.getTopEdge()-1);
 			a.setVy(-a.getVy()*l.getVar()/10);
 		}
-		//bouncy platforms only have a top
+		//bouncy platforms don't have the other sides
 		if (v == BOTTOM && l.isBounce() && !l.isPlatform()) {
 			a.setTopEdge(l.getBottomEdge()+1);
 			a.setVy(-a.getVy()*l.getVar()/10);
@@ -695,5 +758,15 @@ public class ServerGameState extends GameState {
 				|| s.getRightEdge() < -s.getW()*2 || s.getLeftEdge() > GameState.WIDTH+s.getW()*2) {
 			s.setDead(true);
 		}
+	}
+
+	/**
+	 * Move the item around the level
+	 * 
+	 * @param p
+	 * 		the item to move
+	 */
+	private void move(Item p) {
+		//TODO: Moving items
 	}
 }

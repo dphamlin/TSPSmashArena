@@ -24,8 +24,8 @@ public class TestDriver {
 		gs.setLevel(Warehouse.DEMO); //temporary level
 		gs.setMode(GameState.STOCK); //temporary game mode
 		gs.setTime(60*50); //one minute for time
-		gs.setStock(5); //five lives for stock
-		
+		gs.setStock(3); //three lives for stock
+
 		gs.addPlayer(Warehouse.LIZARD); //first player
 		//gs.addPlayer(Warehouse.SLIME); //second player
 		//gs.addPlayer(Warehouse.CAPTAIN); //third player
@@ -46,8 +46,12 @@ public class TestDriver {
 			v.reDraw(gs.convert());
 			t.loopRest();
 		}
+		
+		//more size examination
 		System.out.println("End state:");
 		System.out.println(new Gson().toJson(gs.convert()));
+		
+		//close
 		System.exit(0);
 	}
 }
