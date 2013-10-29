@@ -147,7 +147,7 @@ public class Warehouse {
 		//always slippery, equal air and ground
 		r.setRunFrict(.2);
 		r.setAirFrict(.2);
-		r.setMaxSpeed(-3); //temp change!
+		r.setMaxSpeed(3);
 
 		//floaty jump
 		r.setJumpPower(3.8);
@@ -304,9 +304,9 @@ public class Warehouse {
 	public static final int SOLID = 1; //solid all around (includes top)
 	public static final int PLATFORM = 2; //solid top
 	public static final int DANGER = 4; //kill on contact
-	public static final int BOUNCE = 8; //bouncy (var = multiplier for bounciness * 10)
+	public static final int BOUNCE = 8; //bouncy (var = multiplier for extra bounciness * 10, 0 is default)
 	public static final int SLIP = 16; //slippery
-	public static final int MOVE = 32; //(var = vx * 10. 10 is 1 px/s right, -20 is 2 px/s left, etc.) 
+	public static final int MOVE = 32; //(var = vx * 10. 10 is 1 px/fr right, -20 is 2 px/fr left, etc.) 
 	public static final int WARP = 64; //go to a new level (var = level to change to)
 	public static final int CHAR = 128; //change characters (var = character to become)
 	public static final int OPTION = 256; //edit in game options  (var = various special things) (WIP)
@@ -357,7 +357,7 @@ public class Warehouse {
 		//build actual map
 		b.add(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, SOLID);
 		b.add(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, PLATFORM|MOVE, 18);
-		b.add(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, BOUNCE|SOLID, 12);
+		b.add(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, BOUNCE|SOLID, 2);
 		b.add(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, PLATFORM|SLIP);
 		b.add(20, HEIGHT/2-50, 50, 50, SOLID|DANGER);
 		b.add(WIDTH-70, HEIGHT/2-50, 50, 50, SOLID|DANGER);

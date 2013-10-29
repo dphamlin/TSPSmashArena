@@ -26,7 +26,7 @@ public class TestDriver {
 		gs.setTime(60*50); //one minute for time
 		gs.setStock(3); //three lives for stock
 
-		gs.addPlayer(Warehouse.LIZARD); //first player
+		//gs.addPlayer(Warehouse.LIZARD); //first player
 		gs.addPlayer(Warehouse.SLIME); //second player
 		//gs.addPlayer(Warehouse.CAPTAIN); //third player
 		//gs.addPlayer(Warehouse.SLIME); //fourth player
