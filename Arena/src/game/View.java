@@ -22,8 +22,8 @@ public class View extends JFrame {
 		super();
 		this.setTitle("TSPArena");
 		this.getContentPane().setPreferredSize(new Dimension(640, 480));
-		this.pack(); //FORCE it to be 640 x 480, this has given me grief
 		this.setVisible(true);
+		this.pack(); //FORCE it to be 640 x 480, this has given me grief
 		this.setResizable(false);
 	}
 	
