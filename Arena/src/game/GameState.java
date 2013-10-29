@@ -52,9 +52,10 @@ public abstract class GameState {
 	 * Add another player to the game (test)
 	 */
 	public Actor addPlayer() {
-		return addPlayer(0);
+		//return addPlayer(Warehouse.NOP); //start with unselected character
+		return addPlayer(Warehouse.LIZARD); //TODO: Return to "unselected once char select lobby is in
 	}
-	
+
 	/**
 	 * Add another player to the game (test)
 	 * 
@@ -62,7 +63,6 @@ public abstract class GameState {
 	 * 		the character they selected to spawn as
 	 */
 	public Actor addPlayer(int character) {
-		//Actor a = new Actor(200+f.size()*100, 100, character); //TODO: Proper spawn points
 		Actor a = new Actor(0, 0, character); //start somewhere
 		//move to spawn point, assign starting values
 		a.setLives(getStock());
