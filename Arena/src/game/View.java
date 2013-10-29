@@ -20,11 +20,11 @@ public class View extends JFrame {
 	 */
 	public View() {
 		super();
-		this.setTitle("TSPArena");
-		this.getContentPane().setPreferredSize(new Dimension(640, 480));
-		this.setVisible(true);
-		this.pack(); //FORCE it to be 640 x 480, this has given me grief
-		this.setResizable(false);
+		setTitle("TSPArena");
+		getContentPane().setPreferredSize(new Dimension(640, 480));
+		setResizable(false);
+		pack(); //FORCE it to be 640 x 480, this has given me grief
+		setVisible(true);
 	}
 	
 	/**
@@ -48,8 +48,8 @@ public class View extends JFrame {
 		Image backBuffer = createImage(640, 480);
 		state.draw(backBuffer.getGraphics());
 		//illustrate how wrong the current dimensions are
-		backBuffer.getGraphics().drawString(""+(this.getContentPane().getWidth()-640), 20, 100);
-		backBuffer.getGraphics().drawString(""+(this.getContentPane().getHeight()-480), 20, 120);
+		backBuffer.getGraphics().drawString(""+(getContentPane().getWidth()-640), 20, 100);
+		backBuffer.getGraphics().drawString(""+(getContentPane().getHeight()-480), 20, 120);
 		this.getContentPane().getGraphics().drawImage(backBuffer, 0, 0, null);
 	}
 }
