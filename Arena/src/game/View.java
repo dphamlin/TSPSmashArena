@@ -47,9 +47,6 @@ public class View extends JFrame {
 		this.setTitle("TSPArena: "+state.getMapName());
 		Image backBuffer = createImage(640, 480);
 		state.draw(backBuffer.getGraphics());
-		//illustrate how wrong the current dimensions are
-		backBuffer.getGraphics().drawString(""+(getContentPane().getWidth()-640), 20, 100);
-		backBuffer.getGraphics().drawString(""+(getContentPane().getHeight()-480), 20, 120);
 		this.getContentPane().getGraphics().drawImage(backBuffer, 0, 0, null);
 	}
 }
