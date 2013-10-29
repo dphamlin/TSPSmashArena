@@ -91,20 +91,7 @@ public class ServerGameState extends GameState {
 		//check for the end of the game
 		checkEnd();
 
-		//game is over, move on
-		if (isGameOver() && getMode() != RESULTS) {
-			GameResults r = getResults();
-			//sudden death on a tie
-			if (r.getWinners().size() > 2){
-				startSuddenDeath(r.getWinners());
-			}
-			//go to results screen
-			else {
-				setMode(RESULTS);
-				setLevel(Warehouse.RESULTS);
-			}
-		}
-		//TODO: Some way to go back to the first menu? Delays in there, for better looks?
+		//TODO: Flow control?
 
 		//track the number of frames passed
 		incrementFrames();
@@ -183,10 +170,6 @@ public class ServerGameState extends GameState {
 		//time out
 		else if (getMode() == TIME) {
 			setEnd(getFrameNumber() > getTime());
-		}
-		//results are always ended
-		if (getMode() == RESULTS) {
-			setEnd(true);
 		}
 	}
 
@@ -622,9 +605,16 @@ public class ServerGameState extends GameState {
 		}
 
 		//bounce each other back
-		if (hCollide(a, b) != NONE) {
-			a.setVx(-a.getVx());
-			b.setVx(-b.getVx());
+		int h = hCollide(a, b);
+		if (h == LEFT) {
+			float cVx = a.getVx();
+			a.setVx(b.getVx()-5);
+			b.setVx(cVx+5);
+		}
+		if (h == RIGHT) {
+			float cVx = a.getVx();
+			a.setVx(b.getVx()+5);
+			b.setVx(cVx-5);
 		}
 	}
 

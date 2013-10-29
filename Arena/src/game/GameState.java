@@ -23,7 +23,7 @@ public abstract class GameState {
 	private int end = 0; //is the game over?
 
 	public static final int WIDTH = 640, HEIGHT = 480;
-	public static final int RESULTS = -1, MENU = 0, STOCK = 1, TIME = 2; //game modes
+	public static final int MENU = 0, STOCK = 1, TIME = 2; //game modes
 
 	/**
 	 * default constructor

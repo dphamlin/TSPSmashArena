@@ -165,6 +165,9 @@ public class Actor extends GameObject {
 	public float getAirFrict() {
 		return Warehouse.getCharacters()[m].getAirFrict();
 	}
+	public float getMaxSpeed() {
+		return Warehouse.getCharacters()[m].getMaxSpeed();
+	}
 	public float getJumpPower() {
 		return Warehouse.getCharacters()[m].getJumpPower();
 	}

@@ -98,7 +98,7 @@ public class ClientGameState extends GameState {
 	private void drawStatus(Graphics g) {
 		for (int i = 0; i < getNumberOfPlayers(); i++) {
 			g.setColor(Color.BLACK);
-			g.fillRoundRect(40+i*WIDTH/4, 10, 50, 35, 10, 10);
+			g.fillRoundRect(38+i*WIDTH/4, 10, 55, 35, 10, 10);
 			g.setColor(Color.WHITE);
 			if (getMode() == STOCK) {
 				g.drawString("x"+getPlayer(i).getLives(), 70+i*WIDTH/4, 35);
@@ -106,8 +106,13 @@ public class ClientGameState extends GameState {
 			if (getMode() == TIME) {
 				g.drawString(" "+getPlayer(i).getScore(), 70+i*WIDTH/4, 35);
 			}
-			if (getMode() == RESULTS) {
-				//TODO: some way to know winners and results, for display reasons?
+			//tag winners
+			if (isGameOver()) {
+				for (Integer n : getWinners()) {
+					if (n == i) {
+						g.drawString("♛", 70+i*WIDTH/4, 24); //poorly-rendered crown
+					}
+				}
 			}
 			//draw the character's current state in box
 			draw(getPlayer(i), 48+i*WIDTH/4, 21, g);
@@ -133,12 +138,6 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void draw(Actor a, Graphics g) {
-		//TODO: Make this draw an image with transparency instead
-		//don't draw dead guys
-		if (a.isDead()) return;
-		//make invulnerable characters blink
-		if (a.isArmored() && a.getDeadTime() % 8 < 4) return;
-		
 		//fall through to position drawing method
 		draw(a, (int)a.getLeftEdge(), (int)a.getTopEdge(), g);
 	}
@@ -154,10 +153,16 @@ public class ClientGameState extends GameState {
 	private void draw(Actor a, int x, int y, Graphics g) {
 		//TODO: Make this draw an image with transparency instead
 		
+		//don't draw dead guys
+		if (a.isDead()) return;
+		
+		//respawn blink
+		if (a.isArmored() && a.getDeadTime() % 8 < 4) return;
+
 		//temporary colors
 		Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.BLACK, Color.MAGENTA, Color.GRAY};
 		g.setColor(c[a.getSkin()]);
-		
+
 		//temporary shape
 		g.fillOval(x, y, 16, 16);
 		g.fillRect((int)x+a.getW()/2, y, -a.getW()*a.getDir()/2, a.getH());
