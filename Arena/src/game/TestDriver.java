@@ -21,15 +21,16 @@ public class TestDriver {
 		ServerGameState gs = new ServerGameState();
 		StopWatch t = new StopWatch(20);
 		v.attachController(c);
-		gs.setLevel(Warehouse.DEMO); //temporary level
-		gs.setMode(GameState.STOCK); //temporary game mode
-		gs.setTime(60*50); //one minute for time
-		gs.setStock(3); //three lives for stock
+		//gs.setLevel(Warehouse.HOLODECK); //temporary level
+		//gs.setMode(GameState.MENU); //temporary game mode
+		//gs.setTime(60*50); //one minute for time
+		//gs.setStock(3); //three lives for stock
 
-		//gs.addPlayer(Warehouse.LIZARD); //first player
-		gs.addPlayer(Warehouse.SLIME); //second player
-		//gs.addPlayer(Warehouse.CAPTAIN); //third player
-		//gs.addPlayer(Warehouse.SLIME); //fourth player
+		//test players
+		//gs.addPlayer(Warehouse.LIZARD);
+		//gs.addPlayer(Warehouse.SLIME);
+		//gs.addPlayer(Warehouse.CAPTAIN);
+		gs.addPlayer(Warehouse.NOP);
 
 		//size examination
 		System.out.println("Start state:");

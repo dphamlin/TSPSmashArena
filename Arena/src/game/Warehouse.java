@@ -298,13 +298,13 @@ public class Warehouse {
 	 * 
 	 * Eventually, bg, bgm, and skins will matter, but not yet.
 	 * Remember: The player wraps around the level, but only when he is completely offscreen.
-	 * The level is 640 x 480
+	 * The level is 640 x 480, so extend around ~32 pixels beyond that to make sure.
 	 */
 
 	public static final int SOLID = 1; //solid all around (includes top)
 	public static final int PLATFORM = 2; //solid top
 	public static final int DANGER = 4; //kill on contact
-	public static final int BOUNCE = 8; //bouncy (var = multiplier for extra bounciness * 10, 0 is default)
+	public static final int BOUNCE = 8; //bouncy (var = bounciness mod, 0 = 100%, 5 = 150%, -2 = 80%, etc.)
 	public static final int SLIP = 16; //slippery
 	public static final int MOVE = 32; //(var = vx * 10. 10 is 1 px/fr right, -20 is 2 px/fr left, etc.) 
 	public static final int WARP = 64; //go to a new level (var = level to change to)
@@ -318,9 +318,15 @@ public class Warehouse {
 		b.setId(HOLODECK);
 		b.setName("Level select");
 
-		//TODO: build actual map
+		//build actual map
+		b.add(-32, HEIGHT-20, WIDTH+64, 30, SOLID); //ground floor
+		//TODO: Add level, character, and game mode selects
 
 		//TODO: add spawn points
+		b.setSpawn(0, WIDTH/5, HEIGHT-30);
+		b.setSpawn(1, WIDTH*2/5, HEIGHT-30);
+		b.setSpawn(2, WIDTH*3/5, HEIGHT-30);
+		b.setSpawn(3, WIDTH*4/5, HEIGHT-30);
 
 		return b;
 	}

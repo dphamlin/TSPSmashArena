@@ -371,7 +371,7 @@ public class ServerGameState extends GameState {
 		a.setDeadTime(a.getDeadTime()+1); //respawn timer and spawn invincibility
 		if (a.getDeadTime() == a.getSpawnTime() && a.isDead()) respawn(a);
 
-		a.setReload(a.getReload()-1); //timer between shots
+		if (a.getReload() > 0)a.setReload(a.getReload()-1); //timer between shots
 
 		if (!a.isDead()) {
 			move(a); //updates positions and speeds

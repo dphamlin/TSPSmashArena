@@ -28,7 +28,9 @@ public abstract class GameState {
 	/**
 	 * default constructor
 	 */
-	public GameState() {}
+	public GameState() {
+		setMode(STOCK);//*/ //TODO: Remove later
+	}
 
 	/**
 	 * Clone constructor
@@ -53,7 +55,7 @@ public abstract class GameState {
 	 */
 	public Actor addPlayer() {
 		//return addPlayer(Warehouse.NOP); //start with unselected character
-		return addPlayer(Warehouse.LIZARD); //TODO: Return to "unselected once char select lobby is in
+		return addPlayer(Warehouse.LIZARD+getNumberOfPlayers()); //TODO: Return to "unselected once char select lobby is in
 	}
 
 	/**
@@ -75,7 +77,7 @@ public abstract class GameState {
 	}
 
 	/**
-	 * Construct a basic level (test)
+	 * Load up a test level
 	 */
 	public void initTestLevel() {
 		setLevel(Warehouse.DEMO);
