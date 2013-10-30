@@ -11,6 +11,7 @@ public class ShotModel {
 	private int life; //shot duration
 	private int w, h; //shot size
 	private int type; //shot specifics
+	private int var; //extra variable
 	
 	//getters and setters
 	public int getSkin() {
@@ -48,5 +49,11 @@ public class ShotModel {
 	}
 	public void setType(int type) {
 		this.type = type;
+	}
+	public int getVar() {
+		return var;
+	}
+	public void setVar(int var) {
+		this.var = var;
 	}
 }

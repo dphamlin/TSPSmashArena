@@ -18,7 +18,7 @@ public abstract class GameObject {
 	private int sk;
 	private int d = 0;
 	
-	private static final float scale = 100; //multiplier for fixed point storage
+	private static final float scale = 1000; //multiplier for fixed point storage
 	
 	/**
 	 * "Do nothing" generic constructor

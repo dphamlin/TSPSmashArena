@@ -7,7 +7,17 @@ package game;
  *
  */
 public class Shot extends GameObject {
+	
+	//bullet types
+	public static final int GRAV = 1; //subject to gravity (var = grav*100)
+	public static final int BOUNCE = 2; //bounces of solids
+	public static final int ACCEL = 4; //changes speeds (var = accel*100)
+	public static final int PIERCE = 8; //goes through players
+	public static final int PHASE = 16; //goes through walls
+	private static final int MAX = 31; //sum of all of the above
+	
 	private int t; //type
+	private int v; //extra variable
 	private int l; //life time
 	private int s; //source, null means no source, can hurt anyone
 
@@ -41,18 +51,25 @@ public class Shot extends GameObject {
 		this.s = a.getId();
 		setSkin(base.getSkin());
 		this.t = base.getType();
+		this.v = base.getVar();
 		this.l = base.getLife();
 		setW(base.getW());
 		setH(base.getH());
 		setVCenter(a.getVCenter());
-		setVy(0);
+		
+		//is it affected by gravity?
+		if (isGravity()) setVy(-base.getSpeed());
+		else setVy(0);
+		
+		//left or right?
 		if (a.getDir() > 0) {
-			setLeftEdge(a.getRightEdge());
+			setLeftEdge(a.getHCenter());
 			setVx(base.getSpeed());
 		}
 		else {
-			setRightEdge(a.getLeftEdge());
+			setRightEdge(a.getHCenter());
 			setVx(-base.getSpeed());
+			if (isAccel()) setVar(-getVar());
 		}
 	}
 
@@ -62,6 +79,12 @@ public class Shot extends GameObject {
 	}
 	public void setType(int type) {
 		this.t = type;
+	}
+	public int getVar() {
+		return v;
+	}
+	public void setVar(int var) {
+		this.v = var;
 	}
 	public int getLifeTime() {
 		return l;
@@ -74,5 +97,42 @@ public class Shot extends GameObject {
 	}
 	public void setSource(int source) {
 		this.s = source;
+	}
+	
+	//getters and setters for type modifiers
+	public boolean isGravity() {
+		return (t&GRAV) > 0;
+	}
+	public void setGravity(boolean b) {
+		if (b) t |= GRAV;
+		else t &= MAX-GRAV;
+	}
+	public boolean isBounce() {
+		return (t&BOUNCE) > 0;
+	}
+	public void setBounce(boolean b) {
+		if (b) t |= BOUNCE;
+		else t &= MAX-BOUNCE;
+	}
+	public boolean isAccel() {
+		return (t&ACCEL) > 0;
+	}
+	public void setAccel(boolean b) {
+		if (b) t |= ACCEL;
+		else t &= MAX-ACCEL;
+	}
+	public boolean isPierce() {
+		return (t&PIERCE) > 0;
+	}
+	public void setPierce(boolean b) {
+		if (b) t |= PIERCE;
+		else t &= MAX-PIERCE;
+	}
+	public boolean isPhase() {
+		return (t&PHASE) > 0;
+	}
+	public void setPhase(boolean b) {
+		if (b) t |= PHASE;
+		else t &= MAX-PHASE;
 	}
 }

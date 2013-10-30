@@ -27,10 +27,11 @@ public class TestDriver {
 		//gs.setStock(3); //three lives for stock
 
 		//test players
-		//gs.addPlayer(Warehouse.LIZARD);
+		gs.addPlayer(Warehouse.LIZARD);
 		//gs.addPlayer(Warehouse.SLIME);
 		//gs.addPlayer(Warehouse.CAPTAIN);
-		gs.addPlayer(Warehouse.MARINE);
+		//gs.addPlayer(Warehouse.MARINE);
+		//gs.addPlayer(Warehouse.ROBOT);
 		//gs.addPlayer(Warehouse.NOP);
 
 		//state examination

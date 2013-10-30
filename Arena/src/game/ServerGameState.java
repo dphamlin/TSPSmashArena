@@ -628,12 +628,28 @@ public class ServerGameState extends GameState {
 	 */
 	private void collide(Shot s, Land l) {
 		//non-solid platforms simply return for now
-		if (!l.isSolid()) {
+		if (!l.isSolid() || s.isPhase()) {
 			return;
 		}
 
+		//bounce off non-spikes
+		if (s.isBounce() && !l.isDanger()) {
+			//top and bottom
+			if (vCollide(s,l) != NONE) {
+				s.setVy(-s.getVy());
+			}
+			//sides
+			else if (hCollide(s,l) != NONE) {
+				s.setVx(-s.getVx());
+				if (s.isAccel()) s.setVar(-s.getVar());
+			}
+			//stuck inside
+			else if (overlap(s,l)) {
+				s.setDead(true); 
+			}
+		}
 		//check for any collision
-		if (overlap(s, l) || vCollide(s, l) != NONE || hCollide(s, l) != NONE) {
+		else if (overlap(s, l) || vCollide(s, l) != NONE || hCollide(s, l) != NONE) {
 			s.setDead(true);
 		}
 	}
@@ -654,7 +670,7 @@ public class ServerGameState extends GameState {
 
 		//check for any collision
 		if (overlap(s, a) || vCollide(s, a) != NONE || hCollide(s, a) != NONE) {
-			s.setDead(true);
+			if (!s.isPierce()) s.setDead(true);
 			kill(getPlayer(s.getSource()), a);
 		}
 	}
@@ -739,9 +755,22 @@ public class ServerGameState extends GameState {
 			collide(s, a);
 		}
 
-		//apply velocity (straight-only)
+		//apply velocity
 		s.setX(s.getX()+s.getVx());
 		s.setY(s.getY()+s.getVy());
+		
+		//apply gravity (uses vx as terminal velocity- yes it's hackish)
+		if (s.isGravity()) {
+			s.setVy(s.getVy()+s.getVar()/100.0);
+			if (s.getVy() > Math.abs(s.getVx())) {
+				s.setVy(Math.abs(s.getVx()));
+			}
+		}
+
+		//apply acceleration/deceleration, no maximum for now
+		if (s.isAccel()) {
+			s.setVx(s.getVx()+s.getVar()/1000.0);
+		}
 
 		//out of bounds removal
 		if (s.getBottomEdge() < -s.getH()*2 || s.getTopEdge() > GameState.HEIGHT+s.getH()*2

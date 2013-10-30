@@ -122,16 +122,17 @@ public class Warehouse {
 		ShotModel s = new ShotModel();
 		s.setSkin(LIZARD);
 
-		//wide lasers
+		//small shots
 		s.setH(8);
-		s.setW(40);
+		s.setW(8);
 
-		//medium range
-		s.setLife(30);
-		s.setSpeed(8);
+		//decent range, a bit slow
+		s.setLife(68);
+		s.setSpeed(2.8);
 
-		//standard type
-		s.setType(0);
+		//bounce across the ground
+		s.setType(Shot.GRAV+Shot.BOUNCE);
+		s.setVar(30);
 		return s;
 	}
 
@@ -175,11 +176,12 @@ public class Warehouse {
 		s.setW(16);
 
 		//slow-moving, long lasting
-		s.setLife(250);
+		s.setLife(180);
 		s.setSpeed(.9);
 
-		//standard type
-		s.setType(0);
+		//bouncy bubbles slow down
+		s.setType(Shot.BOUNCE+Shot.ACCEL);
+		s.setVar(-4);
 		return s;
 	}
 
@@ -231,7 +233,7 @@ public class Warehouse {
 		return s;
 	}
 
-	//clunky robot
+	//Big chufty marine
 	private static RoleModel spaceMarine() {
 		RoleModel r = new RoleModel();
 		r.setSkin(MARINE);
@@ -253,7 +255,7 @@ public class Warehouse {
 		r.setGrav(0.8);
 		r.setTermVel(9);
 
-		//slow respawn average armor
+		//slow respawn, average armor
 		r.setSpawnTime(65);
 		r.setSpawnInv(50);
 
@@ -266,31 +268,65 @@ public class Warehouse {
 		ShotModel s = new ShotModel();
 		s.setSkin(MARINE);
 
-		//tiny shots
-		s.setH(4);
-		s.setW(4);
+		//mid-size shots
+		s.setH(10);
+		s.setW(10);
 
-		//average properties
-		s.setLife(60);
-		s.setSpeed(8);
+		//shoot forward
+		s.setLife(80);
+		s.setSpeed(4);
 
 		//standard type
 		s.setType(0);
 		return s;
 	}
 
-	//space marine
+	//Samurai robot
 	private static RoleModel japaneseRobot() {
 		RoleModel r = new RoleModel();
 		r.setSkin(ROBOT);
-		//TODO: fill out stats
+
+		//standard size
+		r.setW(16);
+		r.setH(16);
+
+		//good speeds, but slippery
+		r.setRunFrict(.18);
+		r.setAirFrict(.08);
+		r.setMaxSpeed(4.6);
+
+		//strong jump low control
+		r.setJumpPower(11);
+		r.setJumpHold(4);
+
+		//average fall
+		r.setGrav(.8);
+		r.setTermVel(9.5);
+
+		//average respawn, slightly short armor
+		r.setSpawnTime(50);
+		r.setSpawnInv(40);
+
+		//quick fire rate
+		r.setShotDelay(40);
 		r.setShotType(robotShot());
 		return r;
 	}
 	private static ShotModel robotShot() {
 		ShotModel s = new ShotModel();
 		s.setSkin(ROBOT);
-		//TODO: fill out bullet stats
+
+		//long blades
+		s.setH(4);
+		s.setW(24);
+
+		//very short range
+		s.setLife(10);
+		s.setSpeed(5);
+
+		//ignore obstacles and stop quickly
+		s.setType(Shot.PHASE+Shot.PIERCE+Shot.ACCEL);
+		s.setVar(-500);
 		return s;
 	}
 
@@ -305,7 +341,18 @@ public class Warehouse {
 	private static ShotModel scienceShot() {
 		ShotModel s = new ShotModel();
 		s.setSkin(SCIENTIST);
-		//TODO: fill out bullet stats
+
+		//mid-size shots
+		s.setH(12);
+		s.setW(12);
+
+		//shoot slightly backward
+		s.setLife(65);
+		s.setSpeed(-1.4);
+
+		//accelerate quickly forward
+		s.setType(Shot.ACCEL);
+		s.setVar(210);
 		return s;
 	}
 
