@@ -27,7 +27,7 @@ public class Blueprint {
 		l.setMap(id);
 		pieces.add(l);
 	}
-	
+
 	/**
 	 * Add a new land to the blueprint
 	 * @param x
@@ -42,7 +42,7 @@ public class Blueprint {
 	 * 		land type bitmask
 	 */
 	public void add(int x, int y, int h, int w, int t) {
-		Land l = new Land(x, y, h, w, t);
+		Land l = new Land(x, y, h, w, t, 0);
 		add(l);
 	}
 	

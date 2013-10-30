@@ -16,8 +16,7 @@ public class Actor extends GameObject {
 	private int dir = 1; //direction
 	private int cr = 0; //crouch
 	private int p = 0; //power up
-	private int pv; //power up extra variable
-	//private Land ol = null; //current land underfoot
+	private int pv = 0; //power up variable (extra data)
 	private int lid = -1, lm = -1; //id and map id of the current land
 	private int s = 0; //score
 	private int l; //lives
@@ -91,6 +90,20 @@ public class Actor extends GameObject {
 		return p;
 	}
 	public void setPowerup(int powerup) {
+		//enter big mode (get huge)
+		if (this.p != Item.BIG && powerup == Item.BIG) {
+			setVy(getVy()-getH());
+			setVx(getVx()-getW()/2);
+			setW(getW()*2);
+			setH(getH()*2);
+		}
+		//exit big mode (reset size)
+		if (this.p == Item.BIG && powerup != Item.BIG) {
+			float cx = getHCenter(), cy = getVCenter();
+			setW(Warehouse.getCharacters()[m].getW());
+			setH(Warehouse.getCharacters()[m].getH());
+			setCenter(cx, cy);
+		}
 		this.p = powerup;
 	}
 	public int getPowerupVar() {
@@ -141,62 +154,59 @@ public class Actor extends GameObject {
 	}
 
 	/*getters to the RoleModel's properties*/
-	public int getSkin() {
-		return Warehouse.getCharacters()[m].getSkin();
-	}
 	public float getRunSpeed() {
 		if (getOnLand() != null && getOnLand().isSlip()) { //slippery floor
-			return Warehouse.getCharacters()[m].getRunSpeed()/10;
+			return getRoleModel().getRunSpeed()/10;
 		}
-		return Warehouse.getCharacters()[m].getRunSpeed();
+		return getRoleModel().getRunSpeed();
 	}
 	public float getAirSpeed() {
-		return Warehouse.getCharacters()[m].getAirSpeed();
+		return getRoleModel().getAirSpeed();
 	}
 	public float getRunSlip() {
 		if (getOnLand() != null && getOnLand().isSlip()) { //slippery floor
-			return 1-Warehouse.getCharacters()[m].getRunFrict()/10;
+			return 1-getRoleModel().getRunFrict()/10;
 		}
-		return Warehouse.getCharacters()[m].getRunSlip();
+		return getRoleModel().getRunSlip();
 	}
 	public float getRunFrict() {
 		if (getOnLand() != null && getOnLand().isSlip()) { //slippery floor
-			return Warehouse.getCharacters()[m].getRunFrict()/10;
+			return getRoleModel().getRunFrict()/10;
 		}
-		return Warehouse.getCharacters()[m].getRunFrict();
+		return getRoleModel().getRunFrict();
 	}
 	public float getAirSlip() {
-		return Warehouse.getCharacters()[m].getAirSlip();
+		return getRoleModel().getAirSlip();
 	}
 	public float getAirFrict() {
-		return Warehouse.getCharacters()[m].getAirFrict();
+		return getRoleModel().getAirFrict();
 	}
 	public float getMaxSpeed() {
-		return Warehouse.getCharacters()[m].getMaxSpeed();
+		return getRoleModel().getMaxSpeed();
 	}
 	public float getJumpPower() {
-		return Warehouse.getCharacters()[m].getJumpPower();
+		return getRoleModel().getJumpPower();
 	}
 	public int getJumpHold() {
-		return Warehouse.getCharacters()[m].getJumpHold();
+		return getRoleModel().getJumpHold();
 	}
 	public float getTermVel() {
-		return Warehouse.getCharacters()[m].getTermVel();
+		return getRoleModel().getTermVel();
 	}
 	public float getGrav() {
-		return Warehouse.getCharacters()[m].getGrav();
+		return getRoleModel().getGrav();
 	}
 	public int getSpawnTime() {
-		return Warehouse.getCharacters()[m].getSpawnTime();
+		return getRoleModel().getSpawnTime();
 	}
 	public int getSpawnInv() {
-		return Warehouse.getCharacters()[m].getSpawnInv();
+		return getRoleModel().getSpawnInv();
 	}
 	public int getShotDelay() {
-		return Warehouse.getCharacters()[m].getShotDelay();
+		return getRoleModel().getShotDelay();
 	}
 	public ShotModel getShot() {
-		return Warehouse.getCharacters()[m].getShotType();
+		return getRoleModel().getShotType();
 	}
 
 	//getter and setter for basic player type
@@ -210,5 +220,16 @@ public class Actor extends GameObject {
 		setSkin(rm.getSkin());
 		setW(rm.getW());
 		setH(rm.getH());
+	}
+	/**
+	 * Get the RoleModel object referenced by m (model). 
+	 * @return the actual RoleModel from the warehouse
+	 */
+	private RoleModel getRoleModel() {
+		//Change powerup intercepts your model
+		if (p == Item.CHANGE) { //TODO: How to have both a countdown AND a selector
+			return Warehouse.getCharacters()[pv];			
+		}
+		return Warehouse.getCharacters()[m];
 	}
 }

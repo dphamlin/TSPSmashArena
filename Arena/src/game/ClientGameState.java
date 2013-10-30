@@ -98,7 +98,7 @@ public class ClientGameState extends GameState {
 	private void drawStatus(Graphics g) {
 		for (int i = 0; i < getNumberOfPlayers(); i++) {
 			g.setColor(Color.BLACK);
-			g.fillRoundRect(38+i*WIDTH/4, 10, 55, 35, 10, 10);
+			g.fillRoundRect(40+i*WIDTH/4, 10, 55, 35, 10, 10);
 			g.setColor(Color.WHITE);
 			if (getMode() == STOCK) {
 				g.drawString("x"+getPlayer(i).getLives(), 70+i*WIDTH/4, 35);
@@ -125,12 +125,12 @@ public class ClientGameState extends GameState {
 		if (getMode() == TIME) {
 			//TODO: Adjust font and centering
 			g.setColor(Color.BLACK);
-			g.fillRoundRect(WIDTH/2-25, 10, 50, 35, 10, 10);
+			g.fillRoundRect(WIDTH/2-20, 10, 50, 35, 10, 10);
 			g.setColor(Color.WHITE);
 			int sec = getTimeLeft()/50; //TODO: Keep this accurate to the frame rate
 			int min = sec/60;
 			sec %= 60;
-			g.drawString(min+":"+sec, WIDTH/2-20, 35);
+			g.drawString(min+":"+sec, WIDTH/2-15, 35);
 		}
 	}
 	

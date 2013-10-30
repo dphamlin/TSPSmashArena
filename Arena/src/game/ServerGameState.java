@@ -130,7 +130,7 @@ public class ServerGameState extends GameState {
 		else {
 			run(a, STOP);
 		}
-		
+
 		//crouching (through tiles)
 		a.setCrouch(c.getDown() > 0);
 
@@ -138,7 +138,12 @@ public class ServerGameState extends GameState {
 		if ((c.getJump() == 1 || c.getUp() == 1) && a.getOnLand() != null) {
 			jump(a);
 		}
-		else if (c.getJump() > 0 || c.getUp() > 0) {
+		else if ((c.getJump() == 1 || c.getUp() == 1) && //power-up double jump
+				a.getPowerup() == Item.DJUMP && a.getPowerupVar() > 0) {
+			jump(a);
+			a.setPowerupVar(a.getPowerupVar()-1);
+		}
+		else if (c.getJump() > 0 || c.getUp() > 0) { //holding jump
 			holdJump(a);
 		}
 
@@ -186,7 +191,7 @@ public class ServerGameState extends GameState {
 		}
 		return n;
 	}
-	
+
 	/**
 	 * 
 	 * @return the number of players without a chosen character
@@ -248,6 +253,11 @@ public class ServerGameState extends GameState {
 		a.setVy(STOP);
 		a.setAirTime(-1);
 		a.setOnLand(l);
+		
+		//recharge double jumps
+		if (a.getPowerup() == Item.DJUMP) {
+			a.setPowerupVar(1);
+		}
 	}
 
 	/**
@@ -264,6 +274,11 @@ public class ServerGameState extends GameState {
 		if (dir < LEFT) dir = LEFT;
 		if (dir != 0) {
 			a.setDir(dir);
+		}
+
+		//s-s-s-speed up!
+		if (a.getPowerup() == Item.SPEED) {
+			dir *= 2; //crude, internal method to double move speed
 		}
 
 		//in the air
@@ -294,6 +309,16 @@ public class ServerGameState extends GameState {
 		//build a new shot, according to the Actor's specifications
 		Shot s = new Shot(a.getShot(), a);
 
+		//make the shot SUPER (double speed, +pierce)
+		if (a.getPowerup() == Item.SSHOT) {
+			s.setVx(s.getVx()*2);
+			s.setVy(s.getVy()*2);
+			if (s.isAccel() || s.isGravity()) { //double gravity/accel too
+				s.setVar(s.getVar()*2);
+			}
+			s.setPierce(true);
+		}
+		
 		//add the new bullet to the list of bullets
 		getBullets().add(s);
 	}
@@ -305,6 +330,7 @@ public class ServerGameState extends GameState {
 	 * 		the actor who dies
 	 */
 	private void die (Actor a) {
+		a.setPowerup(0);
 		a.setDeadTime(0);
 		a.setDead(true);
 		if (!isGameOver() && getMode() != MENU) {
@@ -321,6 +347,14 @@ public class ServerGameState extends GameState {
 	 * 		the kill-ee
 	 */
 	private void kill (Actor a, Actor b) {
+	
+		//big mode tanks a hit
+		if (b.getPowerup() == Item.BIG) {
+			b.setPowerup(0); //lose big mode
+			b.setDeadTime(b.getSpawnTime()); //go into hyper armor
+			return; //don't actually die
+		}
+		
 		//target dies
 		die(b);
 
@@ -372,9 +406,12 @@ public class ServerGameState extends GameState {
 		if (a.getAirTime() < 0) a.setAirTime(a.getAirTime()-1); //time on the ground
 
 		a.setDeadTime(a.getDeadTime()+1); //respawn timer and spawn invincibility
-		if (a.getDeadTime() == a.getSpawnTime() && a.isDead()) respawn(a);
+		if (a.getDeadTime() == a.getSpawnTime() && a.isDead()) respawn(a); //respawn at the time
 
-		if (a.getReload() > 0)a.setReload(a.getReload()-1); //timer between shots
+		if (a.getReload() > 0) a.setReload(a.getReload()-1); //timer between shots
+		if (a.getReload() > 0 && a.getPowerup() == Item.SSHOT) { //faster reload for Supershot
+			a.setReload(a.getReload()-1);
+		}
 
 		if (!a.isDead()) {
 			move(a); //updates positions and speeds
@@ -502,7 +539,7 @@ public class ServerGameState extends GameState {
 		if (a.isDead()) return;
 		if (l.isHatch() && !isControl()) return;
 		if (l.isNHatch() && isControl()) return;
-		
+
 		//collision values
 		int v = vCollide(a, l);
 		int h = hCollide(a, l);
@@ -550,7 +587,7 @@ public class ServerGameState extends GameState {
 		if (l.isSwitch() && (v != NONE || h != NONE || ov)) {
 			setControl(!isControl());
 		}
-		
+
 		//bouncy blocks
 		if (v == TOP && l.isBounce()) {
 			a.setBottomEdge(l.getTopEdge()-1);
@@ -613,17 +650,30 @@ public class ServerGameState extends GameState {
 			kill(a, b);
 		}
 
-		//bounce each other back
+		//check horizontal collisions
 		int h = hCollide(a, b);
+		int ap = 4, bp = 4; //default extra push
+		
+		//giant mode tweaks pushes
+		if (a.getPowerup() == Item.BIG && b.getPowerup() != Item.BIG) {
+			ap = 1;
+			bp = 8;
+		}
+		else if (a.getPowerup() != Item.BIG && b.getPowerup() == Item.BIG) {
+			ap = 8;
+			bp = 1;
+		}
+		
+		//bounce away from each other
 		if (h == LEFT) {
 			float cVx = a.getVx();
-			a.setVx(b.getVx()-5);
-			b.setVx(cVx+5);
+			a.setVx(b.getVx()-ap);
+			b.setVx(cVx+bp);
 		}
 		if (h == RIGHT) {
 			float cVx = a.getVx();
-			a.setVx(b.getVx()+5);
-			b.setVx(cVx-5);
+			a.setVx(b.getVx()+ap);
+			b.setVx(cVx-bp);
 		}
 	}
 
@@ -636,17 +686,17 @@ public class ServerGameState extends GameState {
 	 * 		land to check for collisions with
 	 */
 	private void collide(Shot s, Land l) {
-		//non-solid platforms simply return for now
-		if (!l.isSolid() || s.isPhase()) {
+		//phasing shots ignore platforms
+		if (s.isPhase()) {
 			return;
 		}
-		
+
 		//out-of-phase platforms ignored
 		if (l.isHatch() && !isControl()) return;
 		if (l.isNHatch() && isControl()) return;
 
-		//bounce off non-spikes
-		if (s.isBounce() && !l.isDanger()) {
+		//bounce off non-damage blocks
+		if (s.isBounce() && l.isSolid() && !l.isDanger()) {
 			//top and bottom
 			if (vCollide(s,l) != NONE) {
 				s.setVy(-s.getVy());
@@ -661,9 +711,17 @@ public class ServerGameState extends GameState {
 				s.setDead(true); 
 			}
 		}
-		//check for any collision
-		else if (overlap(s, l) || vCollide(s, l) != NONE || hCollide(s, l) != NONE) {
-			s.setDead(true);
+		//bounce off platform tops
+		if (s.isBounce() && l.isPlatform() && !l.isDanger()) {
+			if (vCollide(s,l) == TOP) {
+				s.setVy(-s.getVy());
+			}
+		}
+		//check for non-bouncing collisions
+		else if (l.isSolid()) {
+			if (overlap(s, l) || vCollide(s, l) != NONE || hCollide(s, l) != NONE) {
+				s.setDead(true);
+			}
 		}
 	}
 
@@ -774,7 +832,7 @@ public class ServerGameState extends GameState {
 		//apply velocity
 		s.setX(s.getX()+s.getVx());
 		s.setY(s.getY()+s.getVy());
-		
+
 		//apply gravity (uses vx as terminal velocity- yes it's hackish)
 		if (s.isGravity()) {
 			s.setVy(s.getVy()+s.getVar()/100.0);

@@ -22,16 +22,15 @@ public class TestDriver {
 		StopWatch t = new StopWatch(20);
 		v.attachController(c);
 		gs.setLevel(Warehouse.DEMO); //temporary level
+		gs.setMode(GameState.STOCK);
 		//gs.setMode(GameState.MENU); //temporary game mode
-		//gs.setTime(60*50); //one minute for time
-		//gs.setStock(3); //three lives for stock
 
 		//test players
 		//gs.addPlayer(Warehouse.LIZARD);
-		//gs.addPlayer(Warehouse.SLIME);
+		gs.addPlayer(Warehouse.SLIME);
 		//gs.addPlayer(Warehouse.CAPTAIN);
 		//gs.addPlayer(Warehouse.MARINE);
-		gs.addPlayer(Warehouse.ROBOT);
+		//gs.addPlayer(Warehouse.ROBOT);
 		//gs.addPlayer(Warehouse.NOP);
 
 		//state examination

@@ -113,8 +113,8 @@ public class Warehouse {
 		r.setSpawnTime(50);
 		r.setSpawnInv(50);
 
-		//slow-shooting
-		r.setShotDelay(90);
+		//average fire rate
+		r.setShotDelay(50);
 		r.setShotType(lizardShot());
 		return r;
 	}
@@ -127,7 +127,7 @@ public class Warehouse {
 		s.setW(8);
 
 		//decent range, a bit slow
-		s.setLife(68);
+		s.setLife(80);
 		s.setSpeed(2.8);
 
 		//bounce across the ground
@@ -163,7 +163,7 @@ public class Warehouse {
 		r.setSpawnInv(50);
 
 		//slow bullets
-		r.setShotDelay(70);
+		r.setShotDelay(55);
 		r.setShotType(slimeShot());
 		return r;
 	}
@@ -259,8 +259,8 @@ public class Warehouse {
 		r.setSpawnTime(65);
 		r.setSpawnInv(50);
 
-		//fairly quick fire rate
-		r.setShotDelay(70);
+		//slow fire rate
+		r.setShotDelay(65);
 		r.setShotType(marineShot());
 		return r;
 	}
@@ -451,8 +451,8 @@ public class Warehouse {
 		b.add(20, HEIGHT/2-50, 50, 50, SOLID|DANGER);
 		b.add(WIDTH-70, HEIGHT/2-50, 50, 50, SOLID|DANGER);
 
-		b.add(WIDTH/4+10, HEIGHT*3/4-160, 25, 25, HATCH|SWITCH|BOUNCE, -5);
-		b.add(WIDTH*3/4-35, HEIGHT*3/4-160, 25, 25, NHATCH|SWITCH|BOUNCE, -5);
+		b.add(WIDTH/4+10, HEIGHT*3/4-160, 25, 25, SOLID|HATCH|SWITCH|BOUNCE);
+		b.add(WIDTH*3/4-35, HEIGHT*3/4-160, 25, 25, SOLID|NHATCH|SWITCH|BOUNCE);
 
 		//add spawn points
 		b.setSpawn(0, 150, 60);
