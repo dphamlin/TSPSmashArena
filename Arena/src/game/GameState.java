@@ -29,7 +29,7 @@ public abstract class GameState {
 	 * default constructor
 	 */
 	public GameState() {
-		setMode(STOCK);//*/ //TODO: Remove later
+		setMode(TIME);//*/ //TODO: Remove later
 	}
 
 	/**
@@ -47,6 +47,7 @@ public abstract class GameState {
 		t = g.getTime();
 		ml = g.getStock();
 		m = g.getMode();
+		nm = g.getNextMode();
 		setEnd(g.isGameOver());
 	}
 
