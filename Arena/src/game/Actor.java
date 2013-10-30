@@ -14,6 +14,7 @@ public class Actor extends GameObject {
 	private int dt; //dead time
 	private int r; //reload
 	private int dir = 1; //direction
+	private int cr = 0; //crouch
 	private int p = 0; //power up
 	private int pv; //power up extra variable
 	//private Land ol = null; //current land underfoot
@@ -79,6 +80,13 @@ public class Actor extends GameObject {
 	public void setDir(int dir) {
 		this.dir = dir;
 	}
+	public boolean isCrouch() {
+		return (cr != 0);
+	}
+	public void setCrouch(boolean b) {
+		if (b) cr = 1;
+		else cr = 0;
+	}
 	public int getPowerup() {
 		return p;
 	}
@@ -92,14 +100,12 @@ public class Actor extends GameObject {
 		this.pv = powerupVar;
 	}
 	public Land getOnLand() {
-		//return ol;
 		if (lm == -1 || lid == -1) {
 			return null;
 		}
 		return Warehouse.getMaps()[lm].getPieces().get(lid);
 	}
 	public void setOnLand(Land onLand) {
-		//this.ol = onLand;
 		if (onLand == null) {
 			lm = -1;
 			lid = -1;

@@ -130,6 +130,9 @@ public class ServerGameState extends GameState {
 		else {
 			run(a, STOP);
 		}
+		
+		//crouching (through tiles)
+		a.setCrouch(c.getDown() > 0);
 
 		//jumping
 		if ((c.getJump() == 1 || c.getUp() == 1) && a.getOnLand() != null) {
@@ -376,7 +379,6 @@ public class ServerGameState extends GameState {
 		if (!a.isDead()) {
 			move(a); //updates positions and speeds
 		}
-		//TODO: add more as other fields need updating
 	}
 
 	/**
@@ -570,7 +572,7 @@ public class ServerGameState extends GameState {
 		if (l.isBounce()) return; //bounced off, no other action
 
 		//solid or platform floors
-		if (v == TOP && (l.isPlatform() || l.isSolid())) {
+		if (v == TOP && (l.isSolid() || (l.isPlatform() && !a.isCrouch())) ) {
 			a.setBottomEdge(l.getTopEdge()-1);
 			land(a, l);
 		}
@@ -735,10 +737,13 @@ public class ServerGameState extends GameState {
 			a.setVy(0);
 		}
 
-		//falling off edges
+		//falling off edges and ducking through platforms
 		Land l = a.getOnLand();
 		if (l != null) {
 			if (a.getRightEdge() < l.getLeftEdge() || a.getLeftEdge() > l.getRightEdge()) {
+				fall(a);
+			}
+			if (a.isCrouch() && l.isPlatform() && !l.isSolid()) {
 				fall(a);
 			}
 		}

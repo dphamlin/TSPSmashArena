@@ -99,7 +99,7 @@ public abstract class GameState {
 
 		//identify level
 		s = i;
-		
+
 		//move all players to spawn points and remove their powerups
 		for (Actor a : f) {
 			if (getMode() != STOCK || a.getLives() > 0) { //spawn the living characters
