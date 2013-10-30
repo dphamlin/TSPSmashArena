@@ -160,7 +160,7 @@ public class ClientGameState extends GameState {
 		if (a.isArmored() && a.getDeadTime() % 8 < 4) return;
 
 		//temporary colors
-		Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.BLACK, Color.MAGENTA, Color.GRAY};
+		Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
 		g.setColor(c[a.getSkin()]);
 
 		//temporary shape
