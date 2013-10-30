@@ -14,11 +14,14 @@ public class Land extends GameObject {
 	public static final int BOUNCE = 8;
 	public static final int SLIP = 16;
 	public static final int MOVE = 32;
-	public static final int WARP = 64; //for in-game level select
-	public static final int CHAR = 128; //change characters
-	public static final int OPTION = 256; //for in game options 
-	public static final int LEAVE = 512; //leave a server after post game?
-	private static final int MAX = 1023; //sum of all previous
+	public static final int HATCH = 64; //appears when control is on
+	public static final int NHATCH = 128; //appears when controls is off
+	public static final int SWITCH = 256; //toggles control when hit
+	public static final int WARP = 512; //for in-game level select
+	public static final int CHAR = 1024; //change characters
+	public static final int OPTION = 2048; //for in game options 
+	public static final int LEAVE = 4096; //leave a server after post game?
+	private static final int MAX = 8192-1; //sum of all previous
 
 	//current type is a bitmask
 	private int t; //type
@@ -107,6 +110,27 @@ public class Land extends GameObject {
 	public void setMove(boolean b) {
 		if (b) t |= MOVE;
 		else t &= MAX-MOVE;
+	}
+	public boolean isHatch() {
+		return (t&HATCH) > 0;
+	}
+	public void setHatch(boolean b) {
+		if (b) t |= HATCH;
+		else t &= MAX-HATCH;
+	}
+	public boolean isNHatch() {
+		return (t&NHATCH) > 0;
+	}
+	public void setNHatch(boolean b) {
+		if (b) t |= NHATCH;
+		else t &= MAX-NHATCH;
+	}
+	public boolean isSwitch() {
+		return (t&SWITCH) > 0;
+	}
+	public void setSwitch(boolean b) {
+		if (b) t |= SWITCH;
+		else t &= MAX-SWITCH;
 	}
 	public boolean isWarp() {
 		return (t&WARP) > 0;

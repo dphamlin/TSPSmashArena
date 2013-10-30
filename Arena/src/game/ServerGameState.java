@@ -498,7 +498,9 @@ public class ServerGameState extends GameState {
 
 		//dead men don't interact
 		if (a.isDead()) return;
-
+		if (l.isHatch() && !isControl()) return;
+		if (l.isNHatch() && isControl()) return;
+		
 		//collision values
 		int v = vCollide(a, l);
 		int h = hCollide(a, l);
@@ -542,6 +544,11 @@ public class ServerGameState extends GameState {
 			kill(null, a); //killed by no one
 		}
 
+		//switch blocks
+		if (l.isSwitch() && (v != NONE || h != NONE || ov)) {
+			setControl(!isControl());
+		}
+		
 		//bouncy blocks
 		if (v == TOP && l.isBounce()) {
 			a.setBottomEdge(l.getTopEdge()-1);
@@ -631,6 +638,10 @@ public class ServerGameState extends GameState {
 		if (!l.isSolid() || s.isPhase()) {
 			return;
 		}
+		
+		//out-of-phase platforms ignored
+		if (l.isHatch() && !isControl()) return;
+		if (l.isNHatch() && isControl()) return;
 
 		//bounce off non-spikes
 		if (s.isBounce() && !l.isDanger()) {

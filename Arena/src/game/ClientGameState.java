@@ -115,7 +115,12 @@ public class ClientGameState extends GameState {
 				}
 			}
 			//draw the character's current state in box
-			draw(getPlayer(i), 48+i*WIDTH/4, 21, g);
+			draw(getPlayer(i), 48+i*WIDTH/4, 18, g);
+			//draw the reload bar
+			if (getPlayer(i).getReload() > 0) {
+				g.setColor(Color.RED);
+				g.fillRect(48+i*WIDTH/4, 38, (16*getPlayer(i).getReload())/getPlayer(i).getShotDelay(), 2);
+			}
 		}
 		if (getMode() == TIME) {
 			//TODO: Adjust font and centering
@@ -138,6 +143,9 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void draw(Actor a, Graphics g) {
+		//don't draw dead guys
+		if (a.isDead()) return;
+		
 		//fall through to position drawing method
 		draw(a, (int)a.getLeftEdge(), (int)a.getTopEdge(), g);
 	}
@@ -153,16 +161,19 @@ public class ClientGameState extends GameState {
 	private void draw(Actor a, int x, int y, Graphics g) {
 		//TODO: Make this draw an image with transparency instead
 		
-		//don't draw dead guys
-		if (a.isDead()) return;
-		
 		//respawn blink
 		if (a.isArmored() && a.getDeadTime() % 8 < 4) return;
-
+		
 		//temporary colors
 		Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
 		g.setColor(c[a.getSkin()]);
 
+		//respawn timer
+		if (a.isDead()) {
+			g.fillArc(x-1, y-1, a.getW()+2, a.getH()+2, 90, (-360*a.getDeadTime())/a.getSpawnTime()-90);
+			return;
+		}
+		
 		//temporary shape
 		g.fillOval(x, y, 16, 16);
 		g.fillRect((int)x+a.getW()/2, y, -a.getW()*a.getDir()/2, a.getH());
@@ -179,31 +190,38 @@ public class ClientGameState extends GameState {
 	 */
 	private void draw(Land l, Graphics g) {
 		//TODO: Draw composite images instead
-		g.setColor(Color.BLACK);
-		
-		//slippery tiles are blue
-		if (l.isSlip()) {
+
+		//pick colors
+		if (l.isHatch() && !isControl()) { //faded toggles
+			g.setColor(Color.LIGHT_GRAY);
+		}
+		else if (l.isNHatch() && isControl()) { //faded negative toggles
+			g.setColor(Color.LIGHT_GRAY);
+		}
+		else if (l.isDanger()) { //red danger
+			g.setColor(Color.RED);
+		}
+		else if (l.isSlip()) { //blue ice
 			g.setColor(Color.BLUE);
 		}
+		else if (l.isBounce()) { //green springs
+			g.setColor(Color.GREEN);
+		}
+		else { //normal black
+			g.setColor(Color.BLACK);
+		}
 
-		//various drawing styles
-		if (l.isDanger()) {
-			g.setColor(Color.RED);
-			g.fillRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH());
+		//pick style
+		if (l.isBounce() && l.isPlatform()) {
+			g.drawRoundRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH(), 12, 12);
 		}
 		else if (l.isBounce()) {
-			g.setColor(Color.GREEN);
-			if (l.isPlatform()) {
-				g.drawRoundRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH(), 12, 12);
-			}
-			else {
-				g.fillRoundRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH(), 12, 12);
-			}
+			g.fillRoundRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH(), 12, 12);
 		}
 		else if (l.isSolid()) {
 			g.fillRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH());
 		}
-		else if (l.isPlatform()) {
+		else {
 			g.drawRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH());
 		}
 		//VERY hackish temporary "move" indicators
@@ -216,8 +234,6 @@ public class ClientGameState extends GameState {
 				g.drawLine(x+l.getW()/16, y, x2+l.getW()/16, y);				
 			}
 		}
-
-		//TODO: Indicate conveyer belts somehow
 	}
 	
 	/**

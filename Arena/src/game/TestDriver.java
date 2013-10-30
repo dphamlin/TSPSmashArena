@@ -30,8 +30,8 @@ public class TestDriver {
 		//gs.addPlayer(Warehouse.LIZARD);
 		//gs.addPlayer(Warehouse.SLIME);
 		//gs.addPlayer(Warehouse.CAPTAIN);
-		gs.addPlayer(Warehouse.MARINE);
-		//gs.addPlayer(Warehouse.ROBOT);
+		//gs.addPlayer(Warehouse.MARINE);
+		gs.addPlayer(Warehouse.ROBOT);
 		//gs.addPlayer(Warehouse.NOP);
 
 		//state examination

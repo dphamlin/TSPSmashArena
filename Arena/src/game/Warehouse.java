@@ -386,11 +386,14 @@ public class Warehouse {
 	public static final int DANGER = 4; //kill on contact
 	public static final int BOUNCE = 8; //bouncy (var = bounciness mod, 0 = 100%, 5 = 150%, -2 = 80%, etc.)
 	public static final int SLIP = 16; //slippery
-	public static final int MOVE = 32; //(var = vx * 10. 10 is 1 px/fr right, -20 is 2 px/fr left, etc.) 
-	public static final int WARP = 64; //go to a new level (var = level to change to)
-	public static final int CHAR = 128; //change characters (var = character to become)
-	public static final int OPTION = 256; //edit in game options  (var = various special things) (WIP)
-	public static final int LEAVE = 512; //disconnect from server? (UNIMPLEMENTED)
+	public static final int MOVE = 32; //(var = vx * 10. 10 is 1 px/fr right, -20 is 2 px/fr left, etc.)
+	public static final int HATCH = 64; //appears when control is on
+	public static final int NHATCH = 128; //appears when controls is off
+	public static final int SWITCH = 256; //toggles control when hit
+	public static final int WARP = 512; //go to a new level (var = level to change to)
+	public static final int CHAR = 1024; //change characters (var = character to become)
+	public static final int OPTION = 2048; //edit in game options  (var = various special things) (WIP)
+	public static final int LEAVE = 4096; //disconnect from server? (UNIMPLEMENTED)
 
 	//level select / menu world
 	private static Blueprint holodeck() {
@@ -442,11 +445,14 @@ public class Warehouse {
 
 		//build actual map
 		b.add(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, SOLID);
-		b.add(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, PLATFORM|MOVE, 18);
+		b.add(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, PLATFORM|MOVE|HATCH, 18);
 		b.add(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, BOUNCE|SOLID, 2);
-		b.add(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, PLATFORM|SLIP);
+		b.add(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, PLATFORM|SLIP|NHATCH);
 		b.add(20, HEIGHT/2-50, 50, 50, SOLID|DANGER);
 		b.add(WIDTH-70, HEIGHT/2-50, 50, 50, SOLID|DANGER);
+
+		b.add(WIDTH/4+10, HEIGHT*3/4-160, 25, 25, HATCH|SWITCH|BOUNCE, -5);
+		b.add(WIDTH*3/4-35, HEIGHT*3/4-160, 25, 25, NHATCH|SWITCH|BOUNCE, -5);
 
 		//add spawn points
 		b.setSpawn(0, 150, 60);

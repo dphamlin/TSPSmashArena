@@ -15,6 +15,8 @@ public abstract class GameState {
 	private ArrayList<Actor> f = new ArrayList<Actor>(); //fighters
 	private ArrayList<Shot> b = new ArrayList<Shot>(); //bullets
 	private ArrayList<Item> p = new ArrayList<Item>(); //power ups
+	private int c = 1; //control signal
+	
 	private int s = 0; //stage (default: holodeck)
 	private int fn = 0; //frame number
 	private int t = 50*60; //overall game time (default 1 min)
@@ -22,7 +24,7 @@ public abstract class GameState {
 	private int m = MENU, nm = STOCK; //mode and impending mode (default starts on MENU)
 	private int end = 0; //is the game over?
 
-	public static final int WIDTH = 640, HEIGHT = 480;
+	public static final int WIDTH = 640, HEIGHT = 480; //dimensions
 	public static final int MENU = 0, STOCK = 1, TIME = 2; //game modes
 
 	/**
@@ -40,6 +42,7 @@ public abstract class GameState {
 		f = g.getFighters();
 		b = g.getBullets();
 		p = g.getPowerups();
+		setControl(g.isControl());
 		s = g.getStage();
 		fn = g.getFrameNumber();
 		t = g.getTime();
@@ -92,6 +95,7 @@ public abstract class GameState {
 		//clean up potential leftovers
 		b.clear();
 		p.clear();
+		c = 1;
 
 		//identify level
 		s = i;
@@ -245,9 +249,26 @@ public abstract class GameState {
 	}
 
 	/**
+	 * @return true if the control signal is on
+	 */
+	public boolean isControl() {
+		return (c != 0);
+	}
+	
+	/**
+	 * Change the control signal
 	 * 
-	 * @return
-	 * 		the current stage number
+	 * @param b
+	 * 		new value of the control signal
+	 */
+	public void setControl(boolean b) {
+		if (b) c = 1;
+		else c = 0;
+	}
+	
+	/**
+	 * 
+	 * @return the current stage number
 	 */
 	public int getStage() {
 		return s;
