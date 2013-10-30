@@ -21,7 +21,7 @@ public class Warehouse {
 
 	//actual lists
 	private static RoleModel characters[] = 
-		{noP(), lizardman(), slime(), captain(), spaceMarine(), robot(), madScientist()};
+		{noP(), lizardman(), slime(), captain(), spaceMarine(), japaneseRobot(), madScientist()};
 	private static Blueprint maps[] = 
 		{holodeck(), alienPlanet(), factory(), demo()};
 
@@ -114,7 +114,7 @@ public class Warehouse {
 		r.setSpawnInv(50);
 
 		//slow-shooting
-		r.setShotDelay(48);
+		r.setShotDelay(90);
 		r.setShotType(lizardShot());
 		return r;
 	}
@@ -162,7 +162,7 @@ public class Warehouse {
 		r.setSpawnInv(50);
 
 		//slow bullets
-		r.setShotDelay(34);
+		r.setShotDelay(70);
 		r.setShotType(slimeShot());
 		return r;
 	}
@@ -175,7 +175,7 @@ public class Warehouse {
 		s.setW(16);
 
 		//slow-moving, long lasting
-		s.setLife(300);
+		s.setLife(250);
 		s.setSpeed(.9);
 
 		//standard type
@@ -210,7 +210,7 @@ public class Warehouse {
 		r.setSpawnInv(85);
 
 		//quick fire rate
-		r.setShotDelay(25);
+		r.setShotDelay(45);
 		r.setShotType(captainShot());
 		return r;
 	}
@@ -231,23 +231,56 @@ public class Warehouse {
 		return s;
 	}
 
-	//space marine
+	//clunky robot
 	private static RoleModel spaceMarine() {
 		RoleModel r = new RoleModel();
 		r.setSkin(MARINE);
-		//TODO: fill out stats
+
+		//standard size
+		r.setW(16);
+		r.setH(16);
+
+		//average land speed, a bit weaker in the air
+		r.setRunFrict(.35);
+		r.setAirFrict(.25);
+		r.setMaxSpeed(3);
+
+		//low but very long jump (rockets)
+		r.setJumpPower(2.9);
+		r.setJumpHold(45);
+
+		//hard fall fall
+		r.setGrav(0.8);
+		r.setTermVel(9);
+
+		//slow respawn average armor
+		r.setSpawnTime(65);
+		r.setSpawnInv(50);
+
+		//fairly quick fire rate
+		r.setShotDelay(70);
 		r.setShotType(marineShot());
 		return r;
 	}
 	private static ShotModel marineShot() {
 		ShotModel s = new ShotModel();
 		s.setSkin(MARINE);
-		//TODO: fill out bullet stats
+
+		//tiny shots
+		s.setH(4);
+		s.setW(4);
+
+		//average properties
+		s.setLife(60);
+		s.setSpeed(8);
+
+		//standard type
+		s.setType(0);
 		return s;
 	}
 
-	//sentai robot
-	private static RoleModel robot() {
+	//space marine
+	private static RoleModel japaneseRobot() {
 		RoleModel r = new RoleModel();
 		r.setSkin(ROBOT);
 		//TODO: fill out stats

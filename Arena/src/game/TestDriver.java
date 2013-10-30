@@ -21,7 +21,7 @@ public class TestDriver {
 		ServerGameState gs = new ServerGameState();
 		StopWatch t = new StopWatch(20);
 		v.attachController(c);
-		//gs.setLevel(Warehouse.HOLODECK); //temporary level
+		gs.setLevel(Warehouse.DEMO); //temporary level
 		//gs.setMode(GameState.MENU); //temporary game mode
 		//gs.setTime(60*50); //one minute for time
 		//gs.setStock(3); //three lives for stock
@@ -30,9 +30,10 @@ public class TestDriver {
 		//gs.addPlayer(Warehouse.LIZARD);
 		//gs.addPlayer(Warehouse.SLIME);
 		//gs.addPlayer(Warehouse.CAPTAIN);
-		gs.addPlayer(Warehouse.NOP);
+		gs.addPlayer(Warehouse.MARINE);
+		//gs.addPlayer(Warehouse.NOP);
 
-		//size examination
+		//state examination
 		System.out.println("Start state:");
 		System.out.println(new Gson().toJson(gs.convert()));
 
@@ -48,7 +49,7 @@ public class TestDriver {
 			t.loopRest();
 		}
 		
-		//more size examination
+		//more state examination
 		System.out.println("End state:");
 		System.out.println(new Gson().toJson(gs.convert()));
 		

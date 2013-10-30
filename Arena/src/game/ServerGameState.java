@@ -216,7 +216,7 @@ public class ServerGameState extends GameState {
 	 */
 	private void holdJump (Actor a) {
 		if (a.getAirTime() > 0 && a.getAirTime() <= a.getJumpHold()
-				&& a.getVy() <= a.getGrav()-a.getJumpPower()+0.1) {
+				&& a.getVy() <= 2*a.getGrav()-a.getJumpPower()) {
 			a.setVy(-a.getJumpPower());
 		}
 	}
