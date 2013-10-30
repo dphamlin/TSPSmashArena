@@ -92,8 +92,8 @@ public class Actor extends GameObject {
 	public void setPowerup(int powerup) {
 		//enter big mode (get huge)
 		if (this.p != Item.BIG && powerup == Item.BIG) {
-			setVy(getVy()-getH());
-			setVx(getVx()-getW()/2);
+			setY(getY()-getH());
+			setX(getX()-getW()/2);
 			setW(getW()*2);
 			setH(getH()*2);
 		}

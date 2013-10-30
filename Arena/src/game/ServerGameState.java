@@ -785,10 +785,18 @@ public class ServerGameState extends GameState {
 			a.setY(a.getY()+a.getVy());
 
 			//gravity
-			a.setVy(a.getVy()+a.getGrav());
+			if (a.getPowerup() == Item.SPEED && a.getVy() > 0) {
+				a.setVy(a.getVy()+a.getGrav()/2);
+			}
+			else {
+				a.setVy(a.getVy()+a.getGrav());
+			}
 
 			//apply terminal velocity
 			if (a.getVy() > a.getTermVel()) a.setVy(a.getTermVel());
+			if (a.getPowerup() == Item.SPEED && a.getVy() > a.getTermVel()/2) {
+				a.setVy(a.getTermVel()/2);
+			}
 		}
 		//on the ground, stop vertical motion
 		else {

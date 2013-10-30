@@ -175,7 +175,7 @@ public class ClientGameState extends GameState {
 		}
 		
 		//temporary shape
-		g.fillOval(x, y, 16, 16);
+		g.fillOval(x, y, a.getW(), a.getH());
 		g.fillRect((int)x+a.getW()/2, y, -a.getW()*a.getDir()/2, a.getH());
 		g.fillRect(x, y, a.getW()*a.getDir()/2, a.getH());
 	}
