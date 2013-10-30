@@ -28,9 +28,7 @@ public abstract class GameState {
 	/**
 	 * default constructor
 	 */
-	public GameState() {
-		setMode(TIME);//*/ //TODO: Remove later
-	}
+	public GameState() {}
 
 	/**
 	 * Clone constructor
@@ -82,7 +80,7 @@ public abstract class GameState {
 	 */
 	public void initTestLevel() {
 		setLevel(Warehouse.DEMO);
-		setMode(STOCK);
+		setMode(TIME);
 	}
 	
 	/**
