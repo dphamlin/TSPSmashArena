@@ -66,7 +66,7 @@ public class ServerGameState extends GameState {
 	public void update() {
 		//player logic
 		for (Actor a : getFighters()) {
-			update(a);
+			if (!a.isNoP()) update(a);
 		}
 		//bullet logic (with removal)
 		for(int i = 0; i < getBullets().size(); i++) {
@@ -115,9 +115,16 @@ public class ServerGameState extends GameState {
 	 * @param a
 	 * 		the actor associated with the input
 	 * @param c
-	 * 		the controller data
+	 * 		The controller data for input
 	 */
 	public void readControls(Actor a, Controller c) {
+		//character select menu
+		if (a.isNoP()) {
+			modelSelect(a, c);
+			return; //don't bother with normal input
+		}
+
+		//dead take no input
 		if (a.isDead()) return;
 
 		//running
@@ -160,6 +167,37 @@ public class ServerGameState extends GameState {
 	}
 
 	/**
+	 * Pre-game character selection
+	 * 
+	 * @param a
+	 * 		The actor choosing a character
+	 * @param c
+	 * 		The controller data for input
+	 */
+	private void modelSelect(Actor a, Controller c) {
+		//go side to side
+		if (c.getRight() % 40 == 1) {
+			a.setSkin(a.getSkin()+1);
+		}
+		else if (c.getLeft() % 40 == 1) {
+			a.setSkin(a.getSkin()-1);
+		}
+
+		//wrap around
+		if (a.getSkin() <= Warehouse.NOP) {
+			a.setSkin(a.getSkin()+Warehouse.CHAR_NUM);
+		}
+		else if (a.getSkin() > Warehouse.CHAR_NUM) {
+			a.setSkin(a.getSkin()-Warehouse.CHAR_NUM);
+		}
+
+		//select
+		if (c.getFire() == 1 || c.getJump() == 1) {
+			a.setModel(a.getSkin());
+		}
+	}
+
+	/**
 	 * Update whether the game has ended or not
 	 */
 	private void checkEnd() {
@@ -199,7 +237,7 @@ public class ServerGameState extends GameState {
 	private int getNoPs() {
 		int n = 0;
 		for (Actor a : getFighters()) {
-			if (a.getModel() == Warehouse.NOP) n++;
+			if (a.isNoP()) n++;
 		}
 		return n;
 	}
@@ -253,7 +291,7 @@ public class ServerGameState extends GameState {
 		a.setVy(STOP);
 		a.setAirTime(-1);
 		a.setOnLand(l);
-		
+
 		//recharge double jumps
 		if (a.getPowerup() == Item.DJUMP) {
 			a.setPowerupVar(1);
@@ -318,7 +356,7 @@ public class ServerGameState extends GameState {
 			}
 			s.setPierce(true);
 		}
-		
+
 		//add the new bullet to the list of bullets
 		getBullets().add(s);
 	}
@@ -347,14 +385,14 @@ public class ServerGameState extends GameState {
 	 * 		the kill-ee
 	 */
 	private void kill (Actor a, Actor b) {
-	
+
 		//big mode tanks a hit
 		if (b.getPowerup() == Item.BIG) {
 			b.setPowerup(0); //lose big mode
 			b.setDeadTime(b.getSpawnTime()); //go into hyper armor
 			return; //don't actually die
 		}
-		
+
 		//target dies
 		die(b);
 
@@ -653,7 +691,7 @@ public class ServerGameState extends GameState {
 		//check horizontal collisions
 		int h = hCollide(a, b);
 		int ap = 4, bp = 4; //default extra push
-		
+
 		//giant mode tweaks pushes
 		if (a.getPowerup() == Item.BIG && b.getPowerup() != Item.BIG) {
 			ap = 1;
@@ -663,7 +701,7 @@ public class ServerGameState extends GameState {
 			ap = 8;
 			bp = 1;
 		}
-		
+
 		//bounce away from each other
 		if (h == LEFT) {
 			float cVx = a.getVx();

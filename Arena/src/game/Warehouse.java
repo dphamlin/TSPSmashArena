@@ -9,6 +9,7 @@ public class Warehouse {
 	public static final int MARINE = 4;
 	public static final int ROBOT = 5;
 	public static final int SCIENTIST = 6;
+	public static final int CHAR_NUM = 5;
 
 	//levels
 	public static final int HOLODECK = 0;
@@ -46,25 +47,25 @@ public class Warehouse {
 		r.setSkin(NOP);
 
 		//standard size
-		r.setW(16);
-		r.setH(16);
+		r.setW(0);
+		r.setH(0);
 
 		//meh on air and ground
-		r.setRunFrict(.5);
-		r.setAirFrict(.5);
-		r.setMaxSpeed(3);
+		r.setRunFrict(0);
+		r.setAirFrict(0);
+		r.setMaxSpeed(0);
 
 		//pretty eh jump
-		r.setJumpPower(8);
-		r.setJumpHold(5);
+		r.setJumpPower(0);
+		r.setJumpHold(0);
 
 		//standard gravity
-		r.setGrav(.9);
-		r.setTermVel(8);
+		r.setGrav(0);
+		r.setTermVel(0);
 
 		//standard respawn
-		r.setSpawnTime(50);
-		r.setSpawnInv(50);
+		r.setSpawnTime(0);
+		r.setSpawnInv(0);
 
 		//doesn't have a bullet
 		r.setShotDelay(0);

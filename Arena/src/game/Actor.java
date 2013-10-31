@@ -43,9 +43,18 @@ public class Actor extends GameObject {
 		dt = getSpawnTime();
 	}
 
-	//check if they're invincible
+	/**
+	 * @return true if the actor is under spawn armor
+	 */
 	public boolean isArmored() {
 		return (!isDead() && dt < getSpawnTime()+getSpawnInv());
+	}
+
+	/**
+	 * @return true if they haven't selected a character
+	 */
+	public boolean isNoP() {
+		return (m == Warehouse.NOP);
 	}
 
 	/*getters and setters for attributes*/

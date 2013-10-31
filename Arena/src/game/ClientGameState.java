@@ -115,7 +115,8 @@ public class ClientGameState extends GameState {
 				}
 			}
 			//draw the character's current state in box
-			draw(getPlayer(i), 48+i*WIDTH/4, 18, g);
+			if (!getPlayer(i).isNoP()) draw(getPlayer(i), 48+i*WIDTH/4, 18, g);
+			else drawSel(getPlayer(i), 48+i*WIDTH/4, 18, g);
 			//draw the reload bar
 			if (getPlayer(i).getReload() > 0) {
 				g.setColor(Color.RED);
@@ -180,6 +181,21 @@ public class ClientGameState extends GameState {
 		g.fillRect(x, y, a.getW()*a.getDir()/2, a.getH());
 	}
 
+	/**
+	 * Temporary method for drawing the selection process
+	 */
+	private void drawSel(Actor a, int x, int y, Graphics g) {
+		//TODO: Make this draw a portrait instead
+		
+		//temporary colors
+		Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
+		g.setColor(c[a.getSkin()]);
+
+		//temporary shape
+		g.fillOval(x, y, a.getW(), a.getH());
+		g.fillRect(x, y, a.getW()/2, a.getH());
+	}
+	
 	/**
 	 * Draw a land to the designated graphics object
 	 * 
