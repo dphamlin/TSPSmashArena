@@ -58,10 +58,7 @@ public class Shot extends GameObject {
 		setW(base.getW());
 		setH(base.getH());
 		setVCenter(a.getVCenter());
-		
-		//is it affected by gravity?
-		if (isGravity()) setVy(-base.getSpeed());
-		else setVy(0);
+		setVy(base.getVSpeed());
 		
 		//left or right?
 		if (a.getDir() > 0) {
@@ -74,7 +71,7 @@ public class Shot extends GameObject {
 			if (isAccel()) setVar(-getVar());
 		}
 	}
-	
+
 	/**
 	 * Spawn a specified shot type at a location
 	 * 

@@ -334,8 +334,9 @@ public class Warehouse {
 		s.setW(10);
 
 		//shoot forward
-		s.setLife(80);
+		s.setLife(100);
 		s.setSpeed(5);
+		s.setVSpeed(-3.5);
 
 		//standard type
 		s.setType(Shot.GRAV|Shot.BOMB);
@@ -373,8 +374,8 @@ public class Warehouse {
 		s.setLife(65);
 		s.setSpeed(-1.4);
 
-		//accelerate quickly forward
-		s.setType(Shot.ACCEL);
+		//accelerate quickly forward and explode on impact
+		s.setType(Shot.ACCEL|Shot.BOMB);
 		s.setVar(210);
 		return s;
 	}
@@ -388,12 +389,12 @@ public class Warehouse {
 		s.setW(4);
 
 		//unmoving
-		s.setLife(10);
+		s.setLife(6);
 		s.setSpeed(0);
 
 		//ignore walls and players and get bigger
 		s.setType(Shot.GROW|Shot.PHASE|Shot.PIERCE);
-		s.setVar(3);
+		s.setVar(4);
 		return s;
 	}
 
