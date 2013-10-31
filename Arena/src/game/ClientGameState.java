@@ -9,14 +9,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class ClientGameState extends GameState {
-	
+
 	/**
 	 * Generic constructor
 	 */
 	public ClientGameState(){
 		super();
 	}
-	
+
 	/**
 	 * Clone constructor from generic GameState
 	 * 
@@ -26,7 +26,7 @@ public class ClientGameState extends GameState {
 	public ClientGameState(GameState g){
 		super(g);
 	}
-	
+
 	/**
 	 * Draw everything
 	 * 
@@ -40,7 +40,7 @@ public class ClientGameState extends GameState {
 		//TODO: Draw items and special effects
 		drawStatus(g);
 	}
-	
+
 	/**
 	 * Draw a background
 	 * 
@@ -52,7 +52,7 @@ public class ClientGameState extends GameState {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 640, 480);
 	}
-	
+
 	/**
 	 * Draw the fighters
 	 * 
@@ -64,7 +64,7 @@ public class ClientGameState extends GameState {
 			draw(a, g);
 		}
 	}
-	
+
 	/**
 	 * Draw the level objects
 	 * 
@@ -88,7 +88,7 @@ public class ClientGameState extends GameState {
 			draw(s, g);
 		}
 	}
-	
+
 	/**
 	 * Draw character statuses
 	 * 
@@ -99,24 +99,27 @@ public class ClientGameState extends GameState {
 		for (int i = 0; i < getNumberOfPlayers(); i++) {
 			g.setColor(Color.BLACK);
 			g.fillRoundRect(40+i*WIDTH/4, 10, 55, 35, 10, 10);
-			g.setColor(Color.WHITE);
-			if (getMode() == STOCK) {
-				g.drawString("x"+getPlayer(i).getLives(), 70+i*WIDTH/4, 35);
-			}
-			if (getMode() == TIME) {
-				g.drawString(" "+getPlayer(i).getScore(), 70+i*WIDTH/4, 35);
-			}
-			//tag winners
-			if (isGameOver()) {
-				for (Integer n : getWinners()) {
-					if (n == i) {
-						g.drawString("♛", 70+i*WIDTH/4, 24); //poorly-rendered crown
+			//player is selected, all good
+			if (!getPlayer(i).isNoP()) {
+				g.setColor(Color.WHITE);
+				if (getMode() == STOCK) {
+					g.drawString("x"+getPlayer(i).getLives(), 70+i*WIDTH/4, 35);
+				}
+				if (getMode() == TIME) {
+					g.drawString(" "+getPlayer(i).getScore(), 70+i*WIDTH/4, 35);
+				}
+				//tag winners
+				if (isGameOver()) {
+					for (Integer n : getWinners()) {
+						if (n == i) {
+							g.drawString("♛", 70+i*WIDTH/4, 24); //poorly-rendered crown
+						}
 					}
 				}
+				//draw the character's current state in box
+				draw(getPlayer(i), 48+i*WIDTH/4, 18, g);
 			}
-			//draw the character's current state in box
-			if (!getPlayer(i).isNoP()) draw(getPlayer(i), 48+i*WIDTH/4, 18, g);
-			else drawSel(getPlayer(i), 48+i*WIDTH/4, 18, g);
+			else drawSel(getPlayer(i), 59+i*WIDTH/4, 18, g);
 			//draw the reload bar
 			if (getPlayer(i).getReload() > 0) {
 				g.setColor(Color.RED);
@@ -134,7 +137,7 @@ public class ClientGameState extends GameState {
 			g.drawString(min+":"+sec, WIDTH/2-15, 35);
 		}
 	}
-	
+
 	/**
 	 * Draw an actor to the designated graphics object
 	 * 
@@ -146,11 +149,11 @@ public class ClientGameState extends GameState {
 	private void draw(Actor a, Graphics g) {
 		//don't draw dead guys
 		if (a.isDead()) return;
-		
+
 		//fall through to position drawing method
 		draw(a, (int)a.getLeftEdge(), (int)a.getTopEdge(), g);
 	}
-	
+
 	/**
 	 * Draw an actor to the designated graphics object
 	 * 
@@ -161,10 +164,10 @@ public class ClientGameState extends GameState {
 	 */
 	private void draw(Actor a, int x, int y, Graphics g) {
 		//TODO: Make this draw an image with transparency instead
-		
+
 		//respawn blink
 		if (a.isArmored() && a.getDeadTime() % 8 < 4) return;
-		
+
 		//temporary colors
 		Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
 		g.setColor(c[a.getSkin()]);
@@ -174,7 +177,7 @@ public class ClientGameState extends GameState {
 			g.fillArc(x-1, y-1, a.getW()+2, a.getH()+2, 90, (-360*a.getDeadTime())/a.getSpawnTime()-90);
 			return;
 		}
-		
+
 		//temporary shape
 		g.fillOval(x, y, a.getW(), a.getH());
 		g.fillRect((int)x+a.getW()/2, y, -a.getW()*a.getDir()/2, a.getH());
@@ -186,7 +189,7 @@ public class ClientGameState extends GameState {
 	 */
 	private void drawSel(Actor a, int x, int y, Graphics g) {
 		//TODO: Make this draw a portrait instead
-		
+
 		//temporary colors
 		Color c[] = {Color.BLACK, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
 		g.setColor(c[a.getSkin()]);
@@ -196,8 +199,8 @@ public class ClientGameState extends GameState {
 		g.fillRect(x, y, 8, 16);
 		//text bits
 		g.setColor(Color.WHITE);
-		g.drawString("<", x-8, y+14);
-		g.drawString(">", x+36, y+14);
+		g.drawString("<", x-16, y+14);
+		g.drawString(">", x+26, y+14);
 	}
 
 	/**
@@ -255,7 +258,7 @@ public class ClientGameState extends GameState {
 			}
 		}
 	}
-	
+
 	/**
 	 * Draw a shot to the designated graphics object
 	 * 
