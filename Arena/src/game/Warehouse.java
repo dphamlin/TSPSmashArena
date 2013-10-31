@@ -11,11 +11,20 @@ public class Warehouse {
 	public static final int SCIENTIST = 6;
 	public static final int CHAR_NUM = 5; //number of implemented players
 
+	//bullets
+	public static final int FIREBALL = 1;
+	public static final int BUBBLE = 2;
+	public static final int RAYGUN = 3;
+	public static final int BEAMSWORD = 4;
+	public static final int MORTAR = 5;
+	public static final int MISSILE = 6;
+	public static final int EXPLOSION = 7;
+	
 	//levels
 	public static final int HOLODECK = 0;
 	public static final int PLANET = 1;
 	public static final int FACTORY = 2;
-	public static final int DEMO = 3; //will be eventually removed
+	public static final int DEMO = 3; //will be eventually removed, probably
 
 	//dimensions for easy level building
 	private static final int WIDTH = 640, HEIGHT = 480;
@@ -23,6 +32,8 @@ public class Warehouse {
 	//actual lists
 	private static RoleModel characters[] = 
 		{noP(), lizardman(), slime(), captain(), spaceMarine(), japaneseRobot(), madScientist()};
+	private static ShotModel shots[] =
+		{noShot(), fireball(), bubble(), raygun(), mortar(), beamSword(), missile(), explosion()};
 	private static Blueprint maps[] = 
 		{holodeck(), alienPlanet(), factory(), demo()};
 
@@ -31,6 +42,13 @@ public class Warehouse {
 	 */
 	public static RoleModel[] getCharacters() {
 		return characters;
+	}
+
+	/**
+	 * @return Array of shot types
+	 */
+	public static ShotModel[] getShots() {
+		return shots;
 	}
 
 	/**
@@ -116,27 +134,9 @@ public class Warehouse {
 
 		//average fire rate
 		r.setShotDelay(50);
-		r.setShotType(lizardShot());
+		r.setShotType(fireball());
 		return r;
 	}
-	private static ShotModel lizardShot() {
-		ShotModel s = new ShotModel();
-		s.setSkin(LIZARD);
-
-		//small shots
-		s.setH(8);
-		s.setW(8);
-
-		//decent range, a bit slow
-		s.setLife(80);
-		s.setSpeed(2.8);
-
-		//bounce across the ground
-		s.setType(Shot.GRAV+Shot.BOUNCE);
-		s.setVar(30);
-		return s;
-	}
-
 	//slime alien
 	private static RoleModel slime() {
 		RoleModel r = new RoleModel();
@@ -165,27 +165,9 @@ public class Warehouse {
 
 		//slow bullets
 		r.setShotDelay(55);
-		r.setShotType(slimeShot());
+		r.setShotType(bubble());
 		return r;
 	}
-	private static ShotModel slimeShot() {
-		ShotModel s = new ShotModel();
-		s.setSkin(SLIME);
-
-		//medium sized bubbles
-		s.setH(16);
-		s.setW(16);
-
-		//slow-moving, long lasting
-		s.setLife(180);
-		s.setSpeed(.9);
-
-		//bouncy bubbles slow down
-		s.setType(Shot.BOUNCE+Shot.ACCEL);
-		s.setVar(-4);
-		return s;
-	}
-
 	//dashing captain
 	private static RoleModel captain() {
 		RoleModel r = new RoleModel();
@@ -214,26 +196,9 @@ public class Warehouse {
 
 		//quick fire rate
 		r.setShotDelay(45);
-		r.setShotType(captainShot());
+		r.setShotType(raygun());
 		return r;
 	}
-	private static ShotModel captainShot() {
-		ShotModel s = new ShotModel();
-		s.setSkin(CAPTAIN);
-
-		//small lasers
-		s.setH(2);
-		s.setW(8);
-
-		//mid speed long range
-		s.setLife(100);
-		s.setSpeed(10);
-
-		//standard type
-		s.setType(0);
-		return s;
-	}
-
 	//Big chufty marine
 	private static RoleModel spaceMarine() {
 		RoleModel r = new RoleModel();
@@ -249,12 +214,12 @@ public class Warehouse {
 		r.setMaxSpeed(3);
 
 		//low but very long jump (rockets)
-		r.setJumpPower(2.9);
+		r.setJumpPower(3);
 		r.setJumpHold(45);
 
-		//hard fall fall
-		r.setGrav(0.8);
-		r.setTermVel(9);
+		//hard fall
+		r.setGrav(0.65);
+		r.setTermVel(8.5);
 
 		//slow respawn, average armor
 		r.setSpawnTime(65);
@@ -262,26 +227,9 @@ public class Warehouse {
 
 		//slow fire rate
 		r.setShotDelay(65);
-		r.setShotType(marineShot());
+		r.setShotType(mortar());
 		return r;
 	}
-	private static ShotModel marineShot() {
-		ShotModel s = new ShotModel();
-		s.setSkin(MARINE);
-
-		//mid-size shots
-		s.setH(10);
-		s.setW(10);
-
-		//shoot forward
-		s.setLife(80);
-		s.setSpeed(4);
-
-		//standard type
-		s.setType(0);
-		return s;
-	}
-
 	//Samurai robot
 	private static RoleModel japaneseRobot() {
 		RoleModel r = new RoleModel();
@@ -310,12 +258,94 @@ public class Warehouse {
 
 		//quick fire rate
 		r.setShotDelay(40);
-		r.setShotType(robotShot());
+		r.setShotType(beamSword());
 		return r;
 	}
-	private static ShotModel robotShot() {
+	//mad scientist
+	private static RoleModel madScientist() {
+		RoleModel r = new RoleModel();
+		r.setSkin(SCIENTIST);
+		//TODO: fill out stats
+		r.setShotType(missile());
+		return r;
+	}
+
+	/*private methods to init each shot type*/
+	//bouncing, mario-type fireballs
+	private static ShotModel fireball() {
 		ShotModel s = new ShotModel();
-		s.setSkin(ROBOT);
+		s.setSkin(FIREBALL);
+
+		//small shots
+		s.setH(8);
+		s.setW(8);
+
+		//decent range, a bit slow
+		s.setLife(80);
+		s.setSpeed(2.8);
+
+		//bounce across the ground
+		s.setType(Shot.GRAV+Shot.BOUNCE);
+		s.setVar(30);
+		return s;
+	}
+	//slow, lingering bubbles
+	private static ShotModel bubble() {
+		ShotModel s = new ShotModel();
+		s.setSkin(BUBBLE);
+
+		//medium sized bubbles
+		s.setH(16);
+		s.setW(16);
+
+		//slow-moving, long lasting
+		s.setLife(180);
+		s.setSpeed(.9);
+
+		//bouncy bubbles slow down
+		s.setType(Shot.BOUNCE+Shot.ACCEL);
+		s.setVar(-4);
+		return s;
+	}
+	//straight, simple lasers
+	private static ShotModel raygun() {
+		ShotModel s = new ShotModel();
+		s.setSkin(RAYGUN);
+
+		//small lasers
+		s.setH(2);
+		s.setW(8);
+
+		//mid speed long range
+		s.setLife(100);
+		s.setSpeed(10);
+
+		//standard type
+		s.setType(0);
+		return s;
+	}
+	//currently just a cannon
+	private static ShotModel mortar() {
+		ShotModel s = new ShotModel();
+		s.setSkin(MORTAR);
+
+		//mid-size shots
+		s.setH(10);
+		s.setW(10);
+
+		//shoot forward
+		s.setLife(80);
+		s.setSpeed(5);
+
+		//standard type
+		s.setType(Shot.GRAV|Shot.BOMB);
+		s.setVar(40);
+		return s;
+	}
+	//close-range blade
+	private static ShotModel beamSword() {
+		ShotModel s = new ShotModel();
+		s.setSkin(BEAMSWORD);
 
 		//long blades
 		s.setH(4);
@@ -330,18 +360,10 @@ public class Warehouse {
 		s.setVar(-500);
 		return s;
 	}
-
-	//mad scientist
-	private static RoleModel madScientist() {
-		RoleModel r = new RoleModel();
-		r.setSkin(SCIENTIST);
-		//TODO: fill out stats
-		r.setShotType(scienceShot());
-		return r;
-	}
-	private static ShotModel scienceShot() {
+	//acceleration missiles
+	private static ShotModel missile() {
 		ShotModel s = new ShotModel();
-		s.setSkin(SCIENTIST);
+		s.setSkin(MISSILE);
 
 		//mid-size shots
 		s.setH(12);
@@ -356,9 +378,26 @@ public class Warehouse {
 		s.setVar(210);
 		return s;
 	}
+	//explosions for various uses
+	private static ShotModel explosion() {
+		ShotModel s = new ShotModel();
+		s.setSkin(EXPLOSION);
+
+		//start small
+		s.setH(4);
+		s.setW(4);
+
+		//unmoving
+		s.setLife(10);
+		s.setSpeed(0);
+
+		//ignore walls and players and get bigger
+		s.setType(Shot.GROW|Shot.PHASE|Shot.PIERCE);
+		s.setVar(3);
+		return s;
+	}
 
 	/*private methods to init each map*/
-
 	/**
 	 * TODO: Make some levels, baby!
 	 * 

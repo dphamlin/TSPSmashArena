@@ -119,7 +119,7 @@ public class ClientGameState extends GameState {
 				//draw the character's current state in box
 				draw(getPlayer(i), 48+i*WIDTH/4, 18, g);
 			}
-			else drawSel(getPlayer(i), 59+i*WIDTH/4, 18, g);
+			else drawSel(getPlayer(i), 60+i*WIDTH/4, 18, g);
 			//draw the reload bar
 			if (getPlayer(i).getReload() > 0) {
 				g.setColor(Color.RED);
@@ -199,8 +199,8 @@ public class ClientGameState extends GameState {
 		g.fillRect(x, y, 8, 16);
 		//text bits
 		g.setColor(Color.WHITE);
-		g.drawString("<", x-16, y+14);
-		g.drawString(">", x+26, y+14);
+		if (a.getSkin() > Warehouse.NOP+1) g.drawString("<", x-15, y+14);
+		if (a.getSkin() < Warehouse.CHAR_NUM) g.drawString(">", x+23, y+14);
 	}
 
 	/**

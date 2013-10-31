@@ -14,8 +14,10 @@ public class Shot extends GameObject {
 	public static final int ACCEL = 4; //changes speeds (var = accel*100)
 	public static final int PIERCE = 8; //goes through players
 	public static final int PHASE = 16; //goes through walls
-	private static final int MAX = 31; //sum of all of the above
-	
+	public static final int GROW = 32; //changes sizes (var = W/H change per frame)
+	public static final int BOMB = 64; //drops an explosion
+	private static final int MAX = 127; //sum of all of the above
+
 	private int t; //type
 	private int v; //extra variable
 	private int l; //life time
@@ -68,6 +70,41 @@ public class Shot extends GameObject {
 		}
 		else {
 			setRightEdge(a.getHCenter());
+			setVx(-base.getSpeed());
+			if (isAccel()) setVar(-getVar());
+		}
+	}
+	
+	/**
+	 * Spawn a specified shot type at a location
+	 * 
+	 * @param x
+	 * 		x position of spawn
+	 * @param y
+	 * 		y position of spawn
+	 * @param base
+	 * 		shot type
+	 */
+	public Shot(float x, float y, ShotModel base, int dir) {
+		this.s = -1;
+		setSkin(base.getSkin());
+		this.t = base.getType();
+		this.v = base.getVar();
+		this.l = base.getLife();
+		setW(base.getW());
+		setH(base.getH());
+		setHCenter(x);
+		setVCenter(y);
+		
+		//is it affected by gravity?
+		if (isGravity()) setVy(-base.getSpeed());
+		else setVy(0);
+		
+		//left or right?
+		if (dir > 0) {
+			setVx(base.getSpeed());
+		}
+		else {
 			setVx(-base.getSpeed());
 			if (isAccel()) setVar(-getVar());
 		}
@@ -134,5 +171,19 @@ public class Shot extends GameObject {
 	public void setPhase(boolean b) {
 		if (b) t |= PHASE;
 		else t &= MAX-PHASE;
+	}
+	public boolean isGrow() {
+		return (t&GROW) > 0;
+	}
+	public void setGrow(boolean b) {
+		if (b) t |= GROW;
+		else t &= MAX-GROW;
+	}
+	public boolean isBomb() {
+		return (t&BOMB) > 0;
+	}
+	public void setBomb(boolean b) {
+		if (b) t |= BOMB;
+		else t &= MAX-BOMB;
 	}
 }

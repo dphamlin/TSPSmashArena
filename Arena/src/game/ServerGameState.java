@@ -176,19 +176,19 @@ public class ServerGameState extends GameState {
 	 */
 	private void modelSelect(Actor a, Controller c) {
 		//go side to side
-		if (c.getRight() % 40 == 1) {
+		if (c.getRight() % 20 == 1) {
 			a.setSkin(a.getSkin()+1);
 		}
-		else if (c.getLeft() % 40 == 1) {
+		else if (c.getLeft() % 20 == 1) {
 			a.setSkin(a.getSkin()-1);
 		}
 
-		//wrap around
+		//boundaries
 		if (a.getSkin() <= Warehouse.NOP) {
-			a.setSkin(a.getSkin()+Warehouse.CHAR_NUM);
+			a.setSkin(Warehouse.NOP+1);
 		}
 		else if (a.getSkin() > Warehouse.CHAR_NUM) {
-			a.setSkin(a.getSkin()-Warehouse.CHAR_NUM);
+			a.setSkin(Warehouse.CHAR_NUM);
 		}
 
 		//select
@@ -375,6 +375,23 @@ public class ServerGameState extends GameState {
 			a.loseLife();
 		}
 	}
+	
+	/**
+	 * Specified shot dies
+	 * 
+	 * @param s
+	 * 		the shot that dies
+	 */
+	private void die (Shot s) {
+		if (s.isBomb()) {
+			Shot s2;
+			s2 = new Shot(s.getHCenter(), s.getVCenter(), Warehouse.getShots()[Warehouse.EXPLOSION], 1);
+			s2.setSource(s.getSource()); //don't hurt the player
+			getBullets().add(s2);
+		}
+		s.setLifeTime(0);
+		s.setDead(true);
+	}
 
 	/**
 	 * An actor kills another
@@ -463,11 +480,22 @@ public class ServerGameState extends GameState {
 	 * 		the shot to update
 	 */
 	private void update (Shot s) {
+		//die off
 		if (s.getLifeTime() <= 0) {
 			s.setDead(true);
 			return;
 		}
 		s.setLifeTime(s.getLifeTime()-1);
+		
+		//expand
+		if (s.isGrow()) {
+			s.setW(s.getW()+s.getVar());
+			s.setH(s.getH()+s.getVar());
+			s.setX(s.getX()-s.getVar()/2.0);
+			s.setY(s.getY()-s.getVar()/2.0);
+		}
+		
+		//update position
 		move(s);
 	}
 
@@ -758,7 +786,13 @@ public class ServerGameState extends GameState {
 		//check for non-bouncing collisions
 		else if (l.isSolid()) {
 			if (overlap(s, l) || vCollide(s, l) != NONE || hCollide(s, l) != NONE) {
-				s.setDead(true);
+				die(s);
+			}
+		}
+		//fall on platform tops
+		else if (l.isPlatform()) {
+			if (vCollide(s, l) == TOP) {
+				die(s);
 			}
 		}
 	}
@@ -779,7 +813,7 @@ public class ServerGameState extends GameState {
 
 		//check for any collision
 		if (overlap(s, a) || vCollide(s, a) != NONE || hCollide(s, a) != NONE) {
-			if (!s.isPierce()) s.setDead(true);
+			if (!s.isPierce()) die(s);
 			kill(getPlayer(s.getSource()), a);
 		}
 	}
