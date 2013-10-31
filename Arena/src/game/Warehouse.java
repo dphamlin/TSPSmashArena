@@ -9,7 +9,7 @@ public class Warehouse {
 	public static final int MARINE = 4;
 	public static final int ROBOT = 5;
 	public static final int SCIENTIST = 6;
-	public static final int CHAR_NUM = 5;
+	public static final int CHAR_NUM = 5; //number of implemented players
 
 	//levels
 	public static final int HOLODECK = 0;
@@ -51,9 +51,9 @@ public class Warehouse {
 		r.setH(0);
 
 		//meh on air and ground
-		r.setRunFrict(0);
-		r.setAirFrict(0);
-		r.setMaxSpeed(0);
+		r.setRunFrict(1);
+		r.setAirFrict(1);
+		r.setMaxSpeed(1);
 
 		//pretty eh jump
 		r.setJumpPower(0);

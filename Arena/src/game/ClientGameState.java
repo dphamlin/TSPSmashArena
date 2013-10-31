@@ -188,14 +188,18 @@ public class ClientGameState extends GameState {
 		//TODO: Make this draw a portrait instead
 		
 		//temporary colors
-		Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
+		Color c[] = {Color.BLACK, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
 		g.setColor(c[a.getSkin()]);
 
 		//temporary shape
-		g.fillOval(x, y, a.getW(), a.getH());
-		g.fillRect(x, y, a.getW()/2, a.getH());
+		g.fillOval(x, y, 16, 16);
+		g.fillRect(x, y, 8, 16);
+		//text bits
+		g.setColor(Color.WHITE);
+		g.drawString("<", x-8, y+14);
+		g.drawString(">", x+36, y+14);
 	}
-	
+
 	/**
 	 * Draw a land to the designated graphics object
 	 * 
