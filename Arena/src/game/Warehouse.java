@@ -64,10 +64,6 @@ public class Warehouse {
 		RoleModel r = new RoleModel();
 		r.setSkin(NOP);
 
-		//standard size
-		r.setW(0);
-		r.setH(0);
-
 		//meh on air and ground
 		r.setRunFrict(1);
 		r.setAirFrict(1);
@@ -90,30 +86,10 @@ public class Warehouse {
 		r.setShotType(noShot());
 		return r;
 	}
-	private static ShotModel noShot() {
-		ShotModel s = new ShotModel();
-		s.setSkin(NOP);
-
-		//invisible
-		s.setH(0);
-		s.setW(0);
-
-		//no range
-		s.setLife(0);
-		s.setSpeed(0);
-
-		//who cares what type?
-		s.setType(0);
-		return s;
-	}
 	//lizard man
 	private static RoleModel lizardman() {
 		RoleModel r = new RoleModel();
 		r.setSkin(LIZARD);
-
-		//standard size
-		r.setW(16);
-		r.setH(16);
 
 		//agile on ground, sluggish in air
 		r.setRunFrict(.9);
@@ -142,10 +118,6 @@ public class Warehouse {
 		RoleModel r = new RoleModel();
 		r.setSkin(SLIME);
 
-		//standard size
-		r.setW(16);
-		r.setH(16);
-
 		//always slippery, equal air and ground
 		r.setRunFrict(.2);
 		r.setAirFrict(.2);
@@ -172,10 +144,6 @@ public class Warehouse {
 	private static RoleModel captain() {
 		RoleModel r = new RoleModel();
 		r.setSkin(CAPTAIN);
-
-		//standard size
-		r.setW(16);
-		r.setH(16);
 
 		//average land speed, a bit weaker in the air
 		r.setRunFrict(.5);
@@ -204,10 +172,6 @@ public class Warehouse {
 		RoleModel r = new RoleModel();
 		r.setSkin(MARINE);
 
-		//standard size
-		r.setW(16);
-		r.setH(16);
-
 		//average land speed, a bit weaker in the air
 		r.setRunFrict(.35);
 		r.setAirFrict(.25);
@@ -234,10 +198,6 @@ public class Warehouse {
 	private static RoleModel japaneseRobot() {
 		RoleModel r = new RoleModel();
 		r.setSkin(ROBOT);
-
-		//standard size
-		r.setW(16);
-		r.setH(16);
 
 		//good speeds, but slippery
 		r.setRunFrict(.18);
@@ -271,6 +231,23 @@ public class Warehouse {
 	}
 
 	/*private methods to init each shot type*/
+	//nonexistant shot
+	private static ShotModel noShot() {
+		ShotModel s = new ShotModel();
+		s.setSkin(NOP);
+
+		//invisible
+		s.setH(0);
+		s.setW(0);
+
+		//no range
+		s.setLife(0);
+		s.setSpeed(0);
+
+		//who cares what type?
+		s.setType(0);
+		return s;
+	}
 	//bouncing, mario-type fireballs
 	private static ShotModel fireball() {
 		ShotModel s = new ShotModel();
@@ -283,6 +260,7 @@ public class Warehouse {
 		//decent range, a bit slow
 		s.setLife(80);
 		s.setSpeed(2.8);
+		s.setVSpeed(2.8);
 
 		//bounce across the ground
 		s.setType(Shot.GRAV+Shot.BOUNCE);
@@ -443,14 +421,34 @@ public class Warehouse {
 		b.setName("Level select");
 
 		//build actual map
-		b.add(-32, HEIGHT-20, WIDTH+64, 30, SOLID); //ground floor
-		//TODO: Add level, character, and game mode selects
+		
+		//top floor
+		
+		//middle/top ladders
+		
+		//option change blocks
+		
+		//middle floor
+		b.add(-1*16, 19*16, 7*16, 16, PLATFORM);
+		b.add(6*16, 19*16, 28*16, 2*16, SOLID);
+		b.add(34*16, 19*16, 7*16, 16, PLATFORM);
+		
+		//bottom/middle ladders
+		b.add(1*16, 23*16, 4*16, 16, PLATFORM);
+		b.add(35*16, 23*16, 4*16, 16, PLATFORM);
 
-		//TODO: add spawn points
-		b.setSpawn(0, WIDTH/5, HEIGHT-30);
-		b.setSpawn(1, WIDTH*2/5, HEIGHT-30);
-		b.setSpawn(2, WIDTH*3/5, HEIGHT-30);
-		b.setSpawn(3, WIDTH*4/5, HEIGHT-30);
+		//base floor + warps
+		b.add(-1*16, 27*16, 19*16, 4*16, SOLID);
+		b.add(18*16, 27*16, 4*16, 1*16, PLATFORM);
+		b.add(22*16, 27*16, 19*16, 4*16, SOLID);
+		b.add(18*16, 29*16, 4*16, 2*16, WARP, DEMO);
+		//TODO: Add more warps to more levels
+
+		//add spawn points
+		b.setSpawn(0, WIDTH/2-64, 50);
+		b.setSpawn(1, WIDTH/2-32, 50);
+		b.setSpawn(2, WIDTH/2+32, 50);
+		b.setSpawn(3, WIDTH/2+64, 50);
 
 		return b;
 	}

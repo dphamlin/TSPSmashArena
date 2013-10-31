@@ -56,8 +56,7 @@ public abstract class GameState {
 	 * Add another player to the game (test)
 	 */
 	public Actor addPlayer() {
-		//return addPlayer(Warehouse.NOP); //start with unselected character
-		return addPlayer(Warehouse.LIZARD+getNumberOfPlayers()); //TODO: Return to "unselected once char select lobby is in
+		return addPlayer(Warehouse.NOP); //start with unselected character
 	}
 
 	/**
@@ -83,11 +82,13 @@ public abstract class GameState {
 	 */
 	public void initTestLevel() {
 		setLevel(Warehouse.DEMO);
-		setMode(TIME);
+		setMode(STOCK);
 	}
 	
 	/**
 	 * Initialize the level off of a Blueprint from the static list
+	 * (USE warpTo FOR ACTUAL IN-GAME FUNCTIONS!)
+	 * 
 	 * @param i
 	 * 		the level number to load
 	 */
@@ -99,16 +100,32 @@ public abstract class GameState {
 
 		//identify level
 		s = i;
+	}
+	
+	/**
+	 * Initialize the level off of a Blueprint from the static list
+	 * (USE warpTo FOR ACTUAL IN-GAME FUNCTIONS!)
+	 * 
+	 * @param i
+	 * 		the level number to load
+	 */
+	public void reSetLevel(int i) {
+		setLevel(i);
 
 		//move all players to spawn points and remove their powerups
 		for (Actor a : f) {
-			if (getMode() != STOCK || a.getLives() > 0) { //spawn the living characters
+			/*if (getMode() != STOCK || a.getLives() > 0) { //spawn the living characters
 				a.setHCenter(getSpawnX(a.getId()));
 				a.setVCenter(getSpawnX(a.getId()));
 				a.setVx(0);
 				a.setVy(0);
+				a.setDead(true);
+				a.setDeadTime(a.getSpawnTime()-10);
 				a.setPowerup(0);				
-			}
+			}*/
+			a.setDead(true);
+			a.setDeadTime(a.getSpawnTime()-25);
+			a.setPowerup(0);
 		}
 
 		//reset the timer and end state

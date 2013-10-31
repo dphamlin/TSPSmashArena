@@ -149,6 +149,7 @@ public class ClientGameState extends GameState {
 	private void draw(Actor a, Graphics g) {
 		//don't draw dead guys
 		if (a.isDead()) return;
+		if (a.isNoP()) return;
 
 		//fall through to position drawing method
 		draw(a, (int)a.getLeftEdge(), (int)a.getTopEdge(), g);
@@ -156,9 +157,14 @@ public class ClientGameState extends GameState {
 
 	/**
 	 * Draw an actor to the designated graphics object
+	 * TODO: Have a better alternative than this
 	 * 
 	 * @param a
 	 * 		Actor to be drawn
+	 * @param x
+	 * 		x position of the top left corner
+	 * @param y
+	 * 		y position of the top left corner
 	 * @param g
 	 * 		graphics object to draw through
 	 */
@@ -230,6 +236,9 @@ public class ClientGameState extends GameState {
 		}
 		else if (l.isBounce()) { //green springs
 			g.setColor(Color.GREEN);
+		}
+		else if (l.isWarp()) { //yellow warps
+			g.setColor(Color.YELLOW);
 		}
 		else { //normal black
 			g.setColor(Color.BLACK);

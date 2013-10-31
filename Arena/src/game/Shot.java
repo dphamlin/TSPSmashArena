@@ -7,7 +7,7 @@ package game;
  *
  */
 public class Shot extends GameObject {
-	
+
 	//bullet types
 	public static final int GRAV = 1; //subject to gravity (var = grav*100)
 	public static final int BOUNCE = 2; //bounces of solids
@@ -29,7 +29,7 @@ public class Shot extends GameObject {
 	public Shot() {
 		super();
 	}
-	
+
 	/**
 	 * Spawn a shot at a location
 	 * @param x
@@ -41,7 +41,7 @@ public class Shot extends GameObject {
 		super(x, y);
 		this.s = source;
 	}
-	
+
 	/**
 	 * Create a bullet from a generic type
 	 * @param base
@@ -59,7 +59,7 @@ public class Shot extends GameObject {
 		setH(base.getH());
 		setVCenter(a.getVCenter());
 		setVy(base.getVSpeed());
-		
+
 		//left or right?
 		if (a.getDir() > 0) {
 			setLeftEdge(a.getHCenter());
@@ -82,7 +82,7 @@ public class Shot extends GameObject {
 	 * @param base
 	 * 		shot type
 	 */
-	public Shot(float x, float y, ShotModel base, int dir) {
+	public Shot(ShotModel base, Shot s) {
 		this.s = -1;
 		setSkin(base.getSkin());
 		this.t = base.getType();
@@ -90,15 +90,12 @@ public class Shot extends GameObject {
 		this.l = base.getLife();
 		setW(base.getW());
 		setH(base.getH());
-		setHCenter(x);
-		setVCenter(y);
-		
-		//is it affected by gravity?
-		if (isGravity()) setVy(-base.getSpeed());
-		else setVy(0);
-		
+		setHCenter(s.getX());
+		setVCenter(s.getY());
+		setVy(base.getVSpeed());
+
 		//left or right?
-		if (dir > 0) {
+		if (s.getVx() > 0) {
 			setVx(base.getSpeed());
 		}
 		else {
@@ -132,7 +129,7 @@ public class Shot extends GameObject {
 	public void setSource(int source) {
 		this.s = source;
 	}
-	
+
 	//getters and setters for type modifiers
 	public boolean isGravity() {
 		return (t&GRAV) > 0;

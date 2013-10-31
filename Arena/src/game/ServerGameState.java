@@ -167,6 +167,19 @@ public class ServerGameState extends GameState {
 	}
 
 	/**
+	 * Warp from one level to another, once the game is in an appropriate state
+	 * 
+	 * @param i
+	 * 		Map ID of the destination level
+	 */
+	public void warpTo(int i) {
+		if (isReady()) {
+			reSetLevel(i); //move to the new level, resetting everything that needs it
+			setMode(getNextMode()); //change to appropriate game mode
+		}
+	}
+	
+	/**
 	 * Pre-game character selection
 	 * 
 	 * @param a
@@ -219,6 +232,13 @@ public class ServerGameState extends GameState {
 		}
 	}
 
+	/**
+	 * @return true if the game is ready to start
+	 */
+	private boolean isReady() {
+		return (getNoPs() == 0);
+	}
+	
 	/**
 	 * @return the number of players still alive
 	 */
@@ -385,8 +405,8 @@ public class ServerGameState extends GameState {
 	private void die (Shot s) {
 		if (s.isBomb()) {
 			Shot s2;
-			s2 = new Shot(s.getHCenter(), s.getVCenter(), Warehouse.getShots()[Warehouse.EXPLOSION], 1);
-			s2.setSource(s.getSource()); //don't hurt the player
+			s2 = new Shot(Warehouse.getShots()[Warehouse.EXPLOSION], s);
+			s2.setSource(s.getSource()); //don't hurt the original player
 			getBullets().add(s2);
 		}
 		s.setLifeTime(0);
@@ -616,6 +636,7 @@ public class ServerGameState extends GameState {
 			/*setLevel(l.getVar()); //warp to chosen level
 			setMode(getNextMode()); //change to appropriate game mode*/
 			//TODO: Take a vote- enough people and you can warp
+			warpTo(l.getVar()); //go to destination level
 		}
 
 		//character change blocks
