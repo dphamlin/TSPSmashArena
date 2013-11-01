@@ -96,11 +96,12 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void drawStatus(Graphics g) {
+		if (getMode() == MENU) return; //temporarily blind status until gametime
 		for (int i = 0; i < getNumberOfPlayers(); i++) {
 			g.setColor(Color.BLACK);
 			g.fillRoundRect(40+i*WIDTH/4, 10, 55, 35, 10, 10);
 			//player is selected, all good
-			if (!getPlayer(i).isNoP()) {
+			if (true/*!getPlayer(i).isNoP()*/) {
 				g.setColor(Color.WHITE);
 				if (getMode() == STOCK) {
 					g.drawString("x"+getPlayer(i).getLives(), 70+i*WIDTH/4, 35);
@@ -119,7 +120,7 @@ public class ClientGameState extends GameState {
 				//draw the character's current state in box
 				draw(getPlayer(i), 48+i*WIDTH/4, 18, g);
 			}
-			else drawSel(getPlayer(i), 60+i*WIDTH/4, 25, g);
+			//else drawSel(getPlayer(i), 60+i*WIDTH/4, 25, g);
 			//draw the reload bar
 			if (getPlayer(i).getReload() > 0) {
 				g.setColor(Color.RED);
@@ -149,7 +150,7 @@ public class ClientGameState extends GameState {
 	private void draw(Actor a, Graphics g) {
 		//don't draw dead guys
 		if (a.isDead()) return;
-		if (a.isNoP()) return;
+		//if (a.isNoP()) return;
 
 		//fall through to position drawing method
 		draw(a, (int)a.getLeftEdge(), (int)a.getTopEdge(), g);
@@ -188,6 +189,10 @@ public class ClientGameState extends GameState {
 		g.fillOval(x, y, a.getW(), a.getH());
 		g.fillRect((int)x+a.getW()/2, y, -a.getW()*a.getDir()/2, a.getH());
 		g.fillRect(x, y, a.getW()*a.getDir()/2, a.getH());
+		if (a.getModel() == Warehouse.NOP) { //mystery writing
+			g.setColor(Color.BLACK);
+			g.drawString("?", (int)x+a.getW()/2-2, (int)y+a.getH()/2+6);
+		}
 	}
 
 	/**
@@ -197,7 +202,7 @@ public class ClientGameState extends GameState {
 		//TODO: Make this draw a portrait instead
 
 		//temporary colors
-		Color c[] = {Color.BLACK, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
+		Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
 		g.setColor(c[a.getSkin()]);
 
 		//temporary shape
@@ -230,7 +235,14 @@ public class ClientGameState extends GameState {
 		}
 		
 		//pick colors
-		if (l.isDanger()) { //red danger
+		if (l.isWarp() && isReady()) { //yellow warps
+			g.setColor(Color.YELLOW);
+		}
+		else if (l.isChar()) {
+			Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
+			g.setColor(c[l.getVar()]);
+		}
+		else if (l.isDanger()) { //red danger
 			g.setColor(Color.RED);
 		}
 		else if (l.isSlip()) { //blue ice
@@ -238,9 +250,6 @@ public class ClientGameState extends GameState {
 		}
 		else if (l.isBounce()) { //green springs
 			g.setColor(Color.GREEN);
-		}
-		else if (l.isWarp()) { //yellow warps
-			g.setColor(Color.YELLOW);
 		}
 		else if (l.isPlatform() || l.isSolid()) { //normal black
 			g.setColor(Color.BLACK);

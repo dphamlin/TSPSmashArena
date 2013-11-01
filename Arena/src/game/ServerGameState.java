@@ -66,7 +66,7 @@ public class ServerGameState extends GameState {
 	public void update() {
 		//player logic
 		for (Actor a : getFighters()) {
-			if (!a.isNoP()) update(a);
+			/*if (!a.isNoP())*/ update(a);
 		}
 		//bullet logic (with removal)
 		for(int i = 0; i < getBullets().size(); i++) {
@@ -119,10 +119,10 @@ public class ServerGameState extends GameState {
 	 */
 	public void readControls(Actor a, Controller c) {
 		//character select menu
-		if (a.isNoP()) {
+		/*if (a.isNoP()) {
 			modelSelect(a, c);
 			return; //don't bother with normal input
-		}
+		}*/
 
 		//dead take no input
 		if (a.isDead()) return;
@@ -178,7 +178,7 @@ public class ServerGameState extends GameState {
 			setMode(getNextMode()); //change to appropriate game mode
 		}
 	}
-	
+
 	/**
 	 * Pre-game character selection
 	 * 
@@ -233,31 +233,12 @@ public class ServerGameState extends GameState {
 	}
 
 	/**
-	 * @return true if the game is ready to start
-	 */
-	private boolean isReady() {
-		return (getNoPs() == 0);
-	}
-	
-	/**
 	 * @return the number of players still alive
 	 */
 	private int getLivingPlayers() {
 		int n = 0;
 		for (Actor a : getFighters()) {
 			if (a.getLives() > 0) n++;
-		}
-		return n;
-	}
-
-	/**
-	 * 
-	 * @return the number of players without a chosen character
-	 */
-	private int getNoPs() {
-		int n = 0;
-		for (Actor a : getFighters()) {
-			if (a.isNoP()) n++;
 		}
 		return n;
 	}
@@ -395,7 +376,7 @@ public class ServerGameState extends GameState {
 			a.loseLife();
 		}
 	}
-	
+
 	/**
 	 * Specified shot dies
 	 * 
@@ -506,7 +487,7 @@ public class ServerGameState extends GameState {
 			return;
 		}
 		s.setLifeTime(s.getLifeTime()-1);
-		
+
 		//expand
 		if (s.isGrow()) {
 			s.setW(s.getW()+s.getVar());
@@ -514,7 +495,7 @@ public class ServerGameState extends GameState {
 			s.setX(s.getX()-s.getVar()/2.0);
 			s.setY(s.getY()-s.getVar()/2.0);
 		}
-		
+
 		//update position
 		move(s);
 	}
@@ -631,6 +612,11 @@ public class ServerGameState extends GameState {
 		int h = hCollide(a, l);
 		boolean ov = overlap(a, l);
 
+		//die on touching danger
+		if (l.isDanger() && (v != NONE || h != NONE || ov)) {
+			kill(null, a); //killed by no one
+		}
+
 		//activate warp blocks
 		if (l.isWarp() && getNoPs() == 0 && (v != NONE || h != NONE || ov)) {
 			warpTo(l.getVar()); //go to destination level
@@ -639,7 +625,6 @@ public class ServerGameState extends GameState {
 		//character change blocks
 		if (l.isChar() && (v != NONE || h != NONE || ov)) {
 			a.setModel(l.getVar());
-			respawn(a);
 		}
 
 		//option changing blocks
@@ -658,11 +643,6 @@ public class ServerGameState extends GameState {
 		}
 
 		//TODO: Setting (lives/time) changing block
-
-		//die on touching danger
-		if (l.isDanger() && (v != NONE || h != NONE || ov)) {
-			kill(null, a); //killed by no one
-		}
 
 		//switch blocks
 		if (l.isSwitch() && (v != NONE || h != NONE || ov)) {
@@ -779,7 +759,7 @@ public class ServerGameState extends GameState {
 		//out-of-phase platforms ignored
 		if (l.isHatch() && !isControl()) return;
 		if (l.isNHatch() && isControl()) return;
-		
+
 		//flip option/switch blocks
 		if (hCollide(s,l) != NONE || vCollide(s,l) != NONE || overlap(s,l)) {
 			//mode changing
@@ -798,7 +778,7 @@ public class ServerGameState extends GameState {
 				setControl(!isControl());
 			}
 		}
-		
+
 		//bounce off non-damage blocks
 		if (s.isBounce() && l.isSolid() && !l.isDanger()) {
 			//top and bottom

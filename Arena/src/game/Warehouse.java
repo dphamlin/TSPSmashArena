@@ -66,20 +66,20 @@ public class Warehouse {
 		r.setSkin(NOP);
 
 		//meh on air and ground
-		r.setRunFrict(1);
-		r.setAirFrict(1);
-		r.setMaxSpeed(1);
+		r.setRunFrict(.5);
+		r.setAirFrict(.25);
+		r.setMaxSpeed(3);
 
 		//pretty eh jump
-		r.setJumpPower(0);
-		r.setJumpHold(0);
+		r.setJumpPower(9);
+		r.setJumpHold(5);
 
 		//standard gravity
-		r.setGrav(0);
-		r.setTermVel(0);
+		r.setGrav(1);
+		r.setTermVel(7.5);
 
 		//standard respawn
-		r.setSpawnTime(0);
+		r.setSpawnTime(1);
 		r.setSpawnInv(0);
 
 		//doesn't have a bullet
@@ -440,8 +440,29 @@ public class Warehouse {
 		b.setId(HOLODECK);
 		b.setName("Level select");
 
-		//build actual map
-
+		//character change chambers
+		b.add(-1*16, -1*16, 2*16, 6*16, SOLID);
+		b.add(1*16, -1*16, 3*16, 5*16, DANGER|SOLID|CHAR, LIZARD);
+		b.add(4*16, -1*16, 4*16, 6*16, SOLID);
+		b.add(8*16, -1*16, 3*16, 5*16, DANGER|SOLID|CHAR, SLIME);
+		b.add(11*16, -1*16, 4*16, 6*16, SOLID);
+		b.add(15*16, -1*16, 3*16, 5*16, DANGER|SOLID|CHAR, CAPTAIN);
+		b.add(18*16, -1*16, 4*16, 6*16, SOLID);
+		b.add(22*16, -1*16, 3*16, 5*16, DANGER|SOLID|CHAR, MARINE);
+		b.add(25*16, -1*16, 4*16, 6*16, SOLID);
+		b.add(29*16, -1*16, 3*16, 5*16, DANGER|SOLID|CHAR, ROBOT);
+		b.add(32*16, -1*16, 4*16, 6*16, SOLID);
+		//b.add(36*16, -1*16, 3*16, 5*16, DANGER|SOLID|CHAR, SCIENTIST); //TODO: Implement the mad scientist
+		b.add(39*16, -1*16, 2*16, 6*16, SOLID);
+		
+		//top/'attic' ladders
+		b.add(1*16, 8*16, 3*16, 16, PLATFORM);
+		b.add(8*16, 8*16, 3*16, 16, PLATFORM);
+		b.add(15*16, 8*16, 3*16, 16, PLATFORM);
+		b.add(22*16, 8*16, 3*16, 16, PLATFORM);
+		b.add(29*16, 8*16, 3*16, 16, PLATFORM);
+		b.add(36*16, 8*16, 3*16, 16, PLATFORM);
+		
 		//top floor
 		b.add(-1*16, 11*16, 18*16, 2*16, SOLID);
 		b.add(17*16, 11*16, 6*16, 16, PLATFORM);
@@ -464,17 +485,24 @@ public class Warehouse {
 		b.add(35*16, 23*16, 4*16, 16, PLATFORM);
 
 		//base floor + warps
-		b.add(-1*16, 27*16, 19*16, 4*16, SOLID);
-		b.add(18*16, 27*16, 4*16, 1*16, PLATFORM);
-		b.add(18*16, 29*16, 4*16, 2*16, WARP, DEMO);
-		b.add(22*16, 27*16, 19*16, 4*16, SOLID);
+		b.add(-1*16, 27*16, 13*16, 4*16, SOLID);
+		
+		b.add(12*16, 27*16, 4*16, 1*16, PLATFORM);
+		b.add(12*16, 29*16, 4*16, 2*16, SOLID|WARP|DANGER, DEMO); //TODO: Don't warp to the test level
+		
+		b.add(16*16, 27*16, 8*16, 4*16, SOLID);
+		
+		b.add(24*16, 27*16, 4*16, 1*16, PLATFORM|SOLID); //TODO: Unblock when level is ready
+		b.add(24*16, 29*16, 4*16, 2*16, SOLID|WARP|DANGER, FACTORY); 
+		
+		b.add(28*16, 27*16, 13*16, 4*16, SOLID);
 		//TODO: Add more warps to more levels
 
 		//add spawn points
-		b.setSpawn(0, 68+0*WIDTH/4, 33);
-		b.setSpawn(1, 68+1*WIDTH/4, 33);
-		b.setSpawn(2, 68+2*WIDTH/4, 33);
-		b.setSpawn(3, 68+3*WIDTH/4, 33);
+		b.setSpawn(0, 68+0*WIDTH/4, 9*16+8);
+		b.setSpawn(1, 68+1*WIDTH/4, 9*16+8);
+		b.setSpawn(2, 68+2*WIDTH/4, 9*16+8);
+		b.setSpawn(3, 68+3*WIDTH/4, 9*16+8);
 
 		return b;
 	}
@@ -508,7 +536,7 @@ public class Warehouse {
 		b.setId(DEMO);
 		b.setName("Test level");
 
-		//build actual map
+		//build various test platforms
 		b.add(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, SOLID);
 		b.add(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, PLATFORM|MOVE|HATCH, 18);
 		b.add(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, BOUNCE|SOLID, 2);
