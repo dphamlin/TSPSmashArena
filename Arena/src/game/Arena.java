@@ -32,8 +32,8 @@ public class Arena {
 			inputScanner = new Scanner(System.in); // Crudely reset scanner
 			
 			int numberOfPlayers = 0;
-			while (numberOfPlayers < 1) {
-				System.out.println("Please enter the number of players in the game:");
+			while (numberOfPlayers < 1 || numberOfPlayers > 4) {
+				System.out.println("Please enter the number of players (maximum 4) in the game:");
 				numberOfPlayers = inputScanner.nextInt();
 			}
 			
