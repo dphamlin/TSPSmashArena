@@ -427,7 +427,9 @@ public class Warehouse {
 		//middle/top ladders
 		
 		//option change blocks
-		
+		b.add(13*16, 13*16, 2*16, 2*16, BOUNCE|OPTION|HATCH|SWITCH);
+		b.add(23*16, 13*16, 2*16, 2*16, BOUNCE|OPTION|NHATCH|SWITCH);
+
 		//middle floor
 		b.add(-1*16, 19*16, 7*16, 16, PLATFORM);
 		b.add(6*16, 19*16, 28*16, 2*16, SOLID);

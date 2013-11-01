@@ -242,8 +242,11 @@ public class ClientGameState extends GameState {
 		else if (l.isWarp()) { //yellow warps
 			g.setColor(Color.YELLOW);
 		}
-		else { //normal black
+		else if (l.isPlatform() || l.isSolid()) { //normal black
 			g.setColor(Color.BLACK);
+		}
+		else { //useless gray
+			g.setColor(Color.LIGHT_GRAY);
 		}
 
 		//pick style
@@ -268,6 +271,12 @@ public class ClientGameState extends GameState {
 				int x2 = x+l.getW()/8;
 				g.drawLine(x+l.getW()/16, y, x2+l.getW()/16, y);				
 			}
+		}
+		//text for mode changers
+		if (l.isOption()) {
+			g.setColor(Color.BLACK);
+			if (getNextMode() == STOCK) g.drawString("Stock", (int)l.getHCenter()-14, (int)l.getVCenter()+4);
+			if (getNextMode() == TIME) g.drawString("Time", (int)l.getHCenter()-14, (int)l.getVCenter()+4);
 		}
 	}
 
