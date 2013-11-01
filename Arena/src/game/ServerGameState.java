@@ -640,6 +640,21 @@ public class ServerGameState extends GameState {
 					setNextMode(STOCK);
 				}
 			}
+			//option changing
+			if (l.getVar() == 1) {
+				if (getNextMode() == STOCK) {
+					setStock(getStock()+2);
+					if (getStock () > 20) setStock(3);
+					else if (getStock() > 10) setStock(20);
+					else if (getStock() > 5) setStock(10);
+				}
+				else if (getNextMode() == TIME) {
+					setTime(getTime()+2*60*50);
+					if (getTime() > 20*60*50) setTime(1*60*50);
+					else if (getTime() > 10*60*50) setTime(20*60*50);
+					else if (getTime() > 5*60*50) setTime(10*60*50);
+				}
+			}
 		}
 
 		//TODO: Setting (lives/time) changing block

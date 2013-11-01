@@ -76,7 +76,27 @@ public abstract class GameState {
 		f.add(a);
 		return a;
 	}
+	
+	/**
+	 * Suspend the participant's actor
+	 * 
+	 * @param p
+	 * 		the participant being suspended
+	 */
+	public void suspendPlayer(Participant p) {
+		//TODO: Make a resumable version
+	}
 
+	/**
+	 * Resume the participant's actor
+	 * 
+	 * @param p
+	 * 		the participant being resumed
+	 */
+	public void resumePlayer(Participant p) {
+		
+	}
+	
 	/**
 	 * Load up a test level
 	 */
