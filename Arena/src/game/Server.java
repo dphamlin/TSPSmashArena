@@ -145,8 +145,6 @@ public class Server {
 		
 		theServer.setNumberOfPlayers(numberOfPlayers);
 		
-		theServer.getGameState().initTestLevel();
-		
 		// Connect clients and adds them to the participantList
 		try {
 			theServer.setParticipantList(theServer.connectParticipants(theServer.getNumberOfPlayers()));
