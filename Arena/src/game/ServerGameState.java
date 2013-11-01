@@ -693,7 +693,11 @@ public class ServerGameState extends GameState {
 			a.setLeftEdge(l.getRightEdge()+.005);
 			a.setVx(-a.getVx()*(10+l.getVar())/10);
 		}
-		if (l.isBounce()) return; //bounced off, no other action
+		if (l.isBounce()) { //bounced off, re-check collisions
+			v = vCollide(a, l);
+			h = hCollide(a, l);
+			ov = overlap(a, l);
+		}
 
 		//solid or platform floors
 		if (v == TOP && (l.isSolid() || (l.isPlatform() && !a.isCrouch())) ) {

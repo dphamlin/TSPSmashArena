@@ -221,14 +221,16 @@ public class ClientGameState extends GameState {
 	private void draw(Land l, Graphics g) {
 		//TODO: Draw composite images instead
 
+		//abandon drawing
+		if (l.isHatch() && !isControl()) { //disabled toggles
+			return;
+		}
+		else if (l.isNHatch() && isControl()) { //disabled negative toggles
+			return;
+		}
+		
 		//pick colors
-		if (l.isHatch() && !isControl()) { //faded toggles
-			g.setColor(Color.LIGHT_GRAY);
-		}
-		else if (l.isNHatch() && isControl()) { //faded negative toggles
-			g.setColor(Color.LIGHT_GRAY);
-		}
-		else if (l.isDanger()) { //red danger
+		if (l.isDanger()) { //red danger
 			g.setColor(Color.RED);
 		}
 		else if (l.isSlip()) { //blue ice

@@ -25,6 +25,7 @@ public class View extends JFrame {
 		setResizable(false);
 		pack(); //FORCE it to be 640 x 480, this has given me grief
 		setVisible(true);
+		toFront(); //TODO: See if this is needed for an applet
 	}
 	
 	/**

@@ -313,30 +313,30 @@ public class Warehouse {
 
 		//shoot forward
 		s.setLife(100);
-		s.setSpeed(5);
+		s.setSpeed(5.5);
 		s.setVSpeed(-3.5);
 
 		//standard type
 		s.setType(Shot.GRAV|Shot.BOMB);
-		s.setVar(40);
+		s.setVar(38);
 		return s;
 	}
-	//close-range blade
+	//mid-range blade
 	private static ShotModel beamSword() {
 		ShotModel s = new ShotModel();
 		s.setSkin(BEAMSWORD);
 
 		//long blades
 		s.setH(4);
-		s.setW(24);
+		s.setW(16);
 
 		//very short range
-		s.setLife(10);
-		s.setSpeed(5);
+		s.setLife(8);
+		s.setSpeed(8);
 
 		//ignore obstacles and stop quickly
 		s.setType(Shot.PHASE+Shot.PIERCE+Shot.ACCEL);
-		s.setVar(-500);
+		s.setVar(-1200);
 		return s;
 	}
 	//acceleration missiles
