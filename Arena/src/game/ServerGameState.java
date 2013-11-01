@@ -616,7 +616,7 @@ public class ServerGameState extends GameState {
 		boolean ov = overlap(a, l);
 
 		//die on touching danger
-		if (l.isDanger() && (v != NONE || h != NONE || ov)) {
+		if (l.isDanger() && !a.isArmored() && (v != NONE || h != NONE || ov)) {
 			kill(null, a); //killed by no one
 		}
 
@@ -899,6 +899,26 @@ public class ServerGameState extends GameState {
 	}
 	
 	/**
+	 * Check for powerup-actor collisions
+	 * 
+	 * @param p
+	 * 		powerup to collide
+	 * @param a
+	 * 		actor to check collisions with
+	 */
+	private void collide(Item p, Actor a) {
+		//no collection if either is dead
+		if (a.isDead() || p.isDead()) return;
+		
+		//collect and apply effect
+		if (hCollide(p, a) != NONE||vCollide(p, a) != NONE||overlap(a,p)) {
+			p.setDead(true);
+			a.setPowerup(p.getType());
+			a.setPowerupVar(p.getSubType());
+		}
+	}
+	
+	/**
 	 * Move the actor according to their current speeds (with gravity)
 	 * 
 	 * @param a
@@ -1034,6 +1054,11 @@ public class ServerGameState extends GameState {
 			collide(p, l);
 		}
 
+		//player auto-collect (TODO: Make a button-controlled version)
+		for (Actor a : getFighters()) {
+			collide(p, a);
+		}
+		
 		//apply velocity
 		p.setX(p.getX()+p.getVx());
 		p.setY(p.getY()+p.getVy());
