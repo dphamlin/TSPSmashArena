@@ -131,6 +131,7 @@ public class Actor extends GameObject {
 			setW(Warehouse.getCharacters()[m].getW());
 			setH(Warehouse.getCharacters()[m].getH());
 			setCenter(cx, cy);
+			setOnLand(null); //off the ground
 		}
 		this.p = powerup;
 	}

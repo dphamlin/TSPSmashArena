@@ -77,6 +77,10 @@ public class ServerGameState extends GameState {
 				i--;
 			}
 		}
+		//spawn powerups TODO: Make this more logical
+		if (getFrameNumber() % 400 == 250 && getMode() != MENU) {
+			spawnPowerup((int)(20+Math.random()*600), (int)(20+Math.random()*400), 1+(int)(Math.random()*5), 1);
+		}
 		//power-up/item logic (with removal)
 		for(int i = 0; i < getPowerups().size(); i++) {
 			update(getPowerups().get(i));
@@ -515,6 +519,31 @@ public class ServerGameState extends GameState {
 	}
 
 	/**
+	 * Spawn a new powerup
+	 * @param x
+	 * 		x position
+	 * @param y
+	 * 		y position
+	 * @param type
+	 * 		primary type
+	 * @param subType
+	 * 		secondary type (variable value)
+	 */
+	public void spawnPowerup(int x, int y, int type, int subType) {
+		Item p = new Item();
+		//TODO: Spawn properly, constructors, the whole shibang
+		p.setW(8);
+		p.setH(8);
+		p.setHCenter(x);
+		p.setVCenter(y);
+		p.setVx(0);
+		p.setVy(0);
+		p.setType(type);
+		p.setSubType(subType);
+		getPowerups().add(p);
+	}
+
+	/**
 	 * Check if two objects are overlapping
 	 * 
 	 * @param a
@@ -881,7 +910,7 @@ public class ServerGameState extends GameState {
 		//out of phase platforms
 		if (l.isHatch() && !isControl()) return;
 		if (l.isNHatch() && isControl()) return;
-		
+
 		//land on top
 		if ((l.isSolid() || l.isPlatform()) && vCollide(p, l) == TOP) {
 			p.setBottomEdge(l.getTopEdge()-.005);
@@ -891,13 +920,13 @@ public class ServerGameState extends GameState {
 				p.setX(p.getX()+l.getVar()/10);
 			}
 		}
-		
+
 		//reverse directions
 		if (l.isSolid() || hCollide(p, l) != NONE) {
 			p.setVx(-p.getVx());
 		}
 	}
-	
+
 	/**
 	 * Check for powerup-actor collisions
 	 * 
@@ -909,7 +938,7 @@ public class ServerGameState extends GameState {
 	private void collide(Item p, Actor a) {
 		//no collection if either is dead
 		if (a.isDead() || p.isDead()) return;
-		
+
 		//collect and apply effect
 		if (hCollide(p, a) != NONE||vCollide(p, a) != NONE||overlap(a,p)) {
 			p.setDead(true);
@@ -917,7 +946,7 @@ public class ServerGameState extends GameState {
 			a.setPowerupVar(p.getSubType());
 		}
 	}
-	
+
 	/**
 	 * Move the actor according to their current speeds (with gravity)
 	 * 
@@ -1058,13 +1087,19 @@ public class ServerGameState extends GameState {
 		for (Actor a : getFighters()) {
 			collide(p, a);
 		}
-		
+
 		//apply velocity
 		p.setX(p.getX()+p.getVx());
 		p.setY(p.getY()+p.getVy());
-		
+
 		//fixed gravity
 		p.setVy(p.getVy()+.5);
 		if (p.getVy() > 5) p.setVy(5);
+
+		//out of bounds removal
+		if (p.getBottomEdge() < -p.getH()*2 || p.getTopEdge() > HEIGHT+p.getH()*2
+				|| p.getRightEdge() < -p.getW()*2 || p.getLeftEdge() > WIDTH+p.getW()*2) {
+			p.setDead(true);
+		}
 	}
 }

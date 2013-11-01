@@ -139,6 +139,16 @@ public class ClientGameState extends GameState {
 				g.setColor(Color.RED);
 				g.fillRect(48+i*WIDTH/4, 38, (16*getPlayer(i).getReload())/getPlayer(i).getShotDelay(), 2);
 			}
+			if (getPlayer(i).getPowerup() > 0) {
+				g.setColor(Color.BLACK);
+				String powername = "";
+				if (getPlayer(i).getPowerup() == Item.BIG) powername = "Giant";
+				if (getPlayer(i).getPowerup() == Item.DJUMP) powername = "Jetpack";
+				if (getPlayer(i).getPowerup() == Item.SPEED) powername = "Hoverboard";
+				if (getPlayer(i).getPowerup() == Item.SSHOT) powername = "Rapidshot";
+				if (getPlayer(i).getPowerup() == Item.CHANGE) powername = "Reptilia";
+				g.drawString(powername, 40+i*WIDTH/4, 56);
+			}
 		}
 		if (getMode() == TIME) {
 			//TODO: Adjust font and centering
