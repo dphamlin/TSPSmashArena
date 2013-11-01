@@ -21,8 +21,8 @@ public class TestDriver {
 		ServerGameState gs = new ServerGameState();
 		StopWatch t = new StopWatch(20);
 		v.attachController(c);
-		//gs.setLevel(Warehouse.DEMO); //temporary level
-		//gs.setMode(GameState.STOCK); //temporary game mode
+		//gs.setLevel(Warehouse.DEMO); //test level
+		//gs.setMode(GameState.STOCK); //test game mode
 
 		//test players
 		//gs.addPlayer(Warehouse.LIZARD);

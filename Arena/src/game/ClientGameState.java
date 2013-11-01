@@ -233,7 +233,7 @@ public class ClientGameState extends GameState {
 		else if (l.isNHatch() && isControl()) { //disabled negative toggles
 			return;
 		}
-		
+
 		//pick colors
 		if (l.isWarp() && isReady()) { //yellow warps
 			g.setColor(Color.YELLOW);
@@ -282,10 +282,18 @@ public class ClientGameState extends GameState {
 			}
 		}
 		//text for mode changers
-		if (l.isOption()) {
+		if (l.isOption() && l.getVar() == 0) {
 			g.setColor(Color.BLACK);
 			if (getNextMode() == STOCK) g.drawString("Stock", (int)l.getHCenter()-15, (int)l.getVCenter()+4);
 			if (getNextMode() == TIME) g.drawString("Time", (int)l.getHCenter()-14, (int)l.getVCenter()+4);
+		}
+		//text for value changers
+		else if (l.isOption() && l.getVar() == 1) {
+			g.setColor(Color.BLACK);
+			String s = "";
+			if (getNextMode() == STOCK) s = "x"+getStock();
+			if (getNextMode() == TIME) s = ""+getTime()/(60*50)+":"+(getTime()/500)%6+""+(getTime()/50)%10;
+			g.drawString(s, (int)l.getHCenter()-12, (int)l.getVCenter()+4);
 		}
 	}
 

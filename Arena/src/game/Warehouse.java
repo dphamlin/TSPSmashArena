@@ -472,8 +472,10 @@ public class Warehouse {
 		b.add(18*16, 15*16, 4*16, 16, PLATFORM);
 
 		//option change blocks
-		b.add(12*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|HATCH|SWITCH);
-		b.add(26*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|NHATCH|SWITCH);
+		b.add(12*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|HATCH|SWITCH, 0); //stock
+		b.add(9*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|HATCH, 1); //stock adjust
+		b.add(26*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|NHATCH|SWITCH, 0); //time
+		b.add(29*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|NHATCH, 1); //time adjust
 
 		//middle floor
 		b.add(-1*16, 19*16, 7*16, 16, PLATFORM);
@@ -486,15 +488,12 @@ public class Warehouse {
 
 		//base floor + warps
 		b.add(-1*16, 27*16, 13*16, 4*16, SOLID);
-		
 		b.add(12*16, 27*16, 4*16, 1*16, PLATFORM);
-		b.add(12*16, 29*16, 4*16, 2*16, SOLID|WARP|DANGER, DEMO); //TODO: Don't warp to the test level
-		
+		b.add(12*16, 29*16, 4*16, 2*16, SOLID|WARP|DANGER, DEMO); //TODO: Warp to PLANET when it's built
+		//b.add(12*16, 29*16, 4*16, 2*16, SOLID|WARP|DANGER, PLANET);
 		b.add(16*16, 27*16, 8*16, 4*16, SOLID);
-		
-		b.add(24*16, 27*16, 4*16, 1*16, PLATFORM|SOLID); //TODO: Unblock when level is ready
+		b.add(24*16, 27*16, 4*16, 1*16, PLATFORM|SOLID); //TODO: Unblock when FACTORY is built
 		b.add(24*16, 29*16, 4*16, 2*16, SOLID|WARP|DANGER, FACTORY); 
-		
 		b.add(28*16, 27*16, 13*16, 4*16, SOLID);
 		//TODO: Add more warps to more levels
 
