@@ -34,10 +34,11 @@ public class ClientGameState extends GameState {
 	 */
 	public void draw(Graphics g) {
 		drawBackground(g);
+		drawPowerups(g);
 		drawLevel(g);
 		drawFighters(g);
 		drawBullets(g);
-		//TODO: Draw items and special effects
+		//TODO: Draw visual effects
 		drawStatus(g);
 	}
 
@@ -86,6 +87,18 @@ public class ClientGameState extends GameState {
 	private void drawBullets(Graphics g) {
 		for (Shot s : getBullets()) {
 			draw(s, g);
+		}
+	}
+	
+	/**
+	 * Draw the powerups
+	 * 
+	 * @param g
+	 * 		graphics object to draw through
+	 */
+	private void drawPowerups(Graphics g) {
+		for (Item i : getPowerups()) {
+			draw(i, g);
 		}
 	}
 
@@ -308,5 +321,18 @@ public class ClientGameState extends GameState {
 	private void draw(Shot s, Graphics g) {
 		g.setColor(Color.RED);
 		g.fillRect((int)s.getLeftEdge(), (int)s.getTopEdge(), s.getW(), s.getH());
+	}
+	
+	/**
+	 * Draw a shot to the designated graphics object
+	 * 
+	 * @param s
+	 * 		Shot to be drawn
+	 * @param g
+	 * 		graphics object to draw through
+	 */
+	private void draw(Item p, Graphics g) {
+		g.setColor(Color.ORANGE);
+		g.fillRect((int)p.getLeftEdge(), (int)p.getTopEdge(), p.getW(), p.getH());
 	}
 }

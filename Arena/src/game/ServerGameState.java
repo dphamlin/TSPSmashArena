@@ -190,7 +190,7 @@ public class ServerGameState extends GameState {
 	 * @param c
 	 * 		The controller data for input
 	 */
-	private void modelSelect(Actor a, Controller c) {
+	/*private void modelSelect(Actor a, Controller c) {
 		//go side to side
 		if (c.getRight() % 20 == 1) {
 			a.setSkin(a.getSkin()+1);
@@ -211,7 +211,7 @@ public class ServerGameState extends GameState {
 		if (c.getFire() == 1 || c.getJump() == 1) {
 			a.setModel(a.getSkin());
 		}
-	}
+	}*/
 
 	/**
 	 * Update whether the game has ended or not
@@ -739,7 +739,7 @@ public class ServerGameState extends GameState {
 			kill(a, b);
 			return; //nothing else can happen
 		}
-		
+
 		//land on enemy heads
 		if (vCollide(a, b) == TOP) {
 			a.setBottomEdge(b.getTopEdge());
@@ -869,6 +869,36 @@ public class ServerGameState extends GameState {
 	}
 
 	/**
+	 * Check for powerup-level collisions
+	 * @param p
+	 * 		powerup to collide
+	 * @param l
+	 * 		land to check collisions with
+	 */
+	private void collide(Item p, Land l) {
+		//TODO: Factor in other kinds of movement
+
+		//out of phase platforms
+		if (l.isHatch() && !isControl()) return;
+		if (l.isNHatch() && isControl()) return;
+		
+		//land on top
+		if ((l.isSolid() || l.isPlatform()) && vCollide(p, l) == TOP) {
+			p.setBottomEdge(l.getTopEdge()-.005);
+			p.setVy(STOP);
+			//conveyer belt effects
+			if (l.isMove()) {
+				p.setX(p.getX()+l.getVar()/10);
+			}
+		}
+		
+		//reverse directions
+		if (l.isSolid() || hCollide(p, l) != NONE) {
+			p.setVx(-p.getVx());
+		}
+	}
+	
+	/**
 	 * Move the actor according to their current speeds (with gravity)
 	 * 
 	 * @param a
@@ -877,7 +907,7 @@ public class ServerGameState extends GameState {
 	private void move(Actor a) {
 		//assume he ain't sliding
 		a.setSlide(false);
-		
+
 		//check collisions with the level
 		for (Land l : getLevel()) {
 			collide(a, l);
@@ -999,6 +1029,17 @@ public class ServerGameState extends GameState {
 	 * 		the item to move
 	 */
 	private void move(Item p) {
-		//TODO: Moving items
+		//terrain collisions
+		for (Land l : getLevel()) {
+			collide(p, l);
+		}
+
+		//apply velocity
+		p.setX(p.getX()+p.getVx());
+		p.setY(p.getY()+p.getVy());
+		
+		//fixed gravity
+		p.setVy(p.getVy()+.5);
+		if (p.getVy() > 5) p.setVy(5);
 	}
 }
