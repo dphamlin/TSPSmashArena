@@ -72,7 +72,7 @@ public abstract class GameState {
 		a.setId(f.size());
 		a.setLives(getStock());
 		a.setHCenter(getSpawnX(a.getId()));
-		a.setVCenter(getSpawnX(a.getId()));
+		a.setVCenter(getSpawnY(a.getId()));
 		f.add(a);
 		return a;
 	}

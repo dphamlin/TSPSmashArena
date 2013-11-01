@@ -467,7 +467,7 @@ public class ServerGameState extends GameState {
 		a.setDead(false);
 		fall(a);
 		a.setHCenter(getSpawnX(a.getId()));
-		a.setVCenter(getSpawnX(a.getId()));
+		a.setVCenter(getSpawnY(a.getId()));
 	}
 
 	/**
@@ -633,9 +633,6 @@ public class ServerGameState extends GameState {
 
 		//activate warp blocks
 		if (l.isWarp() && getNoPs() == 0 && (v != NONE || h != NONE || ov)) {
-			/*setLevel(l.getVar()); //warp to chosen level
-			setMode(getNextMode()); //change to appropriate game mode*/
-			//TODO: Take a vote- enough people and you can warp
 			warpTo(l.getVar()); //go to destination level
 		}
 
@@ -658,12 +655,9 @@ public class ServerGameState extends GameState {
 					setNextMode(STOCK);
 				}
 			}
-			//TODO: add variable changing blocks, somehow...?
 		}
 
 		//TODO: Setting (lives/time) changing block
-
-		//TODO: "Exit server" blocks?
 
 		//die on touching danger
 		if (l.isDanger() && (v != NONE || h != NONE || ov)) {
@@ -785,7 +779,26 @@ public class ServerGameState extends GameState {
 		//out-of-phase platforms ignored
 		if (l.isHatch() && !isControl()) return;
 		if (l.isNHatch() && isControl()) return;
-
+		
+		//flip option/switch blocks
+		if (hCollide(s,l) != NONE || vCollide(s,l) != NONE || overlap(s,l)) {
+			//mode changing
+			if (l.isOption() && l.getVar() == 0) {
+				//cycle up
+				if (getNextMode() == STOCK) {
+					setNextMode(TIME);
+				}
+				//loop back
+				else {
+					setNextMode(STOCK);
+				}
+			}
+			//switch blocks
+			if (l.isSwitch()) {
+				setControl(!isControl());
+			}
+		}
+		
 		//bounce off non-damage blocks
 		if (s.isBounce() && l.isSolid() && !l.isDanger()) {
 			//top and bottom

@@ -16,10 +16,11 @@ public class Warehouse {
 	public static final int BUBBLE = 2;
 	public static final int RAYGUN = 3;
 	public static final int BEAMSWORD = 4;
-	public static final int MORTAR = 5;
-	public static final int MISSILE = 6;
-	public static final int EXPLOSION = 7;
-	
+	public static final int BOOMERANG = 5;
+	public static final int MORTAR = 6;
+	public static final int MISSILE = 7;
+	public static final int EXPLOSION = 8;
+
 	//levels
 	public static final int HOLODECK = 0;
 	public static final int PLANET = 1;
@@ -33,7 +34,7 @@ public class Warehouse {
 	private static RoleModel characters[] = 
 		{noP(), lizardman(), slime(), captain(), spaceMarine(), japaneseRobot(), madScientist()};
 	private static ShotModel shots[] =
-		{noShot(), fireball(), bubble(), raygun(), mortar(), beamSword(), missile(), explosion()};
+		{noShot(), fireball(), bubble(), raygun(), mortar(), beamSword(), boomerang(), missile(), explosion()};
 	private static Blueprint maps[] = 
 		{holodeck(), alienPlanet(), factory(), demo()};
 
@@ -218,7 +219,8 @@ public class Warehouse {
 
 		//quick fire rate
 		r.setShotDelay(40);
-		r.setShotType(beamSword());
+		//r.setShotType(beamSword());
+		r.setShotType(boomerang());
 		return r;
 	}
 	//mad scientist
@@ -339,6 +341,24 @@ public class Warehouse {
 		s.setVar(-1200);
 		return s;
 	}
+	//mid-range blade
+	private static ShotModel boomerang() {
+		ShotModel s = new ShotModel();
+		s.setSkin(BOOMERANG);
+
+		//long blades
+		s.setH(4);
+		s.setW(16);
+
+		//very short range
+		s.setLife(55);
+		s.setSpeed(9);
+
+		//go out then reterun
+		s.setType(Shot.ACCEL);
+		s.setVar(-400);
+		return s;
+	}
 	//acceleration missiles
 	private static ShotModel missile() {
 		ShotModel s = new ShotModel();
@@ -421,20 +441,24 @@ public class Warehouse {
 		b.setName("Level select");
 
 		//build actual map
-		
+
 		//top floor
-		
-		//middle/top ladders
-		
+		b.add(-1*16, 11*16, 18*16, 2*16, SOLID);
+		b.add(17*16, 11*16, 6*16, 16, PLATFORM);
+		b.add(23*16, 11*16, 18*16, 2*16, SOLID);
+
+		//middle/top ladder
+		b.add(18*16, 15*16, 4*16, 16, PLATFORM);
+
 		//option change blocks
-		b.add(13*16, 13*16, 2*16, 2*16, BOUNCE|OPTION|HATCH|SWITCH);
-		b.add(23*16, 13*16, 2*16, 2*16, BOUNCE|OPTION|NHATCH|SWITCH);
+		b.add(12*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|HATCH|SWITCH);
+		b.add(26*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|NHATCH|SWITCH);
 
 		//middle floor
 		b.add(-1*16, 19*16, 7*16, 16, PLATFORM);
 		b.add(6*16, 19*16, 28*16, 2*16, SOLID);
 		b.add(34*16, 19*16, 7*16, 16, PLATFORM);
-		
+
 		//bottom/middle ladders
 		b.add(1*16, 23*16, 4*16, 16, PLATFORM);
 		b.add(35*16, 23*16, 4*16, 16, PLATFORM);
@@ -442,15 +466,15 @@ public class Warehouse {
 		//base floor + warps
 		b.add(-1*16, 27*16, 19*16, 4*16, SOLID);
 		b.add(18*16, 27*16, 4*16, 1*16, PLATFORM);
-		b.add(22*16, 27*16, 19*16, 4*16, SOLID);
 		b.add(18*16, 29*16, 4*16, 2*16, WARP, DEMO);
+		b.add(22*16, 27*16, 19*16, 4*16, SOLID);
 		//TODO: Add more warps to more levels
 
 		//add spawn points
-		b.setSpawn(0, WIDTH/2-64, 50);
-		b.setSpawn(1, WIDTH/2-32, 50);
-		b.setSpawn(2, WIDTH/2+32, 50);
-		b.setSpawn(3, WIDTH/2+64, 50);
+		b.setSpawn(0, 68+0*WIDTH/4, 33);
+		b.setSpawn(1, 68+1*WIDTH/4, 33);
+		b.setSpawn(2, 68+2*WIDTH/4, 33);
+		b.setSpawn(3, 68+3*WIDTH/4, 33);
 
 		return b;
 	}

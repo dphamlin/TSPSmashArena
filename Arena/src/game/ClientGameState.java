@@ -275,7 +275,7 @@ public class ClientGameState extends GameState {
 		//text for mode changers
 		if (l.isOption()) {
 			g.setColor(Color.BLACK);
-			if (getNextMode() == STOCK) g.drawString("Stock", (int)l.getHCenter()-14, (int)l.getVCenter()+4);
+			if (getNextMode() == STOCK) g.drawString("Stock", (int)l.getHCenter()-15, (int)l.getVCenter()+4);
 			if (getNextMode() == TIME) g.drawString("Time", (int)l.getHCenter()-14, (int)l.getVCenter()+4);
 		}
 	}
