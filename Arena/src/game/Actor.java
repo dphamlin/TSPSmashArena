@@ -9,8 +9,8 @@ package game;
 public class Actor extends GameObject {
 
 	private static final int CROUCH = 1;
-	private static final int LLEAN = 2;
-	private static final int RLEAN = 4;
+	private static final int LEAN = 2;
+	private static final int SLIDE = 4;
 	private static final int MAX = 8-1;
 	
 	//current data
@@ -100,19 +100,19 @@ public class Actor extends GameObject {
 		if (b) cr |= CROUCH;
 		else cr &= MAX-CROUCH;
 	}
-	public boolean isLLean() {
-		return (cr&LLEAN) != 0;
+	public boolean isLean() {
+		return (cr&LEAN) != 0;
 	}
-	public void setLLean(boolean b) {
-		if (b) cr |= LLEAN;
-		else cr &= MAX-LLEAN;
+	public void setLean(boolean b) {
+		if (b) cr |= LEAN;
+		else cr &= MAX-LEAN;
 	}
-	public boolean isRLean() {
-		return (cr&RLEAN) != 0;
+	public boolean isSlide() {
+		return (cr&SLIDE) != 0;
 	}
-	public void setRLean(boolean b) {
-		if (b) cr |= RLEAN;
-		else cr &= MAX-RLEAN;
+	public void setSlide(boolean b) {
+		if (b) cr |= SLIDE;
+		else cr &= MAX-SLIDE;
 	}
 	public int getPowerup() {
 		return p;
