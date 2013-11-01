@@ -78,7 +78,7 @@ public class Warehouse {
 		r.setGrav(1);
 		r.setTermVel(7.5);
 
-		//fall control
+		//weak fall control
 		r.setWallTermVel(7);
 		r.setSink(1.1);
 
@@ -87,7 +87,6 @@ public class Warehouse {
 		r.setSpawnInv(0);
 
 		//doesn't have a bullet
-		r.setShotDelay(0);
 		r.setShotType(noShot());
 		return r;
 	}
@@ -99,26 +98,25 @@ public class Warehouse {
 		//agile on ground, sluggish in air
 		r.setRunFrict(.9);
 		r.setAirFrict(.045);
-		r.setMaxSpeed(4.6);
+		r.setMaxSpeed(4.4);
 
 		//fairly standard jump
 		r.setJumpPower(9);
-		r.setJumpHold(6);
+		r.setJumpHold(5);
 
 		//standard gravity
 		r.setGrav(.9);
 		r.setTermVel(8);
 
-		//fall control
-		r.setWallTermVel(5.5);
+		//great wall slide
+		r.setWallTermVel(2.3);
 		r.setSink(1.2);
 
 		//standard respawn
 		r.setSpawnTime(50);
 		r.setSpawnInv(50);
 
-		//average fire rate
-		r.setShotDelay(50);
+		//bouncing fire shots
 		r.setShotType(fireball());
 		return r;
 	}
@@ -140,8 +138,8 @@ public class Warehouse {
 		r.setGrav(0.25);
 		r.setTermVel(3.5);
 
-		//fall control
-		r.setWallTermVel(0.5);
+		//good fall control
+		r.setWallTermVel(2.5);
 		r.setSink(1.5);
 
 		//slightly faster respawn
@@ -149,7 +147,6 @@ public class Warehouse {
 		r.setSpawnInv(50);
 
 		//slow bullets
-		r.setShotDelay(55);
 		r.setShotType(bubble());
 		return r;
 	}
@@ -171,7 +168,7 @@ public class Warehouse {
 		r.setGrav(.9);
 		r.setTermVel(7.5);
 		
-		//fall control
+		//weak fall control
 		r.setWallTermVel(7);
 		r.setSink(1.1);
 
@@ -180,7 +177,6 @@ public class Warehouse {
 		r.setSpawnInv(85);
 
 		//quick fire rate
-		r.setShotDelay(45);
 		r.setShotType(raygun());
 		return r;
 	}
@@ -202,7 +198,7 @@ public class Warehouse {
 		r.setGrav(0.65);
 		r.setTermVel(8.5);
 
-		//fall control
+		//weak fall control
 		r.setWallTermVel(8);
 		r.setSink(1.1);
 
@@ -211,7 +207,6 @@ public class Warehouse {
 		r.setSpawnInv(50);
 
 		//slow fire rate
-		r.setShotDelay(65);
 		r.setShotType(mortar());
 		return r;
 	}
@@ -233,7 +228,7 @@ public class Warehouse {
 		r.setGrav(.8);
 		r.setTermVel(9.5);
 
-		//fall control
+		//wallrun
 		r.setWallTermVel(-2.5);
 		r.setSink(1.35);
 
@@ -242,8 +237,6 @@ public class Warehouse {
 		r.setSpawnInv(40);
 
 		//quick fire rate
-		r.setShotDelay(40);
-		//r.setShotType(beamSword());
 		r.setShotType(boomerang());
 		return r;
 	}
@@ -251,7 +244,9 @@ public class Warehouse {
 	private static RoleModel madScientist() {
 		RoleModel r = new RoleModel();
 		r.setSkin(SCIENTIST);
+		
 		//TODO: fill out stats
+		
 		r.setShotType(missile());
 		return r;
 	}
@@ -262,6 +257,9 @@ public class Warehouse {
 		ShotModel s = new ShotModel();
 		s.setSkin(NOP);
 
+		//nope
+		s.setReload(0);
+		
 		//invisible
 		s.setH(0);
 		s.setW(0);
@@ -279,18 +277,21 @@ public class Warehouse {
 		ShotModel s = new ShotModel();
 		s.setSkin(FIREBALL);
 
+		//quick firing
+		s.setReload(45);
+		
 		//small shots
 		s.setH(8);
 		s.setW(8);
 
 		//decent range, a bit slow
 		s.setLife(80);
-		s.setSpeed(2.8);
-		s.setVSpeed(2.8);
+		s.setSpeed(3.2);
+		s.setVSpeed(3.2);
 
 		//bounce across the ground
 		s.setType(Shot.GRAV+Shot.BOUNCE);
-		s.setVar(30);
+		s.setVar(38);
 		return s;
 	}
 	//slow, lingering bubbles
@@ -298,6 +299,9 @@ public class Warehouse {
 		ShotModel s = new ShotModel();
 		s.setSkin(BUBBLE);
 
+		//mid speed
+		s.setReload(55);
+		
 		//medium sized bubbles
 		s.setH(16);
 		s.setW(16);
@@ -316,6 +320,9 @@ public class Warehouse {
 		ShotModel s = new ShotModel();
 		s.setSkin(RAYGUN);
 
+		//fast fire
+		s.setReload(45);
+		
 		//small lasers
 		s.setH(2);
 		s.setW(8);
@@ -333,6 +340,9 @@ public class Warehouse {
 		ShotModel s = new ShotModel();
 		s.setSkin(MORTAR);
 
+		//mid speed
+		s.setReload(65);
+		
 		//mid-size shots
 		s.setH(10);
 		s.setW(10);
@@ -352,6 +362,9 @@ public class Warehouse {
 		ShotModel s = new ShotModel();
 		s.setSkin(BEAMSWORD);
 
+		//fast speed
+		s.setReload(40);
+		
 		//long blades
 		s.setH(4);
 		s.setW(16);
@@ -370,6 +383,9 @@ public class Warehouse {
 		ShotModel s = new ShotModel();
 		s.setSkin(BOOMERANG);
 
+		//quick fire
+		s.setReload(40);
+		
 		//long blades
 		s.setH(4);
 		s.setW(16);
@@ -388,6 +404,9 @@ public class Warehouse {
 		ShotModel s = new ShotModel();
 		s.setSkin(MISSILE);
 
+		//mid speed
+		s.setReload(65);
+		
 		//mid-size shots
 		s.setH(12);
 		s.setW(12);
@@ -406,6 +425,9 @@ public class Warehouse {
 		ShotModel s = new ShotModel();
 		s.setSkin(EXPLOSION);
 
+		//modest speed
+		s.setReload(50);
+		
 		//start small
 		s.setH(4);
 		s.setW(4);

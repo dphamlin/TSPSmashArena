@@ -735,6 +735,12 @@ public class ServerGameState extends GameState {
 			return;
 		}
 
+		//supermode kills everything you touch
+		if (a.getPowerup() == Item.HYPER && (hCollide(a, b) != TOP || vCollide(a, b) != TOP || overlap(a, b))) {
+			kill(a, b);
+			return; //nothing else can happen
+		}
+		
 		//land on enemy heads
 		if (vCollide(a, b) == TOP) {
 			a.setBottomEdge(b.getTopEdge());
@@ -746,7 +752,7 @@ public class ServerGameState extends GameState {
 		int h = hCollide(a, b);
 		int ap = 4, bp = 4; //default extra push
 
-		//giant mode tweaks pushes
+		//giant mode modifies pushes
 		if (a.getPowerup() == Item.BIG && b.getPowerup() != Item.BIG) {
 			ap = 1;
 			bp = 8;
@@ -920,13 +926,19 @@ public class ServerGameState extends GameState {
 			a.setVy(0);
 		}
 
-		//falling off edges and ducking through platforms
+		//falling off edges, ducking through platforms, and hatches opening
 		Land l = a.getOnLand();
 		if (l != null) {
 			if (a.getRightEdge() < l.getLeftEdge() || a.getLeftEdge() > l.getRightEdge()) {
 				fall(a);
 			}
 			if (a.isCrouch() && l.isPlatform() && !l.isSolid()) {
+				fall(a);
+			}
+			if (l.isHatch() && !isControl()) {
+				fall(a);
+			}
+			if (l.isNHatch() && isControl()) {
 				fall(a);
 			}
 		}

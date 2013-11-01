@@ -7,6 +7,7 @@ package game;
  */
 public class ShotModel {
 	private int skin; //shot appearance
+	private int rate; //firing rate
 	private float speed; //shot speed
 	private float vspeed = 0; //vertical speed
 	private int life; //shot duration
@@ -20,6 +21,12 @@ public class ShotModel {
 	}
 	public void setSkin(int skin) {
 		this.skin = skin;
+	}
+	public int getReload() {
+		return rate;
+	}
+	public void setReload(int reload) {
+		this.rate = reload;
 	}
 	public float getSpeed() {
 		return speed;

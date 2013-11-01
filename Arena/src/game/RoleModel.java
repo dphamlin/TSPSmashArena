@@ -16,7 +16,6 @@ public class RoleModel {
 	private float wallTermVel; //alternate terminal velocity for wallslide
 	private float sink; //ability to forcibly sink
 	private int spawnTime, spawnInv; //respawn values
-	private int shotDelay; //shot frequency
 	private ShotModel shotType; //what kind of bullet you shoot
 
 	//getters and setters for attributes
@@ -138,10 +137,7 @@ public class RoleModel {
 		this.spawnInv = spawnInv;
 	}
 	public int getShotDelay() {
-		return shotDelay;
-	}
-	public void setShotDelay(int shotDelay) {
-		this.shotDelay = shotDelay;
+		return shotType.getReload();
 	}
 	public ShotModel getShotType() {
 		return shotType;
