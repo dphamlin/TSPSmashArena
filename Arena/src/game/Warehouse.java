@@ -78,6 +78,10 @@ public class Warehouse {
 		r.setGrav(1);
 		r.setTermVel(7.5);
 
+		//fall control
+		r.setWallTermVel(7);
+		r.setSink(1.1);
+
 		//standard respawn
 		r.setSpawnTime(1);
 		r.setSpawnInv(0);
@@ -104,6 +108,10 @@ public class Warehouse {
 		//standard gravity
 		r.setGrav(.9);
 		r.setTermVel(8);
+
+		//fall control
+		r.setWallTermVel(5.5);
+		r.setSink(1.2);
 
 		//standard respawn
 		r.setSpawnTime(50);
@@ -132,6 +140,10 @@ public class Warehouse {
 		r.setGrav(0.25);
 		r.setTermVel(3.5);
 
+		//fall control
+		r.setWallTermVel(0.5);
+		r.setSink(1.5);
+
 		//slightly faster respawn
 		r.setSpawnTime(45);
 		r.setSpawnInv(50);
@@ -158,6 +170,10 @@ public class Warehouse {
 		//average fall
 		r.setGrav(.9);
 		r.setTermVel(7.5);
+		
+		//fall control
+		r.setWallTermVel(7);
+		r.setSink(1.1);
 
 		//average respawn, long spawn armor
 		r.setSpawnTime(50);
@@ -186,6 +202,10 @@ public class Warehouse {
 		r.setGrav(0.65);
 		r.setTermVel(8.5);
 
+		//fall control
+		r.setWallTermVel(8);
+		r.setSink(1.1);
+
 		//slow respawn, average armor
 		r.setSpawnTime(65);
 		r.setSpawnInv(50);
@@ -209,9 +229,13 @@ public class Warehouse {
 		r.setJumpPower(11);
 		r.setJumpHold(4);
 
-		//average fall
+		//slightly brisk fall
 		r.setGrav(.8);
 		r.setTermVel(9.5);
+
+		//fall control
+		r.setWallTermVel(-2.5);
+		r.setSink(1.35);
 
 		//average respawn, slightly short armor
 		r.setSpawnTime(50);
@@ -454,7 +478,7 @@ public class Warehouse {
 		b.add(32*16, -1*16, 4*16, 6*16, SOLID);
 		//b.add(36*16, -1*16, 3*16, 5*16, DANGER|SOLID|CHAR, SCIENTIST); //TODO: Implement the mad scientist
 		b.add(39*16, -1*16, 2*16, 6*16, SOLID);
-		
+
 		//top/'attic' ladders
 		b.add(1*16, 8*16, 3*16, 16, PLATFORM);
 		b.add(8*16, 8*16, 3*16, 16, PLATFORM);
@@ -462,7 +486,7 @@ public class Warehouse {
 		b.add(22*16, 8*16, 3*16, 16, PLATFORM);
 		b.add(29*16, 8*16, 3*16, 16, PLATFORM);
 		b.add(36*16, 8*16, 3*16, 16, PLATFORM);
-		
+
 		//top floor
 		b.add(-1*16, 11*16, 18*16, 2*16, SOLID);
 		b.add(17*16, 11*16, 6*16, 16, PLATFORM);

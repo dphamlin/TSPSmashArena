@@ -130,12 +130,18 @@ public class ServerGameState extends GameState {
 		//running
 		if (c.getLeft() > 0) {
 			run(a, LEFT);
+			a.setLLean(true);
+			a.setRLean(false);
 		}
 		else if (c.getRight() > 0) {
 			run(a, RIGHT);
+			a.setLLean(false);
+			a.setRLean(true);
 		}
 		else {
 			run(a, STOP);
+			a.setLLean(true);
+			a.setRLean(true);
 		}
 
 		//crouching (through tiles)
@@ -702,10 +708,16 @@ public class ServerGameState extends GameState {
 		if (h == LEFT && l.isSolid()) {
 			a.setRightEdge(l.getLeftEdge()-.005);
 			a.setVx(STOP);
+			if (a.isRLean() && a.getVy() > a.getWallTermVel()) {
+				a.setVy(a.getWallTermVel());
+			}
 		}
 		if (h == RIGHT && l.isSolid()) {
 			a.setLeftEdge(l.getRightEdge()+.005);
 			a.setVx(STOP);
+			if (a.isLLean() && a.getVy() > a.getWallTermVel()) {
+				a.setVy(a.getWallTermVel());
+			}
 		}
 	}
 

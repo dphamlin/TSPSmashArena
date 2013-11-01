@@ -11,8 +11,10 @@ public class RoleModel {
 	private float runSpeed, airSpeed; //horizontal 'thrust's
 	private float runSlip, airSlip; //friction values (percent out of 100)
 	private float jumpPower; //jump power
-	private int jumpHold; //jump control
+	private int jumpHold; //jump control 
 	private float grav, termVel; //gravity
+	private float wallTermVel; //alternate terminal velocity for wallslide
+	private float sink; //ability to forcibly sink
 	private int spawnTime, spawnInv; //respawn values
 	private int shotDelay; //shot frequency
 	private ShotModel shotType; //what kind of bullet you shoot
@@ -105,11 +107,23 @@ public class RoleModel {
 	public void setTermVel(double termVel) {
 		this.termVel = (float) termVel;
 	}
+	public float getWallTermVel() {
+		return wallTermVel;
+	}
+	public void setWallTermVel(double wallTermVel) {
+		this.wallTermVel = (float) wallTermVel;
+	}
 	public float getGrav() {
 		return grav;
 	}
 	public void setGrav(double grav) {
 		this.grav = (float) grav;
+	}
+	public float getSink() {
+		return sink;
+	}
+	public void setSink(double sink) {
+		this.sink = (float) sink;
 	}
 	public int getSpawnTime() {
 		return spawnTime;

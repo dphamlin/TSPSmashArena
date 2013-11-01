@@ -8,13 +8,18 @@ package game;
  */
 public class Actor extends GameObject {
 
+	private static final int CROUCH = 1;
+	private static final int LLEAN = 2;
+	private static final int RLEAN = 4;
+	private static final int MAX = 8-1;
+	
 	//current data
 	private int id; //used in place of references
 	private int at = 1; //air time
 	private int dt; //dead time
 	private int r; //reload
 	private int dir = 1; //direction
-	private int cr = 0; //crouch
+	private int cr = 0; //crouch and other unique stuff
 	private int p = 0; //power up
 	private int pv = 0; //power up variable (extra data)
 	private int lid = -1, lm = -1; //id and map id of the current land
@@ -89,11 +94,25 @@ public class Actor extends GameObject {
 		this.dir = dir;
 	}
 	public boolean isCrouch() {
-		return (cr != 0);
+		return (cr&CROUCH) != 0;
 	}
 	public void setCrouch(boolean b) {
-		if (b) cr = 1;
-		else cr = 0;
+		if (b) cr |= CROUCH;
+		else cr &= MAX-CROUCH;
+	}
+	public boolean isLLean() {
+		return (cr&LLEAN) != 0;
+	}
+	public void setLLean(boolean b) {
+		if (b) cr |= LLEAN;
+		else cr &= MAX-LLEAN;
+	}
+	public boolean isRLean() {
+		return (cr&RLEAN) != 0;
+	}
+	public void setRLean(boolean b) {
+		if (b) cr |= RLEAN;
+		else cr &= MAX-RLEAN;
 	}
 	public int getPowerup() {
 		return p;
@@ -200,10 +219,18 @@ public class Actor extends GameObject {
 		return getRoleModel().getJumpHold();
 	}
 	public float getTermVel() {
+		if (isCrouch()) return getRoleModel().getTermVel()*getSink();
 		return getRoleModel().getTermVel();
 	}
+	public float getWallTermVel() {
+		return getRoleModel().getWallTermVel();
+	}
 	public float getGrav() {
+		if (isCrouch()) return getRoleModel().getGrav()*getSink();
 		return getRoleModel().getGrav();
+	}
+	public float getSink() {
+		return getRoleModel().getSink();
 	}
 	public int getSpawnTime() {
 		return getRoleModel().getSpawnTime();
