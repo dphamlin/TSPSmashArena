@@ -62,6 +62,14 @@ public class Actor extends GameObject {
 		return (m == Warehouse.NOP);
 	}
 
+	@Override
+	public int getSkin() {
+		if (p == Item.CHANGE) {
+			return Warehouse.getCharacters()[pv].getSkin();			
+		}
+		else return super.getSkin();
+	}
+	
 	/*getters and setters for attributes*/
 	public int getId() {
 		return id;
@@ -132,6 +140,7 @@ public class Actor extends GameObject {
 			setH(Warehouse.getCharacters()[m].getH());
 			setCenter(cx, cy);
 			setOnLand(null); //off the ground
+			setAirTime(1);
 		}
 		this.p = powerup;
 	}
@@ -264,7 +273,7 @@ public class Actor extends GameObject {
 	 */
 	private RoleModel getRoleModel() {
 		//Change powerup intercepts your model
-		if (p == Item.CHANGE) { //TODO: How to have both a countdown AND a selector
+		if (p == Item.CHANGE) {
 			return Warehouse.getCharacters()[pv];			
 		}
 		return Warehouse.getCharacters()[m];

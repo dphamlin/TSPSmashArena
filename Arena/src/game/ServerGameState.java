@@ -529,7 +529,7 @@ public class ServerGameState extends GameState {
 	 * @param subType
 	 * 		secondary type (variable value)
 	 */
-	public void spawnPowerup(int x, int y, int type, int subType) {
+	private void spawnPowerup(int x, int y, int type, int subType) {
 		Item p = new Item();
 		//TODO: Spawn properly, constructors, the whole shibang
 		p.setW(8);
@@ -911,6 +911,11 @@ public class ServerGameState extends GameState {
 		if (l.isHatch() && !isControl()) return;
 		if (l.isNHatch() && isControl()) return;
 
+		//destroyed by obstacles
+		if (l.isDanger() && overlap(p, l)) {
+			p.setDead(true);
+		}
+		
 		//land on top
 		if ((l.isSolid() || l.isPlatform()) && vCollide(p, l) == TOP) {
 			p.setBottomEdge(l.getTopEdge()-.005);
