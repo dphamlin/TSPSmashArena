@@ -915,7 +915,7 @@ public class ServerGameState extends GameState {
 		if (l.isDanger() && overlap(p, l)) {
 			p.setDead(true);
 		}
-		
+
 		//land on top
 		if ((l.isSolid() || l.isPlatform()) && vCollide(p, l) == TOP) {
 			p.setBottomEdge(l.getTopEdge()-.005);
@@ -1098,8 +1098,8 @@ public class ServerGameState extends GameState {
 		p.setY(p.getY()+p.getVy());
 
 		//fixed gravity
-		p.setVy(p.getVy()+.5);
-		if (p.getVy() > 5) p.setVy(5);
+		p.setVy(p.getVy()+.4);
+		if (p.getVy() > 4) p.setVy(4);
 
 		//out of bounds removal
 		if (p.getBottomEdge() < -p.getH()*2 || p.getTopEdge() > HEIGHT+p.getH()*2

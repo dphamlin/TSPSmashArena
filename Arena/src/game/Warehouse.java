@@ -167,7 +167,7 @@ public class Warehouse {
 		//average fall
 		r.setGrav(.9);
 		r.setTermVel(7.5);
-		
+
 		//weak fall control
 		r.setWallTermVel(7);
 		r.setSink(1.1);
@@ -195,7 +195,7 @@ public class Warehouse {
 		r.setJumpHold(45);
 
 		//hard fall
-		r.setGrav(0.65);
+		r.setGrav(0.55);
 		r.setTermVel(8.5);
 
 		//weak fall control
@@ -241,12 +241,31 @@ public class Warehouse {
 		return r;
 	}
 	//mad scientist
-	private static RoleModel madScientist() {
+	private static RoleModel madScientist() { //TODO: Make movement feel unique
 		RoleModel r = new RoleModel();
 		r.setSkin(SCIENTIST);
-		
-		//TODO: fill out stats
-		
+
+		//roll everywhere
+		r.setRunFrict(.1);
+		r.setAirFrict(.15);
+		r.setMaxSpeed(4);
+
+		//floaty jump
+		r.setJumpPower(5);
+		r.setJumpHold(15);
+
+		//slow fall
+		r.setGrav(0.55);
+		r.setTermVel(6);
+
+		//good fall control
+		r.setWallTermVel(3);
+		r.setSink(1.4);
+
+		//slightly longer spawn armor
+		r.setSpawnTime(50);
+		r.setSpawnInv(55);
+
 		r.setShotType(missile());
 		return r;
 	}
@@ -259,7 +278,7 @@ public class Warehouse {
 
 		//nope
 		s.setReload(0);
-		
+
 		//invisible
 		s.setH(0);
 		s.setW(0);
@@ -279,7 +298,7 @@ public class Warehouse {
 
 		//quick firing
 		s.setReload(45);
-		
+
 		//small shots
 		s.setH(8);
 		s.setW(8);
@@ -301,7 +320,7 @@ public class Warehouse {
 
 		//mid speed
 		s.setReload(55);
-		
+
 		//medium sized bubbles
 		s.setH(16);
 		s.setW(16);
@@ -322,7 +341,7 @@ public class Warehouse {
 
 		//fast fire
 		s.setReload(45);
-		
+
 		//small lasers
 		s.setH(2);
 		s.setW(8);
@@ -342,7 +361,7 @@ public class Warehouse {
 
 		//mid speed
 		s.setReload(65);
-		
+
 		//mid-size shots
 		s.setH(10);
 		s.setW(10);
@@ -364,7 +383,7 @@ public class Warehouse {
 
 		//fast speed
 		s.setReload(40);
-		
+
 		//long blades
 		s.setH(4);
 		s.setW(16);
@@ -385,7 +404,7 @@ public class Warehouse {
 
 		//quick fire
 		s.setReload(40);
-		
+
 		//long blades
 		s.setH(4);
 		s.setW(16);
@@ -394,7 +413,7 @@ public class Warehouse {
 		s.setLife(55);
 		s.setSpeed(9);
 
-		//go out then reterun
+		//go out then return
 		s.setType(Shot.ACCEL);
 		s.setVar(-400);
 		return s;
@@ -406,14 +425,14 @@ public class Warehouse {
 
 		//mid speed
 		s.setReload(65);
-		
+
 		//mid-size shots
 		s.setH(12);
 		s.setW(12);
 
 		//shoot slightly backward
 		s.setLife(65);
-		s.setSpeed(-1.4);
+		s.setSpeed(-2);
 
 		//accelerate quickly forward and explode on impact
 		s.setType(Shot.ACCEL|Shot.BOMB);
@@ -427,7 +446,7 @@ public class Warehouse {
 
 		//modest speed
 		s.setReload(50);
-		
+
 		//start small
 		s.setH(4);
 		s.setW(4);
@@ -498,7 +517,7 @@ public class Warehouse {
 		b.add(25*16, -1*16, 4*16, 6*16, SOLID);
 		b.add(29*16, -1*16, 3*16, 5*16, DANGER|SOLID|CHAR, ROBOT);
 		b.add(32*16, -1*16, 4*16, 6*16, SOLID);
-		//b.add(36*16, -1*16, 3*16, 5*16, DANGER|SOLID|CHAR, SCIENTIST); //TODO: Implement the mad scientist
+		b.add(36*16, -1*16, 3*16, 5*16, DANGER|SOLID|CHAR, SCIENTIST);
 		b.add(39*16, -1*16, 2*16, 6*16, SOLID);
 
 		//top/'attic' ladders
