@@ -10,7 +10,7 @@ public class Client {
 	private Socket socket;
 	private String stateString;
 	private BufferedReader reader;
-	private PrintWriter writer;
+	private BufferedWriter writer;
 	private ClientGameState game;
 	private Gson json;
 	private Controller controller;
@@ -22,7 +22,7 @@ public class Client {
 		setSocket(new Socket(addr,port)); // Establish connection
 		setStateString("Awaiting state from server.\n");
 		setReader(new BufferedReader(new InputStreamReader(getSocket().getInputStream())));
-		setWriter(new PrintWriter(getSocket().getOutputStream(),true));
+		setWriter(new BufferedWriter(new OutputStreamWriter(getSocket().getOutputStream())));
 		setController(new Controller());
 		setView(new View());
 		setTimer(new StopWatch(20));
@@ -36,11 +36,9 @@ public class Client {
 	
 	public void setState(GameState g) throws Exception {
 		if (g == null)
-				throw new Exception("Null game state.");
+			throw new Exception("Null game state.");
 		
 		this.game = (ClientGameState) g; // Will be casting (ServerGameState) objects to ClientGameState
-		// May need to instead 'update' current game state with information from read game state
-		// in case client-side information is lost by the cast.
 	}
 	
 	public ClientGameState getState(){
@@ -51,15 +49,17 @@ public class Client {
 		setState(json.fromJson(getReader().readLine(), ClientGameState.class));
 	}
 	
-	public void writeToServer(String outbound) {
-		getWriter().println(outbound);
+	public void writeToServer(String outbound) throws IOException {
+		getWriter().write(outbound);
+		getWriter().newLine();
+		getWriter().flush();
 	}
 	
-	public void setWriter(PrintWriter printWriter) {
-		writer = printWriter;
+	public void setWriter(BufferedWriter writer) {
+		this.writer = writer;
 	}
 	
-	public PrintWriter getWriter() {
+	public BufferedWriter getWriter() {
 		return writer;
 	}
 	public void setReader(BufferedReader bufferedReader) {
@@ -94,7 +94,7 @@ public class Client {
 		this.controller = c;
 	}
  	
-	public void writeController() {
+	public void writeController() throws IOException {
 		writeToServer(json.toJson(getController())); // There is also a Gson method to directly write to a Writer
 	}
 
@@ -155,10 +155,9 @@ public class Client {
 			theClient.getTimer().loopStart(); // Start the loop
 			
 			theClient.updateController(); // Update controller
-			
-			theClient.writeController(); // Write controller to the server
-			
+					
 			try {
+				theClient.writeController(); // Write controller to the server
 				theClient.readGameState(); // Read the game state from the server and update the current game state
 			}
 			catch (Exception e) {

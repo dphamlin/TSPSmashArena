@@ -92,9 +92,8 @@ public class Arena {
 			
 			theClient.updateController(); // Update controller
 			
-			theClient.writeController(); // Write controller to the server
-			
 			try {
+				theClient.writeController(); // Write controller to the server
 				theClient.readGameState(); // Read the game state from the server and update the current game state
 			}
 			catch (Exception e) {

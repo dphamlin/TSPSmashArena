@@ -12,7 +12,8 @@ public class RemoteParticipant extends Participant {
 		this.setSocket(clientSocket);
 		this.setControllerString("No commands sent yet.");
 		this.setReader(new BufferedReader(new InputStreamReader(getSocket().getInputStream())));
-		this.setWriter(new PrintWriter(getSocket().getOutputStream(),true));
+		this.setWriter(new BufferedWriter(new OutputStreamWriter(getSocket().getOutputStream())));
+		setActive(true);
 		json = new Gson();
 	}
 	
