@@ -563,11 +563,11 @@ public class Warehouse {
 		b.add(12*16, 27*16, 4*16, 1*16, PLATFORM);
 		b.add(12*16, 30*16, 4*16, 1*16, SOLID|WARP, DEMO); //TODO: Warp to PLANET when it's built
 		//b.add(12*16, 29*16, 4*16, 2*16, SOLID|WARP|DANGER, PLANET);
-		b.add(12*16, 27*16, 4*16, 3*16, PIPE|SOLID|COLOR, CAPTAIN); //active portal
+		b.add(12*16, 27*16+1, 4*16, 3*16, PIPE|SOLID|COLOR, CAPTAIN); //active portal
 		b.add(16*16, 27*16, 8*16, 4*16, SOLID);
 		b.add(24*16, 27*16, 4*16, 1*16, PLATFORM|SOLID); //TODO: Unblock when FACTORY is built
 		b.add(24*16, 30*16, 4*16, 1*16, SOLID|WARP, FACTORY); 
-		b.add(24*16, 27*16, 4*16, 3*16, PIPE|SOLID|COLOR, MARINE); //inactive portal
+		b.add(24*16, 27*16+1, 4*16, 3*16, PIPE|SOLID|COLOR, MARINE); //inactive portal
 		b.add(28*16, 27*16, 13*16, 4*16, SOLID);
 
 		//add spawn points

@@ -151,6 +151,12 @@ public class Actor extends GameObject {
 			setOnLand(null); //off the ground
 			setAirTime(1);
 		}
+		//grab a 1up (doesn't replace other powerups)
+		if (powerup == Item.LIFE) {
+			powerup = 0;
+			gainLife();
+			return;
+		}
 		this.p = powerup;
 	}
 	public int getPowerupVar() {

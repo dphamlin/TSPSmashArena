@@ -536,8 +536,8 @@ public class ServerGameState extends GameState {
 	private void spawnPowerup(int x, int y, int type) {
 		Item p = new Item();
 		//TODO: Spawn properly, constructors, the whole shibang
-		p.setW(8);
-		p.setH(8);
+		p.setW(12);
+		p.setH(12);
 		p.setHCenter(x);
 		p.setVCenter(y);
 		p.setVx(0);
