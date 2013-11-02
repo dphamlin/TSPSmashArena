@@ -16,6 +16,7 @@ public class Server {
 	private Gson json;
 	private StopWatch timer;
 	private static int port = 5379;
+	private int activePlayerCount = 0;
 	
 	Server() throws IOException {
 		serverSocket = new ServerSocket(port);
@@ -77,9 +78,17 @@ public class Server {
 	}
 	
 	// Reads new Controller objects from all participants in given list
-	public void readControllersFromAll(ArrayList<Participant> aParticipantList) throws IOException {
+	public void readControllersFromAll(ArrayList<Participant> aParticipantList) {
 		for (Participant p: aParticipantList) {
-			p.readController();
+			if (p.isActive()) // Only try to read from active players; thread will be responsible for changing back to active on reconnect
+				try {
+					p.readController();
+				}
+				catch (IOException e) {
+					System.err.println("Participant disconnected on reading controller. Set to inactive. " + e.getMessage());
+					p.setActive(false);
+					setActivePlayerCount(getActivePlayerCount()-1);
+				}
 		}
 	}
 	
@@ -87,7 +96,15 @@ public class Server {
 	public void writeGameStateToAll(ArrayList<Participant> aParticipantList) { 
 		System.out.println(json.toJson(getGameState().convert()));
 		for (Participant p: aParticipantList) {
-			p.writeToClient(json.toJson(getGameState().convert()));
+			if (p.isActive()) // Only try to write to active players; thread will be responsible for changing back to active on reconnect
+				try {
+					p.writeToClient(json.toJson(getGameState().convert()));
+				}
+				catch (IOException e) {
+					System.out.println("Participant disconnected while writing game state. Set to inactive. " + e.getMessage());
+					p.setActive(false);
+					setActivePlayerCount(getActivePlayerCount()-1);
+				}
 		}
 	}
 
@@ -109,6 +126,7 @@ public class Server {
 				p.setPlayer(getGameState().addPlayer());
 				newParticipantList.add(p);
 				System.out.println("Player: "+(i+1)+" connected.");
+				setActivePlayerCount(getActivePlayerCount() + 1);
 			}
 		}
 		setNumberOfPlayers(newParticipantList.size());
@@ -116,10 +134,20 @@ public class Server {
 		return newParticipantList;
 	}
 	
+	public int getActivePlayerCount() {
+		return activePlayerCount;
+	}
+	
+	public void setActivePlayerCount(int activePlayerCount) {
+		this.activePlayerCount = activePlayerCount;
+	}
+	
 	public void applyAllControls(ArrayList<Participant> aParticipantList) {
 		for (Participant p: aParticipantList) {
-			//getGameState().readControls(p.getPlayer(), p.getController());
-			getGameState().readControls(p);
+			if (p.isActive())
+				getGameState().readControls(p);
+			else
+				getGameState().suspendPlayer(p);
 		}
 	}
 		
@@ -154,18 +182,12 @@ public class Server {
 		}
 		
 		// All participants should connected; begin communication cycle
-		while (true) {
+		while (theServer.getActivePlayerCount() > 0) {
 			
 			theServer.getTimer().loopStart(); //log start time
 			
-			try {
-				theServer.readControllersFromAll(theServer.getParticipantList()); // Reads updated controllers into all participants
-			}
-			catch (Exception e) {
-				System.err.println("Could not receive a participant's controller information.");
-				System.exit(1);
-			}
-			
+			theServer.readControllersFromAll(theServer.getParticipantList()); // Reads updated controllers into all participants
+
 			// Controllers now ready for application to game state
 			// HERE GAME LOGIC SHOULD BE UPDATED USING THE CONTROLLERS
 			// My stab at it:
@@ -175,9 +197,11 @@ public class Server {
 			// GameState is updated by this point; send it to all
 			theServer.writeGameStateToAll(theServer.getParticipantList());
 			
-			theServer.getTimer().loopRest(); //rest until loop end
+			theServer.getTimer().loopRest(); //rest until loop end	
 			
 		}
+		System.out.println("All clients disconnected.  Server going offline.");
+		System.exit(0);
 		
 	}
 }

@@ -8,8 +8,9 @@ public abstract class Participant {
 	protected String controllerString;
 	protected Controller controller;
 	protected BufferedReader reader;
-	protected PrintWriter writer;
+	protected BufferedWriter writer;
 	protected Gson json;
+	protected Boolean active;
 	
 	public Actor getPlayer() {
 		return this.thePlayer;
@@ -35,15 +36,17 @@ public abstract class Participant {
 		this.controller = c;
 	}
 	
-	public void writeToClient(String outbound) {
-		this.getWriter().println(outbound);
+	public void writeToClient(String outbound) throws IOException {
+		this.getWriter().write(outbound);
+		this.getWriter().newLine();
+		this.getWriter().flush();
 	}
 	
-	public void setWriter(PrintWriter printWriter) {
-		this.writer = printWriter;
+	public void setWriter(BufferedWriter writer) {
+		this.writer = writer;
 	}
 	
-	public PrintWriter getWriter() {
+	public BufferedWriter getWriter() {
 		return this.writer;
 	}
 	
@@ -58,6 +61,14 @@ public abstract class Participant {
 	// Read controller from Reader. Reader may take from a connection or from an AI source.
 	public void readController() throws IOException {
 		setController(json.fromJson(getReader().readLine(), Controller.class));
+	}
+	
+	public void setActive(Boolean bool) {
+		active = bool;
+	}
+	
+	public Boolean isActive() {
+		return active;
 	}
 	
 	public abstract void readControllerString() throws IOException;
