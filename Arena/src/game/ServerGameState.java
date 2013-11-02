@@ -653,8 +653,8 @@ public class ServerGameState extends GameState {
 		//slightly hackish "pipes", vertical only
 		if (l.isPipe() && !a.isPipe() && ov) {
 			a.setVx(0);
-			a.setVy(-1);
-			if (a.isCrouch()) a.setVy(1);
+			if (a.getVy() < 0) a.setVy(-1);
+			else if (a.getVy() > 0) a.setVy(1);
 			a.setOnLand(l); //tie you to THIS pipe
 			a.setPipe(true);
 		}
