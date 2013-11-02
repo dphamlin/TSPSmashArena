@@ -9,7 +9,7 @@ public class Warehouse {
 	public static final int MARINE = 4;
 	public static final int ROBOT = 5;
 	public static final int SCIENTIST = 6;
-	public static final int CHAR_NUM = 5; //number of implemented players
+	public static final int CHAR_NUM = 6; //number of implemented players
 
 	//bullets
 	public static final int FIREBALL = 1;

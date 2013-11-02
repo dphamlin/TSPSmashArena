@@ -79,7 +79,7 @@ public class ServerGameState extends GameState {
 		}
 		//spawn powerups TODO: Make this more logical
 		if (getFrameNumber() % 400 == 250 && getMode() != MENU) {
-			spawnPowerup((int)(20+Math.random()*600), (int)(20+Math.random()*400), 1+(int)(Math.random()*6), 1);
+			spawnPowerup((int)(20+Math.random()*600), (int)(20+Math.random()*400), 1+(int)(Math.random()*6));
 		}
 		//power-up/item logic (with removal)
 		for(int i = 0; i < getPowerups().size(); i++) {
@@ -475,6 +475,13 @@ public class ServerGameState extends GameState {
 			a.setReload(a.getReload()-1);
 		}
 
+		if (a.getPowerup() == Item.HYPER) { //item countdown
+			a.setPowerupVar(a.getPowerupVar()-1);
+			if (a.getPowerupVar() <= 0) { //time up
+				a.setPowerup(0);
+			}
+		}
+		
 		if (!a.isDead()) {
 			move(a); //updates positions and speeds
 		}
@@ -525,10 +532,8 @@ public class ServerGameState extends GameState {
 	 * 		y position
 	 * @param type
 	 * 		primary type
-	 * @param subType
-	 * 		secondary type (variable value)
 	 */
-	private void spawnPowerup(int x, int y, int type, int subType) {
+	private void spawnPowerup(int x, int y, int type) {
 		Item p = new Item();
 		//TODO: Spawn properly, constructors, the whole shibang
 		p.setW(8);
@@ -538,7 +543,9 @@ public class ServerGameState extends GameState {
 		p.setVx(0);
 		p.setVy(0);
 		p.setType(type);
-		p.setSubType(subType);
+		if (type == Item.DJUMP) p.setSubType(1);
+		if (type == Item.CHANGE) p.setSubType((int)(1+Math.random()*Warehouse.CHAR_NUM));
+		if (type == Item.HYPER) p.setSubType(10*50);
 		getPowerups().add(p);
 	}
 
@@ -991,6 +998,9 @@ public class ServerGameState extends GameState {
 			if (a.getOnLand() == null || !overlap(a, a.getOnLand())) {
 				a.setPipe(false);
 				fall(a);
+				if (!a.isDead()) { //activate spawn armor on leaving
+					a.setDeadTime(a.getSpawnTime());
+				}
 			}
 		}
 		//apply ground friction (moving ground)

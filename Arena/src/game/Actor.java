@@ -53,6 +53,7 @@ public class Actor extends GameObject {
 	 * @return true if the actor is under spawn armor
 	 */
 	public boolean isArmored() {
+		if (getPowerup() == Item.HYPER) return true; //hypermode armor
 		return (!isDead() && dt < getSpawnTime()+getSpawnInv());
 	}
 
