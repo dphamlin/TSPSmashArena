@@ -35,8 +35,8 @@ public class ClientGameState extends GameState {
 	public void draw(Graphics g) {
 		drawBackground(g);
 		drawPowerups(g);
-		drawLevel(g);
 		drawFighters(g);
+		drawLevel(g);
 		drawBullets(g);
 		//TODO: Draw visual effects
 		drawStatus(g);
@@ -258,7 +258,11 @@ public class ClientGameState extends GameState {
 		}
 
 		//pick colors
-		if (l.isWarp() && isReady()) { //yellow warps
+		if (l.isColor()) {
+			Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
+			g.setColor(c[l.getVar()]);
+		}
+		else if (l.isWarp() && isReady()) { //yellow warps
 			g.setColor(Color.YELLOW);
 		}
 		else if (l.isChar()) {

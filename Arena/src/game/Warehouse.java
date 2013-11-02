@@ -110,7 +110,7 @@ public class Warehouse {
 
 		//great wall slide
 		r.setWallTermVel(2.3);
-		r.setSink(1.2);
+		r.setSink(1.35);
 
 		//standard respawn
 		r.setSpawnTime(50);
@@ -241,7 +241,7 @@ public class Warehouse {
 		return r;
 	}
 	//mad scientist
-	private static RoleModel madScientist() { //TODO: Make movement feel unique
+	private static RoleModel madScientist() { //TODO: Make a unique movement style
 		RoleModel r = new RoleModel();
 		r.setSkin(SCIENTIST);
 
@@ -490,14 +490,15 @@ public class Warehouse {
 	public static final int DANGER = 4; //kill on contact
 	public static final int BOUNCE = 8; //bouncy (var = bounciness mod, 0 = 100%, 5 = 150%, -2 = 80%, etc.)
 	public static final int SLIP = 16; //slippery
-	public static final int MOVE = 32; //(var = vx * 10. 10 is 1 px/fr right, -20 is 2 px/fr left, etc.)
+	public static final int MOVE = 32; //moves you (var = speed*10)
 	public static final int HATCH = 64; //appears when control is on
 	public static final int NHATCH = 128; //appears when controls is off
 	public static final int SWITCH = 256; //toggles control when hit
-	public static final int WARP = 512; //go to a new level (var = level to change to)
-	public static final int CHAR = 1024; //change characters (var = character to become)
-	public static final int OPTION = 2048; //edit in game options  (var = various special things) (WIP)
-	public static final int LEAVE = 4096; //disconnect from server? (UNIMPLEMENTED)
+	public static final int PIPE = 512; //slide in, slide out
+	public static final int WARP = 1024; //for in-game level select (var = target level)
+	public static final int CHAR = 2048; //change characters (var = target character)
+	public static final int OPTION = 4096; //for in game options (var = various things)
+	public static final int COLOR = 8192; //painted a unique color
 
 	//level select / menu world
 	private static Blueprint holodeck() {
@@ -507,17 +508,23 @@ public class Warehouse {
 
 		//character change chambers
 		b.add(-1*16, -1*16, 2*16, 6*16, SOLID);
-		b.add(1*16, -1*16, 3*16, 5*16, DANGER|SOLID|CHAR, LIZARD);
+		b.add(1*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, LIZARD);
+		b.add(1*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, LIZARD);
 		b.add(4*16, -1*16, 4*16, 6*16, SOLID);
-		b.add(8*16, -1*16, 3*16, 5*16, DANGER|SOLID|CHAR, SLIME);
+		b.add(8*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, SLIME);
+		b.add(8*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, SLIME);
 		b.add(11*16, -1*16, 4*16, 6*16, SOLID);
-		b.add(15*16, -1*16, 3*16, 5*16, DANGER|SOLID|CHAR, CAPTAIN);
+		b.add(15*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, MARINE);
+		b.add(15*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, MARINE);
 		b.add(18*16, -1*16, 4*16, 6*16, SOLID);
-		b.add(22*16, -1*16, 3*16, 5*16, DANGER|SOLID|CHAR, MARINE);
+		b.add(22*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, ROBOT);
+		b.add(22*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, ROBOT);
 		b.add(25*16, -1*16, 4*16, 6*16, SOLID);
-		b.add(29*16, -1*16, 3*16, 5*16, DANGER|SOLID|CHAR, ROBOT);
+		b.add(29*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, SCIENTIST);
+		b.add(29*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, SCIENTIST);
 		b.add(32*16, -1*16, 4*16, 6*16, SOLID);
-		b.add(36*16, -1*16, 3*16, 5*16, DANGER|SOLID|CHAR, SCIENTIST);
+		b.add(36*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, CAPTAIN);
+		b.add(36*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, CAPTAIN);
 		b.add(39*16, -1*16, 2*16, 6*16, SOLID);
 
 		//top/'attic' ladders
@@ -554,13 +561,14 @@ public class Warehouse {
 		//base floor + warps
 		b.add(-1*16, 27*16, 13*16, 4*16, SOLID);
 		b.add(12*16, 27*16, 4*16, 1*16, PLATFORM);
-		b.add(12*16, 29*16, 4*16, 2*16, SOLID|WARP|DANGER, DEMO); //TODO: Warp to PLANET when it's built
+		b.add(12*16, 30*16, 4*16, 1*16, SOLID|WARP, DEMO); //TODO: Warp to PLANET when it's built
 		//b.add(12*16, 29*16, 4*16, 2*16, SOLID|WARP|DANGER, PLANET);
+		b.add(12*16, 27*16, 4*16, 3*16, PIPE|SOLID|COLOR, CAPTAIN); //active portal
 		b.add(16*16, 27*16, 8*16, 4*16, SOLID);
 		b.add(24*16, 27*16, 4*16, 1*16, PLATFORM|SOLID); //TODO: Unblock when FACTORY is built
-		b.add(24*16, 29*16, 4*16, 2*16, SOLID|WARP|DANGER, FACTORY); 
+		b.add(24*16, 30*16, 4*16, 1*16, SOLID|WARP, FACTORY); 
+		b.add(24*16, 27*16, 4*16, 3*16, PIPE|SOLID|COLOR, MARINE); //inactive portal
 		b.add(28*16, 27*16, 13*16, 4*16, SOLID);
-		//TODO: Add more warps to more levels
 
 		//add spawn points
 		b.setSpawn(0, 68+0*WIDTH/4, 9*16+8);

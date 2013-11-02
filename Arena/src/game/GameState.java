@@ -56,7 +56,8 @@ public abstract class GameState {
 	 * Add another player to the game (test)
 	 */
 	public Actor addPlayer() {
-		return addPlayer(Warehouse.NOP); //start with unselected character
+		//return addPlayer(Warehouse.NOP); //start with unselected character
+		return addPlayer(Warehouse.CAPTAIN); //start as a redshirt
 	}
 
 	/**

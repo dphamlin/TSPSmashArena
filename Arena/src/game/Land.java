@@ -8,20 +8,21 @@ package game;
  */
 public class Land extends GameObject {
 	//mask values
-	public static final int SOLID = 1;
-	public static final int PLATFORM = 2;
-	public static final int DANGER = 4;
-	public static final int BOUNCE = 8;
-	public static final int SLIP = 16;
-	public static final int MOVE = 32;
+	public static final int SOLID = 1; //solid all around (includes top)
+	public static final int PLATFORM = 2; //solid top
+	public static final int DANGER = 4; //kill on contact
+	public static final int BOUNCE = 8; //bouncy (var = bounciness mod, 0 = 100%, 5 = 150%, -2 = 80%, etc.)
+	public static final int SLIP = 16; //slippery
+	public static final int MOVE = 32; //moves you (var = speed*10)
 	public static final int HATCH = 64; //appears when control is on
 	public static final int NHATCH = 128; //appears when controls is off
 	public static final int SWITCH = 256; //toggles control when hit
-	public static final int WARP = 512; //for in-game level select
-	public static final int CHAR = 1024; //change characters
-	public static final int OPTION = 2048; //for in game options 
-	public static final int LEAVE = 4096; //leave a server after post game?
-	private static final int MAX = 8192-1; //sum of all previous
+	public static final int PIPE = 512; //slide in, slide out
+	public static final int WARP = 1024; //for in-game level select (var = target level)
+	public static final int CHAR = 2048; //change characters (var = target character)
+	public static final int OPTION = 4096; //for in game options (var = various things)
+	public static final int COLOR = 8192; //painted a different color (temp)
+	private static final int MAX = 16384-1; //sum of all previous
 
 	//current type is a bitmask
 	private int t; //type
@@ -132,6 +133,13 @@ public class Land extends GameObject {
 		if (b) t |= SWITCH;
 		else t &= MAX-SWITCH;
 	}
+	public boolean isPipe() {
+		return (t&PIPE) > 0;
+	}
+	public void setPipe(boolean b) {
+		if (b) t |= PIPE;
+		else t &= MAX-PIPE;
+	}
 	public boolean isWarp() {
 		return (t&WARP) > 0;
 	}
@@ -152,6 +160,13 @@ public class Land extends GameObject {
 	public void setOption(boolean b) {
 		if (b) t |= OPTION;
 		else t &= MAX-OPTION;
+	}
+	public boolean isColor() {
+		return (t&COLOR) > 0;
+	}
+	public void setColor(boolean b) {
+		if (b) t |= COLOR;
+		else t &= MAX-COLOR;
 	}
 	
 	public int getVar() {

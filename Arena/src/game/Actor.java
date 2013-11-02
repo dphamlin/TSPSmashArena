@@ -11,8 +11,9 @@ public class Actor extends GameObject {
 	private static final int CROUCH = 1;
 	private static final int LEAN = 2;
 	private static final int SLIDE = 4;
-	private static final int MAX = 8-1;
-	
+	private static final int PIPE = 8;
+	private static final int MAX = 16-1;
+
 	//current data
 	private int id; //used in place of references
 	private int at = 1; //air time
@@ -121,6 +122,13 @@ public class Actor extends GameObject {
 	public void setSlide(boolean b) {
 		if (b) cr |= SLIDE;
 		else cr &= MAX-SLIDE;
+	}
+	public boolean isPipe() {
+		return (cr&PIPE) != 0;
+	}
+	public void setPipe(boolean b) {
+		if (b) cr |= PIPE;
+		else cr &= MAX-PIPE;
 	}
 	public int getPowerup() {
 		return p;

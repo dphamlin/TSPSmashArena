@@ -79,7 +79,7 @@ public class ServerGameState extends GameState {
 		}
 		//spawn powerups TODO: Make this more logical
 		if (getFrameNumber() % 400 == 250 && getMode() != MENU) {
-			spawnPowerup((int)(20+Math.random()*600), (int)(20+Math.random()*400), 1+(int)(Math.random()*5), 1);
+			spawnPowerup((int)(20+Math.random()*600), (int)(20+Math.random()*400), 1+(int)(Math.random()*6), 1);
 		}
 		//power-up/item logic (with removal)
 		for(int i = 0; i < getPowerups().size(); i++) {
@@ -127,9 +127,8 @@ public class ServerGameState extends GameState {
 			modelSelect(a, c);
 			return; //don't bother with normal input
 		}*/
-
-		//dead take no input
-		if (a.isDead()) return;
+		//dead take no input, nor those in pipes
+		if (a.isDead() || a.isPipe()) return;
 
 		//running
 		if (c.getLeft() > 0) {
@@ -644,6 +643,16 @@ public class ServerGameState extends GameState {
 		int h = hCollide(a, l);
 		boolean ov = overlap(a, l);
 
+		//slightly hackish "pipes", vertical only
+		if (l.isPipe() && !a.isPipe() && ov) {
+			a.setVx(0);
+			a.setVy(-1);
+			if (a.isCrouch()) a.setVy(1);
+			a.setOnLand(l); //tie you to THIS pipe
+			a.setPipe(true);
+		}
+		if (l.isPipe()) return; //temporary!
+		
 		//die on touching danger
 		if (l.isDanger() && !a.isArmored() && (v != NONE || h != NONE || ov)) {
 			kill(null, a); //killed by no one
@@ -959,7 +968,7 @@ public class ServerGameState extends GameState {
 	 * 		the actor to move
 	 */
 	private void move(Actor a) {
-		//assume he ain't sliding
+		//assume he ain't wall sliding
 		a.setSlide(false);
 
 		//check collisions with the level
@@ -972,10 +981,20 @@ public class ServerGameState extends GameState {
 			collide(a, b);
 		}
 
-		//move along the ground
+		//move
 		a.setX(a.getX()+a.getVx());
+		a.setY(a.getY()+a.getVy());
+
+		//pipe physics
+		if (a.isPipe()) {
+			//in a pipe, there is no friction, no gravity, no change, only forward
+			if (a.getOnLand() == null || !overlap(a, a.getOnLand())) {
+				a.setPipe(false);
+				fall(a);
+			}
+		}
 		//apply ground friction (moving ground)
-		if (a.getOnLand() != null && a.getOnLand().isMove()) {
+		else if (a.getOnLand() != null && a.getOnLand().isMove()) {
 			Land l = a.getOnLand();
 			a.setVx((a.getVx()-l.getVar()*.1)*a.getRunSlip()+l.getVar()*.1); //slip + movement
 		}
@@ -983,15 +1002,11 @@ public class ServerGameState extends GameState {
 		else if (a.getOnLand() != null) {
 			a.setVx(a.getVx()*a.getRunSlip()); //slide
 		}
-
-		//move through the air
-		if (a.getAirTime() > 0) {
+		//apply air frictions
+		else if (a.getAirTime() > 0) {
 
 			//apply air friction and momentum
 			a.setVx(a.getVx()*a.getAirSlip()); //slide
-
-			//move vertically
-			a.setY(a.getY()+a.getVy());
 
 			//gravity
 			if (a.getPowerup() == Item.SPEED && a.getVy() > 0) {
@@ -1006,10 +1021,6 @@ public class ServerGameState extends GameState {
 			if (a.getPowerup() == Item.SPEED && a.getVy() > a.getTermVel()/2) {
 				a.setVy(a.getTermVel()/2);
 			}
-		}
-		//on the ground, stop vertical motion
-		else {
-			a.setVy(0);
 		}
 
 		//falling off edges, ducking through platforms, and hatches opening
