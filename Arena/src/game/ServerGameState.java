@@ -283,7 +283,6 @@ public class ServerGameState extends GameState {
 	private void fall (Actor a) {
 		a.setAirTime(1);
 		a.setOnLand(null);
-		a.setVy(STOP);
 	}
 
 	/**
@@ -780,7 +779,7 @@ public class ServerGameState extends GameState {
 		}
 
 		//supermode kills everything you touch
-		if (a.getPowerup() == Item.HYPER && (hCollide(a, b) != TOP || vCollide(a, b) != TOP || overlap(a, b))) {
+		if (a.getPowerup() == Item.HYPER && overlap(a, b)) {
 			kill(a, b);
 			return; //nothing else can happen
 		}

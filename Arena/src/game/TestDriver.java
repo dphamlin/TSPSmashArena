@@ -24,10 +24,7 @@ public class TestDriver {
 
 		//test players
 		gs.addPlayer();
-
-		//state examination
-		System.out.println("Start state:");
-		System.out.println(new Gson().toJson(gs.convert()));
+		gs.addPlayer();
 
 		//main loop
 		while (v.isVisible()) {
@@ -48,12 +45,5 @@ public class TestDriver {
 			v.reDraw(gs.convert());
 			t.loopRest();
 		}
-		
-		//more state examination
-		System.out.println("End state:");
-		System.out.println(new Gson().toJson(gs.convert()));
-		
-		//close
-		System.exit(0);
 	}
 }

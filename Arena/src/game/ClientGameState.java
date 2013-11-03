@@ -266,7 +266,7 @@ public class ClientGameState extends GameState {
 		}
 
 		//pick colors
-		if (l.isColor()) {
+		if (l.isColor()) { //color blocks pick their own
 			Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
 			g.setColor(c[l.getVar()]);
 		}
@@ -300,7 +300,7 @@ public class ClientGameState extends GameState {
 		else if (l.isBounce()) {
 			g.fillRoundRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH(), 12, 12);
 		}
-		else if (l.isSolid()) {
+		else if (l.isSolid() || l.isColor()) {
 			g.fillRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH());
 		}
 		else {
