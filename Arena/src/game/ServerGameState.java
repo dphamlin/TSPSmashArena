@@ -27,6 +27,16 @@ public class ServerGameState extends GameState {
 	}
 
 	/**
+	 * Start game state with specific number of players
+	 * 
+	 * @param players
+	 * 		number of players expected in the game
+	 */
+	public ServerGameState(int players) {
+		super(players);
+	}
+	
+	/**
 	 * Clone constructor from generic GameState
 	 * 
 	 * @param g

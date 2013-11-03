@@ -24,20 +24,11 @@ public class TestDriver {
 
 		//test players
 		gs.addPlayer();
-		gs.addPlayer();
 
 		//main loop
 		while (v.isVisible()) {
 			t.loopStart();
 			c.update();
-			/*//powerup testing
-			if (!gs.isControl() && !gs.getPlayer(0).isDead()) {
-				gs.getPlayer(0).setPowerup(Item.SPEED);
-			}
-			else if (!gs.getPlayer(0).isDead()) {
-				gs.getPlayer(0).setPowerup(0);
-			}
-			//*/
 			for (int i = 0; i < gs.getNumberOfPlayers(); i++){
 				gs.readControls(gs.getPlayer(i), c); //using a hackish version to not create a Participant
 			}
