@@ -536,8 +536,8 @@ public class ServerGameState extends GameState {
 	private void spawnPowerup(int x, int y, int type) {
 		Item p = new Item();
 		//TODO: Spawn properly, constructors, the whole shibang
-		p.setW(8);
-		p.setH(8);
+		p.setW(12);
+		p.setH(12);
 		p.setHCenter(x);
 		p.setVCenter(y);
 		p.setVx(0);
@@ -653,8 +653,8 @@ public class ServerGameState extends GameState {
 		//slightly hackish "pipes", vertical only
 		if (l.isPipe() && !a.isPipe() && ov) {
 			a.setVx(0);
-			a.setVy(-1);
-			if (a.isCrouch()) a.setVy(1);
+			if (a.getVy() < 0) a.setVy(-1);
+			else if (a.getVy() > 0) a.setVy(1);
 			a.setOnLand(l); //tie you to THIS pipe
 			a.setPipe(true);
 		}
