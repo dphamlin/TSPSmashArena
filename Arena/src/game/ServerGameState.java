@@ -79,7 +79,12 @@ public class ServerGameState extends GameState {
 		}
 		//spawn powerups TODO: Make this more logical
 		if (getFrameNumber() % 400 == 250 && getMode() != MENU) {
-			spawnPowerup((int)(20+Math.random()*600), (int)(20+Math.random()*400), 1+(int)(Math.random()*6));
+			if (getMode() == STOCK) { //stock mode has a 1up
+				spawnPowerup((int)(20+Math.random()*600), (int)(20+Math.random()*400), 1+(int)(Math.random()*7));
+			}
+			else {
+				spawnPowerup((int)(20+Math.random()*600), (int)(20+Math.random()*400), 1+(int)(Math.random()*6));
+			}
 		}
 		//power-up/item logic (with removal)
 		for(int i = 0; i < getPowerups().size(); i++) {
