@@ -123,7 +123,7 @@ public class Client {
 
 		Scanner inputScanner = new Scanner(System.in);
 		int choice = 0;
-		System.out.println("Welcome.  Enter 0 if you wish to connect to loopback; otherwise, enter 1 to choose IP address and port.\n");
+		System.out.println("Welcome.  Enter 0 if you wish to connect to loopback; otherwise, enter 1 to choose IP address and port.");
 		choice = inputScanner.nextInt();
 		
 		InetAddress serverAddr = InetAddress.getLoopbackAddress(); // default IP address

@@ -8,16 +8,14 @@ import com.google.gson.*;
 
 public class Arena {
 	
-	private static int port = 5379;
-	
 	public static void main(String[] args){
-		
+		int port = 5379;
 		String selection = "0";
 		int choice = -1;
 		Scanner inputScanner = new Scanner(System.in);
 
 		System.out.println("Welcome. " +
-				"Enter 0 if you wish to host a game; otherwise, enter the IP address of the game you wish to join.\n");
+				"Enter 0 if you wish to host a game; otherwise, enter the IP address of the game you wish to join.");
 		selection = inputScanner.nextLine();
 		try {
 			choice = Integer.parseInt(selection);
@@ -38,7 +36,7 @@ public class Arena {
 			}
 			
 			String currentPath = Paths.get("").toAbsolutePath().toString();
-			String[] commandArgs = {"java","-cp",currentPath + File.pathSeparator + currentPath + "/lib/gson-2.2.4.jar" + File.pathSeparator + currentPath + "/bin","game.Server",String.valueOf(numberOfPlayers)};
+			String[] commandArgs = {"java","-cp",currentPath + File.pathSeparator + currentPath + "/lib/gson-2.2.4.jar" + File.pathSeparator + currentPath + "/bin","game.Server",String.valueOf(numberOfPlayers),Integer.toString(port)};
 			
 			try {
 				ProcessBuilder processBuilder = new ProcessBuilder(commandArgs);
@@ -54,6 +52,35 @@ public class Arena {
 			if (serverProcess == null) {
 				System.err.println("Failed to execute the server.");
 				System.exit(1);
+			}
+			else{//get ip address of server
+				Enumeration<NetworkInterface> nets = null;
+				try {
+					nets = NetworkInterface.getNetworkInterfaces();
+				} catch (SocketException e) {
+					nets = null;
+				}
+				if(nets != null){
+					for (NetworkInterface netint : Collections.list(nets)){
+						try {
+							if(netint.isUp() && !netint.isPointToPoint() && !netint.isVirtual() && !netint.isLoopback()){
+								Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
+						        for (InetAddress inetAddress : Collections.list(inetAddresses)) {
+						        	String inet = inetAddress.toString();
+						        	inet = inet.substring(1);
+						        	if(inet.substring(0,7).compareTo("169.254") != 0 && !inet.contains(":")){
+						        		System.out.println("Server started and listening on: "+inet+":"+port);
+						        	}
+						        }
+							}
+						} catch (SocketException e) {
+							System.err.println("Unable to get local address server is utilizing.");
+						}
+					}
+				}
+				else{
+					System.err.println("Unable to get local interface server is utilizing.");
+				}
 			}
 		}
 		inputScanner.close();

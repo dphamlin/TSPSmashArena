@@ -15,17 +15,7 @@ public class Server {
 	private ServerGameState game;
 	private Gson json;
 	private StopWatch timer;
-	private static int port = 5379;
 	private int activePlayerCount = 0;
-	
-	Server() throws IOException {
-		serverSocket = new ServerSocket(port);
-		participantList = new ArrayList<Participant>();
-		game = new ServerGameState();
-		json = new Gson();
-		timer = new StopWatch(20);
-		System.out.println("Server started!"/*+Inet4Address.getLocalHost()*/);
-	}
 
 	Server(int port) throws IOException {
 		serverSocket = new ServerSocket(port);
@@ -33,6 +23,7 @@ public class Server {
 		game = new ServerGameState();
 		json = new Gson();
 		timer = new StopWatch(20);
+		System.out.println("Starting and listening on: "+getCurrentInetAddress()+":"+port);
 	}
 	
 	public void setNumberOfPlayers(int numberOfPlayers) { // Proper functioning only guaranteed for >=1 value.
@@ -45,6 +36,37 @@ public class Server {
 	
 	public ServerSocket getServerSocket() {
 		return serverSocket;
+	}
+	
+	public String getCurrentInetAddress(){
+		Enumeration<NetworkInterface> nets = null;
+		try {
+			nets = NetworkInterface.getNetworkInterfaces();
+		} catch (SocketException e) {
+			nets = null;
+		}
+		if(nets != null){
+			for (NetworkInterface netint : Collections.list(nets)){
+				try {
+					if(netint.isUp() && !netint.isPointToPoint() && !netint.isVirtual() && !netint.isLoopback()){
+						Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
+				        for (InetAddress inetAddress : Collections.list(inetAddresses)) {
+				        	String inet = inetAddress.toString();
+				        	inet = inet.substring(1);
+				        	if(inet.substring(0,7).compareTo("169.254") != 0 && !inet.contains(":")){
+				        		return inet;
+				        	}
+				        }
+					}
+				} catch (SocketException e) {
+					System.err.println("Unable to get local address server is utilizing.");
+				}
+			}
+		}
+		else{
+			System.err.println("Unable to get local interface server is utilizing.");
+		}
+		return " ";
 	}
 	
 	/*
@@ -94,7 +116,7 @@ public class Server {
 	
 	// Writes the current game state to all clients as a JSON string
 	public void writeGameStateToAll(ArrayList<Participant> aParticipantList) { 
-		System.out.println(json.toJson(getGameState().convert()));
+		//System.out.println(json.toJson(getGameState().convert()));  //print content of each gamestate
 		for (Participant p: aParticipantList) {
 			if (p.isActive()) // Only try to write to active players; thread will be responsible for changing back to active on reconnect
 				try {
@@ -152,24 +174,28 @@ public class Server {
 	}
 		
 	public static void main(String []args) {
-		
-		Server theServer = null;
-		try {
-			theServer = new Server();
-		}
-		catch (Exception e) {
-			System.out.println("Could not start the server.");
-			System.exit(1);
-		}
-		
+		int port = 5379;
 		int numberOfPlayers = 2;
-		if (args.length > 0)
+		if (args.length > 0){
 			numberOfPlayers = Integer.parseInt(args[0]); // args[0] is not just program name in Java
+			if (args.length > 1){
+				port = Integer.parseInt(args[1]); //port may be passed in as second arg
+			}
+		}
 		else {
 			System.out.println("Please enter the number of players:");
 			Scanner inputScanner = new Scanner(System.in);
 			numberOfPlayers = inputScanner.nextInt();
 		} 
+		
+		Server theServer = null;
+		try {
+			theServer = new Server(port);
+		}
+		catch (Exception e) {
+			System.out.println("Could not start the server.");
+			System.exit(1);
+		}
 		
 		theServer.setNumberOfPlayers(numberOfPlayers);
 		
