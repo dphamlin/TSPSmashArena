@@ -89,7 +89,7 @@ public class ClientGameState extends GameState {
 			draw(s, g);
 		}
 	}
-	
+
 	/**
 	 * Draw the powerups
 	 * 
@@ -114,26 +114,23 @@ public class ClientGameState extends GameState {
 			g.setColor(Color.BLACK);
 			g.fillRoundRect(40+i*WIDTH/4, 10, 55, 35, 10, 10);
 			//player is selected, all good
-			if (true/*!getPlayer(i).isNoP()*/) {
-				g.setColor(Color.WHITE);
-				if (getMode() == STOCK) {
-					g.drawString("x"+getPlayer(i).getLives(), 70+i*WIDTH/4, 35);
-				}
-				if (getMode() == TIME) {
-					g.drawString(" "+getPlayer(i).getScore(), 70+i*WIDTH/4, 35);
-				}
-				//tag winners
-				if (isGameOver()) {
-					for (Integer n : getWinners()) {
-						if (n == i) {
-							g.drawString("♛", 70+i*WIDTH/4, 24); //poorly-rendered crown
-						}
+			g.setColor(Color.WHITE);
+			if (getMode() == STOCK) {
+				g.drawString("x"+getPlayer(i).getLives(), 70+i*WIDTH/4, 35);
+			}
+			if (getMode() == TIME) {
+				g.drawString(" "+getPlayer(i).getScore(), 70+i*WIDTH/4, 35);
+			}
+			//tag winners
+			if (isGameOver()) {
+				for (Integer n : getWinners()) {
+					if (n == i) {
+						g.drawString("♛", 70+i*WIDTH/4, 24); //poorly-rendered crown
 					}
 				}
-				//draw the character's current state in box
-				draw(getPlayer(i), 48+i*WIDTH/4, 18, g);
 			}
-			//else drawSel(getPlayer(i), 60+i*WIDTH/4, 25, g);
+			//draw the character's current state in box
+			draw(getPlayer(i), 48+i*WIDTH/4, 18, g);
 			//draw the reload bar
 			if (getPlayer(i).getReload() > 0) {
 				g.setColor(Color.RED);
@@ -207,7 +204,7 @@ public class ClientGameState extends GameState {
 		if (a.isArmored() && a.getDeadTime() % 8 < 4) return;
 
 		//temporary colors
-		Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
+		Color c[] = {Color.ORANGE, Color.GREEN, Color.BLUE, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
 		g.setColor(c[a.getSkin()]);
 
 		//respawn timer
@@ -220,30 +217,6 @@ public class ClientGameState extends GameState {
 		g.fillOval(x, y, a.getW(), a.getH());
 		g.fillRect((int)x+a.getW()/2, y, -a.getW()*a.getDir()/2, a.getH());
 		g.fillRect(x, y, a.getW()*a.getDir()/2, a.getH());
-		if (a.getModel() == Warehouse.NOP) { //mystery writing
-			g.setColor(Color.BLACK);
-			g.drawString("?", (int)x+a.getW()/2-2, (int)y+a.getH()/2+6);
-		}
-	}
-
-	/**
-	 * Temporary method for drawing the selection process
-	 */
-	private void drawSel(Actor a, int x, int y, Graphics g) {
-		//TODO: Make this draw a portrait instead
-
-		//temporary colors
-		Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
-		g.setColor(c[a.getSkin()]);
-
-		//temporary shape
-		g.fillOval(x, y, 16, 16);
-		g.fillRect(x, y, 8, 16);
-		//text bits
-		g.setColor(Color.WHITE);
-		g.drawString("Select:", x-14, y-3);
-		if (a.getSkin() > Warehouse.NOP+1) g.drawString("<", x-15, y+14);
-		if (a.getSkin() < Warehouse.CHAR_NUM) g.drawString(">", x+23, y+14);
 	}
 
 	/**
@@ -266,15 +239,15 @@ public class ClientGameState extends GameState {
 		}
 
 		//pick colors
-		if (l.isColor()) { //color blocks pick their own
-			Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
+		if (l.isColor()) { //painted colors
+			Color c[] = {Color.ORANGE, Color.GREEN, Color.BLUE, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
 			g.setColor(c[l.getVar()]);
 		}
 		else if (l.isWarp() && isReady()) { //yellow warps
 			g.setColor(Color.YELLOW);
 		}
-		else if (l.isChar()) {
-			Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
+		else if (l.isChar()) { //color-coded player blocks
+			Color c[] = {Color.ORANGE, Color.GREEN, Color.BLUE, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
 			g.setColor(c[l.getVar()]);
 		}
 		else if (l.isDanger()) { //red danger
@@ -344,7 +317,7 @@ public class ClientGameState extends GameState {
 		g.setColor(Color.RED);
 		g.fillRect((int)s.getLeftEdge(), (int)s.getTopEdge(), s.getW(), s.getH());
 	}
-	
+
 	/**
 	 * Draw a shot to the designated graphics object
 	 * 

@@ -412,22 +412,10 @@ public abstract class GameState {
 	}
 	
 	/**
-	 * 
-	 * @return the number of players without a chosen character
-	 */
-	public int getNoPs() {
-		int n = 0;
-		for (Actor a : getFighters()) {
-			if (a.isNoP()) n++;
-		}
-		return n;
-	}
-	
-	/**
 	 * @return true if the game is ready to start
 	 */
 	public boolean isReady() {
-		return (getNoPs() == 0);
+		return true; //TODO: Check how many players have joined the game
 	}
 	
 	/**

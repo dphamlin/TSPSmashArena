@@ -66,7 +66,7 @@ public class ServerGameState extends GameState {
 	public void update() {
 		//player logic
 		for (Actor a : getFighters()) {
-			/*if (!a.isNoP())*/ update(a);
+			update(a);
 		}
 		//bullet logic (with removal)
 		for(int i = 0; i < getBullets().size(); i++) {
@@ -127,11 +127,6 @@ public class ServerGameState extends GameState {
 	 * 		The controller data for input
 	 */
 	public void readControls(Actor a, Controller c) {
-		//character select menu
-		/*if (a.isNoP()) {
-			modelSelect(a, c);
-			return; //don't bother with normal input
-		}*/
 		//dead take no input, nor those in pipes
 		if (a.isDead() || a.isPipe()) return;
 
@@ -189,37 +184,6 @@ public class ServerGameState extends GameState {
 			setMode(getNextMode()); //change to appropriate game mode
 		}
 	}
-
-	/**
-	 * Pre-game character selection
-	 * 
-	 * @param a
-	 * 		The actor choosing a character
-	 * @param c
-	 * 		The controller data for input
-	 */
-	/*private void modelSelect(Actor a, Controller c) {
-		//go side to side
-		if (c.getRight() % 20 == 1) {
-			a.setSkin(a.getSkin()+1);
-		}
-		else if (c.getLeft() % 20 == 1) {
-			a.setSkin(a.getSkin()-1);
-		}
-
-		//boundaries
-		if (a.getSkin() <= Warehouse.NOP) {
-			a.setSkin(Warehouse.NOP+1);
-		}
-		else if (a.getSkin() > Warehouse.CHAR_NUM) {
-			a.setSkin(Warehouse.CHAR_NUM);
-		}
-
-		//select
-		if (c.getFire() == 1 || c.getJump() == 1) {
-			a.setModel(a.getSkin());
-		}
-	}*/
 
 	/**
 	 * Update whether the game has ended or not
@@ -539,7 +503,7 @@ public class ServerGameState extends GameState {
 	 */
 	private void spawnPowerup(int x, int y, int type) {
 		Item p = new Item();
-		//TODO: Spawn properly, constructors, the whole shibang
+		//TODO: Spawn properly, constructors, the whole shabang
 		p.setW(12);
 		p.setH(12);
 		p.setHCenter(x);
@@ -548,7 +512,7 @@ public class ServerGameState extends GameState {
 		p.setVy(0);
 		p.setType(type);
 		if (type == Item.DJUMP) p.setSubType(1);
-		if (type == Item.CHANGE) p.setSubType((int)(1+Math.random()*Warehouse.CHAR_NUM));
+		if (type == Item.CHANGE) p.setSubType((int)(Math.random()*Warehouse.CHAR_NUM));
 		if (type == Item.HYPER) p.setSubType(10*50);
 		getPowerups().add(p);
 	}
@@ -670,7 +634,7 @@ public class ServerGameState extends GameState {
 		}
 
 		//activate warp blocks
-		if (l.isWarp() && getNoPs() == 0 && (v != NONE || h != NONE || ov)) {
+		if (l.isWarp() && isReady() && (v != NONE || h != NONE || ov)) {
 			warpTo(l.getVar()); //go to destination level
 		}
 

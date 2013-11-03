@@ -2,13 +2,12 @@ package game;
 
 public class Warehouse {
 	//characters
-	public static final int NOP = 0; //no player selected
+	public static final int CAPTAIN = 0;
 	public static final int LIZARD = 1;
 	public static final int SLIME = 2;
-	public static final int CAPTAIN = 3;
-	public static final int MARINE = 4;
-	public static final int ROBOT = 5;
-	public static final int SCIENTIST = 6;
+	public static final int MARINE = 3;
+	public static final int ROBOT = 4;
+	public static final int SCIENTIST = 5;
 	public static final int CHAR_NUM = 6; //number of implemented players
 
 	//bullets
@@ -32,9 +31,9 @@ public class Warehouse {
 
 	//actual lists
 	private static RoleModel characters[] = 
-		{noP(), lizardman(), slime(), captain(), spaceMarine(), japaneseRobot(), madScientist()};
+		{captain(), lizardman(), slime(), spaceMarine(), japaneseRobot(), madScientist()};
 	private static ShotModel shots[] =
-		{noShot(), fireball(), bubble(), raygun(), mortar(), beamSword(), boomerang(), missile(), explosion()};
+		{fireball(), bubble(), raygun(), mortar(), beamSword(), boomerang(), missile(), explosion()};
 	private static Blueprint maps[] = 
 		{holodeck(), alienPlanet(), factory(), demo()};
 
@@ -60,36 +59,6 @@ public class Warehouse {
 	}
 
 	/*private method to init each character*/
-	//pre-selection player
-	private static RoleModel noP() {
-		RoleModel r = new RoleModel();
-		r.setSkin(NOP);
-
-		//meh on air and ground
-		r.setRunFrict(.5);
-		r.setAirFrict(.25);
-		r.setMaxSpeed(3);
-
-		//pretty eh jump
-		r.setJumpPower(9);
-		r.setJumpHold(5);
-
-		//standard gravity
-		r.setGrav(1);
-		r.setTermVel(7.5);
-
-		//weak fall control
-		r.setWallTermVel(7);
-		r.setSink(1.1);
-
-		//standard respawn
-		r.setSpawnTime(1);
-		r.setSpawnInv(0);
-
-		//doesn't have a bullet
-		r.setShotType(noShot());
-		return r;
-	}
 	//lizard man
 	private static RoleModel lizardman() {
 		RoleModel r = new RoleModel();
@@ -271,26 +240,6 @@ public class Warehouse {
 	}
 
 	/*private methods to init each shot type*/
-	//nonexistant shot
-	private static ShotModel noShot() {
-		ShotModel s = new ShotModel();
-		s.setSkin(NOP);
-
-		//nope
-		s.setReload(0);
-
-		//invisible
-		s.setH(0);
-		s.setW(0);
-
-		//no range
-		s.setLife(0);
-		s.setSpeed(0);
-
-		//who cares what type?
-		s.setType(0);
-		return s;
-	}
 	//bouncing, mario-type fireballs
 	private static ShotModel fireball() {
 		ShotModel s = new ShotModel();
@@ -561,12 +510,12 @@ public class Warehouse {
 		//base floor + warps
 		b.add(-1*16, 27*16, 13*16, 4*16, SOLID);
 		b.add(12*16, 27*16, 4*16, 1*16, PLATFORM);
-		b.add(12*16, 30*16, 4*16, 1*16, SOLID|WARP, DEMO); //TODO: Warp to PLANET when it's built
+		b.add(12*16, 30*16, 4*16, 1*16, BOUNCE|WARP, DEMO); //TODO: Warp to PLANET when it's built
 		//b.add(12*16, 29*16, 4*16, 2*16, SOLID|WARP|DANGER, PLANET);
 		b.add(12*16, 27*16+1, 4*16, 3*16, PIPE|COLOR, CAPTAIN); //active portal
 		b.add(16*16, 27*16, 8*16, 4*16, SOLID);
 		b.add(24*16, 27*16, 4*16, 1*16, PLATFORM|SOLID); //TODO: Unblock when FACTORY is built
-		b.add(24*16, 30*16, 4*16, 1*16, SOLID|WARP, FACTORY);
+		b.add(24*16, 30*16, 4*16, 1*16, BOUNCE|WARP, FACTORY);
 		b.add(24*16, 27*16+1, 4*16, 3*16, PIPE|COLOR, MARINE); //inactive portal
 		b.add(28*16, 27*16, 13*16, 4*16, SOLID);
 
