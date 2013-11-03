@@ -109,32 +109,35 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void drawStatus(Graphics g) {
-		if (getMode() == MENU) return; //temporarily blind status until gametime
-		for (int i = 0; i < getNumberOfPlayers(); i++) {
+		//if (getMode() == MENU) return; //temporarily blind status until gametime
+		//draw spots for the number of players expected
+		for (int i = 0; i < getMaxPlayers() || i < getNumberOfPlayers(); i++) {
 			g.setColor(Color.BLACK);
-			g.fillRoundRect(40+i*WIDTH/4, 10, 55, 35, 10, 10);
-			//player is selected, all good
+			g.fillRoundRect((1+i)*WIDTH/5-27, 10, 55, 36, 10, 10);
+		}
+		//draw actual characters and stats
+		for (int i = 0; i < getNumberOfPlayers(); i++) {
 			g.setColor(Color.WHITE);
 			if (getMode() == STOCK) {
-				g.drawString("x"+getPlayer(i).getLives(), 70+i*WIDTH/4, 35);
+				g.drawString("x"+getPlayer(i).getLives(), 3+(1+i)*WIDTH/5, 35);
 			}
 			if (getMode() == TIME) {
-				g.drawString(" "+getPlayer(i).getScore(), 70+i*WIDTH/4, 35);
+				g.drawString(" "+getPlayer(i).getScore(), 3+(1+i)*WIDTH/5, 35);
 			}
 			//tag winners
 			if (isGameOver()) {
 				for (Integer n : getWinners()) {
 					if (n == i) {
-						g.drawString("♛", 70+i*WIDTH/4, 24); //poorly-rendered crown
+						g.drawString("♛", 3+(1+i)*WIDTH/5, 24); //poorly-rendered crown
 					}
 				}
 			}
 			//draw the character's current state in box
-			draw(getPlayer(i), 48+i*WIDTH/4, 18, g);
+			draw(getPlayer(i), (1+i)*WIDTH/5-19, 18, g);
 			//draw the reload bar
 			if (getPlayer(i).getReload() > 0) {
 				g.setColor(Color.RED);
-				g.fillRect(48+i*WIDTH/4, 38, (16*getPlayer(i).getReload())/getPlayer(i).getShotDelay(), 2);
+				g.fillRect((1+i)*WIDTH/5-19, 38, (16*getPlayer(i).getReload())/getPlayer(i).getShotDelay(), 2);
 			}
 			if (getPlayer(i).getPowerup() > 0) {
 				g.setColor(Color.BLACK);
@@ -152,13 +155,13 @@ public class ClientGameState extends GameState {
 					if (getPlayer(i).getPowerupVar() == Warehouse.SCIENTIST) powername = "Engineering";
 				}
 				if (getPlayer(i).getPowerup() == Item.HYPER) powername = "Hyperactivity";
-				g.drawString(powername, 40+i*WIDTH/4, 56);
+				g.drawString(powername, (1+i)*WIDTH/5-27, 56);
 			}
 		}
 		if (getMode() == TIME) {
 			//TODO: Adjust font and centering
 			g.setColor(Color.BLACK);
-			g.fillRoundRect(WIDTH/2-20, 10, 50, 35, 10, 10);
+			g.fillRoundRect(WIDTH/2-25, 10, 50, 35, 10, 10);
 			g.setColor(Color.WHITE);
 			int sec = getTimeLeft()/50; //TODO: Keep this accurate to the frame rate
 			int min = sec/60;
