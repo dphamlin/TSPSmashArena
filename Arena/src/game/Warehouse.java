@@ -7,8 +7,8 @@ public class Warehouse {
 	public static final int SLIME = 2;
 	public static final int MARINE = 3;
 	public static final int ROBOT = 4;
+	public static final int CHAR_NUM = 5; //number of implemented players
 	public static final int SCIENTIST = 5;
-	public static final int CHAR_NUM = 6; //number of implemented players
 
 	//bullets
 	public static final int FIREBALL = 0;
@@ -470,7 +470,7 @@ public class Warehouse {
 		b.add(22*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, ROBOT);
 		b.add(22*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, ROBOT);
 		b.add(25*16, -1*16, 4*16, 6*16, SOLID);
-		b.add(29*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, SCIENTIST);
+		b.add(29*16, -1*16, 3*16, 3*16, BOUNCE, SCIENTIST);
 		b.add(29*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, SCIENTIST);
 		b.add(32*16, -1*16, 4*16, 6*16, SOLID);
 		b.add(36*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, CAPTAIN);

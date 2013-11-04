@@ -207,7 +207,7 @@ public class ClientGameState extends GameState {
 		if (a.isArmored() && a.getDeadTime() % 8 < 4) return;
 
 		//temporary colors
-		Color c[] = {Color.ORANGE, Color.GREEN, Color.BLUE, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
+		Color c[] = {Color.ORANGE, Color.GREEN, Color.BLUE, Color.DARK_GRAY, Color.MAGENTA, Color.BLACK};
 		g.setColor(c[a.getSkin()]);
 
 		//respawn timer
@@ -243,14 +243,14 @@ public class ClientGameState extends GameState {
 
 		//pick colors
 		if (l.isColor()) { //painted colors
-			Color c[] = {Color.ORANGE, Color.GREEN, Color.BLUE, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
+			Color c[] = {Color.ORANGE, Color.GREEN, Color.BLUE, Color.DARK_GRAY, Color.MAGENTA, Color.BLACK};
 			g.setColor(c[l.getVar()]);
 		}
 		else if (l.isWarp() && isReady()) { //yellow warps
 			g.setColor(Color.YELLOW);
 		}
 		else if (l.isChar()) { //color-coded player blocks
-			Color c[] = {Color.ORANGE, Color.GREEN, Color.BLUE, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
+			Color c[] = {Color.ORANGE, Color.GREEN, Color.BLUE, Color.DARK_GRAY, Color.MAGENTA, Color.BLACK};
 			g.setColor(c[l.getVar()]);
 		}
 		else if (l.isDanger()) { //red danger
