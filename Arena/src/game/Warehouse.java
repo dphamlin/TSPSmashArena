@@ -11,14 +11,14 @@ public class Warehouse {
 	public static final int CHAR_NUM = 6; //number of implemented players
 
 	//bullets
-	public static final int FIREBALL = 1;
-	public static final int BUBBLE = 2;
-	public static final int RAYGUN = 3;
-	public static final int BEAMSWORD = 4;
-	public static final int BOOMERANG = 5;
-	public static final int MORTAR = 6;
-	public static final int MISSILE = 7;
-	public static final int EXPLOSION = 8;
+	public static final int FIREBALL = 0;
+	public static final int BUBBLE = 1;
+	public static final int RAYGUN = 2;
+	public static final int BEAMSWORD = 3;
+	public static final int BOOMERANG = 4;
+	public static final int MORTAR = 5;
+	public static final int MISSILE = 6;
+	public static final int EXPLOSION = 7;
 
 	//levels
 	public static final int HOLODECK = 0;
@@ -65,27 +65,27 @@ public class Warehouse {
 		r.setSkin(LIZARD);
 
 		//agile on ground, sluggish in air
-		r.setRunFrict(.9);
-		r.setAirFrict(.045);
-		r.setMaxSpeed(4.4);
+		r.setRunFrict(.45);
+		r.setAirFrict(.025);
+		r.setMaxSpeed(4);
 
-		//fairly standard jump
-		r.setJumpPower(9);
-		r.setJumpHold(5);
+		//powerful jump
+		r.setJumpPower(8.5);
+		r.setJumpHold(4);
 
 		//standard gravity
-		r.setGrav(.9);
-		r.setTermVel(8);
+		r.setGrav(.7);
+		r.setTermVel(7.2);
 
 		//great wall slide
-		r.setWallTermVel(2.3);
-		r.setSink(1.35);
+		r.setWallTermVel(1.2);
+		r.setSink(1.3);
 
-		//standard respawn
-		r.setSpawnTime(50);
+		//slightly quicker respawn
+		r.setSpawnTime(45);
 		r.setSpawnInv(50);
 
-		//bouncing fire shots
+		//bouncing fireballs
 		r.setShotType(fireball());
 		return r;
 	}
@@ -108,14 +108,14 @@ public class Warehouse {
 		r.setTermVel(3.5);
 
 		//good fall control
-		r.setWallTermVel(2.5);
+		r.setWallTermVel(1.5);
 		r.setSink(1.5);
 
 		//slightly faster respawn
 		r.setSpawnTime(45);
 		r.setSpawnInv(50);
 
-		//slow bullets
+		//slow bubbles
 		r.setShotType(bubble());
 		return r;
 	}
@@ -125,27 +125,27 @@ public class Warehouse {
 		r.setSkin(CAPTAIN);
 
 		//average land speed, a bit weaker in the air
-		r.setRunFrict(.5);
-		r.setAirFrict(.25);
-		r.setMaxSpeed(3);
+		r.setRunFrict(.4);
+		r.setAirFrict(.2);
+		r.setMaxSpeed(3.2);
 
 		//middling jump
-		r.setJumpPower(8);
-		r.setJumpHold(5);
+		r.setJumpPower(8.2);
+		r.setJumpHold(6);
 
 		//average fall
-		r.setGrav(.9);
+		r.setGrav(.82);
 		r.setTermVel(7.5);
 
 		//weak fall control
-		r.setWallTermVel(7);
-		r.setSink(1.1);
+		r.setWallTermVel(6);
+		r.setSink(1.15);
 
 		//average respawn, long spawn armor
 		r.setSpawnTime(50);
-		r.setSpawnInv(85);
+		r.setSpawnInv(90);
 
-		//quick fire rate
+		//basic raygun
 		r.setShotType(raygun());
 		return r;
 	}
@@ -155,27 +155,27 @@ public class Warehouse {
 		r.setSkin(MARINE);
 
 		//average land speed, a bit weaker in the air
-		r.setRunFrict(.35);
-		r.setAirFrict(.25);
-		r.setMaxSpeed(3);
+		r.setRunFrict(.3);
+		r.setAirFrict(.2);
+		r.setMaxSpeed(2.25);
 
-		//low but very long jump (rockets)
-		r.setJumpPower(3);
-		r.setJumpHold(45);
+		//jetpack jump
+		r.setJumpPower(2.75);
+		r.setJumpHold(50);
 
 		//hard fall
-		r.setGrav(0.55);
-		r.setTermVel(8.5);
+		r.setGrav(0.65);
+		r.setTermVel(7.5);
 
-		//weak fall control
-		r.setWallTermVel(8);
-		r.setSink(1.1);
+		//not bad fall control
+		r.setWallTermVel(7);
+		r.setSink(1.25);
 
 		//slow respawn, average armor
 		r.setSpawnTime(65);
 		r.setSpawnInv(50);
 
-		//slow fire rate
+		//mortar shots
 		r.setShotType(mortar());
 		return r;
 	}
@@ -184,29 +184,29 @@ public class Warehouse {
 		RoleModel r = new RoleModel();
 		r.setSkin(ROBOT);
 
-		//good speeds, but slippery
-		r.setRunFrict(.18);
-		r.setAirFrict(.08);
-		r.setMaxSpeed(4.6);
+		//high speed very slippery
+		r.setRunFrict(.03);
+		r.setAirFrict(.02);
+		r.setMaxSpeed(5.2);
 
-		//strong jump low control
-		r.setJumpPower(11);
-		r.setJumpHold(4);
+		//short hops with potential for higher
+		r.setJumpPower(6);
+		r.setJumpHold(10);
 
 		//slightly brisk fall
-		r.setGrav(.8);
-		r.setTermVel(9.5);
+		r.setGrav(.9);
+		r.setTermVel(6);
 
 		//wallrun
-		r.setWallTermVel(-2.5);
+		r.setWallTermVel(-4);
 		r.setSink(1.35);
 
 		//average respawn, slightly short armor
 		r.setSpawnTime(50);
 		r.setSpawnInv(40);
 
-		//quick fire rate
-		r.setShotType(boomerang());
+		//quick beam slashes
+		r.setShotType(beamSword());
 		return r;
 	}
 	//mad scientist
@@ -214,27 +214,28 @@ public class Warehouse {
 		RoleModel r = new RoleModel();
 		r.setSkin(SCIENTIST);
 
-		//roll everywhere
-		r.setRunFrict(.1);
-		r.setAirFrict(.15);
-		r.setMaxSpeed(4);
+		//movement...?
+		r.setRunFrict(.04);
+		r.setAirFrict(.025);
+		r.setMaxSpeed(4.75);
 
-		//floaty jump
-		r.setJumpPower(5);
-		r.setJumpHold(15);
+		//average jump?
+		r.setJumpPower(6.8);
+		r.setJumpHold(4);
 
-		//slow fall
+		//slow fall?
 		r.setGrav(0.55);
-		r.setTermVel(6);
+		r.setTermVel(3.8);
 
-		//good fall control
-		r.setWallTermVel(3);
-		r.setSink(1.4);
+		//ok fall control?
+		r.setWallTermVel(3.8);
+		r.setSink(1.3);
 
 		//slightly longer spawn armor
 		r.setSpawnTime(50);
 		r.setSpawnInv(55);
 
+		//cartoony missiles
 		r.setShotType(missile());
 		return r;
 	}
@@ -249,17 +250,17 @@ public class Warehouse {
 		s.setReload(45);
 
 		//small shots
-		s.setH(8);
-		s.setW(8);
+		s.setH(10);
+		s.setW(10);
 
 		//decent range, a bit slow
-		s.setLife(80);
-		s.setSpeed(3.2);
-		s.setVSpeed(3.2);
+		s.setLife(85);
+		s.setSpeed(3.3);
+		s.setVSpeed(3.3);
 
 		//bounce across the ground
 		s.setType(Shot.GRAV+Shot.BOUNCE);
-		s.setVar(38);
+		s.setVar(37);
 		return s;
 	}
 	//slow, lingering bubbles
@@ -267,20 +268,20 @@ public class Warehouse {
 		ShotModel s = new ShotModel();
 		s.setSkin(BUBBLE);
 
-		//mid speed
-		s.setReload(55);
+		//average firing
+		s.setReload(50);
 
 		//medium sized bubbles
 		s.setH(16);
 		s.setW(16);
 
 		//slow-moving, long lasting
-		s.setLife(180);
-		s.setSpeed(.9);
+		s.setLife(440);
+		s.setSpeed(1);
 
 		//bouncy bubbles slow down
-		s.setType(Shot.BOUNCE+Shot.ACCEL);
-		s.setVar(-4);
+		s.setType(Shot.BOUNCE+Shot.ACCEL+Shot.WEAK);
+		s.setVar(-2);
 		return s;
 	}
 	//straight, simple lasers
@@ -293,11 +294,11 @@ public class Warehouse {
 
 		//small lasers
 		s.setH(2);
-		s.setW(8);
+		s.setW(24);
 
 		//mid speed long range
-		s.setLife(100);
-		s.setSpeed(10);
+		s.setLife(150);
+		s.setSpeed(4.2);
 
 		//standard type
 		s.setType(0);
@@ -335,15 +336,15 @@ public class Warehouse {
 
 		//long blades
 		s.setH(4);
-		s.setW(16);
+		s.setW(20);
 
-		//very short range
-		s.setLife(8);
-		s.setSpeed(8);
+		//short range
+		s.setLife(12);
+		s.setSpeed(9);
 
-		//ignore obstacles and stop quickly
-		s.setType(Shot.PHASE+Shot.PIERCE+Shot.ACCEL);
-		s.setVar(-1200);
+		//stop quickly
+		s.setType(Shot.ACCEL+Shot.MOMENT);
+		s.setVar(-850);
 		return s;
 	}
 	//mid-range blade
@@ -358,8 +359,8 @@ public class Warehouse {
 		s.setH(4);
 		s.setW(16);
 
-		//very short range
-		s.setLife(55);
+		//short range
+		s.setLife(52);
 		s.setSpeed(9);
 
 		//go out then return
@@ -380,8 +381,8 @@ public class Warehouse {
 		s.setW(12);
 
 		//shoot slightly backward
-		s.setLife(65);
-		s.setSpeed(-2);
+		s.setLife(150);
+		s.setSpeed(-4);
 
 		//accelerate quickly forward and explode on impact
 		s.setType(Shot.ACCEL|Shot.BOMB);

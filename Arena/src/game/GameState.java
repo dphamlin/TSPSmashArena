@@ -78,8 +78,9 @@ public abstract class GameState {
 	 * 		the character they selected to spawn as
 	 */
 	public Actor addPlayer(int character) {
-		//don't go over the maximum
+		//don't go over the maximum (4 default)
 		if (getMaxPlayers() > 0 && getNumberOfPlayers() == getMaxPlayers()) return null;
+		else if (getNumberOfPlayers() == 4) return null;
 		
 		Actor a = new Actor(0, 0, character); //start somewheres
 		//move to spawn point, assign starting values

@@ -835,7 +835,7 @@ public class ServerGameState extends GameState {
 		}
 
 		//bounce off non-damage blocks
-		if (s.isBounce() && l.isSolid() && !l.isDanger()) {
+		if (s.isBounce() && l.isSolid() && (!l.isDanger() || !s.isWeak())) {
 			//top and bottom
 			if (vCollide(s,l) != NONE) {
 				s.setVy(-s.getVy());
@@ -1058,7 +1058,7 @@ public class ServerGameState extends GameState {
 		//apply gravity (uses vx as terminal velocity- yes it's hackish)
 		if (s.isGravity()) {
 			s.setVy(s.getVy()+s.getVar()/100.0);
-			if (s.getVy() > Math.abs(s.getVx())) {
+			if (s.getVy() > Math.abs(s.getVx()) && s.getVx() != 0) {
 				s.setVy(Math.abs(s.getVx()));
 			}
 		}

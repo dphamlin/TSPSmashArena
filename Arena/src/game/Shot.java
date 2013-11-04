@@ -16,7 +16,9 @@ public class Shot extends GameObject {
 	public static final int PHASE = 16; //goes through walls
 	public static final int GROW = 32; //changes sizes (var = W/H change per frame)
 	public static final int BOMB = 64; //drops an explosion
-	private static final int MAX = 127; //sum of all of the above
+	public static final int WEAK = 128; //dies against spikes
+	public static final int MOMENT = 256; //carries momentum of player
+	private static final int MAX = 512-1; //sum of all of the above
 
 	private int t; //type
 	private int v; //extra variable
@@ -69,6 +71,10 @@ public class Shot extends GameObject {
 			setRightEdge(a.getHCenter());
 			setVx(-base.getSpeed());
 			if (isAccel()) setVar(-getVar());
+		}
+		//apply momentum
+		if (isMoment()) {
+			setVx(getVx()+a.getVx());
 		}
 	}
 
@@ -179,5 +185,19 @@ public class Shot extends GameObject {
 	public void setBomb(boolean b) {
 		if (b) t |= BOMB;
 		else t &= MAX-BOMB;
+	}
+	public boolean isWeak() {
+		return (t&WEAK) > 0;
+	}
+	public void setWeak(boolean b) {
+		if (b) t |= WEAK;
+		else t &= MAX-WEAK;
+	}
+	public boolean isMoment() {
+		return (t&MOMENT) > 0;
+	}
+	public void setMoment(boolean b) {
+		if (b) t |= MOMENT;
+		else t &= MAX-MOMENT;
 	}
 }

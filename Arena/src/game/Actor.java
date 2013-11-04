@@ -202,7 +202,7 @@ public class Actor extends GameObject {
 	/*getters to the RoleModel's properties*/
 	public float getRunSpeed() {
 		if (getOnLand() != null && getOnLand().isSlip()) { //slippery floor
-			return getRoleModel().getRunSpeed()/10;
+			return getRoleModel().getRunSpeed()/5;
 		}
 		return getRoleModel().getRunSpeed();
 	}
@@ -211,13 +211,13 @@ public class Actor extends GameObject {
 	}
 	public float getRunSlip() {
 		if (getOnLand() != null && getOnLand().isSlip()) { //slippery floor
-			return 1-getRoleModel().getRunFrict()/10;
+			return 1-getRoleModel().getRunFrict()/5;
 		}
 		return getRoleModel().getRunSlip();
 	}
 	public float getRunFrict() {
 		if (getOnLand() != null && getOnLand().isSlip()) { //slippery floor
-			return getRoleModel().getRunFrict()/10;
+			return getRoleModel().getRunFrict()/5;
 		}
 		return getRoleModel().getRunFrict();
 	}
