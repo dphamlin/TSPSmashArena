@@ -43,6 +43,7 @@ public class Arena {
 				processBuilder.redirectErrorStream(true);
 				processBuilder.redirectOutput(new File("server_output.txt"));
 				serverProcess = processBuilder.start();
+				System.out.println("Server started!");
 			}
 			catch (IOException ioe) {
 				System.err.println("IOException attempting to start the server.");
@@ -56,22 +57,22 @@ public class Arena {
 			else{//get ip address of server
 				Enumeration<NetworkInterface> nets = null;
 				try {
-					nets = NetworkInterface.getNetworkInterfaces();
+					nets = NetworkInterface.getNetworkInterfaces();//Get list of all network interfaces
 				} catch (SocketException e) {
 					nets = null;
 				}
 				if(nets != null){
 					for (NetworkInterface netint : Collections.list(nets)){
-						try {
+						try {//Find the interface that is active and host is communicating on
 							if(netint.isUp() && !netint.isPointToPoint() && !netint.isVirtual() && !netint.isLoopback()){
 								Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
-						        for (InetAddress inetAddress : Collections.list(inetAddresses)) {
-						        	String inet = inetAddress.toString();
-						        	inet = inet.substring(1);
-						        	if(inet.substring(0,7).compareTo("169.254") != 0 && !inet.contains(":")){
-						        		System.out.println("Server started and listening on: "+inet+":"+port);
-						        	}
-						        }
+								for (InetAddress inetAddress : Collections.list(inetAddresses)) {
+									String inet = inetAddress.toString();
+									inet = inet.substring(1);//Find the address on the interface we want that is "real" and IPv4.
+									if(inet.substring(0,7).compareTo("169.254") != 0 && !inet.contains(":")){
+										System.out.println("Listening on: "+inet+":"+port);
+									}
+								}
 							}
 						} catch (SocketException e) {
 							System.err.println("Unable to get local address server is utilizing.");

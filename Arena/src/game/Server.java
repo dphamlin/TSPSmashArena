@@ -41,18 +41,18 @@ public class Server {
 	public String getCurrentInetAddress(){
 		Enumeration<NetworkInterface> nets = null;
 		try {
-			nets = NetworkInterface.getNetworkInterfaces();
+			nets = NetworkInterface.getNetworkInterfaces();//Get list of interfaces
 		} catch (SocketException e) {
 			nets = null;
 		}
 		if(nets != null){
 			for (NetworkInterface netint : Collections.list(nets)){
-				try {
+				try {//Find the interface that is active and host is communicating on
 					if(netint.isUp() && !netint.isPointToPoint() && !netint.isVirtual() && !netint.isLoopback()){
 						Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
 				        for (InetAddress inetAddress : Collections.list(inetAddresses)) {
 				        	String inet = inetAddress.toString();
-				        	inet = inet.substring(1);
+				        	inet = inet.substring(1);//Find the address on the interface we want that is "real" and IPv4.
 				        	if(inet.substring(0,7).compareTo("169.254") != 0 && !inet.contains(":")){
 				        		return inet;
 				        	}
@@ -66,7 +66,7 @@ public class Server {
 		else{
 			System.err.println("Unable to get local interface server is utilizing.");
 		}
-		return " ";
+		return "Unknown.Address";//If we couldn't determin the address
 	}
 	
 	/*
