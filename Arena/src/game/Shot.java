@@ -18,7 +18,8 @@ public class Shot extends GameObject {
 	public static final int BOMB = 64; //drops an explosion
 	public static final int WEAK = 128; //dies against spikes
 	public static final int MOMENT = 256; //carries momentum of player
-	private static final int MAX = 512-1; //sum of all of the above
+	public static final int SHIELD = 512; //blocks other shots
+	private static final int MAX = 1024-1; //sum of all of the above
 
 	private int t; //type
 	private int v; //extra variable
@@ -199,5 +200,12 @@ public class Shot extends GameObject {
 	public void setMoment(boolean b) {
 		if (b) t |= MOMENT;
 		else t &= MAX-MOMENT;
+	}
+	public boolean isShield() {
+		return (t&SHIELD) > 0;
+	}
+	public void setShield(boolean b) {
+		if (b) t |= SHIELD;
+		else t &= MAX-SHIELD;
 	}
 }

@@ -35,7 +35,7 @@ public class ServerGameState extends GameState {
 	public ServerGameState(int players) {
 		super(players);
 	}
-	
+
 	/**
 	 * Clone constructor from generic GameState
 	 * 
@@ -459,7 +459,7 @@ public class ServerGameState extends GameState {
 				a.setPowerup(0);
 			}
 		}
-		
+
 		if (!a.isDead()) {
 			move(a); //updates positions and speeds
 		}
@@ -637,7 +637,7 @@ public class ServerGameState extends GameState {
 			a.setPipe(true);
 		}
 		if (l.isPipe()) return; //temporary!
-		
+
 		//die on touching danger
 		if (l.isDanger() && !a.isArmored() && (v != NONE || h != NONE || ov)) {
 			kill(null, a); //killed by no one
@@ -1049,6 +1049,15 @@ public class ServerGameState extends GameState {
 		//target collisions
 		for (Actor a : getFighters()) {
 			collide(s, a);
+		}
+		//other bullet collisions (shield-type)
+		if (s.isShield()) {
+			for (Shot h : getBullets()) {
+				if (s != h && overlap(s, h)) {
+					if (h.isShield()) die(s); //double-shield counter
+					die(h);
+				}
+			}
 		}
 
 		//apply velocity
