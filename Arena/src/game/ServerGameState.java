@@ -171,8 +171,23 @@ public class ServerGameState extends GameState {
 		}
 
 		//shooting
-		if (c.getFire() == 1) {
+		/*if (c.getFire() == 1 && !a.isGrab()) {
 			shoot(a);
+			a.setUse(true);
+		}
+		else {
+			a.setUse(false);
+			a.setGrab(false);
+		}*/
+		if (a.isUse() && !a.isGrab()){
+			shoot(a);
+		}
+		if (c.getFire() == 1) {
+			a.setUse(true);
+		}
+		else {
+			a.setUse(false);
+			a.setGrab(false);
 		}
 	}
 
@@ -514,8 +529,8 @@ public class ServerGameState extends GameState {
 	private void spawnPowerup(int x, int y, int type) {
 		Item p = new Item();
 		//TODO: Spawn properly, constructors, the whole shabang
-		p.setW(12);
-		p.setH(12);
+		p.setW(14);
+		p.setH(14);
 		p.setHCenter(x);
 		p.setVCenter(y);
 		p.setVx(0);
@@ -936,13 +951,15 @@ public class ServerGameState extends GameState {
 	 */
 	private void collide(Item p, Actor a) {
 		//no collection if either is dead
-		if (a.isDead() || p.isDead()) return;
+		if (a.isDead() || p.isDead() || !a.isUse()) return;
 
 		//collect and apply effect
-		if (hCollide(p, a) != NONE||vCollide(p, a) != NONE||overlap(a,p)) {
+		if (overlap(a,p)) {
 			p.setDead(true);
 			a.setPowerup(p.getType());
 			a.setPowerupVar(p.getSubType());
+			a.setGrab(true);
+			a.setUse(false);
 		}
 	}
 

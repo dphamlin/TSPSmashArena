@@ -60,7 +60,7 @@ public class Warehouse {
 
 	/*private method to init each character*/
 	//lizard man
-	private static RoleModel lizardman() {
+	private static RoleModel lizardman() { //TODO: Make useful movement
 		RoleModel r = new RoleModel();
 		r.setSkin(LIZARD);
 
@@ -120,7 +120,7 @@ public class Warehouse {
 		return r;
 	}
 	//dashing captain
-	private static RoleModel captain() {
+	private static RoleModel captain() { //TODO: Make thoroughly average
 		RoleModel r = new RoleModel();
 		r.setSkin(CAPTAIN);
 
@@ -185,7 +185,7 @@ public class Warehouse {
 		r.setSkin(ROBOT);
 
 		//high speed very slippery
-		r.setRunFrict(.03);
+		r.setRunFrict(.035);
 		r.setAirFrict(.02);
 		r.setMaxSpeed(5.2);
 
@@ -276,7 +276,7 @@ public class Warehouse {
 		s.setW(16);
 
 		//slow-moving, long lasting
-		s.setLife(440);
+		s.setLife(430);
 		s.setSpeed(1);
 
 		//bouncy bubbles slow down

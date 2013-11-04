@@ -11,8 +11,10 @@ public class Actor extends GameObject {
 	private static final int CROUCH = 1;
 	private static final int LEAN = 2;
 	private static final int SLIDE = 4;
-	private static final int PIPE = 8;
-	private static final int MAX = 16-1;
+	private static final int USE = 8;
+	private static final int GRAB = 16;
+	private static final int PIPE = 32;
+	private static final int MAX = 64-1;
 
 	//current data
 	private int id; //used in place of references
@@ -116,6 +118,20 @@ public class Actor extends GameObject {
 	public void setSlide(boolean b) {
 		if (b) cr |= SLIDE;
 		else cr &= MAX-SLIDE;
+	}
+	public boolean isUse() {
+		return (cr&USE) != 0;
+	}
+	public void setUse(boolean b) {
+		if (b) cr |= USE;
+		else cr &= MAX-USE;
+	}
+	public boolean isGrab() {
+		return (cr&GRAB) != 0;
+	}
+	public void setGrab(boolean b) {
+		if (b) cr |= GRAB;
+		else cr &= MAX-GRAB;
 	}
 	public boolean isPipe() {
 		return (cr&PIPE) != 0;
