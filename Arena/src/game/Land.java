@@ -21,8 +21,9 @@ public class Land extends GameObject {
 	public static final int WARP = 1024; //for in-game level select (var = target level)
 	public static final int CHAR = 2048; //change characters (var = target character)
 	public static final int OPTION = 4096; //for in game options (var = various things)
-	public static final int COLOR = 8192; //painted a different color (temp)
-	private static final int MAX = 16384-1; //sum of all previous
+	public static final int GUN = 8192; //emits shots (var = bullet to emit)
+	public static final int COLOR = 16384; //painted a different color (temp)
+	private static final int MAX = 32768-1; //sum of all previous
 
 	//current type is a bitmask
 	private int t; //type
@@ -160,6 +161,13 @@ public class Land extends GameObject {
 	public void setOption(boolean b) {
 		if (b) t |= OPTION;
 		else t &= MAX-OPTION;
+	}
+	public boolean isGun() {
+		return (t&GUN) > 0;
+	}
+	public void setGun(boolean b) {
+		if (b) t |= GUN;
+		else t &= MAX-GUN;
 	}
 	public boolean isColor() {
 		return (t&COLOR) > 0;

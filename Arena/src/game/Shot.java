@@ -80,25 +80,23 @@ public class Shot extends GameObject {
 	}
 
 	/**
-	 * Spawn a specified shot type at a location
+	 * Spawn a specified shot type from another shot
 	 * 
-	 * @param x
-	 * 		x position of spawn
-	 * @param y
-	 * 		y position of spawn
 	 * @param base
 	 * 		shot type
+	 * @param s
+	 * 		shot of origin
 	 */
 	public Shot(ShotModel base, Shot s) {
-		this.s = -1;
+		this.s = s.getSource();
 		setSkin(base.getSkin());
 		this.t = base.getType();
 		this.v = base.getVar();
 		this.l = base.getLife();
 		setW(base.getW());
 		setH(base.getH());
-		setHCenter(s.getX());
-		setVCenter(s.getY());
+		setHCenter(s.getHCenter());
+		setVCenter(s.getVCenter());
 		setVy(base.getVSpeed());
 
 		//left or right?
@@ -109,6 +107,28 @@ public class Shot extends GameObject {
 			setVx(-base.getSpeed());
 			if (isAccel()) setVar(-getVar());
 		}
+	}
+	
+	/**
+	 * Spawn a specified shot type from a terrain
+	 * 
+	 * @param base
+	 * 		shot type
+	 * @param l
+	 * 		land of origin
+	 */
+	public Shot(ShotModel base, Land l) {
+		this.s = -1;
+		setSkin(base.getSkin());
+		this.t = base.getType();
+		this.v = base.getVar();
+		this.l = base.getLife();
+		setW(base.getW());
+		setH(base.getH());
+		setHCenter(l.getHCenter());
+		setVCenter(l.getVCenter());
+		setVy(base.getVSpeed());
+		setVx(base.getSpeed());
 	}
 
 	/*getters and setters for attributes*/

@@ -78,6 +78,10 @@ public class ServerGameState extends GameState {
 		for (Actor a : getFighters()) {
 			update(a);
 		}
+		//land logic
+		for (Land l : getLevel()) {
+			update(l);
+		}
 		//bullet logic (with removal)
 		for(int i = 0; i < getBullets().size(); i++) {
 			update(getBullets().get(i));
@@ -384,9 +388,7 @@ public class ServerGameState extends GameState {
 	 */
 	private void die (Shot s) {
 		if (s.isBomb()) {
-			Shot s2;
-			s2 = new Shot(Warehouse.getShots()[Warehouse.EXPLOSION], s);
-			s2.setSource(s.getSource()); //don't hurt the original player
+			Shot s2 = new Shot(Warehouse.getShots()[Warehouse.EXPLOSION], s);
 			getBullets().add(s2);
 		}
 		s.setLifeTime(0);
@@ -515,6 +517,20 @@ public class ServerGameState extends GameState {
 	private void update (Item p) {
 		//TODO: item updates
 		move(p);
+	}
+	
+	/**
+	 * update a land's status
+	 * 
+	 * @param l
+	 * 		the land to update
+	 */
+	private void update (Land l) {
+		//bullet tiles shoot bullets
+		if (l.isGun() && getFrameNumber() % Warehouse.getShots()[l.getVar()].getReload() == 0) {
+			Shot s2 = new Shot(Warehouse.getShots()[l.getVar()], l);
+			getBullets().add(s2);
+		}
 	}
 
 	/**
@@ -843,6 +859,21 @@ public class ServerGameState extends GameState {
 					setNextMode(STOCK);
 				}
 			}
+			//option changing
+			if (l.isOption() && l.getVar() == 1) {
+				if (getNextMode() == STOCK) {
+					setStock(getStock()+2);
+					if (getStock () > 20) setStock(3);
+					else if (getStock() > 10) setStock(20);
+					else if (getStock() > 5) setStock(10);
+				}
+				else if (getNextMode() == TIME) {
+					setTime(getTime()+2*60*50);
+					if (getTime() > 20*60*50) setTime(1*60*50);
+					else if (getTime() > 10*60*50) setTime(20*60*50);
+					else if (getTime() > 5*60*50) setTime(10*60*50);
+				}
+			}
 			//switch blocks
 			if (l.isSwitch()) {
 				setControl(!isControl());
@@ -1095,8 +1126,10 @@ public class ServerGameState extends GameState {
 		}
 
 		//out of bounds removal
-		if (s.getBottomEdge() < -s.getH()*2 || s.getTopEdge() > GameState.HEIGHT+s.getH()*2
-				|| s.getRightEdge() < -s.getW()*2 || s.getLeftEdge() > GameState.WIDTH+s.getW()*2) {
+		if ((s.getBottomEdge() < -s.getH()*2 && s.getVy() < 0)
+				|| (s.getTopEdge() > GameState.HEIGHT+s.getH()*2 && s.getVy() > 0)
+				|| (s.getRightEdge() < -s.getW()*2 && s.getVx() < 0)
+				|| (s.getLeftEdge() > GameState.WIDTH+s.getW()*2 && s.getVx() > 0)) {
 			s.setDead(true);
 		}
 	}

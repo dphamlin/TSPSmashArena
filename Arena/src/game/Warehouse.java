@@ -14,9 +14,9 @@ public class Warehouse {
 	public static final int FIREBALL = 0;
 	public static final int BUBBLE = 1;
 	public static final int RAYGUN = 2;
-	public static final int BEAMSWORD = 3;
-	public static final int BOOMERANG = 4;
-	public static final int MORTAR = 5;
+	public static final int MORTAR = 3;
+	public static final int BEAMSWORD = 4;
+	public static final int BOOMERANG = 5;
 	public static final int MISSILE = 6;
 	public static final int EXPLOSION = 7;
 
@@ -394,8 +394,8 @@ public class Warehouse {
 		ShotModel s = new ShotModel();
 		s.setSkin(EXPLOSION);
 
-		//modest speed
-		s.setReload(50);
+		//slow speed
+		s.setReload(75);
 
 		//start small
 		s.setH(4);
@@ -448,7 +448,8 @@ public class Warehouse {
 	public static final int WARP = 1024; //for in-game level select (var = target level)
 	public static final int CHAR = 2048; //change characters (var = target character)
 	public static final int OPTION = 4096; //for in game options (var = various things)
-	public static final int COLOR = 8192; //painted a unique color
+	public static final int GUN = 8192; //emits shots (var = bullet to emit)
+	public static final int COLOR = 16384; //painted a different color (temp)
 
 	//level select / menu world
 	private static Blueprint holodeck() {
@@ -511,12 +512,13 @@ public class Warehouse {
 		//base floor + warps
 		b.add(-1*16, 27*16, 13*16, 4*16, SOLID);
 		b.add(12*16, 27*16, 4*16, 1*16, PLATFORM);
-		b.add(12*16, 30*16, 4*16, 1*16, BOUNCE|WARP, DEMO); //TODO: Warp to PLANET when it's built
-		//b.add(12*16, 29*16, 4*16, 2*16, SOLID|WARP|DANGER, PLANET);
+		b.add(12*16, 30*16, 4*16, 1*16, BOUNCE|WARP, DEMO); //TODO: Don't warp to demo
+		//b.add(12*16, 30*16, 4*16, 1*16, BOUNCE|WARP, PLANET); //TODO: Warp to PLANET when it's built
 		b.add(12*16, 27*16+1, 4*16, 3*16, PIPE|COLOR, CAPTAIN); //active portal
 		b.add(16*16, 27*16, 8*16, 4*16, SOLID);
-		b.add(24*16, 27*16, 4*16, 1*16, PLATFORM|SOLID); //TODO: Unblock when FACTORY is built
-		b.add(24*16, 30*16, 4*16, 1*16, BOUNCE|WARP, FACTORY);
+		b.add(24*16, 27*16, 4*16, 1*16, PLATFORM);
+		b.add(24*16, 30*16, 4*16, 1*16, BOUNCE, 100); //TODO: Don't be a cannon
+		//b.add(24*16, 30*16, 4*16, 1*16, BOUNCE|WARP, FACTORY); //TODO: warp to FACTORY when it's built
 		b.add(24*16, 27*16+1, 4*16, 3*16, PIPE|COLOR, MARINE); //inactive portal
 		b.add(28*16, 27*16, 13*16, 4*16, SOLID);
 
@@ -568,6 +570,8 @@ public class Warehouse {
 
 		b.add(WIDTH/4+10, HEIGHT*3/4-160, 25, 25, SOLID|HATCH|SWITCH|BOUNCE);
 		b.add(WIDTH*3/4-35, HEIGHT*3/4-160, 25, 25, SOLID|NHATCH|SWITCH|BOUNCE);
+		
+		b.add(WIDTH/2-10, HEIGHT/4, 20, 20, GUN, EXPLOSION);
 
 		//add spawn points
 		b.setSpawn(0, 150, 60);
