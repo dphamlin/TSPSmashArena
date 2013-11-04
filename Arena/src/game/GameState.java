@@ -23,14 +23,25 @@ public abstract class GameState {
 	private int ml = 5; //starting lives (default 5)
 	private int m = MENU, nm = STOCK; //mode and impending mode (default starts on MENU)
 	private int end = 0; //is the game over?
+	private int np = 0; //expected number of players (0 is no limit)
 
-	public static final int WIDTH = 640, HEIGHT = 480; //dimensions
+	public static final int WIDTH = 640, HEIGHT = 480; //field dimensions
 	public static final int MENU = 0, STOCK = 1, TIME = 2; //game modes
 
 	/**
 	 * default constructor
 	 */
 	public GameState() {}
+	
+	/**
+	 * Start game state with specific number of players
+	 * 
+	 * @param players
+	 * 		number of players expected in the game
+	 */
+	public GameState(int players) {
+		np = players;
+	}
 
 	/**
 	 * Clone constructor
@@ -49,6 +60,7 @@ public abstract class GameState {
 		ml = g.getStock();
 		m = g.getMode();
 		nm = g.getNextMode();
+		np = g.getMaxPlayers();
 		setEnd(g.isGameOver());
 	}
 
@@ -56,7 +68,6 @@ public abstract class GameState {
 	 * Add another player to the game (test)
 	 */
 	public Actor addPlayer() {
-		//return addPlayer(Warehouse.NOP); //start with unselected character
 		return addPlayer(Warehouse.CAPTAIN); //start as a redshirt
 	}
 
@@ -67,7 +78,10 @@ public abstract class GameState {
 	 * 		the character they selected to spawn as
 	 */
 	public Actor addPlayer(int character) {
-		Actor a = new Actor(0, 0, character); //start somewhere
+		//don't go over the maximum
+		if (getMaxPlayers() > 0 && getNumberOfPlayers() == getMaxPlayers()) return null;
+		
+		Actor a = new Actor(0, 0, character); //start somewheres
 		//move to spawn point, assign starting values
 		a.setLives(getStock());
 		a.setId(f.size());
@@ -412,24 +426,27 @@ public abstract class GameState {
 	}
 	
 	/**
-	 * 
-	 * @return the number of players without a chosen character
+	 * @return the expected total number of players
 	 */
-	public int getNoPs() {
-		int n = 0;
-		for (Actor a : getFighters()) {
-			if (a.isNoP()) n++;
-		}
-		return n;
+	public int getMaxPlayers() {
+		return np;
 	}
-	
+
+	/**
+	 * @param players
+	 * 			the new total number of players
+	 */
+	public void setMaxPlayers(int players) {
+		this.np = players;
+	}
+
 	/**
 	 * @return true if the game is ready to start
 	 */
 	public boolean isReady() {
-		return (getNoPs() == 0);
+		return (getNumberOfPlayers() == getMaxPlayers() || getMaxPlayers() < 1);
 	}
-	
+
 	/**
 	 * Get the name of the current stage
 	 * 

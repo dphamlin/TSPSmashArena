@@ -89,7 +89,7 @@ public class ClientGameState extends GameState {
 			draw(s, g);
 		}
 	}
-	
+
 	/**
 	 * Draw the powerups
 	 * 
@@ -109,35 +109,35 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void drawStatus(Graphics g) {
-		if (getMode() == MENU) return; //temporarily blind status until gametime
-		for (int i = 0; i < getNumberOfPlayers(); i++) {
+		//if (getMode() == MENU) return; //temporarily blind status until gametime
+		//draw spots for the number of players expected
+		for (int i = 0; i < getMaxPlayers() || i < getNumberOfPlayers(); i++) {
 			g.setColor(Color.BLACK);
-			g.fillRoundRect(40+i*WIDTH/4, 10, 55, 35, 10, 10);
-			//player is selected, all good
-			if (true/*!getPlayer(i).isNoP()*/) {
-				g.setColor(Color.WHITE);
-				if (getMode() == STOCK) {
-					g.drawString("x"+getPlayer(i).getLives(), 70+i*WIDTH/4, 35);
-				}
-				if (getMode() == TIME) {
-					g.drawString(" "+getPlayer(i).getScore(), 70+i*WIDTH/4, 35);
-				}
-				//tag winners
-				if (isGameOver()) {
-					for (Integer n : getWinners()) {
-						if (n == i) {
-							g.drawString("♛", 70+i*WIDTH/4, 24); //poorly-rendered crown
-						}
+			g.fillRoundRect((1+i)*WIDTH/5-27, 10, 55, 36, 10, 10);
+		}
+		//draw actual characters and stats
+		for (int i = 0; i < getNumberOfPlayers(); i++) {
+			g.setColor(Color.WHITE);
+			if (getMode() == STOCK) {
+				g.drawString("x"+getPlayer(i).getLives(), 3+(1+i)*WIDTH/5, 35);
+			}
+			if (getMode() == TIME) {
+				g.drawString(" "+getPlayer(i).getScore(), 3+(1+i)*WIDTH/5, 35);
+			}
+			//tag winners
+			if (isGameOver()) {
+				for (Integer n : getWinners()) {
+					if (n == i) {
+						g.drawString("♛", 3+(1+i)*WIDTH/5, 24); //poorly-rendered crown
 					}
 				}
-				//draw the character's current state in box
-				draw(getPlayer(i), 48+i*WIDTH/4, 18, g);
 			}
-			//else drawSel(getPlayer(i), 60+i*WIDTH/4, 25, g);
+			//draw the character's current state in box
+			draw(getPlayer(i), (1+i)*WIDTH/5-19, 18, g);
 			//draw the reload bar
 			if (getPlayer(i).getReload() > 0) {
 				g.setColor(Color.RED);
-				g.fillRect(48+i*WIDTH/4, 38, (16*getPlayer(i).getReload())/getPlayer(i).getShotDelay(), 2);
+				g.fillRect((1+i)*WIDTH/5-19, 38, (16*getPlayer(i).getReload())/getPlayer(i).getShotDelay(), 2);
 			}
 			if (getPlayer(i).getPowerup() > 0) {
 				g.setColor(Color.BLACK);
@@ -155,13 +155,13 @@ public class ClientGameState extends GameState {
 					if (getPlayer(i).getPowerupVar() == Warehouse.SCIENTIST) powername = "Engineering";
 				}
 				if (getPlayer(i).getPowerup() == Item.HYPER) powername = "Hyperactivity";
-				g.drawString(powername, 40+i*WIDTH/4, 56);
+				g.drawString(powername, (1+i)*WIDTH/5-27, 56);
 			}
 		}
 		if (getMode() == TIME) {
 			//TODO: Adjust font and centering
 			g.setColor(Color.BLACK);
-			g.fillRoundRect(WIDTH/2-20, 10, 50, 35, 10, 10);
+			g.fillRoundRect(WIDTH/2-25, 10, 50, 35, 10, 10);
 			g.setColor(Color.WHITE);
 			int sec = getTimeLeft()/50; //TODO: Keep this accurate to the frame rate
 			int min = sec/60;
@@ -207,7 +207,7 @@ public class ClientGameState extends GameState {
 		if (a.isArmored() && a.getDeadTime() % 8 < 4) return;
 
 		//temporary colors
-		Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
+		Color c[] = {Color.ORANGE, Color.GREEN, Color.BLUE, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
 		g.setColor(c[a.getSkin()]);
 
 		//respawn timer
@@ -220,30 +220,6 @@ public class ClientGameState extends GameState {
 		g.fillOval(x, y, a.getW(), a.getH());
 		g.fillRect((int)x+a.getW()/2, y, -a.getW()*a.getDir()/2, a.getH());
 		g.fillRect(x, y, a.getW()*a.getDir()/2, a.getH());
-		if (a.getModel() == Warehouse.NOP) { //mystery writing
-			g.setColor(Color.BLACK);
-			g.drawString("?", (int)x+a.getW()/2-2, (int)y+a.getH()/2+6);
-		}
-	}
-
-	/**
-	 * Temporary method for drawing the selection process
-	 */
-	private void drawSel(Actor a, int x, int y, Graphics g) {
-		//TODO: Make this draw a portrait instead
-
-		//temporary colors
-		Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
-		g.setColor(c[a.getSkin()]);
-
-		//temporary shape
-		g.fillOval(x, y, 16, 16);
-		g.fillRect(x, y, 8, 16);
-		//text bits
-		g.setColor(Color.WHITE);
-		g.drawString("Select:", x-14, y-3);
-		if (a.getSkin() > Warehouse.NOP+1) g.drawString("<", x-15, y+14);
-		if (a.getSkin() < Warehouse.CHAR_NUM) g.drawString(">", x+23, y+14);
 	}
 
 	/**
@@ -266,15 +242,15 @@ public class ClientGameState extends GameState {
 		}
 
 		//pick colors
-		if (l.isColor()) {
-			Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
+		if (l.isColor()) { //painted colors
+			Color c[] = {Color.ORANGE, Color.GREEN, Color.BLUE, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
 			g.setColor(c[l.getVar()]);
 		}
 		else if (l.isWarp() && isReady()) { //yellow warps
 			g.setColor(Color.YELLOW);
 		}
-		else if (l.isChar()) {
-			Color c[] = {Color.LIGHT_GRAY, Color.GREEN, Color.BLUE, Color.YELLOW, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
+		else if (l.isChar()) { //color-coded player blocks
+			Color c[] = {Color.ORANGE, Color.GREEN, Color.BLUE, Color.DARK_GRAY, Color.MAGENTA, Color.GRAY};
 			g.setColor(c[l.getVar()]);
 		}
 		else if (l.isDanger()) { //red danger
@@ -300,7 +276,7 @@ public class ClientGameState extends GameState {
 		else if (l.isBounce()) {
 			g.fillRoundRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH(), 12, 12);
 		}
-		else if (l.isSolid()) {
+		else if (l.isSolid() || l.isColor()) {
 			g.fillRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH());
 		}
 		else {
@@ -344,7 +320,7 @@ public class ClientGameState extends GameState {
 		g.setColor(Color.RED);
 		g.fillRect((int)s.getLeftEdge(), (int)s.getTopEdge(), s.getW(), s.getH());
 	}
-	
+
 	/**
 	 * Draw a shot to the designated graphics object
 	 * 

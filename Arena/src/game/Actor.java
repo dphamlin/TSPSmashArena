@@ -57,13 +57,6 @@ public class Actor extends GameObject {
 		return (!isDead() && dt < getSpawnTime()+getSpawnInv());
 	}
 
-	/**
-	 * @return true if they haven't selected a character
-	 */
-	public boolean isNoP() {
-		return (m == Warehouse.NOP);
-	}
-
 	@Override
 	public int getSkin() {
 		if (p == Item.CHANGE) {
