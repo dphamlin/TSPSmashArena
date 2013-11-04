@@ -114,7 +114,7 @@ public class Arena {
 		
 		
 		// Client should be connected; begin communication cycle. Consider reordering or adding initial send/receives
-		while (theClient.getSocket().isConnected()) {
+		while (theClient.getSocket().isConnected() && theClient.getView().isVisible()) {
 			
 			theClient.getTimer().loopStart(); // Start the loop
 			
@@ -128,6 +128,8 @@ public class Arena {
 				// System.err.println("Failed to receive the game state from the server.");
 				System.out.println("Game over. Thanks for playing!");
 				theClient.getView().setVisible(false);
+				if (serverProcess != null)
+					serverProcess.destroy();
 				System.exit(0);
 			}
 			
@@ -137,12 +139,8 @@ public class Arena {
 		}
 		
 		if (serverProcess != null) {
-			try {
-				serverProcess.waitFor();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			System.out.println("Terminating the server.");
+			serverProcess.destroy();
 		}
 			
 		System.out.println("Game over. Thanks for playing!");

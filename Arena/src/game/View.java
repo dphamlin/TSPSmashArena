@@ -25,7 +25,7 @@ public class View extends JFrame {
 		setResizable(false);
 		pack(); //FORCE it to be 640 x 480, this has given me grief
 		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Closing the window closes the game
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); // Closing the window closes the game
 		toFront(); //TODO: See if this is needed for an applet
 	}
 	
