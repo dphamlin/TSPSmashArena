@@ -36,5 +36,6 @@ public class TestDriver {
 			v.reDraw(gs.convert());
 			t.loopRest();
 		}
+		System.exit(0);
 	}
 }

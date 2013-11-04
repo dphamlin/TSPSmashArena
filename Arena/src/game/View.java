@@ -27,8 +27,9 @@ public class View extends JFrame {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); // Closing the window closes the game
 		toFront(); //TODO: See if this is needed for an applet
+		this.getGraphics().drawString("Waiting for game start...", 320-75, 240+5); //pre-join text
 	}
-	
+
 	/**
 	 * Connects a controller to the screen
 	 * 
