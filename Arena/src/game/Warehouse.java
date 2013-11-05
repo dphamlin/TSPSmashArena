@@ -514,8 +514,8 @@ public class Warehouse {
 		b.add(12*16, 27*16+1, 4*16, 3*16, PIPE|COLOR, CAPTAIN); //active portal
 		b.add(16*16, 27*16, 8*16, 4*16, SOLID);
 		b.add(24*16, 27*16, 4*16, 1*16, PLATFORM);
-		b.add(24*16, 30*16, 4*16, 1*16, BOUNCE, 100); //TODO: Don't be a cannon
-		//b.add(24*16, 30*16, 4*16, 1*16, BOUNCE|WARP, FACTORY); //TODO: warp to FACTORY when it's built
+		//b.add(24*16, 30*16, 4*16, 1*16, BOUNCE, 100); //TODO: Don't be a cannon
+		b.add(24*16, 30*16, 4*16, 1*16, BOUNCE|WARP, FACTORY); //TODO: warp to FACTORY when it's built
 		b.add(24*16, 27*16+1, 4*16, 3*16, PIPE|COLOR, MARINE); //inactive portal
 		b.add(28*16, 27*16, 13*16, 4*16, SOLID);
 
@@ -545,9 +545,42 @@ public class Warehouse {
 		b.setId(FACTORY);
 		b.setName("Factory");
 
-		//TODO: build actual map
+		//TODO: build actual map (in a not-terrible way)
+		b.add(-1*16, 18*16, 3*16, 13*16, SOLID);
+		b.add(2*16, 28*16, 15*16, 3*16, SOLID);
+		b.add(17*16, 28*16, 6*16, 1*16, PLATFORM);
+		b.add(17*16, 28*16+1, 6*16, 3*16, PIPE|COLOR, LIZARD);
+		b.add(17*16, 30*16, 6*16, 1*16, BOUNCE, 260);
+		b.add(23*16, 28*16, 15*16, 3*16, SOLID);
+		b.add(38*16, 18*16, 3*16, 13*16, SOLID);
+		b.add(2*16, 24*16, 4*16, 1*16, PLATFORM);
+		b.add(34*16, 24*16, 4*16, 1*16, PLATFORM);
+		
+		b.add(2*16, 18*16, 10*16, 1*16, SOLID|MOVE|HATCH, 15);
+		b.add(28*16, 18*16, 10*16, 1*16, SOLID|MOVE|HATCH, -15);
+		b.add(2*16, 18*16, 10*16, 1*16, SOLID|NHATCH, 15);
+		b.add(28*16, 18*16, 10*16, 1*16, SOLID|NHATCH, -15);
+		b.add(11*16, 19*16, 5*16, 2*16, SOLID);
+		b.add(12*16, 19*16-1, 3*16, 1*16, DANGER|SOLID);
+		b.add(16*16, 19*16, 8*16, 1*16, PLATFORM);
+		b.add(24*16, 19*16, 5*16, 2*16, SOLID);
+		b.add(25*16, 19*16-1, 3*16, 1*16, DANGER|SOLID);
+		
+		b.add(-1*16, 9*16, 16*16, 1*16, SOLID|MOVE|HATCH, 15);
+		b.add(-1*16, 9*16, 16*16, 1*16, SOLID|NHATCH, 15);
+		b.add(18*16, 9*16, 4*16, 1*16, PLATFORM);
+		b.add(25*16, 9*16, 16*16, 1*16, SOLID|MOVE|HATCH, -15);
+		b.add(25*16, 9*16, 16*16, 1*16, SOLID|NHATCH, -15);
+		
+		b.add(17*16, 5*16, 6*16, 1*16, PLATFORM);
+		
+		b.add(19*16, 1*16, 2*16, 1*16, SWITCH|BOUNCE|SOLID, -9);
 
-		//TODO: add spawn points
+		//add spawn points
+		b.setSpawn(0, 9*16, 7*16);
+		b.setSpawn(1, 35*16, 16*16);
+		b.setSpawn(2, 30*16, 7*16);
+		b.setSpawn(3, 4*16, 16*16);
 
 		return b;
 	}
