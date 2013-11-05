@@ -330,14 +330,14 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void draw(Item p, Graphics g) {
-		g.setColor(Color.ORANGE);
+		g.setColor(Color.YELLOW);
 		g.fillRect((int)p.getLeftEdge(), (int)p.getTopEdge(), p.getW(), p.getH());
 		g.setColor(Color.BLACK);
 		String name = "";
-		if (p.getType() == Item.BIG) name = "B";
+		if (p.getType() == Item.BIG) name = "G";
 		if (p.getType() == Item.DJUMP) name = "J";
-		if (p.getType() == Item.SPEED) name = "F";
-		if (p.getType() == Item.SSHOT) name = "S";
+		if (p.getType() == Item.SPEED) name = "S";
+		if (p.getType() == Item.SSHOT) name = "B";
 		if (p.getType() == Item.CHANGE) name = "C";
 		if (p.getType() == Item.HYPER) name = "H";
 		if (p.getType() == Item.LIFE) name = "+";

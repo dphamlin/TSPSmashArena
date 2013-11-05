@@ -229,6 +229,15 @@ public abstract class GameState {
 	}
 	
 	/**
+	 * Get a list of the lands that can spawn powerups
+	 * 
+	 * @return an ArrayList of Land objects
+	 */
+	public ArrayList<Land> getPowerSpawn() {
+		return Warehouse.getMaps()[s].getPowerupSpawns();
+	}
+	
+	/**
 	 * Find the x position of player's spawn point
 	 * 
 	 * @param i

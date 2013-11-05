@@ -91,15 +91,8 @@ public class ServerGameState extends GameState {
 				i--;
 			}
 		}
-		//spawn powerups TODO: Make this more logical
-		if (getFrameNumber() % 400 == 250 && getMode() != MENU) {
-			if (getMode() == STOCK) { //stock mode has a 1up
-				spawnPowerup((int)(20+Math.random()*600), (int)(20+Math.random()*400), 1+(int)(Math.random()*7));
-			}
-			else {
-				spawnPowerup((int)(20+Math.random()*600), (int)(20+Math.random()*400), 1+(int)(Math.random()*6));
-			}
-		}
+		//spawn powerups
+		if (getFrameNumber() % 400 == 250) spawnPowerup();
 		//power-up/item logic (with removal)
 		for(int i = 0; i < getPowerups().size(); i++) {
 			update(getPowerups().get(i));
@@ -518,7 +511,7 @@ public class ServerGameState extends GameState {
 		//TODO: item updates
 		move(p);
 	}
-	
+
 	/**
 	 * update a land's status
 	 * 
@@ -531,6 +524,23 @@ public class ServerGameState extends GameState {
 			Shot s2 = new Shot(Warehouse.getShots()[l.getVar()], l);
 			getBullets().add(s2);
 		}
+	}
+
+
+	/**
+	 * Spawn a powerup, somewhere
+	 */
+	private void spawnPowerup() {
+		if (getPowerSpawn().size() == 0) return; //no powerups allowed here
+		
+		int type = (int)(1+Math.random()*6);
+		if (getMode() == STOCK && type == Item.HYPER && Math.random() > 0.5) { //extra life chance
+			type++;
+		}
+		int base = (int)Math.random()*getPowerSpawn().size();
+		double x = getPowerSpawn().get(base).getLeftEdge() + Math.random()*getPowerSpawn().get(base).getW();
+		double y = Math.random()*(getPowerSpawn().get(base).getTopEdge())-14;
+		spawnPowerup((int)x, (int)y, type);
 	}
 
 	/**

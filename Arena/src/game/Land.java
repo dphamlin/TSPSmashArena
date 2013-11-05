@@ -23,7 +23,8 @@ public class Land extends GameObject {
 	public static final int OPTION = 4096; //for in game options (var = various things)
 	public static final int GUN = 8192; //emits shots (var = bullet to emit)
 	public static final int COLOR = 16384; //painted a different color (temp)
-	private static final int MAX = 32768-1; //sum of all previous
+	public static final int PSPAWN = 32768; //capable of spawning powerups
+	private static final int MAX = 65536-1; //sum of all previous
 
 	//current type is a bitmask
 	private int t; //type
@@ -176,7 +177,13 @@ public class Land extends GameObject {
 		if (b) t |= COLOR;
 		else t &= MAX-COLOR;
 	}
-	
+	public boolean isPowerSpawn() {
+		return (t&PSPAWN) > 0;
+	}
+	public void setPowerSpawn(boolean b) {
+		if (b) t |= PSPAWN;
+		else t &= MAX-PSPAWN;
+	}
 	public int getVar() {
 		return v;
 	}

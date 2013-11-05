@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class Blueprint {
 	private String name; //name, may or may not get used
 	private ArrayList<Land> pieces = new ArrayList<Land>(); //the level terrain
+	private ArrayList<Land> pspawns = new ArrayList<Land>(); //tiles that support powerups
 	private int spawnX[] = {0,0,0,0}; //spawn point array (max 4 players)
 	private int spawnY[] = {0,0,0,0};
 	private int bg, bgm; //image, music, etc?
@@ -64,6 +65,7 @@ public class Blueprint {
 	public void add(int x, int y, int h, int w, int t, int v) {
 		Land l = new Land(x, y, h, w, t, v);
 		add(l);
+		if (l.isPowerSpawn()) pspawns.add(l);
 	}
 
 	//getters and setters
@@ -75,6 +77,9 @@ public class Blueprint {
 	}
 	public ArrayList<Land> getPieces() {
 		return pieces;
+	}
+	public ArrayList<Land> getPowerupSpawns() {
+		return pspawns;
 	}
 	public int getBg() {
 		return bg;

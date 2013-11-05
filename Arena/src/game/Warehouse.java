@@ -450,6 +450,7 @@ public class Warehouse {
 	public static final int OPTION = 4096; //for in game options (var = various things)
 	public static final int GUN = 8192; //emits shots (var = bullet to emit)
 	public static final int COLOR = 16384; //painted a different color (temp)
+	public static final int PSPAWN = 32768; //capable of spawning powerups
 
 	//level select / menu world
 	private static Blueprint holodeck() {
@@ -557,7 +558,7 @@ public class Warehouse {
 		b.setName("Test level");
 
 		//build various test platforms
-		b.add(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, SOLID);
+		b.add(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, SOLID|PSPAWN);
 		b.add(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, PLATFORM|MOVE|HATCH, 18);
 		b.add(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, BOUNCE|SOLID, 2);
 		b.add(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, PLATFORM|SLIP|NHATCH);
