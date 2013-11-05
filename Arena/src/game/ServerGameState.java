@@ -107,8 +107,6 @@ public class ServerGameState extends GameState {
 		//check for the end of the game
 		checkEnd();
 
-		//TODO: Flow control?
-
 		//track the number of frames passed
 		incrementFrames();
 	}
@@ -148,7 +146,8 @@ public class ServerGameState extends GameState {
 		}
 		else {
 			run(a, STOP);
-			a.setLean(true);
+			a.setLean(false);
+			a.setSlide(false);
 		}
 
 		//crouching (through tiles)
@@ -508,7 +507,10 @@ public class ServerGameState extends GameState {
 	 * 		the item to update
 	 */
 	private void update (Item p) {
-		//TODO: item updates
+		if (p.getLifeTime() <= 0) {
+			p.setDead(true);
+			return;
+		}
 		move(p);
 	}
 
@@ -724,8 +726,6 @@ public class ServerGameState extends GameState {
 			}
 		}
 
-		//TODO: Setting (lives/time) changing block
-
 		//switch blocks
 		if (l.isSwitch() && (v != NONE || h != NONE || ov)) {
 			setControl(!isControl());
@@ -769,7 +769,7 @@ public class ServerGameState extends GameState {
 		if (h == LEFT && l.isSolid()) {
 			a.setRightEdge(l.getLeftEdge()-.005);
 			a.setVx(STOP);
-			if (a.isLean() && a.getVy() > a.getWallTermVel()) {
+			if (a.isLean() && a.getOnLand() == null && a.getVy() > a.getWallTermVel()) {
 				a.setVy(a.getWallTermVel());
 				a.setSlide(true);
 			}
@@ -777,7 +777,7 @@ public class ServerGameState extends GameState {
 		if (h == RIGHT && l.isSolid()) {
 			a.setLeftEdge(l.getRightEdge()+.005);
 			a.setVx(STOP);
-			if (a.isLean() && a.getVy() > a.getWallTermVel()) {
+			if (a.isLean() && a.getOnLand() == null && a.getVy() > a.getWallTermVel()) {
 				a.setVy(a.getWallTermVel());
 				a.setSlide(true);
 			}
@@ -1034,9 +1034,6 @@ public class ServerGameState extends GameState {
 			if (a.getOnLand() == null || !overlap(a, a.getOnLand())) {
 				a.setPipe(false);
 				fall(a);
-				/*if (!a.isDead()) { //activate spawn armor on leaving
-					a.setDeadTime(a.getSpawnTime());
-				}*/
 			}
 		}
 		//apply ground friction (moving ground)
@@ -1159,7 +1156,7 @@ public class ServerGameState extends GameState {
 			collide(p, l);
 		}
 
-		//player auto-collect (TODO: Make a button-controlled version)
+		//player auto-collect
 		for (Actor a : getFighters()) {
 			collide(p, a);
 		}

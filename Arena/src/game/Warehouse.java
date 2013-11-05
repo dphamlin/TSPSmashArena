@@ -194,11 +194,11 @@ public class Warehouse {
 		r.setJumpHold(10);
 
 		//slightly brisk fall
-		r.setGrav(.95);
+		r.setGrav(.9);
 		r.setTermVel(7);
 
 		//wallrun
-		r.setWallTermVel(-4);
+		r.setWallTermVel(-3);
 		r.setSink(1.3);
 
 		//average respawn, slightly short armor
