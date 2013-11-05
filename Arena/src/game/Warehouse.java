@@ -65,8 +65,8 @@ public class Warehouse {
 		r.setSkin(LIZARD);
 
 		//agile on ground, sluggish in air
-		r.setRunFrict(.45);
-		r.setAirFrict(.025);
+		r.setRunFrict(.3);
+		r.setAirFrict(.03);
 		r.setMaxSpeed(4);
 
 		//powerful jump
@@ -75,10 +75,10 @@ public class Warehouse {
 
 		//standard gravity
 		r.setGrav(.7);
-		r.setTermVel(7.2);
+		r.setTermVel(7);
 
 		//great wall slide
-		r.setWallTermVel(1.2);
+		r.setWallTermVel(1);
 		r.setSink(1.3);
 
 		//slightly quicker respawn
@@ -95,8 +95,8 @@ public class Warehouse {
 		r.setSkin(SLIME);
 
 		//always slippery, equal air and ground
-		r.setRunFrict(.2);
-		r.setAirFrict(.2);
+		r.setRunFrict(.1);
+		r.setAirFrict(.1);
 		r.setMaxSpeed(3);
 
 		//floaty jump
@@ -109,7 +109,7 @@ public class Warehouse {
 
 		//good fall control
 		r.setWallTermVel(1.5);
-		r.setSink(1.5);
+		r.setSink(1.6);
 
 		//slightly faster respawn
 		r.setSpawnTime(45);
@@ -125,24 +125,24 @@ public class Warehouse {
 		r.setSkin(CAPTAIN);
 
 		//average land speed, a bit weaker in the air
-		r.setRunFrict(.4);
-		r.setAirFrict(.2);
-		r.setMaxSpeed(3.2);
+		r.setRunFrict(.2);
+		r.setAirFrict(.05);
+		r.setMaxSpeed(3);
 
 		//middling jump
-		r.setJumpPower(8.2);
-		r.setJumpHold(6);
+		r.setJumpPower(7.8);
+		r.setJumpHold(5);
 
 		//average fall
-		r.setGrav(.82);
-		r.setTermVel(7.5);
+		r.setGrav(.68);
+		r.setTermVel(7);
 
 		//weak fall control
-		r.setWallTermVel(6);
+		r.setWallTermVel(5.8);
 		r.setSink(1.15);
 
-		//average respawn, long spawn armor
-		r.setSpawnTime(50);
+		//quick respawn, long spawn armor
+		r.setSpawnTime(45);
 		r.setSpawnInv(90);
 
 		//basic raygun
@@ -155,21 +155,21 @@ public class Warehouse {
 		r.setSkin(MARINE);
 
 		//average land speed, a bit weaker in the air
-		r.setRunFrict(.3);
-		r.setAirFrict(.2);
-		r.setMaxSpeed(2.25);
+		r.setRunFrict(.2);
+		r.setAirFrict(.15);
+		r.setMaxSpeed(2.15);
 
 		//jetpack jump
-		r.setJumpPower(2.75);
-		r.setJumpHold(50);
+		r.setJumpPower(2.2);
+		r.setJumpHold(70);
 
 		//hard fall
-		r.setGrav(0.65);
+		r.setGrav(0.6);
 		r.setTermVel(7.5);
 
 		//not bad fall control
 		r.setWallTermVel(7);
-		r.setSink(1.25);
+		r.setSink(1.4);
 
 		//slow respawn, average armor
 		r.setSpawnTime(65);
@@ -185,21 +185,21 @@ public class Warehouse {
 		r.setSkin(ROBOT);
 
 		//high speed very slippery
-		r.setRunFrict(.035);
-		r.setAirFrict(.02);
-		r.setMaxSpeed(5.2);
+		r.setRunFrict(.04);
+		r.setAirFrict(.03);
+		r.setMaxSpeed(5.4);
 
 		//short hops with potential for higher
 		r.setJumpPower(6);
 		r.setJumpHold(10);
 
 		//slightly brisk fall
-		r.setGrav(.9);
-		r.setTermVel(6);
+		r.setGrav(.95);
+		r.setTermVel(7);
 
 		//wallrun
 		r.setWallTermVel(-4);
-		r.setSink(1.35);
+		r.setSink(1.3);
 
 		//average respawn, slightly short armor
 		r.setSpawnTime(50);
@@ -250,17 +250,17 @@ public class Warehouse {
 		s.setReload(45);
 
 		//small shots
-		s.setH(10);
-		s.setW(10);
+		s.setH(8);
+		s.setW(8);
 
-		//decent range, a bit slow
-		s.setLife(85);
-		s.setSpeed(3.3);
-		s.setVSpeed(3.3);
+		//long range, mid speed
+		s.setLife(95);
+		s.setSpeed(3.5);
+		s.setVSpeed(3.5);
 
 		//bounce across the ground
 		s.setType(Shot.GRAV+Shot.BOUNCE);
-		s.setVar(37);
+		s.setVar(38);
 		return s;
 	}
 	//slow, lingering bubbles
@@ -276,7 +276,7 @@ public class Warehouse {
 		s.setW(16);
 
 		//slow-moving, long lasting
-		s.setLife(430);
+		s.setLife(395);
 		s.setSpeed(1);
 
 		//bouncy bubbles slow down
@@ -294,11 +294,11 @@ public class Warehouse {
 
 		//small lasers
 		s.setH(2);
-		s.setW(24);
+		s.setW(20);
 
 		//mid speed long range
-		s.setLife(150);
-		s.setSpeed(4.2);
+		s.setLife(65);
+		s.setSpeed(4);
 
 		//standard type
 		s.setType(0);
@@ -309,7 +309,7 @@ public class Warehouse {
 		ShotModel s = new ShotModel();
 		s.setSkin(MORTAR);
 
-		//mid speed
+		//slow speed
 		s.setReload(65);
 
 		//mid-size shots
@@ -331,7 +331,7 @@ public class Warehouse {
 		ShotModel s = new ShotModel();
 		s.setSkin(BEAMSWORD);
 
-		//fast speed
+		//super speed
 		s.setReload(40);
 
 		//long blades
@@ -458,33 +458,29 @@ public class Warehouse {
 		b.setName("Level select");
 
 		//character change chambers
-		b.add(-1*16, -1*16, 2*16, 6*16, SOLID);
-		b.add(1*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, LIZARD);
-		b.add(1*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, LIZARD);
-		b.add(4*16, -1*16, 4*16, 6*16, SOLID);
-		b.add(8*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, SLIME);
-		b.add(8*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, SLIME);
-		b.add(11*16, -1*16, 4*16, 6*16, SOLID);
-		b.add(15*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, MARINE);
-		b.add(15*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, MARINE);
-		b.add(18*16, -1*16, 4*16, 6*16, SOLID);
-		b.add(22*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, ROBOT);
-		b.add(22*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, ROBOT);
-		b.add(25*16, -1*16, 4*16, 6*16, SOLID);
-		b.add(29*16, -1*16, 3*16, 3*16, BOUNCE, SCIENTIST);
-		b.add(29*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, SCIENTIST);
-		b.add(32*16, -1*16, 4*16, 6*16, SOLID);
-		b.add(36*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, CAPTAIN);
-		b.add(36*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, CAPTAIN);
-		b.add(39*16, -1*16, 2*16, 6*16, SOLID);
+		b.add(-1*16, -1*16, 3*16, 6*16, SOLID);
+		b.add(2*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, LIZARD);
+		b.add(2*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, LIZARD);
+		b.add(5*16, -1*16, 4*16, 6*16, SOLID);
+		b.add(9*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, SLIME);
+		b.add(9*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, SLIME);
+		b.add(12*16, -1*16, 4*16, 6*16, SOLID);
+		b.add(16*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, MARINE);
+		b.add(16*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, MARINE);
+		b.add(19*16, -1*16, 4*16, 6*16, SOLID);
+		b.add(23*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, ROBOT);
+		b.add(23*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, ROBOT);
+		b.add(26*16, -1*16, 8*16, 6*16, SOLID);
+		b.add(34*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, CAPTAIN);
+		b.add(34*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, CAPTAIN);
+		b.add(37*16, -1*16, 4*16, 6*16, SOLID);
 
 		//top/'attic' ladders
-		b.add(1*16, 8*16, 3*16, 16, PLATFORM);
-		b.add(8*16, 8*16, 3*16, 16, PLATFORM);
-		b.add(15*16, 8*16, 3*16, 16, PLATFORM);
-		b.add(22*16, 8*16, 3*16, 16, PLATFORM);
-		b.add(29*16, 8*16, 3*16, 16, PLATFORM);
-		b.add(36*16, 8*16, 3*16, 16, PLATFORM);
+		b.add(2*16, 8*16, 3*16, 16, PLATFORM);
+		b.add(9*16, 8*16, 3*16, 16, PLATFORM);
+		b.add(16*16, 8*16, 3*16, 16, PLATFORM);
+		b.add(23*16, 8*16, 3*16, 16, PLATFORM);
+		b.add(34*16, 8*16, 3*16, 16, PLATFORM);
 
 		//top floor
 		b.add(-1*16, 11*16, 18*16, 2*16, SOLID);
@@ -495,10 +491,10 @@ public class Warehouse {
 		b.add(18*16, 15*16, 4*16, 16, PLATFORM);
 
 		//option change blocks
-		b.add(12*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|HATCH|SWITCH, 0); //stock
-		b.add(9*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|HATCH, 1); //stock adjust
-		b.add(26*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|NHATCH|SWITCH, 0); //time
-		b.add(29*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|NHATCH, 1); //time adjust
+		b.add(11*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|HATCH|SWITCH, 0); //stock
+		b.add(8*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|HATCH, 1); //stock adjust
+		b.add(27*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|NHATCH|SWITCH, 0); //time
+		b.add(30*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|NHATCH, 1); //time adjust
 
 		//middle floor
 		b.add(-1*16, 19*16, 7*16, 16, PLATFORM);

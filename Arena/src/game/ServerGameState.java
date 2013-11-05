@@ -1024,9 +1024,9 @@ public class ServerGameState extends GameState {
 			if (a.getOnLand() == null || !overlap(a, a.getOnLand())) {
 				a.setPipe(false);
 				fall(a);
-				if (!a.isDead()) { //activate spawn armor on leaving
+				/*if (!a.isDead()) { //activate spawn armor on leaving
 					a.setDeadTime(a.getSpawnTime());
-				}
+				}*/
 			}
 		}
 		//apply ground friction (moving ground)
@@ -1059,20 +1059,23 @@ public class ServerGameState extends GameState {
 			}
 		}
 
-		//falling off edges, ducking through platforms, and hatches opening
+		//falling off edges, ducking through platforms, and hatches opening (also death traps)
 		Land l = a.getOnLand();
 		if (l != null) {
-			if (a.getRightEdge() < l.getLeftEdge() || a.getLeftEdge() > l.getRightEdge()) {
+			if (a.getRightEdge() < l.getLeftEdge() || a.getLeftEdge() > l.getRightEdge()) { //off edge
 				fall(a);
 			}
-			if (a.isCrouch() && l.isPlatform() && !l.isSolid()) {
+			if (a.isCrouch() && l.isPlatform() && !l.isSolid()) { //duck through
 				fall(a);
 			}
-			if (l.isHatch() && !isControl()) {
+			if (l.isHatch() && !isControl()) { //positive hatch off
 				fall(a);
 			}
-			if (l.isNHatch() && isControl()) {
+			if (l.isNHatch() && isControl()) { //negative hatch off
 				fall(a);
+			}
+			if (l.isDanger() && !a.isArmored()) { //deadly floors
+				kill(null, a);
 			}
 		}
 
@@ -1101,7 +1104,7 @@ public class ServerGameState extends GameState {
 		//other bullet collisions (shield-type)
 		if (s.isShield()) {
 			for (Shot h : getBullets()) {
-				if (s != h && overlap(s, h)) {
+				if (s.getSource() != h.getSource() && overlap(s, h)) {
 					if (h.isShield()) die(s); //double-shield counter
 					die(h);
 				}

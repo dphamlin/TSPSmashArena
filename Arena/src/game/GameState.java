@@ -289,6 +289,7 @@ public abstract class GameState {
 	 * 		a Player object
 	 */
 	public Actor getPlayer(int n) {
+		if (n < 0) return null;
 		return f.get(n);
 	}
 
