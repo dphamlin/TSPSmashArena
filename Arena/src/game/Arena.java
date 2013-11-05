@@ -36,7 +36,7 @@ public class Arena {
 			}
 			
 			String currentPath = Paths.get("").toAbsolutePath().toString();
-			String[] commandArgs = {"java","-cp",currentPath + File.pathSeparator + currentPath + "/lib/gson-2.2.4.jar" + File.pathSeparator + currentPath + "/bin","game.Server",String.valueOf(numberOfPlayers),Integer.toString(port)};
+			String[] commandArgs = {"java","-cp",currentPath + File.pathSeparator + currentPath + "/lib/gson-2.2.4.jar" + File.pathSeparator + currentPath + "/bin" + File.pathSeparator + currentPath + "/arena.jar","game.Server",String.valueOf(numberOfPlayers),Integer.toString(port)};
 			
 			try {
 				ProcessBuilder processBuilder = new ProcessBuilder(commandArgs);
