@@ -20,7 +20,7 @@ public class Warehouse {
 	public static final int MISSILE = 6;
 	public static final int EXPLOSION = 7;
 	public static final int LAVABALL = 8;
-	public static final int METEOR = 8;
+	public static final int METEOR = 9;
 
 	//levels
 	public static final int HOLODECK = 0;
@@ -346,7 +346,7 @@ public class Warehouse {
 		s.setSpeed(9);
 
 		//stop quickly
-		s.setType(Shot.ACCEL+Shot.MOMENT);
+		s.setType(Shot.ACCEL+Shot.MOMENT+Shot.SHIELD);
 		s.setVar(-850);
 		return s;
 	}
@@ -405,7 +405,7 @@ public class Warehouse {
 		s.setW(4);
 
 		//unmoving
-		s.setLife(6);
+		s.setLife(7);
 		s.setSpeed(0);
 
 		//ignore walls and players and get bigger
@@ -440,14 +440,14 @@ public class Warehouse {
 		s.setSkin(METEOR);
 
 		//slow firing
-		s.setReload(120);
+		s.setReload(500);
 
 		//huge shots
 		s.setH(24);
 		s.setW(24);
 
 		//drops straight
-		s.setLife(120);
+		s.setLife(500);
 		s.setSpeed(0);
 		s.setVSpeed(3.5);
 
@@ -456,7 +456,7 @@ public class Warehouse {
 		s.setVar(0);
 		return s;
 	}
-	
+
 
 	/*private methods to init each map*/
 	/**
@@ -556,12 +556,11 @@ public class Warehouse {
 		//base floor + warps
 		b.add(-1*16, 27*16, 13*16, 4*16, SOLID);
 		b.add(12*16, 27*16, 4*16, 1*16, PLATFORM);
-		b.add(12*16, 30*16, 4*16, 1*16, BOUNCE|WARP, DEMO); //TODO: Don't warp to demo
-		//b.add(12*16, 30*16, 4*16, 1*16, BOUNCE|WARP, PLANET); //TODO: Warp to PLANET when it's built
+		//b.add(12*16, 30*16, 4*16, 1*16, BOUNCE|WARP, DEMO); //TODO: Don't warp to demo
+		b.add(12*16, 30*16, 4*16, 1*16, BOUNCE|WARP, PLANET); //TODO: Warp to PLANET when it's built
 		b.add(12*16, 27*16+1, 4*16, 3*16, PIPE|COLOR, CAPTAIN); //active portal
 		b.add(16*16, 27*16, 8*16, 4*16, SOLID);
 		b.add(24*16, 27*16, 4*16, 1*16, PLATFORM);
-		//b.add(24*16, 30*16, 4*16, 1*16, BOUNCE, 100); //TODO: Don't be a cannon
 		b.add(24*16, 30*16, 4*16, 1*16, BOUNCE|WARP, FACTORY); //TODO: warp to FACTORY when it's built
 		b.add(24*16, 27*16+1, 4*16, 3*16, PIPE|COLOR, MARINE); //inactive portal
 		b.add(28*16, 27*16, 13*16, 4*16, SOLID);
@@ -582,7 +581,23 @@ public class Warehouse {
 
 		//TODO: build actual map
 
-		//TODO: add spawn points
+		//surface
+		b.add(-1*16, 15*16, 42*16, 1*16, SOLID|PSPAWN);
+
+		//meteor shooters
+		b.add(2*16, -43*16, 16, 16, GUN, METEOR);
+		b.add(5*16, -26*16, 16, 16, GUN, METEOR);
+		b.add(10*16, -18*16, 16, 16, GUN, METEOR);
+		b.add(17*16, -37*16, 16, 16, GUN, METEOR);
+		b.add(29*16, -11*16, 16, 16, GUN, METEOR);
+		b.add(26*16, -22*16, 16, 16, GUN, METEOR);
+		b.add(12*16, -30*16, 16, 16, GUN, METEOR);
+
+		//add spawn points
+		b.setSpawn(0, 5*16, 14*16);
+		b.setSpawn(1, 10*16, 14*16);
+		b.setSpawn(2, 30*16, 14*16);
+		b.setSpawn(3, 35*16, 14*16);
 
 		return b;
 	}
@@ -602,7 +617,7 @@ public class Warehouse {
 		b.add(38*16, 18*16, 3*16, 13*16, SOLID);
 		b.add(2*16, 24*16, 4*16, 1*16, PLATFORM);
 		b.add(34*16, 24*16, 4*16, 1*16, PLATFORM);
-		
+
 		b.add(2*16, 18*16, 10*16, 1*16, SOLID|MOVE|HATCH, 15);
 		b.add(28*16, 18*16, 10*16, 1*16, SOLID|MOVE|HATCH, -15);
 		b.add(2*16, 18*16, 10*16, 1*16, SOLID|NHATCH, 15);
@@ -612,15 +627,15 @@ public class Warehouse {
 		b.add(16*16, 19*16, 8*16, 1*16, PLATFORM);
 		b.add(24*16, 19*16, 5*16, 2*16, SOLID);
 		b.add(25*16, 19*16-1, 3*16, 1*16, DANGER|SOLID);
-		
+
 		b.add(-1*16, 9*16, 16*16, 1*16, SOLID|MOVE|HATCH, 15);
 		b.add(-1*16, 9*16, 16*16, 1*16, SOLID|NHATCH, 15);
 		b.add(18*16, 9*16, 4*16, 1*16, PLATFORM);
 		b.add(25*16, 9*16, 16*16, 1*16, SOLID|MOVE|HATCH, -15);
 		b.add(25*16, 9*16, 16*16, 1*16, SOLID|NHATCH, -15);
-		
+
 		b.add(17*16, 5*16, 6*16, 1*16, PLATFORM);
-		
+
 		b.add(19*16, 1*16, 2*16, 1*16, SWITCH|BOUNCE|SOLID, -9);
 
 		//add spawn points
@@ -647,7 +662,7 @@ public class Warehouse {
 
 		b.add(WIDTH/4+10, HEIGHT*3/4-160, 25, 25, SOLID|HATCH|SWITCH|BOUNCE);
 		b.add(WIDTH*3/4-35, HEIGHT*3/4-160, 25, 25, SOLID|NHATCH|SWITCH|BOUNCE);
-		
+
 		b.add(WIDTH/2-10, HEIGHT/4, 20, 20, GUN, EXPLOSION);
 
 		//add spawn points

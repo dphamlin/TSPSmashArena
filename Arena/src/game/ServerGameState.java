@@ -343,12 +343,12 @@ public class ServerGameState extends GameState {
 		//build a new shot, according to the Actor's specifications
 		Shot s = new Shot(a.getShot(), a);
 
-		//make the shot SUPER (double speed, +pierce)
+		//make the shot SUPER (+50% speed, +pierce)
 		if (a.getPowerup() == Item.SSHOT) {
-			s.setVx(s.getVx()*2);
-			s.setVy(s.getVy()*2);
-			if (s.isAccel() || s.isGravity()) { //double gravity/accel too
-				s.setVar(s.getVar()*2);
+			s.setVx(s.getVx()*1.5);
+			s.setVy(s.getVy()*1.5);
+			if (s.isAccel() || s.isGravity()) { //+50% gravity/accel too
+				s.setVar(s.getVar()*3/2);
 			}
 			s.setPierce(true);
 		}
@@ -458,7 +458,7 @@ public class ServerGameState extends GameState {
 		if (a.getDeadTime() == a.getSpawnTime() && a.isDead()) respawn(a); //respawn at the time
 
 		if (a.getReload() > 0) a.setReload(a.getReload()-1); //timer between shots
-		if (a.getReload() > 0 && a.getPowerup() == Item.SSHOT) { //faster reload for Supershot
+		if (a.getReload() % 3 == 2 && a.getPowerup() == Item.SSHOT) { //faster reload for Supershot
 			a.setReload(a.getReload()-1);
 		}
 
@@ -1110,10 +1110,11 @@ public class ServerGameState extends GameState {
 		}
 		//other bullet collisions (shield-type)
 		if (s.isShield()) {
-			for (Shot h : getBullets()) {
+			for (int i = 0; i < getBullets().size(); i++) {
+				Shot h = getBullets().get(i);
 				if (s.getSource() != h.getSource() && overlap(s, h)) {
 					if (h.isShield()) die(s); //double-shield counter
-					die(h);
+					if (!h.isPierce()) die(h); //piercing lives on
 				}
 			}
 		}
