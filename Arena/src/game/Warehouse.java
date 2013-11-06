@@ -440,16 +440,16 @@ public class Warehouse {
 		s.setSkin(METEOR);
 
 		//slow firing
-		s.setReload(500);
+		s.setReload(250);
 
 		//huge shots
-		s.setH(24);
-		s.setW(24);
+		s.setH(32);
+		s.setW(32);
 
 		//drops straight
-		s.setLife(500);
+		s.setLife(200);
 		s.setSpeed(0);
-		s.setVSpeed(3.5);
+		s.setVSpeed(4);
 
 		//bounce across the ground
 		s.setType(Shot.BOMB);
@@ -585,13 +585,7 @@ public class Warehouse {
 		b.add(-1*16, 15*16, 42*16, 1*16, SOLID|PSPAWN);
 
 		//meteor shooters
-		b.add(2*16, -43*16, 16, 16, GUN, METEOR);
-		b.add(5*16, -26*16, 16, 16, GUN, METEOR);
-		b.add(10*16, -18*16, 16, 16, GUN, METEOR);
-		b.add(17*16, -37*16, 16, 16, GUN, METEOR);
-		b.add(29*16, -11*16, 16, 16, GUN, METEOR);
-		b.add(26*16, -22*16, 16, 16, GUN, METEOR);
-		b.add(12*16, -30*16, 16, 16, GUN, METEOR);
+		b.add(1*16, -8*16, 38*16, 8*16, GUN, METEOR);
 
 		//add spawn points
 		b.setSpawn(0, 5*16, 14*16);

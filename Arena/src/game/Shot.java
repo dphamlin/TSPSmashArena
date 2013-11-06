@@ -125,8 +125,8 @@ public class Shot extends GameObject {
 		this.l = base.getLife();
 		setW(base.getW());
 		setH(base.getH());
-		setHCenter(l.getHCenter());
-		setVCenter(l.getVCenter());
+		setHCenter(l.getLeftEdge()+l.getW()*Math.random());
+		setVCenter(l.getTopEdge()+l.getH()*Math.random());
 		setVy(base.getVSpeed());
 		setVx(base.getSpeed());
 	}

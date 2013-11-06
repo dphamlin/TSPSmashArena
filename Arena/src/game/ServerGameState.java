@@ -522,7 +522,8 @@ public class ServerGameState extends GameState {
 	 */
 	private void update (Land l) {
 		//bullet tiles shoot bullets
-		if (l.isGun() && getFrameNumber() % Warehouse.getShots()[l.getVar()].getReload() == 0) {
+		if (l.isGun() && getFrameNumber() % Warehouse.getShots()[l.getVar()].getReload() ==
+				Warehouse.getShots()[l.getVar()].getReload()-1) {
 			Shot s2 = new Shot(Warehouse.getShots()[l.getVar()], l);
 			getBullets().add(s2);
 		}
