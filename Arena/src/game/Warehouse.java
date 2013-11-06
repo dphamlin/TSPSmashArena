@@ -582,10 +582,10 @@ public class Warehouse {
 		//build actual map
 
 		//surface
-		b.add(-1*16, 15*16, 42*16, 1*16, SOLID|PSPAWN);
+		b.add(-1*16, 15*16, 42*16, 1*16, SOLID);
 
 		//meteor shooter
-		b.add(1*16, -8*16, 38*16, 8*16, GUN, METEOR);
+		b.add(1*16, -9*16, 38*16, 8*16, GUN|PSPAWN, METEOR);
 
 		//add spawn points
 		b.setSpawn(0, 5*16, 14*16);

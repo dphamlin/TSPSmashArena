@@ -574,7 +574,7 @@ public class ServerGameState extends GameState {
 		}
 		int base = (int)Math.random()*getPowerSpawn().size();
 		double x = getPowerSpawn().get(base).getLeftEdge() + Math.random()*getPowerSpawn().get(base).getW();
-		double y = Math.random()*(getPowerSpawn().get(base).getTopEdge())-8;
+		double y = getPowerSpawn().get(base).getTopEdge() + Math.random()*getPowerSpawn().get(base).getH();
 		spawnPowerup((int)x, (int)y, type);
 	}
 
@@ -1195,7 +1195,7 @@ public class ServerGameState extends GameState {
 			collide(p, l);
 		}
 
-		//player auto-collect
+		//player collection
 		for (Actor a : getFighters()) {
 			collide(p, a);
 		}
@@ -1209,7 +1209,7 @@ public class ServerGameState extends GameState {
 		if (p.getVy() > 4) p.setVy(4);
 
 		//out of bounds removal
-		if (p.getBottomEdge() < -p.getH()*2 || p.getTopEdge() > HEIGHT+p.getH()*2
+		if (p.getTopEdge() > HEIGHT+p.getH()*2
 				|| p.getRightEdge() < -p.getW()*2 || p.getLeftEdge() > WIDTH+p.getW()*2) {
 			p.setDead(true);
 		}

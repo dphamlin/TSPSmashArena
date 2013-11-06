@@ -69,90 +69,90 @@ public class Controller {
 	public int getUp() {
 		return u;
 	}
-	public void setUp(int up) {
+	private void setUp(int up) {
 		this.u = up;
 	}
 	public int getDown() {
 		return d;
 	}
-	public void setDown(int down) {
+	private void setDown(int down) {
 		this.d = down;
 	}
 	public int getLeft() {
 		return l;
 	}
-	public void setLeft(int left) {
+	private void setLeft(int left) {
 		this.l = left;
 	}
 	public int getRight() {
 		return r;
 	}
-	public void setRight(int right) {
+	private void setRight(int right) {
 		this.r = right;
 	}
 	public int getJump() {
 		return j;
 	}
-	public void setJump(int jump) {
+	private void setJump(int jump) {
 		this.j = jump;
 	}
 	public int getFire() {
 		return f;
 	}
-	public void setFire(int fire) {
+	private void setFire(int fire) {
 		this.f = fire;
 	}
 	public int getStart() {
 		return s;
 	}
-	public void setStart(int start) {
+	private void setStart(int start) {
 		this.s = start;
 	}
 
 	//getters and setters for buffer fields
-	public boolean isUp() {
+	private boolean isUp() {
 		return (buf&B_UP) > 0;
 	}
 	public void setUp(boolean b) {
 		if (b) buf |= B_UP;
 		else buf &= B_MAX-B_UP;
 	}
-	public boolean isDown() {
+	private boolean isDown() {
 		return (buf&B_DOWN) > 0;
 	}
 	public void setDown(boolean b) {
 		if (b) buf |= B_DOWN;
 		else buf &= B_MAX-B_DOWN;
 	}
-	public boolean isLeft() {
+	private boolean isLeft() {
 		return (buf&B_LEFT) > 0;
 	}
 	public void setLeft(boolean b) {
 		if (b) buf |= B_LEFT;
 		else buf &= B_MAX-B_LEFT;
 	}
-	public boolean isRight() {
+	private boolean isRight() {
 		return (buf&B_RIGHT) > 0;
 	}
 	public void setRight(boolean b) {
 		if (b) buf |= B_RIGHT;
 		else buf &= B_MAX-B_RIGHT;
 	}
-	public boolean isJump() {
+	private boolean isJump() {
 		return (buf&B_JUMP) > 0;
 	}
 	public void setJump(boolean b) {
 		if (b) buf |= B_JUMP;
 		else buf &= B_MAX-B_JUMP;
 	}
-	public boolean isFire() {
+	private boolean isFire() {
 		return (buf&B_FIRE) > 0;
 	}
 	public void setFire(boolean b) {
 		if (b) buf |= B_FIRE;
 		else buf &= B_MAX-B_FIRE;
 	}
-	public boolean isStart() {
+	private boolean isStart() {
 		return (buf&B_START) > 0;
 	}
 	public void setStart(boolean b) {

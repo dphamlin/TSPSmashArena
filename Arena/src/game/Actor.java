@@ -144,6 +144,12 @@ public class Actor extends GameObject {
 		return p;
 	}
 	public void setPowerup(int powerup) {
+		//grab a 1up (doesn't replace other powerups)
+		if (powerup == Item.LIFE) {
+			powerup = 0;
+			gainLife();
+			return;
+		}
 		//enter big mode (get huge)
 		if (this.p != Item.BIG && powerup == Item.BIG) {
 			setY(getY()-getH());
@@ -177,12 +183,6 @@ public class Actor extends GameObject {
 			setH(Warehouse.getCharacters()[m].getH());
 			setOnLand(null); //off the ground
 			setAirTime(1);
-		}
-		//grab a 1up (doesn't replace other powerups)
-		if (powerup == Item.LIFE) {
-			powerup = 0;
-			gainLife();
-			return;
 		}
 		//don't morph into yourself
 		if (powerup == Item.CHANGE && pv == m) {
