@@ -66,7 +66,7 @@ public class Actor extends GameObject {
 		}
 		else return super.getSkin();
 	}
-	
+
 	/*getters and setters for attributes*/
 	public int getId() {
 		return id;
@@ -166,12 +166,20 @@ public class Actor extends GameObject {
 			gainLife();
 			return;
 		}
+		//don't morph into yourself
+		if (powerup == Item.CHANGE && pv == m) {
+			pv++;
+		}
 		this.p = powerup;
 	}
 	public int getPowerupVar() {
 		return pv;
 	}
 	public void setPowerupVar(int powerupVar) {
+		//don't morph into yourself
+		if (p == Item.CHANGE && powerupVar == m) {
+			powerupVar++;
+		}
 		this.pv = powerupVar;
 	}
 	public Land getOnLand() {

@@ -91,8 +91,6 @@ public class ServerGameState extends GameState {
 				i--;
 			}
 		}
-		//spawn powerups
-		if (getFrameNumber() % 400 == 250) spawnPowerup();
 		//power-up/item logic (with removal)
 		for(int i = 0; i < getPowerups().size(); i++) {
 			update(getPowerups().get(i));
@@ -103,6 +101,9 @@ public class ServerGameState extends GameState {
 			}
 		}
 		//TODO: Special effects update here
+
+		//spawn powerups
+		if (getFrameNumber() % 400 == 250) spawnPowerup();
 
 		//check for the end of the game
 		checkEnd();
@@ -511,6 +512,8 @@ public class ServerGameState extends GameState {
 			p.setDead(true);
 			return;
 		}
+		p.setLifeTime(p.getLifeTime()-1);
+
 		move(p);
 	}
 
@@ -535,14 +538,14 @@ public class ServerGameState extends GameState {
 	 */
 	private void spawnPowerup() {
 		if (getPowerSpawn().size() == 0) return; //no powerups allowed here
-		
+
 		int type = (int)(1+Math.random()*6);
 		if (getMode() == STOCK && type == Item.HYPER && Math.random() > 0.5) { //extra life chance
 			type++;
 		}
 		int base = (int)Math.random()*getPowerSpawn().size();
 		double x = getPowerSpawn().get(base).getLeftEdge() + Math.random()*getPowerSpawn().get(base).getW();
-		double y = Math.random()*(getPowerSpawn().get(base).getTopEdge())-14;
+		double y = Math.random()*(getPowerSpawn().get(base).getTopEdge())-8;
 		spawnPowerup((int)x, (int)y, type);
 	}
 
@@ -560,13 +563,14 @@ public class ServerGameState extends GameState {
 		//TODO: Spawn properly, constructors, the whole shabang
 		p.setW(14);
 		p.setH(14);
+		p.setLifeTime(400);
 		p.setHCenter(x);
 		p.setVCenter(y);
 		p.setVx(0);
 		p.setVy(0);
 		p.setType(type);
 		if (type == Item.DJUMP) p.setSubType(1);
-		if (type == Item.CHANGE) p.setSubType((int)(Math.random()*Warehouse.CHAR_NUM));
+		if (type == Item.CHANGE) p.setSubType((int)(Math.random()*(Warehouse.CHAR_NUM-1)));
 		if (type == Item.HYPER) p.setSubType(10*50);
 		getPowerups().add(p);
 	}

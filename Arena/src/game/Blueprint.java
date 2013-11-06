@@ -27,6 +27,7 @@ public class Blueprint {
 		l.setId(pieces.size());
 		l.setMap(id);
 		pieces.add(l);
+		if (l.isPowerSpawn()) pspawns.add(l);
 	}
 
 	/**
@@ -65,7 +66,6 @@ public class Blueprint {
 	public void add(int x, int y, int h, int w, int t, int v) {
 		Land l = new Land(x, y, h, w, t, v);
 		add(l);
-		if (l.isPowerSpawn()) pspawns.add(l);
 	}
 
 	//getters and setters
