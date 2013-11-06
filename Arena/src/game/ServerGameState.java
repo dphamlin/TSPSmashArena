@@ -250,6 +250,9 @@ public class ServerGameState extends GameState {
 		a.setAirTime(1);
 		a.setOnLand(null);
 		a.setVy(-a.getJumpPower());
+		if (a.getPowerup() == Item.SPEED) {
+			a.setVy(-a.getJumpPower()*1.5);
+		}
 	}
 
 	/**
@@ -353,6 +356,19 @@ public class ServerGameState extends GameState {
 			}
 			s.setPierce(true);
 		}
+		//giant/micro shots
+		if (a.getPowerup() == Item.BIG) {
+			float cx = s.getHCenter(), cy = s.getVCenter();
+			s.setW(s.getW()*2);
+			s.setH(s.getH()*2);
+			s.setCenter(cx, cy);
+		}
+		if (a.getPowerup() == Item.MINI) {
+			float cx = s.getHCenter(), cy = s.getVCenter();
+			s.setW(s.getW()/2);
+			s.setH(s.getH()/2);
+			s.setCenter(cx, cy);
+		}
 
 		//add the new bullet to the list of bullets
 		getBullets().add(s);
@@ -382,6 +398,13 @@ public class ServerGameState extends GameState {
 	private void die (Shot s) {
 		if (s.isBomb()) {
 			Shot s2 = new Shot(Warehouse.getShots()[Warehouse.EXPLOSION], s);
+			//adjust explosion size
+			if (s.getSource() >= 0 && getPlayer(s.getSource()).getPowerup() == Item.BIG) {
+				s2.setVar(s2.getVar()*2);
+			}
+			else if (s.getSource() >= 0 && getPlayer(s.getSource()).getPowerup() == Item.MINI) {
+				s2.setVar(s2.getVar()/2);
+			}
 			getBullets().add(s2);
 		}
 		s.setLifeTime(0);
@@ -539,7 +562,7 @@ public class ServerGameState extends GameState {
 	private void spawnPowerup() {
 		if (getPowerSpawn().size() == 0) return; //no powerups allowed here
 
-		int type = (int)(1+Math.random()*6);
+		int type = (int)(1+Math.random()*Item.ITEM_NUM);
 		if (getMode() == STOCK && type == Item.HYPER && Math.random() > 0.5) { //extra life chance
 			type++;
 		}
@@ -829,7 +852,11 @@ public class ServerGameState extends GameState {
 			ap = 8;
 			bp = 1;
 		}
-
+		//if one side is mini, ignore collisions
+		if (a.getPowerup() == Item.MINI ^ b.getPowerup() == Item.MINI) {
+			return;
+		}
+		
 		//bounce away from each other
 		if (h == LEFT) {
 			float cVx = a.getVx();
@@ -1057,8 +1084,8 @@ public class ServerGameState extends GameState {
 			a.setVx(a.getVx()*a.getAirSlip()); //slide
 
 			//gravity
-			if (a.getPowerup() == Item.SPEED && a.getVy() > 0) {
-				a.setVy(a.getVy()+a.getGrav()/2);
+			if (a.getPowerup() == Item.SPEED) {
+				a.setVy(a.getVy()+a.getGrav()*1.5);
 			}
 			else {
 				a.setVy(a.getVy()+a.getGrav());
@@ -1066,7 +1093,7 @@ public class ServerGameState extends GameState {
 
 			//apply terminal velocity
 			if (a.getVy() > a.getTermVel()) a.setVy(a.getTermVel());
-			if (a.getPowerup() == Item.SPEED && a.getVy() > a.getTermVel()/2) {
+			if (a.getPowerup() == Item.SPEED && a.getVy() > a.getTermVel()*1.5) {
 				a.setVy(a.getTermVel()/2);
 			}
 		}

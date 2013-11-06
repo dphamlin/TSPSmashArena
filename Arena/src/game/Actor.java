@@ -160,6 +160,24 @@ public class Actor extends GameObject {
 			setOnLand(null); //off the ground
 			setAirTime(1);
 		}
+		//enter mini mode (get tiny)
+		if (this.p != Item.MINI && powerup == Item.MINI) {
+			float cx = getHCenter(), cy = getVCenter();
+			setW(getW()/2);
+			setH(getH()/2);
+			setCenter(cx, cy);
+			setOnLand(null); //off the ground
+			setAirTime(1);
+		}
+		//exit mini mode (reset size)
+		if (this.p == Item.MINI && powerup != Item.MINI) {
+			setY(getY()-getH());
+			setX(getX()-getW());
+			setW(Warehouse.getCharacters()[m].getW());
+			setH(Warehouse.getCharacters()[m].getH());
+			setOnLand(null); //off the ground
+			setAirTime(1);
+		}
 		//grab a 1up (doesn't replace other powerups)
 		if (powerup == Item.LIFE) {
 			powerup = 0;

@@ -14,7 +14,7 @@ import javax.swing.JPanel;
  */
 
 public class View extends JFrame {
-	
+
 	/**
 	 * Standard constructor
 	 */
@@ -26,8 +26,8 @@ public class View extends JFrame {
 		pack(); //FORCE it to be 640 x 480, this has given me grief
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); // Closing the window closes the game
-		toFront(); //TODO: See if this is needed for an applet
-		this.getGraphics().drawString("Waiting for game start...", 320-75, 240+5); //pre-join text
+		toFront();
+		this.getGraphics().drawString("Waiting for game to start...", 340-75, 240+5); //pre-join text
 	}
 
 	/**
@@ -39,7 +39,7 @@ public class View extends JFrame {
 	public void attachController(Controller c) {
 		this.addKeyListener(new ControlListener(c));
 	}
-	
+
 	/**
 	 * Draw a game state (double buffered)
 	 * 

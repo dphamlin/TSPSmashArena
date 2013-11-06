@@ -143,8 +143,9 @@ public class ClientGameState extends GameState {
 				g.setColor(Color.BLACK);
 				String powername = "";
 				if (getPlayer(i).getPowerup() == Item.BIG) powername = "Gigantism";
+				if (getPlayer(i).getPowerup() == Item.MINI) powername = "Dwarfism";
 				if (getPlayer(i).getPowerup() == Item.DJUMP) powername = "Air jump";
-				if (getPlayer(i).getPowerup() == Item.SPEED) powername = "Surfing";
+				if (getPlayer(i).getPowerup() == Item.SPEED) powername = "Fast-Forward";
 				if (getPlayer(i).getPowerup() == Item.SSHOT) powername = "Bullet fever";
 				if (getPlayer(i).getPowerup() == Item.CHANGE) {
 					if (getPlayer(i).getPowerupVar() == Warehouse.LIZARD) powername = "Reptilia";
@@ -154,7 +155,7 @@ public class ClientGameState extends GameState {
 					if (getPlayer(i).getPowerupVar() == Warehouse.ROBOT) powername = "Ninjitsu";
 					if (getPlayer(i).getPowerupVar() == Warehouse.SCIENTIST) powername = "Engineering";
 				}
-				if (getPlayer(i).getPowerup() == Item.HYPER) powername = "Hyperactivity";
+				if (getPlayer(i).getPowerup() == Item.HYPER) powername = "Overcharge";
 				g.drawString(powername, (1+i)*WIDTH/5-27, 56);
 			}
 		}
@@ -335,11 +336,12 @@ public class ClientGameState extends GameState {
 		g.setColor(Color.BLACK);
 		String name = "";
 		if (p.getType() == Item.BIG) name = "G";
+		if (p.getType() == Item.MINI) name = "D";
 		if (p.getType() == Item.DJUMP) name = "J";
-		if (p.getType() == Item.SPEED) name = "S";
+		if (p.getType() == Item.SPEED) name = "F";
 		if (p.getType() == Item.SSHOT) name = "B";
 		if (p.getType() == Item.CHANGE) name = "C";
-		if (p.getType() == Item.HYPER) name = "H";
+		if (p.getType() == Item.HYPER) name = "O";
 		if (p.getType() == Item.LIFE) name = "+";
 		g.drawString(name, (int)p.getLeftEdge()+3, (int)p.getBottomEdge()-3);
 	}
