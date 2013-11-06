@@ -194,13 +194,19 @@ public class ServerGameState extends GameState {
 		return super.addPlayer(character);
 	}
 
+	@Override
+	public void resumePlayer(Participant p) {
+		super.resumePlayer(p);
+		respawn(p.getPlayer());
+	}
+	
 	/**
 	 * Warp from one level to another, once the game is in an appropriate state
 	 * 
 	 * @param i
 	 * 		Map ID of the destination level
 	 */
-	public void warpTo(int i) {
+	private void warpTo(int i) {
 		if (isReady()) {
 			reSetLevel(i); //move to the new level, resetting everything that needs it
 			setMode(getNextMode()); //change to appropriate game mode

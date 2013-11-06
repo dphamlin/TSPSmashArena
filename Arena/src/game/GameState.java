@@ -100,7 +100,7 @@ public abstract class GameState {
 	 * 		the participant being suspended
 	 */
 	public void suspendPlayer(Participant p) {
-		//TODO: Make a resumable version
+		p.getPlayer().setSuspend(true);
 	}
 
 	/**
@@ -110,7 +110,7 @@ public abstract class GameState {
 	 * 		the participant being resumed
 	 */
 	public void resumePlayer(Participant p) {
-		
+		p.getPlayer().setSuspend(false);
 	}
 	
 	/**

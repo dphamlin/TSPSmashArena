@@ -8,8 +8,6 @@ package game;
  */
 public abstract class GameObject {
 	
-	//private float x, y;
-	//private float vx = 0, vy = 0;
 	//Secretly, x, y, vx, and vy are fixed point values multiplied by scale, and shown outside as floats
 	private int x, y;
 	private int vx = 0, vy = 0;
@@ -192,19 +190,15 @@ public abstract class GameObject {
 	 * Setters for basic properties
 	 */
 	public void setX(double x) {
-		//this.x = (float) x;
 		this.x = (int)(scale*x);
 	}
 	public void setY(double y) {
-		//this.y = (float) y;
 		this.y = (int)(scale*y);
 	}
 	public void setVx(double vx) {
-		//this.vx = (float) vx;
 		this.vx = (int)(scale*vx);
 	}
 	public void setVy(double vy) {
-		//this.vy = (float) vy;
 		this.vy = (int)(scale*vy);
 	}
 	public void setW(int w) {
@@ -223,8 +217,16 @@ public abstract class GameObject {
 	public boolean isDead() {
 		return d != 0;
 	}
+	//TODO: Make sure nothing breaks here
 	public void setDead(boolean dead) {
-		if (dead) d = 1;
-		else d = 0;
+		if (dead) d |= 1;
+		else d &= -2;
+	}
+	public boolean isSuspend() {
+		return ((d >> 1)&1) != 0;
+	}
+	public void setSuspend(boolean suspend) {
+		if (suspend) d |= 2;
+		else d &= -3;
 	}
 }

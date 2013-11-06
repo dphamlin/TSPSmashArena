@@ -579,7 +579,7 @@ public class Warehouse {
 		b.setId(PLANET);
 		b.setName("Alien Planet: Surface");
 
-		//TODO: build actual map
+		//build actual map
 
 		//surface
 		b.add(-1*16, 15*16, 42*16, 1*16, SOLID|PSPAWN);

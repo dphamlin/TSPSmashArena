@@ -117,6 +117,8 @@ public class ClientGameState extends GameState {
 		}
 		//draw actual characters and stats
 		for (int i = 0; i < getNumberOfPlayers(); i++) {
+			if (getPlayer(i).isSuspend()) continue; //skip over suspended players
+			
 			g.setColor(Color.WHITE);
 			if (getMode() == STOCK) {
 				g.drawString("x"+getPlayer(i).getLives(), 3+(1+i)*WIDTH/5, 35);
