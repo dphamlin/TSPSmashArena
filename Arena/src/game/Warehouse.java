@@ -19,6 +19,8 @@ public class Warehouse {
 	public static final int BOOMERANG = 5;
 	public static final int MISSILE = 6;
 	public static final int EXPLOSION = 7;
+	public static final int LAVABALL = 8;
+	public static final int METEOR = 8;
 
 	//levels
 	public static final int HOLODECK = 0;
@@ -33,7 +35,8 @@ public class Warehouse {
 	private static RoleModel characters[] = 
 		{captain(), lizardman(), slime(), spaceMarine(), japaneseRobot(), madScientist()};
 	private static ShotModel shots[] =
-		{fireball(), bubble(), raygun(), mortar(), beamSword(), boomerang(), missile(), explosion()};
+		{fireball(), bubble(), raygun(), mortar(), beamSword(), boomerang(), missile(), explosion(),
+		lavaball(), meteor()};
 	private static Blueprint maps[] = 
 		{holodeck(), alienPlanet(), factory(), demo()};
 
@@ -260,7 +263,7 @@ public class Warehouse {
 
 		//bounce across the ground
 		s.setType(Shot.GRAV+Shot.BOUNCE);
-		s.setVar(38);
+		s.setVar(35);
 		return s;
 	}
 	//slow, lingering bubbles
@@ -410,6 +413,50 @@ public class Warehouse {
 		s.setVar(4);
 		return s;
 	}
+	//jumping lava fireballs
+	private static ShotModel lavaball() {
+		ShotModel s = new ShotModel();
+		s.setSkin(LAVABALL);
+
+		//mid-speed firing
+		s.setReload(60);
+
+		//small shots
+		s.setH(8);
+		s.setW(8);
+
+		//short hops up
+		s.setLife(15);
+		s.setSpeed(0);
+		s.setVSpeed(-4);
+
+		//bounce across the ground
+		s.setType(Shot.GRAV);
+		s.setVar(40);
+		return s;
+	}
+	private static ShotModel meteor() {
+		ShotModel s = new ShotModel();
+		s.setSkin(METEOR);
+
+		//slow firing
+		s.setReload(120);
+
+		//huge shots
+		s.setH(24);
+		s.setW(24);
+
+		//drops straight
+		s.setLife(120);
+		s.setSpeed(0);
+		s.setVSpeed(3.5);
+
+		//bounce across the ground
+		s.setType(Shot.BOMB);
+		s.setVar(0);
+		return s;
+	}
+	
 
 	/*private methods to init each map*/
 	/**

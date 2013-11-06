@@ -1122,11 +1122,11 @@ public class ServerGameState extends GameState {
 		s.setX(s.getX()+s.getVx());
 		s.setY(s.getY()+s.getVy());
 
-		//apply gravity (uses vx as terminal velocity- yes it's hackish)
+		//apply gravity (uses gravity to decide terminal velocity)
 		if (s.isGravity()) {
 			s.setVy(s.getVy()+s.getVar()/100.0);
-			if (s.getVy() > Math.abs(s.getVx()) && s.getVx() != 0) {
-				s.setVy(Math.abs(s.getVx()));
+			if (s.getVy() > Math.abs(s.getVar()/10.0)) {
+				s.setVy(Math.abs(s.getVar()/10.0));
 			}
 		}
 
