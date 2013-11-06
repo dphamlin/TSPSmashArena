@@ -150,27 +150,11 @@ public class Actor extends GameObject {
 			gainLife();
 			return;
 		}
-		//enter big mode (get huge)
-		if (this.p != Item.BIG && powerup == Item.BIG) {
-			setY(getY()-getH());
-			setX(getX()-getW()/2);
-			setW(getW()*2);
-			setH(getH()*2);
-		}
 		//exit big mode (reset size)
 		if (this.p == Item.BIG && powerup != Item.BIG) {
 			float cx = getHCenter(), cy = getVCenter();
 			setW(Warehouse.getCharacters()[m].getW());
 			setH(Warehouse.getCharacters()[m].getH());
-			setCenter(cx, cy);
-			setOnLand(null); //off the ground
-			setAirTime(1);
-		}
-		//enter mini mode (get tiny)
-		if (this.p != Item.MINI && powerup == Item.MINI) {
-			float cx = getHCenter(), cy = getVCenter();
-			setW(getW()/2);
-			setH(getH()/2);
 			setCenter(cx, cy);
 			setOnLand(null); //off the ground
 			setAirTime(1);
@@ -181,6 +165,22 @@ public class Actor extends GameObject {
 			setX(getX()-getW());
 			setW(Warehouse.getCharacters()[m].getW());
 			setH(Warehouse.getCharacters()[m].getH());
+			setOnLand(null); //off the ground
+			setAirTime(1);
+		}
+		//enter big mode (get huge)
+		if (this.p != Item.BIG && powerup == Item.BIG) {
+			setY(getY()-getH());
+			setX(getX()-getW()/2);
+			setW(getW()*2);
+			setH(getH()*2);
+		}
+		//enter mini mode (get tiny)
+		if (this.p != Item.MINI && powerup == Item.MINI) {
+			float cx = getHCenter(), cy = getVCenter();
+			setW(getW()/2);
+			setH(getH()/2);
+			setCenter(cx, cy);
 			setOnLand(null); //off the ground
 			setAirTime(1);
 		}

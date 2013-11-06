@@ -577,12 +577,16 @@ public class Warehouse {
 	private static Blueprint alienPlanet() {
 		Blueprint b = new Blueprint();
 		b.setId(PLANET);
-		b.setName("Alien Planet: Surface");
+		b.setName("Alien Planet Surface");
 
 		//build actual map
 
 		//surface
-		b.add(-1*16, 15*16, 42*16, 1*16, SOLID);
+		//b.add(-1*16, 15*16, 42*16, 1*16, SOLID);
+		b.add(-1*16, 15*16, 14*16, 1*16, SOLID|MOVE, 10);
+		b.add(13*16, 15*16, 6*16, 1*16, PLATFORM|MOVE, 25);
+		b.add(22*16, 15*16, 6*16, 1*16, PLATFORM|MOVE, -25);
+		b.add(28*16, 15*16, 14*16, 1*16, SOLID|MOVE, -10);
 
 		//meteor shooter
 		b.add(1*16, -9*16, 38*16, 8*16, GUN|PSPAWN, METEOR);
