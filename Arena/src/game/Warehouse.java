@@ -21,6 +21,8 @@ public class Warehouse {
 	public static final int EXPLOSION = 7;
 	public static final int LAVABALL = 8;
 	public static final int METEOR = 9;
+	public static final int LAVAWAVE = 10;
+	public static final int LAVAWARN = 11;
 
 	//levels
 	public static final int HOLODECK = 0;
@@ -36,7 +38,7 @@ public class Warehouse {
 		{captain(), lizardman(), slime(), spaceMarine(), japaneseRobot(), madScientist()};
 	private static ShotModel shots[] =
 		{fireball(), bubble(), raygun(), mortar(), beamSword(), boomerang(), missile(), explosion(),
-		lavaball(), meteor()};
+		lavaball(), meteor(), lavaWave(), lavaWarning()};
 	private static Blueprint maps[] = 
 		{holodeck(), alienPlanet(), factory(), demo()};
 
@@ -133,7 +135,7 @@ public class Warehouse {
 		r.setMaxSpeed(3);
 
 		//middling jump
-		r.setJumpPower(7.8);
+		r.setJumpPower(7.9);
 		r.setJumpHold(5);
 
 		//average fall
@@ -451,9 +453,52 @@ public class Warehouse {
 		s.setSpeed(0);
 		s.setVSpeed(4);
 
-		//bounce across the ground
+		//fall straight blow up
 		s.setType(Shot.BOMB);
 		s.setVar(0);
+		return s;
+	}
+	private static ShotModel lavaWave() {
+		ShotModel s = new ShotModel();
+		s.setSkin(LAVAWAVE);
+
+		//very infrequent
+		s.setReload(25*50);
+
+		//screen-covering
+		s.setH(240);
+		s.setW(640);
+
+		//drops straight
+		s.setLife(455);
+		s.setSpeed(0);
+		//s.setVSpeed(-10);
+		s.setVSpeed(-12);
+
+		//slowly rise, then fall
+		s.setType(Shot.GRAV+Shot.PIERCE+Shot.PHASE);
+		s.setVar(6);
+		return s;
+	}
+	private static ShotModel lavaWarning() {
+		ShotModel s = new ShotModel();
+		s.setSkin(LAVAWAVE);
+
+		//very infrequent
+		s.setReload(25*50);
+
+		//screen-covering
+		s.setH(240);
+		s.setW(640);
+
+		//drops straight
+		s.setLife(300);
+		s.setSpeed(0);
+		s.setVSpeed(-10);
+
+		//slowly rise, then fall
+		s.setType(Shot.GRAV+Shot.PIERCE+Shot.PHASE);
+		s.setVar(12);
 		return s;
 	}
 
@@ -579,19 +624,37 @@ public class Warehouse {
 		b.setId(PLANET);
 		b.setName("Alien Planet Surface");
 
-		//build actual map
-
-		//surface
-		//b.add(-1*16, 15*16, 42*16, 1*16, SOLID);
-		b.add(-1*16, 15*16, 14*16, 1*16, SOLID|MOVE, 10);
-		b.add(13*16, 15*16, 6*16, 1*16, PLATFORM|MOVE, 25);
-		b.add(22*16, 15*16, 6*16, 1*16, PLATFORM|MOVE, -25);
-		b.add(28*16, 15*16, 14*16, 1*16, SOLID|MOVE, -10);
-
 		//meteor shooter
 		b.add(1*16, -9*16, 38*16, 8*16, GUN|PSPAWN, METEOR);
 
-		//add spawn points
+		//cave
+		b.add(-1*16, 16*16, 3*16, 15*16, SOLID);
+		b.add(38*16, 16*16, 3*16, 15*16, SOLID);
+		b.add(1*16, 27*16, 17*16, 4*16, SOLID);
+		b.add(22*16, 27*16, 17*16, 4*16, SOLID);
+		//cannon escape
+		b.add(18*16, 27*16, 4*16, 1*16, PLATFORM);
+		b.add(18*16, 29*16, 4*16, 1*16, BOUNCE, 180);
+		b.add(18*16, 27*16+1, 4*16, 4*16, PIPE|SOLID|COLOR, MARINE);
+
+		//surface
+		b.add(-1*16, 15*16, 15*16, 1*16, SOLID|MOVE, 12);
+		b.add(14*16, 15*16, 5*16, 1*16, PLATFORM|MOVE, 25);
+		b.add(21*16, 15*16, 5*16, 1*16, PLATFORM|MOVE, -25);
+		b.add(26*16, 15*16, 15*16, 1*16, SOLID|MOVE, -12);
+
+		//internal platforms
+		b.add(18*16, 21*16, 2*16, 1*16, PLATFORM|MOVE, -8);
+		b.add(20*16, 21*16, 2*16, 1*16, PLATFORM|MOVE, 8);
+		
+		b.add(36*16, 24*16, 2*16, 1*16, PLATFORM);
+		b.add(8*16, 22*16, 4*16, 1*16, PLATFORM);
+
+		//lava waves!
+		b.add(WIDTH/2, HEIGHT*7/2-64, 1, 1, GUN, LAVAWAVE);
+		b.add(WIDTH/2, HEIGHT*2+32, 1, 1, GUN, LAVAWARN);
+
+		//spawn points
 		b.setSpawn(0, 5*16, 14*16);
 		b.setSpawn(1, 10*16, 14*16);
 		b.setSpawn(2, 30*16, 14*16);
