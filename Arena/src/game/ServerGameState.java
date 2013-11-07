@@ -269,11 +269,11 @@ public class ServerGameState extends GameState {
 		else if (a.getDir()*a.getVx() < .2) {
 			//skid frame
 		}
-		else if (Math.abs(a.getVx()) > .1) {
-			//running anim
+		else if (Math.abs(a.getVx()) > .1 && getFrameNumber()/7 % 2 == 0) {
+			//run frame 1
 		}
-		else if (a.isCrouch()) {
-			//crouching frame
+		else if (Math.abs(a.getVx()) > .1) {
+			//run frame 2
 		}
 		else {
 			//standing frame
