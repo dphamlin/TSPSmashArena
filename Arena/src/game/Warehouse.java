@@ -421,20 +421,20 @@ public class Warehouse {
 		s.setSkin(LAVABALL);
 
 		//mid-speed firing
-		s.setReload(60);
+		s.setReload(80);
 
 		//small shots
 		s.setH(8);
 		s.setW(8);
 
 		//short hops up
-		s.setLife(15);
+		s.setLife(30);
 		s.setSpeed(0);
-		s.setVSpeed(-4);
+		s.setVSpeed(-5);
 
 		//bounce across the ground
-		s.setType(Shot.GRAV);
-		s.setVar(40);
+		s.setType(Shot.GRAV|Shot.PHASE);
+		s.setVar(35);
 		return s;
 	}
 	private static ShotModel meteor() {
@@ -669,41 +669,40 @@ public class Warehouse {
 		b.setName("Factory");
 
 		//TODO: build actual map (in a not-terrible way)
-		b.add(-1*16, 18*16, 3*16, 13*16, SOLID);
-		b.add(2*16, 28*16, 15*16, 3*16, SOLID);
-		b.add(17*16, 28*16, 6*16, 1*16, PLATFORM);
-		b.add(17*16, 28*16+1, 6*16, 3*16, PIPE|COLOR, LIZARD);
-		b.add(17*16, 30*16, 6*16, 1*16, BOUNCE, 260);
-		b.add(23*16, 28*16, 15*16, 3*16, SOLID);
-		b.add(38*16, 18*16, 3*16, 13*16, SOLID);
-		b.add(2*16, 24*16, 4*16, 1*16, PLATFORM);
-		b.add(34*16, 24*16, 4*16, 1*16, PLATFORM);
+		//floor+lower walls
+		b.add(-1*16, 29*16, 42*16, 2*16, SOLID);
+		b.add(-1*16, 1*16, 3*16, 13*16, SOLID);
+		b.add(38*16, 1*16, 3*16, 13*16, SOLID);
+		
+		//melter
+		b.add(29*16, 28*16, 1*16, 1*16, SOLID);
+		b.add(30*16, 28*16, 8*16, 1*16, SOLID|DANGER|GUN, LAVABALL);
+		
+		//upper walls+ceiling
+		b.add(-1*16, 17*16, 3*16, 13*16, SOLID);
+		b.add(38*16, 17*16, 3*16, 13*16, SOLID);
+		b.add(-1*16, -1*16, 42*16, 2*16, SOLID);
+		
+		//middle wraparound
+		b.add(2*16, 17*16, 3*16, 2*16, SOLID);
+		b.add(5*16, 13*16, 3*16, 6*16, SOLID);
+		b.add(30*16, 17*16, 8*16, 2*16, SOLID);
+		
+		//top production
+		b.add(0*16, 5*16, 10*16, 2*16, SOLID|MOVE, 18);
+		b.add(1*16, 4*16, 1, 1, PSPAWN);
+		b.add(0*16, 3*16, 2*16, 2*16, COLOR, SLIME);
+		
+		//middle production
+		b.add(30*16, 21*16, 8*16, 2*16, SOLID|MOVE, -18);
+		b.add(37*16, 20*16, 1, 1, PSPAWN);
+		b.add(36*16, 19*16, 2*16, 2*16, SOLID|COLOR, SLIME);
 
-		b.add(2*16, 18*16, 10*16, 1*16, SOLID|MOVE|HATCH, 15);
-		b.add(28*16, 18*16, 10*16, 1*16, SOLID|MOVE|HATCH, -15);
-		b.add(2*16, 18*16, 10*16, 1*16, SOLID|NHATCH, 15);
-		b.add(28*16, 18*16, 10*16, 1*16, SOLID|NHATCH, -15);
-		b.add(11*16, 19*16, 5*16, 2*16, SOLID);
-		b.add(12*16, 19*16-1, 3*16, 1*16, DANGER|SOLID);
-		b.add(16*16, 19*16, 8*16, 1*16, PLATFORM);
-		b.add(24*16, 19*16, 5*16, 2*16, SOLID);
-		b.add(25*16, 19*16-1, 3*16, 1*16, DANGER|SOLID);
-
-		b.add(-1*16, 9*16, 16*16, 1*16, SOLID|MOVE|HATCH, 15);
-		b.add(-1*16, 9*16, 16*16, 1*16, SOLID|NHATCH, 15);
-		b.add(18*16, 9*16, 4*16, 1*16, PLATFORM);
-		b.add(25*16, 9*16, 16*16, 1*16, SOLID|MOVE|HATCH, -15);
-		b.add(25*16, 9*16, 16*16, 1*16, SOLID|NHATCH, -15);
-
-		b.add(17*16, 5*16, 6*16, 1*16, PLATFORM);
-
-		b.add(19*16, 1*16, 2*16, 1*16, SWITCH|BOUNCE|SOLID, -9);
-
-		//add spawn points
-		b.setSpawn(0, 9*16, 7*16);
-		b.setSpawn(1, 35*16, 16*16);
-		b.setSpawn(2, 30*16, 7*16);
-		b.setSpawn(3, 4*16, 16*16);
+		//spawn points
+		b.setSpawn(0, 0*16, 0*16);
+		b.setSpawn(1, 0*16, 0*16);
+		b.setSpawn(2, 0*16, 0*16);
+		b.setSpawn(3, 0*16, 0*16);
 
 		return b;
 	}

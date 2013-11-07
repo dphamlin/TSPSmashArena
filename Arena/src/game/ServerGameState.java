@@ -247,6 +247,40 @@ public class ServerGameState extends GameState {
 	}
 
 	/**
+	 * Update an actor's frame
+	 * 
+	 * @param a
+	 * 		the actor to update
+	 */
+	private void pose (Actor a) {
+		//TODO: Get numbers for all these frames
+		if (a.getReload() < 5) {
+			//shot frame
+		}
+		else if (a.isSlide()) {
+			//wall stick frame
+		}
+		else if (a.getOnLand() == null && a.getVy() < 0) {
+			//rising frame
+		}
+		else if (a.getOnLand() == null) {
+			//falling frame
+		}
+		else if (a.getDir()*a.getVx() < .2) {
+			//skid frame
+		}
+		else if (Math.abs(a.getVx()) > .1) {
+			//running anim
+		}
+		else if (a.isCrouch()) {
+			//crouching frame
+		}
+		else {
+			//standing frame
+		}
+	}
+	
+	/**
 	 * Make an actor jump
 	 * 
 	 * @param a
@@ -502,6 +536,8 @@ public class ServerGameState extends GameState {
 		if (!a.isDead()) {
 			move(a); //updates positions and speeds
 		}
+		
+		pose(a); //update the player's frame
 	}
 
 	/**
@@ -576,7 +612,7 @@ public class ServerGameState extends GameState {
 		if (getMode() == STOCK && type == Item.HYPER && Math.random() > 0.5) { //extra life chance
 			type++;
 		}
-		int base = (int)Math.random()*getPowerSpawn().size();
+		int base = (int)(Math.random()*getPowerSpawn().size());
 		double x = getPowerSpawn().get(base).getLeftEdge() + Math.random()*getPowerSpawn().get(base).getW();
 		double y = getPowerSpawn().get(base).getTopEdge() + Math.random()*getPowerSpawn().get(base).getH();
 		spawnPowerup((int)x, (int)y, type);
@@ -596,7 +632,7 @@ public class ServerGameState extends GameState {
 		//TODO: Spawn properly, constructors, the whole shabang
 		p.setW(14);
 		p.setH(14);
-		p.setLifeTime(400);
+		p.setLifeTime(550);
 		p.setHCenter(x);
 		p.setVCenter(y);
 		p.setVx(0);
@@ -1009,9 +1045,10 @@ public class ServerGameState extends GameState {
 		}
 
 		//land on top
-		if ((l.isSolid() || l.isPlatform()) && vCollide(p, l) == TOP) {
+		if ((l.isSolid() || l.isPlatform() || l.isBounce()) && vCollide(p, l) == TOP) {
 			p.setBottomEdge(l.getTopEdge()-.005);
-			p.setVy(STOP);
+			if (l.isBounce()) p.setVy(-p.getVy());
+			else p.setVy(STOP);
 			//conveyer belt effects
 			if (l.isMove()) {
 				p.setX(p.getX()+l.getVar()/10);
