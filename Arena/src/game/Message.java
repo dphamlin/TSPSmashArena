@@ -16,4 +16,12 @@ public class Message {
 	public int getNumber(){
 		return n;
 	}
+	
+	public void setNumber(int number) {
+		this.n = number;
+	}
+	
+	public void setMessage(String message) {
+		this.m = message;
+	}
 }
