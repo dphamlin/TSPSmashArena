@@ -23,8 +23,8 @@ public class View extends JFrame {
 		setTitle("TSPArena");
 		getContentPane().setPreferredSize(new Dimension(640, 480));
 		setResizable(false);
-		pack(); //FORCE it to be 640 x 480, this has given me grief
 		setVisible(true);
+		pack(); //FORCE it to be 640 x 480, this has given me grief
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); // Closing the window closes the game
 		toFront();
 		this.getGraphics().drawString("Waiting for game to start...", 340-75, 240+5); //pre-join text
@@ -47,7 +47,9 @@ public class View extends JFrame {
 	 * 		game state to draw
 	 */
 	public void reDraw(ClientGameState state){
-		this.setTitle("TSPArena: "+state.getMapName());
+		if (!this.getTitle().equals("TSPArena: "+state.getMapName())){
+			this.setTitle("TSPArena: "+state.getMapName());
+		}
 		Image backBuffer = createImage(640, 480);
 		state.draw(backBuffer.getGraphics());
 		this.getContentPane().getGraphics().drawImage(backBuffer, 0, 0, null);
