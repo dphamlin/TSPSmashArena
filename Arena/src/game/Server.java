@@ -257,7 +257,7 @@ public class Server {
 
 			theServer.applyAllControls(theServer.getParticipantList()); // Applies controls for all participants
 			theServer.getGameState().update(); // updates game state using game logic
-			if (theServer.getGameState().getEnd() == 1 && !theServer.resultsSent()) {
+			/*if (theServer.getGameState().getEnd() == 1 && !theServer.resultsSent()) {
 				theServer.setMessage(new Message(1,theServer.json.toJson(theServer.getGameState().getResults())));
 				theServer.setResultsSent(true);
 				theServer.writeMessageToAll(theServer.getParticipantList());
@@ -266,7 +266,7 @@ public class Server {
 			else {
 				// GameState is updated by this point; send it to all
 				theServer.writeMessageToAll(theServer.getParticipantList());
-			}
+			}*/
 			theServer.writeGameStateToAll(theServer.getParticipantList());
 			
 			theServer.getTimer().loopRest(); //rest until loop end	

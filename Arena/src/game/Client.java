@@ -167,8 +167,8 @@ public class Client {
 			updateController(); // Update controller
 			
 			writeController(); // Write controller to the server
-			readMessageFromServer();
-			handleMessageFromServer();
+			//readMessageFromServer();
+			//handleMessageFromServer();
 			readGameState(); // Read the game state from the server and update the current game state
 
 			getView().reDraw(getState());// Client draws game state here!
