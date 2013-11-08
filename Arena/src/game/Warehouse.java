@@ -638,10 +638,10 @@ public class Warehouse {
 		b.add(18*16, 27*16+1, 4*16, 4*16, PIPE|SOLID|COLOR, MARINE);
 
 		//surface
-		b.add(-1*16, 15*16, 15*16, 1*16, SOLID|MOVE, 12);
-		b.add(14*16, 15*16, 5*16, 1*16, PLATFORM|MOVE, 25);
-		b.add(21*16, 15*16, 5*16, 1*16, PLATFORM|MOVE, -25);
-		b.add(26*16, 15*16, 15*16, 1*16, SOLID|MOVE, -12);
+		b.add(-1*16, 15*16, 15*16, 1*16, SOLID|MOVE, 8);
+		b.add(14*16, 15*16, 5*16, 1*16, PLATFORM|MOVE, 22);
+		b.add(21*16, 15*16, 5*16, 1*16, PLATFORM|MOVE, -22);
+		b.add(26*16, 15*16, 15*16, 1*16, SOLID|MOVE, -8);
 
 		//internal platforms
 		b.add(18*16, 21*16, 2*16, 1*16, PLATFORM|MOVE, -8);
@@ -649,6 +649,8 @@ public class Warehouse {
 		
 		b.add(36*16, 24*16, 2*16, 1*16, PLATFORM);
 		b.add(8*16, 22*16, 4*16, 1*16, PLATFORM);
+		
+		b.add(24*16, 18*16, 1*16, 1*16, PLATFORM);
 
 		//lava waves!
 		b.add(WIDTH/2, HEIGHT*7/2-64, 1, 1, GUN, LAVAWAVE);
