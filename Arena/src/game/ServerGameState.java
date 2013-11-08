@@ -103,7 +103,7 @@ public class ServerGameState extends GameState {
 		//TODO: Special effects update here
 
 		//spawn powerups
-		if (getFrameNumber() % 400 == 250) spawnPowerup();
+		if (getFrameNumber() % 350 == 250) spawnPowerup();
 
 		//check for the end of the game
 		checkEnd();
@@ -199,7 +199,7 @@ public class ServerGameState extends GameState {
 		super.resumePlayer(p);
 		respawn(p.getPlayer());
 	}
-	
+
 	/**
 	 * Warp from one level to another, once the game is in an appropriate state
 	 * 
@@ -279,7 +279,7 @@ public class ServerGameState extends GameState {
 			//standing frame
 		}
 	}
-	
+
 	/**
 	 * Make an actor jump
 	 * 
@@ -536,7 +536,7 @@ public class ServerGameState extends GameState {
 		if (!a.isDead()) {
 			move(a); //updates positions and speeds
 		}
-		
+
 		pose(a); //update the player's frame
 	}
 
@@ -902,7 +902,7 @@ public class ServerGameState extends GameState {
 		if (a.getPowerup() == Item.MINI ^ b.getPowerup() == Item.MINI) {
 			return;
 		}
-		
+
 		//bounce away from each other
 		if (h == LEFT) {
 			float cVx = a.getVx();
@@ -1093,14 +1093,14 @@ public class ServerGameState extends GameState {
 		//assume he ain't wall sliding
 		a.setSlide(false);
 
-		//check collisions with the level
-		for (Land l : getLevel()) {
-			collide(a, l);
-		}
-
 		//check for collisions with other actors
 		for (Actor b : getFighters()) {
 			collide(a, b);
+		}
+
+		//check collisions with the level
+		for (Land l : getLevel()) {
+			collide(a, l);
 		}
 
 		//move

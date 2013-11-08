@@ -273,7 +273,7 @@ public class ClientGameState extends GameState {
 		}
 
 		//pick style
-		if (l.isBounce() && l.isPlatform()) {
+		if (l.isBounce() && l.isPlatform() && !l.isSolid()) {
 			g.drawRoundRect((int)l.getLeftEdge(), (int)l.getTopEdge(), l.getW(), l.getH(), 12, 12);
 		}
 		else if (l.isBounce()) {

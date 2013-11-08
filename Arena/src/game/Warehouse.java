@@ -336,8 +336,8 @@ public class Warehouse {
 		ShotModel s = new ShotModel();
 		s.setSkin(BEAMSWORD);
 
-		//super speed
-		s.setReload(40);
+		//super quick
+		s.setReload(35);
 
 		//long blades
 		s.setH(4);
@@ -638,10 +638,10 @@ public class Warehouse {
 		b.add(18*16, 27*16+1, 4*16, 4*16, PIPE|SOLID|COLOR, MARINE);
 
 		//surface
-		b.add(-1*16, 15*16, 15*16, 1*16, SOLID|MOVE, 12);
-		b.add(14*16, 15*16, 5*16, 1*16, PLATFORM|MOVE, 25);
-		b.add(21*16, 15*16, 5*16, 1*16, PLATFORM|MOVE, -25);
-		b.add(26*16, 15*16, 15*16, 1*16, SOLID|MOVE, -12);
+		b.add(-1*16, 15*16, 15*16, 1*16, SOLID|MOVE, 8);
+		b.add(14*16, 15*16, 5*16, 1*16, PLATFORM|MOVE, 22);
+		b.add(21*16, 15*16, 5*16, 1*16, PLATFORM|MOVE, -22);
+		b.add(26*16, 15*16, 15*16, 1*16, SOLID|MOVE, -8);
 
 		//internal platforms
 		b.add(18*16, 21*16, 2*16, 1*16, PLATFORM|MOVE, -8);
@@ -649,6 +649,8 @@ public class Warehouse {
 		
 		b.add(36*16, 24*16, 2*16, 1*16, PLATFORM);
 		b.add(8*16, 22*16, 4*16, 1*16, PLATFORM);
+		
+		b.add(24*16, 18*16, 1*16, 1*16, PLATFORM);
 
 		//lava waves!
 		b.add(WIDTH/2, HEIGHT*7/2-64, 1, 1, GUN, LAVAWAVE);
@@ -670,39 +672,51 @@ public class Warehouse {
 
 		//TODO: build actual map (in a not-terrible way)
 		//floor+lower walls
-		b.add(-1*16, 29*16, 42*16, 2*16, SOLID);
-		b.add(-1*16, 1*16, 3*16, 13*16, SOLID);
-		b.add(38*16, 1*16, 3*16, 13*16, SOLID);
+		b.add(5*16, 29*16, 35*16, 2*16, SOLID);
+		b.add(2*16, 29*16, 3*16, 2*16, PLATFORM);
+		b.add(2*16, 29*16+1, 3*16, 3*16, PIPE);
+		b.add(2*16, 29*16, 3*16, 2*16, COLOR, LIZARD);
+		b.add(-1*16, 16*16, 3*16, 14*16, SOLID);
+		b.add(38*16, 16*16, 3*16, 14*16, SOLID);
 		
 		//melter
 		b.add(29*16, 28*16, 1*16, 1*16, SOLID);
 		b.add(30*16, 28*16, 8*16, 1*16, SOLID|DANGER|GUN, LAVABALL);
 		
 		//upper walls+ceiling
-		b.add(-1*16, 17*16, 3*16, 13*16, SOLID);
-		b.add(38*16, 17*16, 3*16, 13*16, SOLID);
-		b.add(-1*16, -1*16, 42*16, 2*16, SOLID);
+		b.add(-1*16, -1*16, 3*16, 14*16, SOLID);
+		b.add(38*16, 1*16, 3*16, 12*16, SOLID);
+		b.add(2*16, -1*16, 3*16, 2*16, PIPE);
+		b.add(2*16, -1*16, 3*16, 2*16, COLOR, LIZARD);
+		b.add(5*16, -1*16, 35*16, 2*16, SOLID);
 		
 		//middle wraparound
-		b.add(2*16, 17*16, 3*16, 2*16, SOLID);
-		b.add(5*16, 13*16, 3*16, 6*16, SOLID);
-		b.add(30*16, 17*16, 8*16, 2*16, SOLID);
+		b.add(2*16, 16*16, 3*16, 2*16, SOLID);
+		b.add(5*16, 12*16, 3*16, 6*16, SOLID);
+		b.add(30*16, 16*16, 8*16, 2*16, SOLID);
 		
 		//top production
-		b.add(0*16, 5*16, 10*16, 2*16, SOLID|MOVE, 18);
+		b.add(0*16, 5*16, 10*16, 2*16, SOLID|MOVE, 19);
 		b.add(1*16, 4*16, 1, 1, PSPAWN);
 		b.add(0*16, 3*16, 2*16, 2*16, COLOR, SLIME);
 		
 		//middle production
-		b.add(30*16, 21*16, 8*16, 2*16, SOLID|MOVE, -18);
-		b.add(37*16, 20*16, 1, 1, PSPAWN);
-		b.add(36*16, 19*16, 2*16, 2*16, SOLID|COLOR, SLIME);
+		b.add(30*16, 20*16, 8*16, 2*16, SOLID|MOVE, -19);
+		b.add(37*16, 19*16, 1, 1, PSPAWN);
+		b.add(36*16, 18*16, 2*16, 2*16, SOLID|COLOR, SLIME);
 
+		//middle carry
+		b.add(10*16, 16*16, 10*16, 2*16, PLATFORM|MOVE, 19);
+		b.add(20*16, 24*16, 11*16, 2*16, PLATFORM|MOVE, 19);
+		
+		//spring lift
+		b.add(13*16, 25*16, 3*16, 1*16, PLATFORM|BOUNCE, 15);
+		
 		//spawn points
-		b.setSpawn(0, 0*16, 0*16);
-		b.setSpawn(1, 0*16, 0*16);
-		b.setSpawn(2, 0*16, 0*16);
-		b.setSpawn(3, 0*16, 0*16);
+		b.setSpawn(0, 2*16, 15*16);
+		b.setSpawn(1, 38*16, 15*16);
+		b.setSpawn(2, 10*16, 35*16);
+		b.setSpawn(3, 20*16, 15*16);
 
 		return b;
 	}
