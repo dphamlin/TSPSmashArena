@@ -116,13 +116,10 @@ public class Arena {
 			theClient.play();
 		}
 		catch (Exception e) {
-			System.out.println("Game over. Thanks for playing!");
-			theClient.getView().setVisible(false);
-			if (serverProcess != null)
-				serverProcess.destroy();
-			System.exit(0);
+			
 		}
 		
+		theClient.getView().setVisible(false);
 		if (serverProcess != null) {
 			System.out.println("Terminating the server.");
 			serverProcess.destroy();
