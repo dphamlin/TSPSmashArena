@@ -8,7 +8,87 @@ import com.google.gson.*;
 
 public class Arena {
 	
+	private static LobyView mainView;
+	private View clientView;
+	
 	public static void main(String[] args){
+		mainView = new LobyView(new Arena());
+	}
+	
+	public Arena(){
+		this.clientView = null;
+	}
+	
+	public void host(int numberOfPlayers, int port){
+		Process serverProcess = null;
+		String currentPath = Paths.get("").toAbsolutePath().toString();
+		String[] commandArgs = {"java","-cp",currentPath + File.pathSeparator + currentPath + 
+				"/lib/gson-2.2.4.jar" + File.pathSeparator + currentPath + "/bin" + File.pathSeparator + 
+				currentPath + "/arena.jar","game.Server",String.valueOf(numberOfPlayers),Integer.toString(port)};
+		
+		try {
+			ProcessBuilder processBuilder = new ProcessBuilder(commandArgs);
+			processBuilder.redirectErrorStream(true);
+			processBuilder.redirectOutput(new File("server_output.txt"));
+			serverProcess = processBuilder.start();
+			System.out.println("Server started!");
+		}
+		catch (IOException ioe) {
+			System.err.println("IOException attempting to start the server.");
+			System.exit(1);
+		}
+		
+		if (serverProcess == null) {
+			System.err.println("Failed to execute the server.");
+			System.exit(1);
+		}
+		
+		join("localhost", port);
+		
+		System.out.println("Terminating the server.");
+		serverProcess.destroy();
+	}
+	
+	public void join(String ip, int port){
+		InetAddress serverAddr = null;
+		try {
+			serverAddr = InetAddress.getByName(ip);
+		}
+		catch (UnknownHostException uhe) {
+			System.out.println("Could not resolve the server address.  Unknown host.");
+			System.exit(1);
+		}
+		catch (Exception e) {
+			System.out.println("Could not aquire the server address.  Unspecified error.");
+			System.exit(1);
+		}
+		if(clientView == null){
+			//clientView = new View();
+		}
+		else{
+			//clientView.setVisible(true);
+		}
+		Client theClient = null;
+		
+		try {
+			theClient = new Client(serverAddr, port);
+		}
+		catch (IOException e) {
+			System.err.println("Failed to create game client. " + e.getMessage());
+			System.exit(1);
+		}
+		System.out.println("Clent Started");
+		try {
+			theClient.play();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		theClient.getView().setVisible(false);
+		mainView.setVisible(true);
+	}
+	
+	/* public static void main(String[] args){
 		int port = 5379;
 		String selection = "0";
 		int choice = -1;
@@ -36,7 +116,9 @@ public class Arena {
 			}
 			
 			String currentPath = Paths.get("").toAbsolutePath().toString();
-			String[] commandArgs = {"java","-cp",currentPath + File.pathSeparator + currentPath + "/lib/gson-2.2.4.jar" + File.pathSeparator + currentPath + "/bin" + File.pathSeparator + currentPath + "/arena.jar","game.Server",String.valueOf(numberOfPlayers),Integer.toString(port)};
+			String[] commandArgs = {"java","-cp",currentPath + File.pathSeparator + currentPath + 
+					"/lib/gson-2.2.4.jar" + File.pathSeparator + currentPath + "/bin" + File.pathSeparator + 
+					currentPath + "/arena.jar","game.Server",String.valueOf(numberOfPlayers),Integer.toString(port)};
 			
 			try {
 				ProcessBuilder processBuilder = new ProcessBuilder(commandArgs);
@@ -127,5 +209,7 @@ public class Arena {
 			
 		System.out.println("Game over. Thanks for playing!");
 		System.exit(0); //super quit
-	}
+	}*/
+	
+	
 }
