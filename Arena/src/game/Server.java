@@ -16,6 +16,8 @@ public class Server {
 	private Gson json;
 	private StopWatch timer;
 	private int activePlayerCount = 0;
+	private Message message;
+	private Boolean resultsSent;
 
 	Server(int port) throws IOException {
 		serverSocket = new ServerSocket(port);
@@ -23,6 +25,8 @@ public class Server {
 		game = new ServerGameState();
 		json = new Gson();
 		timer = new StopWatch(20);
+		setResultsSent(false);
+		setMessage(new Message(0,null));
 		System.out.println("Starting and listening on: "+getCurrentInetAddress()+":"+port);
 	}
 	
@@ -66,19 +70,9 @@ public class Server {
 		else{
 			System.err.println("Unable to get local interface server is utilizing.");
 		}
-		return "Unknown.Address";//If we couldn't determin the address
+		return "Unknown.Address";//If we couldn't determine the address
 	}
 	
-	/*
-	public void setStateString(String newStateString) {
-		stateString = newStateString;
-	}
-	*/
-	/*
-	public String getStateString() {
-		return stateString;
-	}
-	*/
 	public ArrayList<Participant> getParticipantList() {
 		return participantList;
 	}
@@ -114,6 +108,44 @@ public class Server {
 		}
 	}
 	
+	public Message getMessage() {
+		return message;
+	}
+	
+	public void setMessage(Message message) {
+		this.message = message;
+	}
+	
+	// Writes the Server's message to all clients
+	public void writeMessageToAll(ArrayList<Participant> aParticipantList) {
+		for (Participant p: aParticipantList) {
+			if (p.isActive())
+				try {
+					p.writeToClient(json.toJson(getMessage()));
+				}
+			catch (IOException e) {
+				System.err.println("Participant disconnected while writing message.  Set to inactive. " + e.getMessage());
+				p.setActive(false);
+				setActivePlayerCount(getActivePlayerCount()-1);
+			}
+		}
+	}
+	
+	// Updates messageFromClient for all participants.  The Server can interpret messages from the client.
+	public void readMessageFromAll(ArrayList<Participant> aParticipantList) {
+			for (Participant p: aParticipantList) {
+				if (p.isActive())
+					try {
+						p.readMessage();
+					}
+					catch (IOException e) {
+						System.err.println("Participant disconnected while reading message.  Set to inactive." + e.getMessage());
+						p.setActive(false);
+						setActivePlayerCount(getActivePlayerCount()-1);
+					}
+			}
+	}
+	
 	// Writes the current game state to all clients as a JSON string
 	public void writeGameStateToAll(ArrayList<Participant> aParticipantList) { 
 		//System.out.println(json.toJson(getGameState().convert()));  //print content of each gamestate
@@ -123,7 +155,7 @@ public class Server {
 					p.writeToClient(json.toJson(getGameState().convert()));
 				}
 				catch (IOException e) {
-					System.out.println("Participant disconnected while writing game state. Set to inactive. " + e.getMessage());
+					System.err.println("Participant disconnected while writing game state.  Set to inactive. " + e.getMessage());
 					p.setActive(false);
 					setActivePlayerCount(getActivePlayerCount()-1);
 				}
@@ -172,6 +204,14 @@ public class Server {
 				getGameState().suspendPlayer(p);
 		}
 	}
+	
+	public Boolean resultsSent() {
+		return resultsSent;
+	}
+	
+	public void setResultsSent(Boolean truthValue) {
+		this.resultsSent = truthValue;
+	}
 		
 	public static void main(String []args) {
 		int port = 5379;
@@ -193,7 +233,7 @@ public class Server {
 			theServer = new Server(port);
 		}
 		catch (Exception e) {
-			System.out.println("Could not start the server.");
+			System.err.println("Could not start the server.");
 			System.exit(1);
 		}
 		
@@ -214,13 +254,18 @@ public class Server {
 			
 			theServer.readControllersFromAll(theServer.getParticipantList()); // Reads updated controllers into all participants
 
-			// Controllers now ready for application to game state
-			// HERE GAME LOGIC SHOULD BE UPDATED USING THE CONTROLLERS
-			// My stab at it:
 			theServer.applyAllControls(theServer.getParticipantList()); // Applies controls for all participants
 			theServer.getGameState().update(); // updates game state using game logic
-	
-			// GameState is updated by this point; send it to all
+			if (theServer.getGameState().getEnd() == 1 && !theServer.resultsSent()) {
+				theServer.setMessage(new Message(1,theServer.json.toJson(theServer.getGameState().getResults())));
+				theServer.setResultsSent(true);
+				theServer.writeMessageToAll(theServer.getParticipantList());
+				theServer.setMessage(new Message(0,null));
+			}
+			else {
+				// GameState is updated by this point; send it to all
+				theServer.writeMessageToAll(theServer.getParticipantList());
+			}
 			theServer.writeGameStateToAll(theServer.getParticipantList());
 			
 			theServer.getTimer().loopRest(); //rest until loop end	

@@ -18,6 +18,9 @@ public class Client {
 	private View view;
 	private StopWatch timer;
 	private static int port = 5379;
+	private Message messageFromServer;
+	private Message messageToServer;
+	private GameResults gameResults;
 	
 	Client (InetAddress addr, int port) throws IOException { 
 		setSocket(new Socket(addr,port)); // Establish connection
@@ -27,6 +30,10 @@ public class Client {
 		setController(new Controller());
 		setView(new View());
 		setTimer(new StopWatch(20));
+		setMessageFromServer(new Message(0,null));
+		setMessageToServer(new Message(0,null));
+		setGameResults(null);
+		
 		view.attachController(controller);
 		json = new Gson();
 	}
@@ -48,6 +55,33 @@ public class Client {
 	
 	public void readGameState() throws IOException, Exception {
 		setState(json.fromJson(getReader().readLine(), ClientGameState.class));
+	}
+	
+	public void readMessageFromServer() throws IOException, Exception {
+		setMessageFromServer(json.fromJson(getReader().readLine(), Message.class));
+	}
+	
+	public Message getMessageFromServer() {
+		return this.messageFromServer;
+	}
+	
+	public Message getMessageToServer() {
+		return this.messageToServer;
+	}
+	
+	public void handleMessageFromServer() {
+		if (getMessageFromServer().getNumber() == 1) {
+			setGameResults(json.fromJson(getMessageFromServer().getMessage(),GameResults.class));
+			System.out.println("Game results received: " + getGameResults());
+		}
+	}
+	
+	public void setGameResults(GameResults gameResults) {
+		this.gameResults = gameResults;
+	}
+	
+	public GameResults getGameResults() {
+		return this.gameResults;
 	}
 	
 	public void writeToServer(String outbound) throws IOException {
@@ -103,6 +137,14 @@ public class Client {
 		return view;
 	}
 
+	public void setMessageFromServer(Message messageFromServer) {
+		this.messageFromServer = messageFromServer;
+	}
+	
+	public void setMessageToServer(Message messageToServer) {
+		this.messageToServer = messageToServer;
+	}
+	
 	public void setView(View view) {
 		this.view = view;
 	}
@@ -115,7 +157,7 @@ public class Client {
 	}
 	public void setTimer(StopWatch timer) {
 		this.timer = timer;
-	}	
+	}
 	
 	public void play() throws Exception {
 		while (getSocket().isConnected() && getView().isVisible()) {
@@ -125,9 +167,10 @@ public class Client {
 			updateController(); // Update controller
 			
 			writeController(); // Write controller to the server
+			readMessageFromServer();
+			handleMessageFromServer();
 			readGameState(); // Read the game state from the server and update the current game state
 
-			
 			getView().reDraw(getState());// Client draws game state here!
 			
 			getTimer().loopRest();// Rest for the rest of the loop

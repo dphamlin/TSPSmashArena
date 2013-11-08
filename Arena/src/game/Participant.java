@@ -11,6 +11,7 @@ public abstract class Participant {
 	protected BufferedWriter writer;
 	protected Gson json;
 	protected Boolean active;
+	protected Message messageFromClient;
 	
 	public Actor getPlayer() {
 		return this.thePlayer;
@@ -34,6 +35,10 @@ public abstract class Participant {
 	
 	public void setController(Controller c){
 		this.controller = c;
+	}
+	
+	public void setMessageFromClient(Message messageFromClient) {
+		this.messageFromClient = messageFromClient;
 	}
 	
 	public void writeToClient(String outbound) throws IOException {
@@ -61,6 +66,10 @@ public abstract class Participant {
 	// Read controller from Reader. Reader may take from a connection or from an AI source.
 	public void readController() throws IOException {
 		setController(json.fromJson(getReader().readLine(), Controller.class));
+	}
+	
+	public void readMessage() throws IOException {
+		setMessageFromClient(json.fromJson(getReader().readLine(), Message.class));
 	}
 	
 	public void setActive(Boolean bool) {
