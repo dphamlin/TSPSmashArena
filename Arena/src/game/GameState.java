@@ -436,6 +436,11 @@ public abstract class GameState {
 		else this.end = 0;
 	}
 	
+	// Addition by Behnam: a getter to determine whether the game has ended (for use in Message update).
+	public int getEnd() {
+		return this.end;
+	}
+	
 	/**
 	 * @return the expected total number of players
 	 */
