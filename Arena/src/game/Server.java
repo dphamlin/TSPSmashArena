@@ -149,10 +149,11 @@ public class Server {
 	// Writes the current game state to all clients as a JSON string
 	public void writeGameStateToAll(ArrayList<Participant> aParticipantList) { 
 		//System.out.println(json.toJson(getGameState().convert()));  //print content of each gamestate
+		String currentGameState = json.toJson(getGameState().convert());
 		for (Participant p: aParticipantList) {
 			if (p.isActive()) // Only try to write to active players; thread will be responsible for changing back to active on reconnect
 				try {
-					p.writeToClient(json.toJson(getGameState().convert()));
+					p.writeToClient(currentGameState);
 				}
 				catch (IOException e) {
 					System.err.println("Participant disconnected while writing game state.  Set to inactive. " + e.getMessage());
