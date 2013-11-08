@@ -8,16 +8,10 @@ import com.google.gson.*;
 
 public class Arena {
 	
-	private static LobyView mainView;
-	private View clientView;
+	private static View mainView;
 	
-	/*
 	public static void main(String[] args){
-		mainView = new LobyView(new Arena());
-	}
-	*/
-	public Arena(){
-		this.clientView = null;
+		mainView = new View(new Arena());
 	}
 	
 	public void host(int numberOfPlayers, int port){
@@ -63,33 +57,27 @@ public class Arena {
 			System.out.println("Could not aquire the server address.  Unspecified error.");
 			System.exit(1);
 		}
-		if(clientView == null){
-			//clientView = new View();
-		}
-		else{
-			//clientView.setVisible(true);
-		}
-		Client theClient = null;
 		
+		Client theClient = null;
 		try {
-			theClient = new Client(serverAddr, port);
+			theClient = new Client(serverAddr, port, mainView);
 		}
 		catch (IOException e) {
 			System.err.println("Failed to create game client. " + e.getMessage());
 			System.exit(1);
 		}
-		System.out.println("Clent Started");
+		System.out.println("Client Started");
+		
 		try {
 			theClient.play();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		theClient.getView().setVisible(false);
-		mainView.setVisible(true);
+		theClient.getView().gameDone();//Show the mode selection view.
 	}
 	
-	public static void main(String[] args){
+	/* public static void main(String[] args){
 		int port = 5379;
 		String selection = "0";
 		int choice = -1;
@@ -210,7 +198,7 @@ public class Arena {
 			
 		System.out.println("Game over. Thanks for playing!");
 		System.exit(0); //super quit
-	}
+	}*/
 	
 	
 }

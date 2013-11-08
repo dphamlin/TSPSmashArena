@@ -22,13 +22,13 @@ public class Client {
 	private Message messageToServer;
 	private GameResults gameResults;
 	
-	Client (InetAddress addr, int port) throws IOException { 
+	Client (InetAddress addr, int port, View v) throws IOException { 
 		setSocket(new Socket(addr,port)); // Establish connection
 		setStateString("Awaiting state from server.\n");
 		setReader(new BufferedReader(new InputStreamReader(getSocket().getInputStream())));
 		setWriter(new BufferedWriter(new OutputStreamWriter(getSocket().getOutputStream())));
 		setController(new Controller());
-		setView(new View());
+		setView(v);
 		setTimer(new StopWatch(20));
 		setMessageFromServer(new Message(0,null));
 		setMessageToServer(new Message(0,null));
