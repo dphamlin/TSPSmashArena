@@ -11,10 +11,11 @@ public class Arena {
 	private static LobyView mainView;
 	private View clientView;
 	
+	/*
 	public static void main(String[] args){
 		mainView = new LobyView(new Arena());
 	}
-	
+	*/
 	public Arena(){
 		this.clientView = null;
 	}
@@ -88,7 +89,7 @@ public class Arena {
 		mainView.setVisible(true);
 	}
 	
-	/* public static void main(String[] args){
+	public static void main(String[] args){
 		int port = 5379;
 		String selection = "0";
 		int choice = -1;
@@ -209,7 +210,7 @@ public class Arena {
 			
 		System.out.println("Game over. Thanks for playing!");
 		System.exit(0); //super quit
-	}*/
+	}
 	
 	
 }
