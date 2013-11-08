@@ -4,9 +4,9 @@ public class Message {
 	private String m;
 	private int n;
 	
-	public Message(String message, int num){
-		this.m = message;
+	public Message(int num, String message) {
 		this.n = num;
+		this.m = message;
 	}
 	
 	public String getMessage(){

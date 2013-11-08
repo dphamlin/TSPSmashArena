@@ -2,6 +2,7 @@ package game;
 import java.util.*;
 import java.io.*;
 import java.net.*;
+
 import com.google.gson.*;
 
 
@@ -116,63 +117,20 @@ public class Client {
 		this.timer = timer;
 	}	
 	
-	// Imitate Arena test code but with Controllers.
-	public static void main (String []args) {
-		
-		Client theClient = null;
+	public void play() throws Exception {
+		while (getSocket().isConnected() && getView().isVisible()) {
+			
+			getTimer().loopStart(); // Start the loop
+			
+			updateController(); // Update controller
+			
+			writeController(); // Write controller to the server
+			readGameState(); // Read the game state from the server and update the current game state
 
-		Scanner inputScanner = new Scanner(System.in);
-		int choice = 0;
-		System.out.println("Welcome.  Enter 0 if you wish to connect to loopback; otherwise, enter 1 to choose IP address and port.");
-		choice = inputScanner.nextInt();
-		
-		InetAddress serverAddr = InetAddress.getLoopbackAddress(); // default IP address
-		int serverPort = port; // default port
-	
-		try {
-			if (choice != 0){ // Otherwise, prompt for IP address and port, interpret, then connect
-				inputScanner = new Scanner(System.in);
-				System.out.println("Please enter the IP address of the server (in the typical format):");
-				String addrString = inputScanner.nextLine();
-				serverAddr = InetAddress.getByName(addrString);
-				//System.out.println("Please enter the port number at which the server is listening:");
-				//serverPort = inputScanner.nextInt();
-			}
-			theClient = new Client(serverAddr,serverPort);
+			
+			getView().reDraw(getState());// Client draws game state here!
+			
+			getTimer().loopRest();// Rest for the rest of the loop
 		}
-		catch (UnknownHostException uhe) {
-			System.out.println("Could not connect to server.  Unknown host.");
-			System.exit(1);
-		}
-		catch (Exception e) {
-			System.out.println("Could not connect to server. " + e.getMessage());
-			System.exit(1);
-		}
-		
-		// Client should be connected; begin communication cycle. Consider reordering or adding initial send/receives
-		while (theClient.getSocket().isConnected()) {
-			
-			theClient.getTimer().loopStart(); // Start the loop
-			
-			theClient.updateController(); // Update controller
-					
-			try {
-				theClient.writeController(); // Write controller to the server
-				theClient.readGameState(); // Read the game state from the server and update the current game state
-			}
-			catch (Exception e) {
-				// System.err.println("Failed to receive the game state from the server.");
-				System.out.println("Game over. Thanks for playing!");
-				theClient.getView().setVisible(false);
-				System.exit(0);
-			}
-			
-			theClient.getView().reDraw(theClient.getState());// Client draws game state here!
-			
-			theClient.getTimer().loopRest();// Rest for the rest of the loop
-			
-		}
-		System.out.println("Game over. Thanks for playing!");
-		System.exit(0); //super quit
 	}
 }

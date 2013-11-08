@@ -112,30 +112,15 @@ public class Arena {
 			System.exit(1);
 		}
 		
-		
-		// Client should be connected; begin communication cycle. Consider reordering or adding initial send/receives
-		while (theClient.getSocket().isConnected() && theClient.getView().isVisible()) {
-			
-			theClient.getTimer().loopStart(); // Start the loop
-			
-			theClient.updateController(); // Update controller
-			
-			try {
-				theClient.writeController(); // Write controller to the server
-				theClient.readGameState(); // Read the game state from the server and update the current game state
-			}
-			catch (Exception e) {
-				// System.err.println("Failed to receive the game state from the server.");
-				System.out.println("Game over. Thanks for playing!");
-				theClient.getView().setVisible(false);
-				if (serverProcess != null)
-					serverProcess.destroy();
-				System.exit(0);
-			}
-			
-			theClient.getView().reDraw(theClient.getState());// Client draws game state here!
-			
-			theClient.getTimer().loopRest();// Rest for the rest of the loop
+		try {
+			theClient.play();
+		}
+		catch (Exception e) {
+			System.out.println("Game over. Thanks for playing!");
+			theClient.getView().setVisible(false);
+			if (serverProcess != null)
+				serverProcess.destroy();
+			System.exit(0);
 		}
 		
 		if (serverProcess != null) {
