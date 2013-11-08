@@ -149,10 +149,11 @@ public class Server {
 	// Writes the current game state to all clients as a JSON string
 	public void writeGameStateToAll(ArrayList<Participant> aParticipantList) { 
 		//System.out.println(json.toJson(getGameState().convert()));  //print content of each gamestate
+		String currentGameState = json.toJson(getGameState().convert());
 		for (Participant p: aParticipantList) {
 			if (p.isActive()) // Only try to write to active players; thread will be responsible for changing back to active on reconnect
 				try {
-					p.writeToClient(json.toJson(getGameState().convert()));
+					p.writeToClient(currentGameState);
 				}
 				catch (IOException e) {
 					System.err.println("Participant disconnected while writing game state.  Set to inactive. " + e.getMessage());
@@ -256,17 +257,19 @@ public class Server {
 
 			theServer.applyAllControls(theServer.getParticipantList()); // Applies controls for all participants
 			theServer.getGameState().update(); // updates game state using game logic
+			
 			if (theServer.getGameState().getEnd() == 1 && !theServer.resultsSent()) {
-				theServer.setMessage(new Message(1,theServer.json.toJson(theServer.getGameState().getResults())));
+				theServer.getMessage().setNumber(1);
+				theServer.getMessage().setMessage(theServer.json.toJson(theServer.getGameState().getResults()));
 				theServer.setResultsSent(true);
-				theServer.writeMessageToAll(theServer.getParticipantList());
-				theServer.setMessage(new Message(0,null));
 			}
 			else {
 				// GameState is updated by this point; send it to all
-				theServer.writeMessageToAll(theServer.getParticipantList());
+				theServer.getMessage().setNumber(0);
+				theServer.getMessage().setMessage(theServer.json.toJson(theServer.getGameState().convert()));
 			}
-			theServer.writeGameStateToAll(theServer.getParticipantList());
+			theServer.writeMessageToAll(theServer.getParticipantList());
+			//theServer.writeGameStateToAll(theServer.getParticipantList());
 			
 			theServer.getTimer().loopRest(); //rest until loop end	
 			

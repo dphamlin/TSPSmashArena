@@ -69,7 +69,10 @@ public class Client {
 		return this.messageToServer;
 	}
 	
-	public void handleMessageFromServer() {
+	public void handleMessageFromServer() throws Exception {
+		if (getMessageFromServer().getNumber() == 0) {
+			setState(json.fromJson(getMessageFromServer().getMessage(), ClientGameState.class));
+		}
 		if (getMessageFromServer().getNumber() == 1) {
 			setGameResults(json.fromJson(getMessageFromServer().getMessage(),GameResults.class));
 			System.out.println("Game results received: " + getGameResults());
@@ -169,7 +172,7 @@ public class Client {
 			writeController(); // Write controller to the server
 			readMessageFromServer();
 			handleMessageFromServer();
-			readGameState(); // Read the game state from the server and update the current game state
+			//readGameState(); // Read the game state from the server and update the current game state
 
 			getView().reDraw(getState());// Client draws game state here!
 			
