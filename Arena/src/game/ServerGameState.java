@@ -100,7 +100,15 @@ public class ServerGameState extends GameState {
 				i--;
 			}
 		}
-		//TODO: Special effects update here
+		//power-up/item logic (with removal)
+		for(int i = 0; i < getEffects().size(); i++) {
+			update(getEffects().get(i));
+			//remove dead effects
+			if (getEffects().get(i).isDead()) {
+				getEffects().remove(i);
+				i--;
+			}
+		}
 
 		//spawn powerups
 		if (getFrameNumber() % 350 == 250) spawnPowerup();
@@ -601,6 +609,15 @@ public class ServerGameState extends GameState {
 		}
 	}
 
+	/**
+	 * update an effect's status
+	 * 
+	 * @param e
+	 * 		the effect to update
+	 */
+	private void update (Effect e) {
+		//TODO: Fill out
+	}
 
 	/**
 	 * Spawn a powerup, somewhere
@@ -1033,8 +1050,6 @@ public class ServerGameState extends GameState {
 	 * 		land to check collisions with
 	 */
 	private void collide(Item p, Land l) {
-		//TODO: Factor in other kinds of movement
-
 		//out of phase platforms
 		if (l.isHatch() && !isControl()) return;
 		if (l.isNHatch() && isControl()) return;
@@ -1254,5 +1269,15 @@ public class ServerGameState extends GameState {
 				|| p.getRightEdge() < -p.getW()*2 || p.getLeftEdge() > WIDTH+p.getW()*2) {
 			p.setDead(true);
 		}
+	}
+	
+	/**
+	 * Move an effect across the screen
+	 * 
+	 * @param e
+	 * 		the effect to move
+	 */
+	private void move(Effect e) {
+		//TODO: Fill out
 	}
 }

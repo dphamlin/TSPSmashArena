@@ -38,7 +38,7 @@ public class ClientGameState extends GameState {
 		drawPowerups(g);
 		drawLevel(g);
 		drawBullets(g);
-		//TODO: Draw visual effects
+		drawEffects(g);
 		drawStatus(g);
 	}
 
@@ -99,6 +99,18 @@ public class ClientGameState extends GameState {
 	private void drawPowerups(Graphics g) {
 		for (Item i : getPowerups()) {
 			draw(i, g);
+		}
+	}
+	
+	/**
+	 * Draw the effects
+	 * 
+	 * @param g
+	 * 		graphics object to draw through
+	 */
+	private void drawEffects(Graphics g) {
+		for (Effect e : getEffects()) {
+			draw(e, g);
 		}
 	}
 
@@ -325,10 +337,10 @@ public class ClientGameState extends GameState {
 	}
 
 	/**
-	 * Draw a shot to the designated graphics object
+	 * Draw a powerup to the designated graphics object
 	 * 
-	 * @param s
-	 * 		Shot to be drawn
+	 * @param p
+	 * 		Powerup to be drawn
 	 * @param g
 	 * 		graphics object to draw through
 	 */
@@ -346,5 +358,17 @@ public class ClientGameState extends GameState {
 		if (p.getType() == Item.HYPER) name = "O";
 		if (p.getType() == Item.LIFE) name = "+";
 		g.drawString(name, (int)p.getLeftEdge()+3, (int)p.getBottomEdge()-3);
+	}
+	
+	/**
+	 * Draw an effect to the designated graphics object
+	 * 
+	 * @param e
+	 * 		Effect to be drawn
+	 * @param g
+	 * 		graphics object to draw through
+	 */
+	private void draw(Effect e, Graphics g) {
+		//TODO: Fill out
 	}
 }

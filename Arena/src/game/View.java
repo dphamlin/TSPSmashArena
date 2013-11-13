@@ -92,14 +92,13 @@ public class View extends JFrame {
 		cardPane = new JPanel(cl);
 		cardPane.add(modeTabbedPane, "mode");
 		cardPane.add(draw, "draw");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.add(cardPane);
 		this.setTitle("Arena: Loby");
 		cl.show(cardPane, "mode");
 		
 		setResizable(false);
-		pack(); //FORCE it to be 640 x 480, this has given me grief
 		setVisible(true);
+		pack(); //FORCE it to be 640 x 480, this has given me grief
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); // Closing the window closes the game
 		toFront();
 	}
@@ -150,7 +149,9 @@ public class View extends JFrame {
 	 * 		game state to draw
 	 */
 	public void reDraw(ClientGameState state){
-		this.setTitle("TSPArena: "+state.getMapName());
+		if (!this.getTitle().equals("TSPArena: "+state.getMapName())) {
+			this.setTitle("TSPArena: "+state.getMapName());
+		}
 		Image backBuffer = createImage(640, 480);
 		state.draw(backBuffer.getGraphics());
 		draw.getGraphics().drawImage(backBuffer, 0, 0, null);

@@ -29,15 +29,21 @@ public class ControlListener implements KeyListener,ActionListener {
 	private View v;
 
 	/**
-	 * Initialize a ControlListener to a Controller
+	 * Initialize a ControlListener to a View
 	 * 
-	 * @param c
-	 * 		controller object to update
+	 * @param v
+	 * 		the view
 	 */
 	public ControlListener(View v) {
 		this.v = v;
 	}
 
+	/**
+	 * Initialize a ControlListener to a Controller
+	 * 
+	 * @param c
+	 * 		controller object to update
+	 */
 	public void setContoller(Controller c){
 		this.c = c;
 	}
