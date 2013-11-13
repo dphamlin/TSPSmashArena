@@ -15,8 +15,9 @@ public abstract class GameState {
 	private ArrayList<Actor> f = new ArrayList<Actor>(); //fighters
 	private ArrayList<Shot> b = new ArrayList<Shot>(); //bullets
 	private ArrayList<Item> p = new ArrayList<Item>(); //power ups
+	private ArrayList<Effect> e = new ArrayList<Effect>(); //special effects
 	private int c = 1; //control signal
-	
+
 	private int s = 0; //stage (default: holodeck)
 	private int fn = 0; //frame number
 	private int t = 50*60; //overall game time (default 1 min)
@@ -279,6 +280,17 @@ public abstract class GameState {
 		return p;
 	}
 
+	/**
+	 * Get the list of special effects in the stage
+	 * 
+	 * @return an ArrayList of Items
+	 */
+	public ArrayList<Effect> getEffects() {
+		return e;
+	}
+	
+	//TODO: Method to spawn special effects here
+	
 	/**
 	 * Check the number of players in the current game
 	 * 
