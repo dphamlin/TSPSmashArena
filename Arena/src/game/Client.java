@@ -179,4 +179,62 @@ public class Client {
 			getTimer().loopRest();// Rest for the rest of the loop
 		}
 	}
+	
+	public static void main(String[] args) {
+		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
+		InetAddress serverAddr = InetAddress.getLoopbackAddress();
+		int port = 5379;
+		
+		if (args.length != 2) {
+			System.out.println("Please enter the IP address to connect to:");
+			try {
+				serverAddr = InetAddress.getByName(inputReader.readLine());
+				System.out.println("Please enter the port to connect to:");
+				port = Integer.parseInt(inputReader.readLine());
+				if (port <= 1000)
+					throw new Exception("Port must not be negative or well-known.");
+			}
+			catch (Exception e) {
+				System.err.println("Error in input: " + e.getMessage());
+				System.err.println("Using default values (localhost, 5379).");
+				serverAddr = InetAddress.getLoopbackAddress();
+				port = 5379;
+			}
+		}
+		else { // Attempt to parse command-line input
+			try {
+				serverAddr = InetAddress.getByName(args[0]);
+				port = Integer.parseInt(args[1]);
+				if (port <= 1000)
+					throw new Exception("Port must not be negative or well-known.");
+			}
+			catch (Exception e) {
+				System.err.println("Error in command-line input: " + e.getMessage());
+				System.err.println("Using default values (localhost, 5379).");
+				serverAddr = InetAddress.getLoopbackAddress();
+				port = 5379;
+			}
+		}
+		
+		Client theClient = null;
+		try {
+			theClient = new Client(serverAddr,port, new View(new Arena()));
+		}
+		catch (IOException e) {
+			System.err.println("Failed to create client.");
+			System.exit(1);
+		}
+		
+		try {
+			theClient.play();
+		}
+		catch (Exception e) {
+			
+		}
+		
+		theClient.getView().setVisible(false);
+			
+		System.out.println("Game over. Thanks for playing!");
+		System.exit(0); //super quit
+	}
 }
