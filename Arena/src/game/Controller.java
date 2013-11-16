@@ -19,6 +19,7 @@ public class Controller {
 	
 	//buffer (current state of buttons, a bitmask)
 	private int buf;
+	private String o;
 	
 	//button hold times
 	private int u = 0; //up

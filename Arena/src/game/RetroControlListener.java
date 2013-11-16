@@ -45,7 +45,7 @@ public class RetroControlListener implements KeyListener {
 		}
 
 		@Override
-		public void keyTyped(KeyEvent e) {
+		public void keyTyped(KeyEvent e) { //TODO: Make this work better
 			//text to a string
 			if (s != null) {
 				char ch = e.getKeyChar();
