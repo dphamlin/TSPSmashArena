@@ -56,6 +56,7 @@ public class View extends JFrame {
 		arena = a;
 		control = new ControlListener(this);
 		this.addKeyListener(control);
+		//draw.addKeyListener(control);
 	    modeTabbedPane = new JTabbedPane();
 		jGo = new JButton("Go!");
 		hGo = new JButton("Go!");
@@ -93,7 +94,7 @@ public class View extends JFrame {
 		cardPane.add(modeTabbedPane, "mode");
 		cardPane.add(draw, "draw");
 		this.add(cardPane);
-		this.setTitle("Arena: Loby");
+		this.setTitle("Arena: Lobby");
 		cl.show(cardPane, "mode");
 		
 		setResizable(false);

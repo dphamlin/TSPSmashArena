@@ -17,7 +17,7 @@ public class TestDriver {
 	public static void main(String args[]) {
 		//initialize
 		Controller c = new Controller();
-		View v = new View();
+		RetroView v = new RetroView();
 		ServerGameState gs = new ServerGameState();
 		StopWatch t = new StopWatch(20);
 		v.attachController(c);
