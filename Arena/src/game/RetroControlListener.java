@@ -21,6 +21,7 @@ public class RetroControlListener implements KeyListener {
 		private static final int KEY_START = KeyEvent.VK_ESCAPE;
 
 		private Controller c;
+		private String s;
 
 		/**
 		 * Initialize a ControlListener to a Controller
@@ -31,15 +32,32 @@ public class RetroControlListener implements KeyListener {
 		public RetroControlListener(Controller c) {
 			this.c = c;
 		}
+		
+		/**
+		 * Set a text output
+		 * 'null' disables text output
+		 * 
+		 * @param s
+		 * 		string to output to
+		 */
+		public void setSOut(String s) {
+			this.s = s;
+		}
 
 		@Override
 		public void keyTyped(KeyEvent e) {
-			//Don't care, not using this method
+			//text to a string
+			if (s != null) {
+				char ch = e.getKeyChar();
+				if (ch == 8 || ch == 127)
+					s= s.substring(0, s.length()-1); //erase a character
+				else if (ch > 31 && ch < 127)
+					s += ch; //append new typed character
+			}
 		}
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			//System.out.println("Hi!");
 			int k = e.getKeyCode();
 			//Set relevant buffers to true
 			if (k == KEY_UP) c.setUp(true);
@@ -54,8 +72,6 @@ public class RetroControlListener implements KeyListener {
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			
-			//System.out.println("Hey!");
 			int k = e.getKeyCode();
 			//Set relevant buffers to false
 			if (k == KEY_UP) c.setUp(false);

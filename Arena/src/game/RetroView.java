@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 /**
  * Class for local View testing
  * 
- * @author Jacob Charles
+ * @author Jacob Charles, Dean Hamlin
  *
  */
 
@@ -45,6 +45,21 @@ public class RetroView extends JFrame {
 	public void reDraw(ClientGameState state){
 		if (!this.getTitle().equals("TSPArena: "+state.getMapName())) {
 			this.setTitle("TSPArena: "+state.getMapName());
+		}
+		Image backBuffer = createImage(640, 480);
+		state.draw(backBuffer.getGraphics());
+		getContentPane().getGraphics().drawImage(backBuffer, 0, 0, null);
+	}
+	
+	/**
+	 * Draw a menu state (double buffered)
+	 * 
+	 * @param state
+	 * 		menu state to draw
+	 */
+	public void reDraw(MenuState state){
+		if (!this.getTitle().equals("TSPArena: "+state.getStateName())) {
+			this.setTitle("TSPArena: "+state.getStateName());
 		}
 		Image backBuffer = createImage(640, 480);
 		state.draw(backBuffer.getGraphics());
