@@ -292,9 +292,6 @@ public class ServerGameState extends GameState {
 		a.setAirTime(1);
 		a.setOnLand(null);
 		a.setVy(-a.getJumpPower());
-		if (a.getPowerup() == Item.SPEED) {
-			a.setVy(-a.getJumpPower()*1.65);
-		}
 	}
 
 	/**
@@ -307,10 +304,6 @@ public class ServerGameState extends GameState {
 		if (a.getAirTime() > 0 && a.getAirTime() <= a.getJumpHold()
 				&& a.getVy() <= 2*a.getGrav()-a.getJumpPower()) {
 			a.setVy(-a.getJumpPower());
-		}
-		if (a.getPowerup() == Item.SPEED && a.getAirTime() > 0 && a.getAirTime() <= a.getJumpHold()
-				&& a.getVy() <= 3*a.getGrav()-a.getJumpPower()*1.65) {
-			a.setVy(-a.getJumpPower()*1.65);
 		}
 	}
 
@@ -1144,18 +1137,10 @@ public class ServerGameState extends GameState {
 			a.setVx(a.getVx()*a.getAirSlip()); //slide
 
 			//gravity
-			if (a.getPowerup() == Item.SPEED) {
-				a.setVy(a.getVy()+a.getGrav()*1.5);
-			}
-			else {
-				a.setVy(a.getVy()+a.getGrav());
-			}
+			a.setVy(a.getVy()+a.getGrav());
 
 			//apply terminal velocity
 			if (a.getVy() > a.getTermVel()) a.setVy(a.getTermVel());
-			if (a.getPowerup() == Item.SPEED && a.getVy() > a.getTermVel()*1.5) {
-				a.setVy(a.getTermVel()/2);
-			}
 		}
 
 		//falling off edges, ducking through platforms, and hatches opening (also death traps)
@@ -1268,7 +1253,7 @@ public class ServerGameState extends GameState {
 			p.setDead(true);
 		}
 	}
-	
+
 	/**
 	 * Move an effect across the screen
 	 * 

@@ -158,23 +158,21 @@ public class ClientGameState extends GameState {
 				String powername = "";
 				if (getPlayer(i).getPowerup() == Item.BIG) powername = "Gigantism";
 				if (getPlayer(i).getPowerup() == Item.MINI) powername = "Dwarfism";
-				if (getPlayer(i).getPowerup() == Item.DJUMP) powername = "Air jump";
+				if (getPlayer(i).getPowerup() == Item.DJUMP) powername = "Buoyancy";
 				if (getPlayer(i).getPowerup() == Item.SPEED) powername = "Fast-Forward";
 				if (getPlayer(i).getPowerup() == Item.SSHOT) powername = "Bullet fever";
 				if (getPlayer(i).getPowerup() == Item.CHANGE) {
 					if (getPlayer(i).getPowerupVar() == Warehouse.LIZARD) powername = "Reptilia";
 					if (getPlayer(i).getPowerupVar() == Warehouse.SLIME) powername = "Fluidity";
-					if (getPlayer(i).getPowerupVar() == Warehouse.CAPTAIN) powername = "Disposability";
-					if (getPlayer(i).getPowerupVar() == Warehouse.MARINE) powername = "Cybernetics";
-					if (getPlayer(i).getPowerupVar() == Warehouse.ROBOT) powername = "Ninjitsu";
-					if (getPlayer(i).getPowerupVar() == Warehouse.SCIENTIST) powername = "Engineering";
+					if (getPlayer(i).getPowerupVar() == Warehouse.CAPTAIN) powername = "Original";
+					if (getPlayer(i).getPowerupVar() == Warehouse.MARINE) powername = "Power Armor";
+					if (getPlayer(i).getPowerupVar() == Warehouse.ROBOT) powername = "Cybernetics";
 				}
-				if (getPlayer(i).getPowerup() == Item.HYPER) powername = "Overcharge";
+				if (getPlayer(i).getPowerup() == Item.HYPER) powername = "Overload";
 				g.drawString(powername, (1+i)*WIDTH/5-27, 56);
 			}
 		}
 		if (getMode() == TIME) {
-			//TODO: Adjust font and centering
 			g.setColor(Color.BLACK);
 			g.fillRoundRect(WIDTH/2-25, 10, 50, 35, 10, 10);
 			g.setColor(Color.WHITE);

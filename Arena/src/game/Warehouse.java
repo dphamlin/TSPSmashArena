@@ -79,7 +79,7 @@ public class Warehouse {
 		r.setJumpHold(4);
 
 		//standard gravity
-		r.setGrav(.7);
+		r.setGrav(.65);
 		r.setTermVel(7);
 
 		//great wall slide
@@ -139,7 +139,7 @@ public class Warehouse {
 		r.setJumpHold(5);
 
 		//average fall
-		r.setGrav(.68);
+		r.setGrav(.63);
 		r.setTermVel(7);
 
 		//weak fall control
@@ -199,7 +199,7 @@ public class Warehouse {
 		r.setJumpHold(10);
 
 		//slightly brisk fall
-		r.setGrav(.9);
+		r.setGrav(.85);
 		r.setTermVel(7);
 
 		//wallrun
