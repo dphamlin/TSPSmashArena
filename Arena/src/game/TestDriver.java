@@ -16,6 +16,7 @@ public class TestDriver {
 	 */
 	public static void main(String args[]) {
 		//initialize
+		Wardrobe.init();
 		Controller c = new Controller();
 		RetroView v = new RetroView();
 		ServerGameState gs = new ServerGameState();
