@@ -19,8 +19,24 @@ public class TestDriver {
 		Controller c = new Controller();
 		RetroView v = new RetroView();
 		ServerGameState gs = new ServerGameState();
+		MenuState ms = new MenuState();
 		StopWatch t = new StopWatch(20);
 		v.attachController(c);
+
+		//menu test loop
+		int prog = 0;
+		while (prog == 0 && v.isVisible()) {
+			t.loopStart();
+			c.update();
+			prog = ms.update(c);
+			v.reDraw(ms);
+			t.loopRest();
+		}
+
+		//menu based actions
+		if (prog == MenuState.QUIT) v.setVisible(false);
+		if (prog == MenuState.JOIN); //TODO: Join in theory
+		if (prog == MenuState.HOST); //TODO: Join in theory
 
 		//test players
 		gs.addPlayer();

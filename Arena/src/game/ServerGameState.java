@@ -299,7 +299,7 @@ public class ServerGameState extends GameState {
 		a.setOnLand(null);
 		a.setVy(-a.getJumpPower());
 		if (a.getPowerup() == Item.SPEED) {
-			a.setVy(-a.getJumpPower()*1.5);
+			a.setVy(-a.getJumpPower()*1.65);
 		}
 	}
 
@@ -313,6 +313,10 @@ public class ServerGameState extends GameState {
 		if (a.getAirTime() > 0 && a.getAirTime() <= a.getJumpHold()
 				&& a.getVy() <= 2*a.getGrav()-a.getJumpPower()) {
 			a.setVy(-a.getJumpPower());
+		}
+		if (a.getPowerup() == Item.SPEED && a.getAirTime() > 0 && a.getAirTime() <= a.getJumpHold()
+				&& a.getVy() <= 3*a.getGrav()-a.getJumpPower()*1.65) {
+			a.setVy(-a.getJumpPower()*1.65);
 		}
 	}
 

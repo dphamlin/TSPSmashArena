@@ -75,7 +75,7 @@ public class Warehouse {
 		r.setMaxSpeed(4);
 
 		//powerful jump
-		r.setJumpPower(8.5);
+		r.setJumpPower(8.6);
 		r.setJumpHold(4);
 
 		//standard gravity
@@ -135,7 +135,7 @@ public class Warehouse {
 		r.setMaxSpeed(3);
 
 		//middling jump
-		r.setJumpPower(7.9);
+		r.setJumpPower(8.0);
 		r.setJumpHold(5);
 
 		//average fall
@@ -195,7 +195,7 @@ public class Warehouse {
 		r.setMaxSpeed(5.4);
 
 		//short hops with potential for higher
-		r.setJumpPower(6);
+		r.setJumpPower(6.1);
 		r.setJumpHold(10);
 
 		//slightly brisk fall
@@ -323,12 +323,12 @@ public class Warehouse {
 
 		//shoot forward
 		s.setLife(100);
-		s.setSpeed(5.5);
-		s.setVSpeed(-3.5);
+		s.setSpeed(6.5);
+		s.setVSpeed(-3);
 
 		//standard type
 		s.setType(Shot.GRAV|Shot.BOMB);
-		s.setVar(38);
+		s.setVar(35);
 		return s;
 	}
 	//mid-range blade
