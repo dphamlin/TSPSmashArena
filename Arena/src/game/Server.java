@@ -26,6 +26,7 @@ public class Server {
 	private int count = 0;
 	private ServerRunnable[] runner;
 	private Thread[] threads;
+	private Boolean namesSent;
 
 	Server(int port) throws IOException {
 		serverSocket = new ServerSocket(port);
@@ -40,7 +41,16 @@ public class Server {
 		threads = new Thread[4];
 		setResultsSent(false);
 		setMessage(new Message(0,null));
+		setNamesSent(true);
 		System.out.println("Starting and listening on: "+getCurrentInetAddress()+":"+port);
+	}
+	
+	public void setNamesSent(Boolean namesSent) {
+		this.namesSent = namesSent;
+	}
+	
+	public Boolean getNamesSent() {
+		return this.namesSent;
 	}
 
 	public void setNumberOfPlayers(int numberOfPlayers) { // Proper functioning only guaranteed for >=1 value.
@@ -115,7 +125,7 @@ public class Server {
 	}
 
 	// Reads new Controller objects from all participants in given list
-	public void readControllersFromAll(ArrayList<Participant> aParticipantList) {
+	public void readMessagesFromAll(ArrayList<Participant> aParticipantList) {
 		getLock().lock();
 		try {
 			while(getCount() < getNumberOfPlayers())
@@ -263,6 +273,26 @@ public class Server {
 			this.getThread(i).run();
 		}
 	}
+	
+	public void handleAllMessages(ArrayList<Participant> aParticipantList) {
+		for (Participant p: aParticipantList) {
+			if (p.getMessageFromClient().getNumber() == 2) { // 2 indicates a name message
+				p.setName(json.fromJson(p.getMessageFromClient().getMessage(),String.class));
+				setNamesSent(false);
+			}
+			else if (p.getMessageFromClient().getNumber() == 0) { // 0 indicates a Controller
+				p.setController(json.fromJson(p.getMessageFromClient().getMessage(), Controller.class));
+			}
+		}
+	}
+	
+	public ArrayList<String> getNameList(ArrayList<Participant> aParticipantList) {
+		ArrayList<String> nameList = new ArrayList<String>();
+		for (Participant p: aParticipantList) {
+			nameList.add(p.getName());
+		}
+		return nameList;
+	}
 
 
 	// Main method
@@ -307,18 +337,24 @@ public class Server {
 
 			theServer.getTimer().loopStart(); //log start time
 
-			theServer.readControllersFromAll(theServer.getParticipantList()); // Reads updated controllers into all participants
-
-			theServer.applyAllControls(theServer.getParticipantList()); // Applies controls for all participants
-			theServer.getGameState().update(); // updates game state using game logic
+			theServer.readMessagesFromAll(theServer.getParticipantList()); // Reads updated controllers into all participants
+			theServer.handleAllMessages(theServer.getParticipantList()); // Handles all messages received
+			//theServer.applyAllControls(theServer.getParticipantList()); // Applies controls for all participants
+			//theServer.getGameState().update(); // updates game state using game logic
 
 			if (theServer.getGameState().getEnd() == 1 && !theServer.resultsSent()) {
 				theServer.getMessage().setNumber(1);
 				theServer.getMessage().setMessage(theServer.json.toJson(theServer.getGameState().getResults()));
 				theServer.setResultsSent(true);
 			}
+			else if (theServer.getNamesSent() == false) { // The names need to be updated
+				theServer.getMessage().setNumber(2);
+				theServer.getMessage().setMessage(theServer.json.toJson(theServer.getNameList(theServer.getParticipantList())));
+				theServer.setNamesSent(true);
+			}	
 			else {
 				// GameState is updated by this point; send it to all
+				theServer.getGameState().update();
 				theServer.getMessage().setNumber(0);
 				theServer.getMessage().setMessage(theServer.json.toJson(theServer.getGameState().convert()));
 			}

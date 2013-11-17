@@ -15,7 +15,7 @@ public class ServerRunnable implements Runnable {
 	@Override
 	public void run() {
 
-		// gets controller from client
+		// gets Message from client
 		theServer.getLock().lock();
 		try {
 			while(theServer.getCount() == 0){
@@ -27,12 +27,12 @@ public class ServerRunnable implements Runnable {
 				// thread will be responsible for changing 
 				// back to active on reconnect
 				try {
-					p.readController();
+					p.readMessage();
 				}
-			catch (IOException e) {
-				System.err.println("Participant disconnected on reading controller. Set to inactive. " + e.getMessage());
-				p.setActive(false);
-				theServer.setActivePlayerCount(theServer.getActivePlayerCount()-1);
+				catch (IOException e) {
+					System.err.println("Participant disconnected on reading message. Set to inactive. " + e.getMessage());
+					p.setActive(false);
+					theServer.setActivePlayerCount(theServer.getActivePlayerCount()-1);
 			}
 
 		} catch (InterruptedException e) {
@@ -41,7 +41,7 @@ public class ServerRunnable implements Runnable {
 			theServer.getLock().unlock();
 		}
 
-		// sends gamestate to client
+		// sends Message to client
 		theServer.getLock().lock();
 		try {
 			while(theServer.getCount() < theServer.getNumberOfPlayers())
