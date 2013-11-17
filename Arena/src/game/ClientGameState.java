@@ -225,7 +225,7 @@ public class ClientGameState extends GameState {
 		//respawn timer
 		if (a.isDead()) {
 			g.setColor(Color.LIGHT_GRAY);
-			g.fillArc(x-9, y-9, 18, 18, 90, (-360*a.getDeadTime())/(a.getSpawnTime()-10)-90);
+			g.fillArc(x-9, y-9, 18, 18, 90, (-360*a.getDeadTime())/(a.getSpawnTime()-20)-90);
 			return;
 		}
 
