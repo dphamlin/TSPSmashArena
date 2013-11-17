@@ -332,9 +332,9 @@ public class ClientGameState extends GameState {
 	private void draw(Shot s, Graphics g) {
 		if (s.getSkin() < Warehouse.CHAR_NUM) {
 			if (s.getVx() > 0)
-				Wardrobe.drawShot(g, (int)s.getHCenter(), (int)s.getVCenter(), s.getSkin(), (getFrameNumber()/10)%4);
+				Wardrobe.drawShot(g, (int)s.getHCenter(), (int)s.getVCenter(), s.getSkin(), 3-(s.getLifeTime()/10)%4);
 			else
-				Wardrobe.drawShotFlip(g, (int)s.getHCenter(), (int)s.getVCenter(), s.getSkin(), (getFrameNumber()/10)%4);
+				Wardrobe.drawShotFlip(g, (int)s.getHCenter(), (int)s.getVCenter(), s.getSkin(), 3-(s.getLifeTime()/10)%4);
 		}
 		else {
 			g.setColor(Color.RED);
@@ -364,7 +364,10 @@ public class ClientGameState extends GameState {
 		if (p.getType() == Item.HYPER) name = "O";
 		if (p.getType() == Item.LIFE) name = "+";
 		g.drawString(name, (int)p.getLeftEdge()+3, (int)p.getBottomEdge()-3);*/
-		Wardrobe.drawPowerup(g, (int)p.getHCenter(), (int)p.getVCenter(), p.getSkin(), 0);
+		if ((p.getLifeTime()/9) % 6 < 4)
+			Wardrobe.drawPowerup(g, (int)p.getHCenter(), (int)p.getVCenter(), p.getSkin(), (p.getLifeTime()/9)%6);
+		else
+			Wardrobe.drawPowerup(g, (int)p.getHCenter(), (int)p.getVCenter(), p.getSkin(), 0);
 	}
 
 	/**

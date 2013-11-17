@@ -19,7 +19,6 @@ public class TestDriver {
 		Wardrobe.init();
 		Controller c = new Controller();
 		RetroView v = new RetroView();
-		ServerGameState gs = new ServerGameState();
 		MenuState ms = new MenuState();
 		StopWatch t = new StopWatch(20);
 		v.attachController(c);
@@ -35,9 +34,12 @@ public class TestDriver {
 		}
 
 		//menu based actions
+		if (prog == MenuState.HOST); //TODO: Host, in theory
+		if (prog == MenuState.JOIN); //TODO: Join, in theory
 		if (prog == MenuState.QUIT) v.setVisible(false);
-		if (prog == MenuState.JOIN); //TODO: Join in theory
-		if (prog == MenuState.HOST); //TODO: Join in theory
+
+		//new game starting
+		ServerGameState gs = new ServerGameState();
 
 		//test players
 		gs.addPlayer();
