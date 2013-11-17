@@ -42,9 +42,12 @@ public class Wardrobe {
 	 * 		which character to use
 	 * @param frame
 	 * 		which frame to draw from
+	 * @param scale
+	 * 		size multiplier
 	 */
-	public static void drawChar(Graphics g, int x, int y, int skin, int frame) {
-		g.drawImage(c, x-16, y-8, x+16, y+8, frame*32, skin*16, frame*32+32, skin*16+16, null);
+	public static void drawChar(Graphics g, int x, int y, int skin, int frame, double scale) {
+		g.drawImage(c, x-(int)(16*scale), y-(int)(8*scale), x+(int)(16*scale), y+(int)(8*scale),
+				frame*32, skin*16, frame*32+32, skin*16+16, null);
 	}
 	
 	/**
@@ -60,9 +63,12 @@ public class Wardrobe {
 	 * 		which character to use
 	 * @param frame
 	 * 		which frame to draw from
+	 * @param scale
+	 * 		size multiplier
 	 */
-	public static void drawCharFlip(Graphics g, int x, int y, int skin, int frame) {
-		g.drawImage(c, x+16, y-8, x-16, y+8, frame*32, skin*16, frame*32+32, skin*16+16, null);
+	public static void drawCharFlip(Graphics g, int x, int y, int skin, int frame, double scale) {
+		g.drawImage(c, x+(int)(16*scale), y-(int)(8*scale), x-(int)(16*scale), y+(int)(8*scale),
+				frame*32, skin*16, frame*32+32, skin*16+16, null);
 	}
 	
 	/**
@@ -78,9 +84,12 @@ public class Wardrobe {
 	 * 		which character to use
 	 * @param frame
 	 * 		which frame to draw from
+	 * @param scale
+	 * 		size multiplier
 	 */
-	public static void drawShot(Graphics g, int x, int y, int skin, int frame) {
-		g.drawImage(c, x-16, y-8, x+16, y+8, (10+frame)*32, skin*16, (10+frame)*32+32, skin*16+16, null);
+	public static void drawShot(Graphics g, int x, int y, int skin, int frame, double scale) {
+		g.drawImage(c, x-(int)(16*scale), y-(int)(8*scale), x+(int)(16*scale), y+(int)(8*scale),
+				(10+frame)*32, skin*16, (10+frame)*32+32, skin*16+16, null);
 	}
 	
 	/**
@@ -96,9 +105,12 @@ public class Wardrobe {
 	 * 		which character to use
 	 * @param frame
 	 * 		which frame to draw from
+	 * @param scale
+	 * 		size multiplier
 	 */
-	public static void drawShotFlip(Graphics g, int x, int y, int skin, int frame) {
-		g.drawImage(c, x+16, y-8, x-16, y+8, (10+frame)*32, skin*16, (10+frame)*32+32, skin*16+16, null);
+	public static void drawShotFlip(Graphics g, int x, int y, int skin, int frame, double scale) {
+		g.drawImage(c, x+(int)(16*scale), y-(int)(8*scale), x-(int)(16*scale), y+(int)(8*scale),
+				(10+frame)*32, skin*16, (10+frame)*32+32, skin*16+16, null);
 	}
 	
 	/**

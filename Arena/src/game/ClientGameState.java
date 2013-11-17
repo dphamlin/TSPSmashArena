@@ -147,7 +147,7 @@ public class ClientGameState extends GameState {
 				}
 			}
 			//draw the character's current state in box
-			draw(getPlayer(i), (1+i)*WIDTH/5-19, 18, g);
+			draw(getPlayer(i), (1+i)*WIDTH/5-11, 26, 1.0, g);
 			//draw the reload bar
 			if (getPlayer(i).getReload() > 0) {
 				g.setColor(Color.RED);
@@ -196,10 +196,11 @@ public class ClientGameState extends GameState {
 	private void draw(Actor a, Graphics g) {
 		//don't draw dead guys
 		if (a.isDead()) return;
-		//if (a.isNoP()) return;
 
 		//fall through to position drawing method
-		draw(a, (int)a.getLeftEdge(), (int)a.getTopEdge(), g);
+		if (a.getPowerup() == Item.BIG) draw(a, (int)a.getHCenter(), (int)a.getVCenter(), 2.0, g);
+		else if (a.getPowerup() == Item.MINI) draw(a, (int)a.getHCenter(), (int)a.getVCenter(), 0.5, g);
+		else draw(a, (int)a.getHCenter(), (int)a.getVCenter(), 1.0, g);
 	}
 
 	/**
@@ -215,7 +216,7 @@ public class ClientGameState extends GameState {
 	 * @param g
 	 * 		graphics object to draw through
 	 */
-	private void draw(Actor a, int x, int y, Graphics g) {
+	private void draw(Actor a, int x, int y, double scale, Graphics g) {
 		//TODO: Make this draw an image with transparency instead
 
 		//respawn blink
@@ -223,16 +224,16 @@ public class ClientGameState extends GameState {
 
 		//respawn timer
 		if (a.isDead()) {
-			g.setColor(Color.GRAY);
-			g.fillArc(x-1, y-1, a.getW()+2, a.getH()+2, 90, (-360*a.getDeadTime())/a.getSpawnTime()-90);
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillArc(x-9, y-9, 18, 18, 90, (-360*a.getDeadTime())/(a.getSpawnTime()-10)-90);
 			return;
 		}
 
 		//temporary shape
 		if (a.getDir() > 0)
-			Wardrobe.drawChar(g, x+8, y+8, a.getSkin(), a.getFrame());
+			Wardrobe.drawChar(g, x, y, a.getSkin(), a.getFrame(), scale);
 		else
-			Wardrobe.drawCharFlip(g, x+8, y+8, a.getSkin(), a.getFrame());
+			Wardrobe.drawCharFlip(g, x, y, a.getSkin(), a.getFrame(), scale);
 	}
 
 	/**
@@ -332,9 +333,9 @@ public class ClientGameState extends GameState {
 	private void draw(Shot s, Graphics g) {
 		if (s.getSkin() < Warehouse.CHAR_NUM) {
 			if (s.getVx() > 0)
-				Wardrobe.drawShot(g, (int)s.getHCenter(), (int)s.getVCenter(), s.getSkin(), 3-(s.getLifeTime()/10)%4);
+				Wardrobe.drawShot(g, (int)s.getHCenter(), (int)s.getVCenter(), s.getSkin(), 3-(s.getLifeTime()/10)%4, 1);
 			else
-				Wardrobe.drawShotFlip(g, (int)s.getHCenter(), (int)s.getVCenter(), s.getSkin(), 3-(s.getLifeTime()/10)%4);
+				Wardrobe.drawShotFlip(g, (int)s.getHCenter(), (int)s.getVCenter(), s.getSkin(), 3-(s.getLifeTime()/10)%4, 1);
 		}
 		else {
 			g.setColor(Color.RED);
@@ -364,8 +365,8 @@ public class ClientGameState extends GameState {
 		if (p.getType() == Item.HYPER) name = "O";
 		if (p.getType() == Item.LIFE) name = "+";
 		g.drawString(name, (int)p.getLeftEdge()+3, (int)p.getBottomEdge()-3);*/
-		if ((p.getLifeTime()/9) % 6 < 4)
-			Wardrobe.drawPowerup(g, (int)p.getHCenter(), (int)p.getVCenter(), p.getSkin(), (p.getLifeTime()/9)%6);
+		if ((p.getLifeTime()/9) % 7 < 4)
+			Wardrobe.drawPowerup(g, (int)p.getHCenter(), (int)p.getVCenter(), p.getSkin(), (p.getLifeTime()/9)%7);
 		else
 			Wardrobe.drawPowerup(g, (int)p.getHCenter(), (int)p.getVCenter(), p.getSkin(), 0);
 	}

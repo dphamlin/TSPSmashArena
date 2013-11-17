@@ -396,7 +396,6 @@ public class ServerGameState extends GameState {
 		//make the shot SUPER (+50% speed, +pierce)
 		if (a.getPowerup() == Item.SSHOT) {
 			s.setVx(s.getVx()*1.5);
-			//s.setVy(s.getVy()*1.5);
 			if (s.isAccel()) { //+50% accel too
 				s.setVar(s.getVar()*3/2);
 			}
