@@ -345,7 +345,7 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void draw(Item p, Graphics g) {
-		g.setColor(Color.YELLOW);
+		/*g.setColor(Color.YELLOW);
 		g.fillRect((int)p.getLeftEdge(), (int)p.getTopEdge(), p.getW(), p.getH());
 		g.setColor(Color.BLACK);
 		String name = "";
@@ -357,7 +357,8 @@ public class ClientGameState extends GameState {
 		if (p.getType() == Item.CHANGE) name = "C";
 		if (p.getType() == Item.HYPER) name = "O";
 		if (p.getType() == Item.LIFE) name = "+";
-		g.drawString(name, (int)p.getLeftEdge()+3, (int)p.getBottomEdge()-3);
+		g.drawString(name, (int)p.getLeftEdge()+3, (int)p.getBottomEdge()-3);*/
+		Wardrobe.drawPowerup(g, (int)p.getHCenter(), (int)p.getVCenter(), p.getSkin(), 0);
 	}
 	
 	/**

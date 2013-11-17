@@ -62,6 +62,24 @@ public class Wardrobe {
 	 * 		which frame to draw from
 	 */
 	public static void drawCharFlip(Graphics g, int x, int y, int skin, int frame) {
-		g.drawImage(c, x+16, y-8, x-16, y-8, frame*32, skin*16, frame*32+32, skin*16+16, null);
+		g.drawImage(c, x+16, y-8, x-16, y+8, frame*32, skin*16, frame*32+32, skin*16+16, null);
+	}
+	
+	/**
+	 * Cut a sprite from the sheet and draw it
+	 * 
+	 * @param g
+	 * 		the graphics object for drawing
+	 * @param x
+	 * 		the x position to draw at
+	 * @param y
+	 * 		the y position to draw at
+	 * @param skin
+	 * 		which powerup to use
+	 * @param frame
+	 * 		which frame to draw from
+	 */
+	public static void drawPowerup(Graphics g, int x, int y, int skin, int frame) {
+		g.drawImage(p, x-8, y-8, x+8, y+8, frame*16, skin*16, frame*16+16, skin*16+16, null);
 	}
 }

@@ -659,6 +659,7 @@ public class ServerGameState extends GameState {
 		p.setVx(0);
 		p.setVy(0);
 		p.setType(type);
+		p.setSkin(type-1);
 		if (type == Item.DJUMP) p.setSubType(1);
 		if (type == Item.CHANGE) p.setSubType((int)(Math.random()*(Warehouse.CHAR_NUM-1)));
 		if (type == Item.HYPER) p.setSubType(10*50);
