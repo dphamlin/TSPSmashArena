@@ -44,7 +44,7 @@ public class Wardrobe {
 	 * 		which frame to draw from
 	 */
 	public static void drawChar(Graphics g, int x, int y, int skin, int frame) {
-		g.drawImage(c, x-16, y-8, x+16, y-8, frame*32, skin*16, frame*32+32, skin*16+16, null);
+		g.drawImage(c, x-16, y-8, x+16, y+8, frame*32, skin*16, frame*32+32, skin*16+16, null);
 	}
 	
 	/**
@@ -63,6 +63,42 @@ public class Wardrobe {
 	 */
 	public static void drawCharFlip(Graphics g, int x, int y, int skin, int frame) {
 		g.drawImage(c, x+16, y-8, x-16, y+8, frame*32, skin*16, frame*32+32, skin*16+16, null);
+	}
+	
+	/**
+	 * Cut a sprite from the sheet and draw it
+	 * 
+	 * @param g
+	 * 		the graphics object for drawing
+	 * @param x
+	 * 		the x position to draw at
+	 * @param y
+	 * 		the y position to draw at
+	 * @param skin
+	 * 		which character to use
+	 * @param frame
+	 * 		which frame to draw from
+	 */
+	public static void drawShot(Graphics g, int x, int y, int skin, int frame) {
+		g.drawImage(c, x-16, y-8, x+16, y+8, (10+frame)*32, skin*16, (10+frame)*32+32, skin*16+16, null);
+	}
+	
+	/**
+	 * Cut a sprite from the sheet and draw it flipped
+	 * 
+	 * @param g
+	 * 		the graphics object for drawing
+	 * @param x
+	 * 		the x position to draw at
+	 * @param y
+	 * 		the y position to draw at
+	 * @param skin
+	 * 		which character to use
+	 * @param frame
+	 * 		which frame to draw from
+	 */
+	public static void drawShotFlip(Graphics g, int x, int y, int skin, int frame) {
+		g.drawImage(c, x+16, y-8, x-16, y+8, (10+frame)*32, skin*16, (10+frame)*32+32, skin*16+16, null);
 	}
 	
 	/**

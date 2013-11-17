@@ -101,7 +101,7 @@ public class ClientGameState extends GameState {
 			draw(i, g);
 		}
 	}
-	
+
 	/**
 	 * Draw the effects
 	 * 
@@ -130,7 +130,7 @@ public class ClientGameState extends GameState {
 		//draw actual characters and stats
 		for (int i = 0; i < getNumberOfPlayers(); i++) {
 			if (getPlayer(i).isSuspend()) continue; //skip over suspended players
-			
+
 			g.setColor(Color.WHITE);
 			if (getMode() == STOCK) {
 				g.drawString("x"+getPlayer(i).getLives(), 3+(1+i)*WIDTH/5, 35);
@@ -221,20 +221,18 @@ public class ClientGameState extends GameState {
 		//respawn blink
 		if (a.isArmored() && a.getDeadTime() % 8 < 4) return;
 
-		//temporary colors
-		Color c[] = {Color.ORANGE, Color.GREEN, Color.BLUE, Color.DARK_GRAY, Color.MAGENTA, Color.BLACK};
-		g.setColor(c[a.getSkin()]);
-
 		//respawn timer
 		if (a.isDead()) {
+			g.setColor(Color.GRAY);
 			g.fillArc(x-1, y-1, a.getW()+2, a.getH()+2, 90, (-360*a.getDeadTime())/a.getSpawnTime()-90);
 			return;
 		}
 
 		//temporary shape
-		g.fillOval(x, y, a.getW(), a.getH());
-		g.fillRect((int)x+a.getW()/2, y, -a.getW()*a.getDir()/2, a.getH());
-		g.fillRect(x, y, a.getW()*a.getDir()/2, a.getH());
+		if (a.getDir() > 0)
+			Wardrobe.drawChar(g, x+8, y+8, a.getSkin(), a.getFrame());
+		else
+			Wardrobe.drawCharFlip(g, x+8, y+8, a.getSkin(), a.getFrame());
 	}
 
 	/**
@@ -332,8 +330,16 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void draw(Shot s, Graphics g) {
-		g.setColor(Color.RED);
-		g.fillRect((int)s.getLeftEdge(), (int)s.getTopEdge(), s.getW(), s.getH());
+		if (s.getSkin() < Warehouse.CHAR_NUM) {
+			if (s.getVx() > 0)
+				Wardrobe.drawShot(g, (int)s.getHCenter(), (int)s.getVCenter(), s.getSkin(), (getFrameNumber()/10)%4);
+			else
+				Wardrobe.drawShotFlip(g, (int)s.getHCenter(), (int)s.getVCenter(), s.getSkin(), (getFrameNumber()/10)%4);
+		}
+		else {
+			g.setColor(Color.RED);
+			g.fillRect((int)s.getLeftEdge(), (int)s.getTopEdge(), s.getW(), s.getH());
+		}
 	}
 
 	/**
@@ -360,7 +366,7 @@ public class ClientGameState extends GameState {
 		g.drawString(name, (int)p.getLeftEdge()+3, (int)p.getBottomEdge()-3);*/
 		Wardrobe.drawPowerup(g, (int)p.getHCenter(), (int)p.getVCenter(), p.getSkin(), 0);
 	}
-	
+
 	/**
 	 * Draw an effect to the designated graphics object
 	 * 

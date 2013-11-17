@@ -11,9 +11,9 @@ public class Warehouse {
 	public static final int SCIENTIST = 5;
 
 	//bullets
-	public static final int FIREBALL = 0;
-	public static final int BUBBLE = 1;
-	public static final int RAYGUN = 2;
+	public static final int RAYGUN = 0;
+	public static final int FIREBALL = 1;
+	public static final int BUBBLE = 2;
 	public static final int MORTAR = 3;
 	public static final int BEAMSWORD = 4;
 	public static final int BOOMERANG = 5;
@@ -37,7 +37,7 @@ public class Warehouse {
 	private static RoleModel characters[] = 
 		{captain(), lizardman(), slime(), spaceMarine(), japaneseRobot(), madScientist()};
 	private static ShotModel shots[] =
-		{fireball(), bubble(), raygun(), mortar(), beamSword(), boomerang(), missile(), explosion(),
+		{raygun(), fireball(), bubble(), mortar(), beamSword(), boomerang(), missile(), explosion(),
 		lavaball(), meteor(), lavaWave(), lavaWarning()};
 	private static Blueprint maps[] = 
 		{holodeck(), alienPlanet(), factory(), demo()};
@@ -337,7 +337,7 @@ public class Warehouse {
 		s.setSkin(BEAMSWORD);
 
 		//super quick
-		s.setReload(35);
+		s.setReload(30);
 
 		//long blades
 		s.setH(4);
@@ -345,7 +345,7 @@ public class Warehouse {
 
 		//short range
 		s.setLife(12);
-		s.setSpeed(9);
+		s.setSpeed(9.5);
 
 		//stop quickly
 		s.setType(Shot.ACCEL+Shot.MOMENT+Shot.SHIELD);
@@ -418,7 +418,7 @@ public class Warehouse {
 	//jumping lava fireballs
 	private static ShotModel lavaball() {
 		ShotModel s = new ShotModel();
-		s.setSkin(LAVABALL);
+		s.setSkin(FIREBALL);
 
 		//mid-speed firing
 		s.setReload(80);

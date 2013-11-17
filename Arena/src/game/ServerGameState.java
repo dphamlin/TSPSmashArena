@@ -262,29 +262,23 @@ public class ServerGameState extends GameState {
 	 */
 	private void pose (Actor a) {
 		//TODO: Get numbers for all these frames
-		if (a.getReload() < 5) {
-			//shot frame
+		if (a.getReload() > a.getShotDelay()-15) {
+			a.setFrame(8); //shot frame
 		}
 		else if (a.isSlide()) {
-			//wall stick frame
+			a.setFrame(7); //wall stick frame
 		}
 		else if (a.getOnLand() == null && a.getVy() < 0) {
-			//rising frame
+			a.setFrame(5); //rising frame
 		}
 		else if (a.getOnLand() == null) {
-			//falling frame
+			a.setFrame(6); //falling frame
 		}
-		else if (a.getDir()*a.getVx() < .2) {
-			//skid frame
-		}
-		else if (Math.abs(a.getVx()) > .1 && getFrameNumber()/7 % 2 == 0) {
-			//run frame 1
-		}
-		else if (Math.abs(a.getVx()) > .1) {
-			//run frame 2
+		else if (Math.abs(a.getVx()) > .1 && a.isLean()) {
+			a.setFrame((getFrameNumber()/11)%4+1); //running frames
 		}
 		else {
-			//standing frame
+			a.setFrame(0); //idle frame
 		}
 	}
 
