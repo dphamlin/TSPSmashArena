@@ -28,7 +28,7 @@ public class Warehouse {
 	public static final int HOLODECK = 0;
 	public static final int PLANET = 1;
 	public static final int FACTORY = 2;
-	public static final int DEMO = 3; //will be eventually removed, probably
+	public static final int DEMO = -1; //dummied out but data still exists for now
 
 	//dimensions for easy level building
 	private static final int WIDTH = 640, HEIGHT = 480;
@@ -40,7 +40,7 @@ public class Warehouse {
 		{raygun(), fireball(), bubble(), mortar(), beamSword(), boomerang(), missile(), explosion(),
 		lavaball(), meteor(), lavaWave(), lavaWarning()};
 	private static Blueprint maps[] = 
-		{holodeck(), alienPlanet(), factory(), demo()};
+		{holodeck(), alienPlanet(), factory()};
 
 	/**
 	 * @return Array of selectable characters
