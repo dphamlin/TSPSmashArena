@@ -164,7 +164,6 @@ public class Client {
 	
 	public void play() throws Exception {
 		while (getSocket().isConnected() && getView().isVisible()) {
-			
 			getTimer().loopStart(); // Start the loop
 			
 			updateController(); // Update controller
@@ -218,7 +217,7 @@ public class Client {
 		
 		Client theClient = null;
 		try {
-			theClient = new Client(serverAddr,port, new View(new Arena()));
+			theClient = new Client(serverAddr,port,new View(new Arena()));
 		}
 		catch (IOException e) {
 			System.err.println("Failed to create client.");

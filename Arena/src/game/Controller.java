@@ -1,11 +1,14 @@
 package game;
 
+import javax.swing.JComponent;
+
 /**
  * Class to hold the buttons
  * 
  * @author Jacob Charles
  *
  */
+
 public class Controller {
 	//mask values
 	private static final int B_UP = 1;

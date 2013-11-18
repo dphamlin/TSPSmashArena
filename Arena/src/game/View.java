@@ -52,10 +52,11 @@ public class View extends JFrame {
 		draw = new JPanel();
 		draw.setPreferredSize(new Dimension(640, 480));
 		this.setSize(640, 480);	
+		cl = new CardLayout();
+		cardPane = new JPanel(cl);
 		
 		arena = a;
 		control = new ControlListener(this);
-		this.addKeyListener(control);
 	    modeTabbedPane = new JTabbedPane();
 		jGo = new JButton("Go!");
 		hGo = new JButton("Go!");
