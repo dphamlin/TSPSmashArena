@@ -46,22 +46,12 @@ public class MenuState {
 			if (c.getDown() % 45 == 1) cursor++;
 			cursor = (cursor+menuSize)%menuSize;
 		}
-		boolean select = (c.getJump() == 1);
+		boolean select = (c.getJump() == 1 && !typing);
 		boolean esc = (c.getStart() == 1);
+		if (esc && typing) typing = false;
 
 		//selections
-		if (typing) { //full keyboard input
-			char ch = c.getTyped();
-			if (ch == 8 || ch == 127) //backspace and delete
-				host = host.substring(0, host.length()-1);
-			else if (ch > 32 && ch < 127) //printable characters
-				host += ch;
-			else if (ch == 27 || ch == 10 || ch == 13) //escape and enter
-				typing = false;
-			
-			c.setTyped((char)0); //data has been read
-		}
-		else if (state == MAIN) { //main menu options
+		if (state == MAIN) { //main menu options
 			//host a game
 			if (cursor == 0 && select) setState(HOST);
 			//join a game
@@ -86,8 +76,20 @@ public class MenuState {
 			if (esc || cursor == 2 && select) setState(MAIN);
 		}
 		else if (state == JOIN) { //join menu options
+			//full keyboard input
+			if (typing && cursor == 0) {
+				char ch = c.getTyped();
+				if (ch == 8 || ch == 127) //backspace and delete
+					host = host.substring(0, host.length()-1);
+				else if (ch > 32 && ch < 127) //printable characters
+					host += ch;
+				else if (ch == 27 || ch == 10 || ch == 13) //escape and enter
+					typing = false;
+				
+				c.setTyped((char)0); //data has been read
+			}
 			//fill out an IP address
-			if (cursor == 0 && select && !typing) {
+			else if (cursor == 0 && select && !typing) {
 				c.setTyped((char)0);
 				typing = true;
 			}
