@@ -161,7 +161,7 @@ public class Actor extends GameObject {
 		}
 		//exit mini mode (reset size)
 		if (this.p == Item.MINI && powerup != Item.MINI) {
-			setY(getY()-getH());
+			setY(getY()-getH()-2);
 			setX(getX()-getW());
 			setW(Warehouse.getCharacters()[m].getW());
 			setH(Warehouse.getCharacters()[m].getH());
@@ -170,7 +170,7 @@ public class Actor extends GameObject {
 		}
 		//enter big mode (get huge)
 		if (this.p != Item.BIG && powerup == Item.BIG) {
-			setY(getY()-getH());
+			setY(getY()-getH()-2);
 			setX(getX()-getW()/2);
 			setW(getW()*2);
 			setH(getH()*2);
