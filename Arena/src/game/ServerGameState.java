@@ -1247,7 +1247,7 @@ public class ServerGameState extends GameState {
 			}
 		}
 
-		//out-of-bounds wraparound (temp)
+		//out-of-bounds wraparound
 		if (a.getBottomEdge() < 0) a.setTopEdge(GameState.HEIGHT); //off top
 		if (a.getTopEdge() > GameState.HEIGHT) a.setBottomEdge(0); //off bottom
 		if (a.getRightEdge() < 0) a.setLeftEdge(GameState.WIDTH); //off left
@@ -1298,12 +1298,17 @@ public class ServerGameState extends GameState {
 		}
 
 		//out of bounds removal
-		if ((s.getBottomEdge() < -s.getH()*2 && s.getVy() < 0)
+		/*if ((s.getBottomEdge() < -s.getH()*2 && s.getVy() < 0)
 				|| (s.getTopEdge() > GameState.HEIGHT+s.getH()*2 && s.getVy() > 0)
 				|| (s.getRightEdge() < -s.getW()*2 && s.getVx() < 0)
 				|| (s.getLeftEdge() > GameState.WIDTH+s.getW()*2 && s.getVx() > 0)) {
 			s.setDead(true);
-		}
+		}*/
+		//out-of-bounds wraparound
+		if (s.getBottomEdge() < 0) s.setTopEdge(GameState.HEIGHT); //off top
+		if (s.getTopEdge() > GameState.HEIGHT) s.setBottomEdge(0); //off bottom
+		if (s.getRightEdge() < 0) s.setLeftEdge(GameState.WIDTH); //off left
+		if (s.getLeftEdge() > GameState.WIDTH) s.setRightEdge(0); //off right
 	}
 
 	/**
