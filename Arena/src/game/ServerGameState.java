@@ -847,6 +847,7 @@ public class ServerGameState extends GameState {
 		//die on touching danger
 		if (l.isDanger() && !a.isArmored() && (v != NONE || h != NONE || ov)) {
 			kill(null, a); //killed by no one
+			return;
 		}
 
 		//activate warp blocks
@@ -1241,7 +1242,7 @@ public class ServerGameState extends GameState {
 			if (l.isNHatch() && isControl()) { //negative hatch off
 				fall(a);
 			}
-			if (l.isDanger() && !a.isArmored()) { //deadly floors
+			if (!a.isDead() && l.isDanger() && !a.isArmored()) { //deadly floors
 				kill(null, a);
 			}
 		}
