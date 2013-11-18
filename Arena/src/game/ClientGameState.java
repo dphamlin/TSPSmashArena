@@ -181,9 +181,6 @@ public class ClientGameState extends GameState {
 			sec %= 60;
 			g.drawString(min+":"+sec, WIDTH/2-15, 35);
 		}
-		//TODO: Remove debug text
-		g.setColor(Color.BLACK);
-		g.drawString("Effects: "+getEffects().size(), WIDTH/2-15, 75);
 	}
 
 	/**
@@ -376,6 +373,6 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void draw(Effect e, Graphics g) {
-		Wardrobe.drawEffect(g, (int)e.getHCenter(), (int)e.getVCenter(), e.getSkin(), 5-e.getLife()/6);
+		Wardrobe.drawEffect(g, (int)e.getHCenter(), (int)e.getVCenter(), e.getSkin(), 5-e.getLife()/5);
 	}
 }

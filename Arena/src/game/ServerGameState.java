@@ -261,7 +261,6 @@ public class ServerGameState extends GameState {
 	 * 		the actor to update
 	 */
 	private void pose (Actor a) {
-		//TODO: Get numbers for all these frames
 		if (a.getReload() > a.getShotDelay()-15) {
 			a.setFrame(8); //shot frame
 		}
@@ -520,8 +519,8 @@ public class ServerGameState extends GameState {
 
 		a.setDeadTime(a.getDeadTime()+1); //respawn timer and spawn invincibility
 		if (a.getDeadTime() == a.getSpawnTime() && a.isDead()) respawn(a); //respawn at the time
-		if (a.getDeadTime() == a.getSpawnTime()-10 && a.isDead()) { //respawn effect
-			spawnEffect(getSpawnX(a.getId()), getSpawnY(a.getId()), Effect.SPAWN, 0); 
+		if (a.getDeadTime() == a.getSpawnTime()-22 && a.isDead()) { //respawn effect
+			spawnEffect(getSpawnX(a.getId()), getSpawnY(a.getId()), Effect.SPAWN, 0);
 		}
 
 		if (a.getReload() > 0) a.setReload(a.getReload()-1); //timer between shots
@@ -659,6 +658,18 @@ public class ServerGameState extends GameState {
 		getPowerups().add(p);
 	}
 
+	/**
+	 * Spawn a special effect
+	 * 
+	 * @param x
+	 * 		x position of center
+	 * @param y
+	 * 		y position of center
+	 * @param type
+	 * 		type of effect
+	 * @param subtype
+	 * 		specify variations within a type
+	 */
 	private void spawnEffect (int x, int y, int type, int subtype) {
 		//build a new shot, according to the Actor's specifications
 		Effect e = new Effect(x, y);
@@ -678,7 +689,7 @@ public class ServerGameState extends GameState {
 		//spawning effect
 		if (type == Effect.SPAWN) {
 			e.setType(Effect.SPAWN);
-			e.setLife(5*6);
+			e.setLife(6*6-1);
 			e.setSkin(0);
 		}
 
