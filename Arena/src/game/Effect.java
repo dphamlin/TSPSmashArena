@@ -2,8 +2,9 @@ package game;
 
 public class Effect extends GameObject {
 	public static final int SPAWN = 0;
-	public static final int GRAB = 1;
-	public static final int DEATH = 2;
+	public static final int FADE = 1;
+	public static final int GRAB = 2;
+	public static final int DEATH = -1;
 	
 	private int t;
 	private int l;

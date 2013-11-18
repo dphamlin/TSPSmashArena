@@ -470,7 +470,7 @@ public class Warehouse {
 		s.setW(640);
 
 		//drops straight
-		s.setLife(455);
+		s.setLife(485);
 		s.setSpeed(0);
 		//s.setVSpeed(-10);
 		s.setVSpeed(-12);

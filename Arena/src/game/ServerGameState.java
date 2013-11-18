@@ -466,6 +466,7 @@ public class ServerGameState extends GameState {
 		}
 
 		//target dies
+		spawnEffect(b, Effect.DEATH, b.getSkin());
 		die(b);
 
 		//killed by a target
@@ -552,6 +553,7 @@ public class ServerGameState extends GameState {
 		//die off
 		if (s.getLifeTime() <= 0) {
 			s.setDead(true);
+			spawnEffect(s, Effect.FADE, 0);
 			return;
 		}
 		s.setLifeTime(s.getLifeTime()-1);
@@ -576,6 +578,7 @@ public class ServerGameState extends GameState {
 	 */
 	private void update (Item p) {
 		if (p.getLifeTime() <= 0) {
+			spawnEffect(p, Effect.FADE, 0);
 			p.setDead(true);
 			return;
 		}
@@ -645,7 +648,7 @@ public class ServerGameState extends GameState {
 		//TODO: Spawn properly, constructors, the whole shabang
 		p.setW(14);
 		p.setH(14);
-		p.setLifeTime(550);
+		p.setLifeTime(650);
 		p.setHCenter(x);
 		p.setVCenter(y);
 		p.setVx(0);
@@ -656,6 +659,20 @@ public class ServerGameState extends GameState {
 		if (type == Item.CHANGE) p.setSubType((int)(Math.random()*(Warehouse.CHAR_NUM-1)));
 		if (type == Item.HYPER) p.setSubType(10*50);
 		getPowerups().add(p);
+	}
+
+	/**
+	 * Spawn a special effect from a source
+	 * 
+	 * @param s
+	 * 		source object
+	 * @param type
+	 * 		type of effect
+	 * @param subtype
+	 * 		specify variations within a type
+	 */
+	private void spawnEffect(GameObject s, int type, int subtype) {
+		spawnEffect((int)s.getHCenter(), (int)s.getVCenter(), type, subtype);
 	}
 
 	/**
@@ -677,20 +694,39 @@ public class ServerGameState extends GameState {
 		//dimensions yada yada
 		e.setH(16);
 		e.setW(16);
-		
+
 		//no velocity by default
 		e.setVx(0);
 		e.setVy(0);
-		
+
 		//position it
 		e.setHCenter(x);
 		e.setVCenter(y);
-		
+
 		//spawning effect
 		if (type == Effect.SPAWN) {
 			e.setType(Effect.SPAWN);
 			e.setLife(6*6-1);
-			e.setSkin(0);
+			e.setSkin(Effect.SPAWN);
+		}
+		//poof effect
+		if (type == Effect.FADE) {
+			e.setType(Effect.FADE);
+			e.setLife(5*6-1);
+			e.setSkin(Effect.FADE);
+		}
+		//item grab effect
+		if (type == Effect.GRAB) {
+			e.setType(Effect.GRAB);
+			e.setLife(4*6-1);
+			e.setSkin(Effect.GRAB);
+		}
+		//corpses
+		if (type == Effect.DEATH) {
+			e.setType(Effect.DEATH);
+			e.setLife(400);
+			e.setSkin(subtype);
+			e.setVy(-10);
 		}
 
 		//add the new bullet to the list of bullets
@@ -1093,6 +1129,7 @@ public class ServerGameState extends GameState {
 		//destroyed by obstacles
 		if (l.isDanger() && overlap(p, l)) {
 			p.setDead(true);
+			spawnEffect(p, Effect.FADE, 0);
 		}
 
 		//land on top
@@ -1131,6 +1168,7 @@ public class ServerGameState extends GameState {
 			a.setPowerupVar(p.getSubType());
 			a.setGrab(true);
 			a.setUse(false);
+			spawnEffect(p, Effect.GRAB, 0);
 		}
 	}
 
@@ -1308,5 +1346,9 @@ public class ServerGameState extends GameState {
 	private void move(Effect e) {
 		e.setX(e.getX()+e.getVx());
 		e.setY(e.getY()+e.getVy());
+		if (e.getType() == Effect.DEATH) {
+			e.setVy(e.getVy()+0.5);
+			if (e.getVy() > 10) e.setVy(10);
+		}
 	}
 }

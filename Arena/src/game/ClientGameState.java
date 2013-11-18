@@ -158,9 +158,9 @@ public class ClientGameState extends GameState {
 				String powername = "";
 				if (getPlayer(i).getPowerup() == Item.BIG) powername = "Gigantism";
 				if (getPlayer(i).getPowerup() == Item.MINI) powername = "Dwarfism";
-				if (getPlayer(i).getPowerup() == Item.DJUMP) powername = "Buoyancy";
+				if (getPlayer(i).getPowerup() == Item.DJUMP) powername = "Air Jump";
 				if (getPlayer(i).getPowerup() == Item.SPEED) powername = "Fast-Forward";
-				if (getPlayer(i).getPowerup() == Item.SSHOT) powername = "Bullet fever";
+				if (getPlayer(i).getPowerup() == Item.SSHOT) powername = "Hyper Shot";
 				if (getPlayer(i).getPowerup() == Item.CHANGE) {
 					if (getPlayer(i).getPowerupVar() == Warehouse.LIZARD) powername = "Reptilia";
 					if (getPlayer(i).getPowerupVar() == Warehouse.SLIME) powername = "Fluidity";
@@ -168,7 +168,7 @@ public class ClientGameState extends GameState {
 					if (getPlayer(i).getPowerupVar() == Warehouse.MARINE) powername = "Power Armor";
 					if (getPlayer(i).getPowerupVar() == Warehouse.ROBOT) powername = "Cybernetics";
 				}
-				if (getPlayer(i).getPowerup() == Item.HYPER) powername = "Overload";
+				if (getPlayer(i).getPowerup() == Item.HYPER) powername = "Invincibility";
 				g.drawString(powername, (1+i)*WIDTH/5-27, 56);
 			}
 		}
@@ -373,6 +373,9 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void draw(Effect e, Graphics g) {
-		Wardrobe.drawEffect(g, (int)e.getHCenter(), (int)e.getVCenter(), e.getSkin(), 5-e.getLife()/5);
+		if (e.getType() >= 0)
+			Wardrobe.drawEffect(g, (int)e.getHCenter(), (int)e.getVCenter(), e.getSkin(), 5-e.getLife()/5);
+		else
+			Wardrobe.drawChar(g, (int)e.getHCenter(), (int)e.getVCenter(), e.getSkin(), 9, 1.0);
 	}
 }
