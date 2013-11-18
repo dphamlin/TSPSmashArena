@@ -22,6 +22,7 @@ public class Controller {
 	
 	//buffer (current state of buttons, a bitmask)
 	private int buf;
+	private char c;
 	
 	//button hold times
 	private int u = 0; //up
@@ -68,6 +69,14 @@ public class Controller {
 		else setStart(0);
 	}
 
+	//getter and setter for typed letters
+	public char getTyped() {
+		return c;
+	}
+	public void setTyped(char c) {
+		this.c = c;
+	}
+	
 	//getters and setters for button durations
 	public int getUp() {
 		return u;

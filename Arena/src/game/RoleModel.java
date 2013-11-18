@@ -7,7 +7,7 @@ package game;
  */
 public class RoleModel {
 	private int skin; //sprite set
-	private int w = 16, h = 16; //allow for variable dimensions
+	private int w = 12, h = 15; //allow for variable dimensions
 	private float runSpeed, airSpeed; //horizontal 'thrust's
 	private float runSlip, airSlip; //friction values (percent out of 100)
 	private float jumpPower; //jump power

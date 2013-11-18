@@ -161,6 +161,7 @@ public class Metaserver {
 	// Version that prompts for server number
 	public String killServer() throws Exception{
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println(listServers());
 		System.out.println("Please enter the number of the server to terminate (from list)");
 		int target = -1;
 		try {
@@ -188,6 +189,15 @@ public class Metaserver {
 		}
 		String outputStr = serverInfoList.get(index).getNumberOfPlayers() + "-player game on port " + serverInfoList.get(index).getPort() + " terminated.";
 		cleanList();
+		return outputStr;
+	}
+	
+	public String help() {
+		String outputStr = "l / list:\tlists all servers\n";
+		outputStr += "n / new:\tcreate a new server\n";
+		outputStr += "k / kill:\tkill a specific server from the list\n";
+		outputStr += "ka / killall:\tkill all servers\n";
+		outputStr += "q / quit:\tkill all servers and quit";
 		return outputStr;
 	}
 	
@@ -265,6 +275,9 @@ public class Metaserver {
 			// Clean list
 			else if (command.compareToIgnoreCase("c") == 0 || command.compareToIgnoreCase("clean") == 0) {
 				System.out.println(metaserver.cleanList());
+			}
+			else if (command.compareToIgnoreCase("h") == 0 || command.compareToIgnoreCase("help") == 0) {
+				System.out.println(metaserver.help());
 			}
 		}
 		System.out.println("Metaserver terminating.  Killing all servers.");

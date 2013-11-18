@@ -54,6 +54,7 @@ public abstract class GameState {
 		f = g.getFighters();
 		b = g.getBullets();
 		p = g.getPowerups();
+		e = g.getEffects();
 		setControl(g.isControl());
 		s = g.getStage();
 		fn = g.getFrameNumber();

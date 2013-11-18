@@ -16,11 +16,30 @@ public class TestDriver {
 	 */
 	public static void main(String args[]) {
 		//initialize
+		Wardrobe.init();
 		Controller c = new Controller();
-		View v = new View();
-		ServerGameState gs = new ServerGameState();
+		RetroView v = new RetroView();
+		MenuState ms = new MenuState();
 		StopWatch t = new StopWatch(20);
 		v.attachController(c);
+
+		//menu test loop
+		int prog = 0;
+		while (prog == 0 && v.isVisible()) {
+			t.loopStart();
+			c.update();
+			prog = ms.update(c);
+			v.reDraw(ms);
+			t.loopRest();
+		}
+
+		//menu based actions
+		if (prog == MenuState.HOST); //TODO: Host, in theory
+		if (prog == MenuState.JOIN); //TODO: Join, in theory
+		if (prog == MenuState.QUIT) v.setVisible(false);
+
+		//new game starting
+		ServerGameState gs = new ServerGameState();
 
 		//test players
 		gs.addPlayer();

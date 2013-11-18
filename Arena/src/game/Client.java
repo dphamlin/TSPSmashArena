@@ -15,12 +15,15 @@ public class Client {
 	private ClientGameState game;
 	private Gson json;
 	private Controller controller;
-	private View view;
+	private RetroView view;
 	private StopWatch timer;
 	private static int port = 5379;
 	private Message messageFromServer;
 	private Message messageToServer;
 	private GameResults gameResults;
+	private String name;
+	private Boolean nameSent;
+	private ArrayList<String> nameList;
 	
 	Client (InetAddress addr, int port, View v) throws IOException { 
 		setSocket(new Socket(addr,port)); // Establish connection
@@ -33,9 +36,55 @@ public class Client {
 		setMessageFromServer(new Message(0,null));
 		setMessageToServer(new Message(0,null));
 		setGameResults(null);
+		setName("Player");
+		setNameSent(false);
+		setNameList(new ArrayList<String>());
 		
 		view.attachController(controller);
 		json = new Gson();
+	}
+	
+	Client (InetAddress addr, int port) throws IOException { 
+		setSocket(new Socket(addr,port)); // Establish connection
+		setStateString("Awaiting state from server.\n");
+		setReader(new BufferedReader(new InputStreamReader(getSocket().getInputStream())));
+		setWriter(new BufferedWriter(new OutputStreamWriter(getSocket().getOutputStream())));
+		setController(new Controller());
+		setView(new RetroView());
+		setTimer(new StopWatch(20));
+		setMessageFromServer(new Message(0,null));
+		setMessageToServer(new Message(0,null));
+		setGameResults(null);
+		setName("Player");
+		setNameSent(false);
+		setNameList(new ArrayList<String>());
+		
+		view.attachController(controller);
+		json = new Gson();
+	}
+	
+	public void setNameList(ArrayList<String> nameList) {
+		this.nameList = nameList;
+	}
+	
+	public ArrayList<String> getNameList() {
+		return this.nameList;
+	}
+	
+	public void setNameSent(Boolean nameSent) {
+		this.nameSent = nameSent;
+	}
+	
+	public Boolean getNameSent() {
+		return this.nameSent;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 	
 	public void readStateString() throws IOException {
@@ -76,6 +125,13 @@ public class Client {
 		if (getMessageFromServer().getNumber() == 1) {
 			setGameResults(json.fromJson(getMessageFromServer().getMessage(),GameResults.class));
 			System.out.println("Game results received: " + getGameResults());
+		}
+		if (getMessageFromServer().getNumber() == 2) { // Name list received
+			setNameList((ArrayList<String>)json.fromJson(getMessageFromServer().getMessage(), ArrayList.class));
+			System.out.println("Names received:");
+			for (String s: getNameList()) {
+				System.out.println(s);
+			}
 		}
 	}
 	
@@ -136,7 +192,7 @@ public class Client {
 		writeToServer(json.toJson(getController())); // There is also a Gson method to directly write to a Writer
 	}
 
-	public View getView() {
+	public RetroView getView() {
 		return view;
 	}
 
@@ -148,7 +204,7 @@ public class Client {
 		this.messageToServer = messageToServer;
 	}
 	
-	public void setView(View view) {
+	public void setView(RetroView view) {
 		this.view = view;
 	}
 	
@@ -162,13 +218,28 @@ public class Client {
 		this.timer = timer;
 	}
 	
+	public void writeMessageToServer() throws IOException {
+		writeToServer(json.toJson(getMessageToServer()));
+	}
+	
 	public void play() throws Exception {
 		while (getSocket().isConnected() && getView().isVisible()) {
+			
 			getTimer().loopStart(); // Start the loop
 			
 			updateController(); // Update controller
 			
-			writeController(); // Write controller to the server
+			if (getNameSent() == false) {
+				getMessageToServer().setNumber(2);
+				getMessageToServer().setMessage(json.toJson(getName()));
+				setNameSent(true);
+			}
+			else {
+				getMessageToServer().setNumber(0);
+				getMessageToServer().setMessage(json.toJson(getController()));
+			}
+			writeMessageToServer();
+			//writeController(); // Write controller to the server
 			readMessageFromServer();
 			handleMessageFromServer();
 			//readGameState(); // Read the game state from the server and update the current game state
@@ -217,7 +288,7 @@ public class Client {
 		
 		Client theClient = null;
 		try {
-			theClient = new Client(serverAddr,port,new View(new Arena()));
+			theClient = new Client(serverAddr,port);
 		}
 		catch (IOException e) {
 			System.err.println("Failed to create client.");

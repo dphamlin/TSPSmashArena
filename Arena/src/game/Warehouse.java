@@ -11,9 +11,9 @@ public class Warehouse {
 	public static final int SCIENTIST = 5;
 
 	//bullets
-	public static final int FIREBALL = 0;
-	public static final int BUBBLE = 1;
-	public static final int RAYGUN = 2;
+	public static final int RAYGUN = 0;
+	public static final int FIREBALL = 1;
+	public static final int BUBBLE = 2;
 	public static final int MORTAR = 3;
 	public static final int BEAMSWORD = 4;
 	public static final int BOOMERANG = 5;
@@ -28,7 +28,7 @@ public class Warehouse {
 	public static final int HOLODECK = 0;
 	public static final int PLANET = 1;
 	public static final int FACTORY = 2;
-	public static final int DEMO = 3; //will be eventually removed, probably
+	public static final int DEMO = -1; //dummied out but data still exists for now
 
 	//dimensions for easy level building
 	private static final int WIDTH = 640, HEIGHT = 480;
@@ -37,10 +37,10 @@ public class Warehouse {
 	private static RoleModel characters[] = 
 		{captain(), lizardman(), slime(), spaceMarine(), japaneseRobot(), madScientist()};
 	private static ShotModel shots[] =
-		{fireball(), bubble(), raygun(), mortar(), beamSword(), boomerang(), missile(), explosion(),
+		{raygun(), fireball(), bubble(), mortar(), beamSword(), boomerang(), missile(), explosion(),
 		lavaball(), meteor(), lavaWave(), lavaWarning()};
 	private static Blueprint maps[] = 
-		{holodeck(), alienPlanet(), factory(), demo()};
+		{holodeck(), alienPlanet(), factory()};
 
 	/**
 	 * @return Array of selectable characters
@@ -75,11 +75,11 @@ public class Warehouse {
 		r.setMaxSpeed(4);
 
 		//powerful jump
-		r.setJumpPower(8.5);
+		r.setJumpPower(8.6);
 		r.setJumpHold(4);
 
 		//standard gravity
-		r.setGrav(.7);
+		r.setGrav(.65);
 		r.setTermVel(7);
 
 		//great wall slide
@@ -135,11 +135,11 @@ public class Warehouse {
 		r.setMaxSpeed(3);
 
 		//middling jump
-		r.setJumpPower(7.9);
+		r.setJumpPower(8.0);
 		r.setJumpHold(5);
 
 		//average fall
-		r.setGrav(.68);
+		r.setGrav(.63);
 		r.setTermVel(7);
 
 		//weak fall control
@@ -195,11 +195,11 @@ public class Warehouse {
 		r.setMaxSpeed(5.4);
 
 		//short hops with potential for higher
-		r.setJumpPower(6);
+		r.setJumpPower(6.1);
 		r.setJumpHold(10);
 
 		//slightly brisk fall
-		r.setGrav(.9);
+		r.setGrav(.85);
 		r.setTermVel(7);
 
 		//wallrun
@@ -323,12 +323,12 @@ public class Warehouse {
 
 		//shoot forward
 		s.setLife(100);
-		s.setSpeed(5.5);
-		s.setVSpeed(-3.5);
+		s.setSpeed(6.5);
+		s.setVSpeed(-3);
 
 		//standard type
 		s.setType(Shot.GRAV|Shot.BOMB);
-		s.setVar(38);
+		s.setVar(35);
 		return s;
 	}
 	//mid-range blade
@@ -337,7 +337,7 @@ public class Warehouse {
 		s.setSkin(BEAMSWORD);
 
 		//super quick
-		s.setReload(35);
+		s.setReload(30);
 
 		//long blades
 		s.setH(4);
@@ -345,7 +345,7 @@ public class Warehouse {
 
 		//short range
 		s.setLife(12);
-		s.setSpeed(9);
+		s.setSpeed(9.5);
 
 		//stop quickly
 		s.setType(Shot.ACCEL+Shot.MOMENT+Shot.SHIELD);
@@ -418,7 +418,7 @@ public class Warehouse {
 	//jumping lava fireballs
 	private static ShotModel lavaball() {
 		ShotModel s = new ShotModel();
-		s.setSkin(LAVABALL);
+		s.setSkin(FIREBALL);
 
 		//mid-speed firing
 		s.setReload(80);
@@ -470,7 +470,7 @@ public class Warehouse {
 		s.setW(640);
 
 		//drops straight
-		s.setLife(455);
+		s.setLife(485);
 		s.setSpeed(0);
 		//s.setVSpeed(-10);
 		s.setVSpeed(-12);

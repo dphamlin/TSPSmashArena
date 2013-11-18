@@ -12,6 +12,15 @@ public abstract class Participant {
 	protected Gson json;
 	protected Boolean active;
 	protected Message messageFromClient;
+	protected String name;
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
 	
 	public Actor getPlayer() {
 		return this.thePlayer;
@@ -61,6 +70,10 @@ public abstract class Participant {
 	
 	public BufferedReader getReader() {
 		return this.reader;
+	}
+	
+	public Message getMessageFromClient() {
+		return this.messageFromClient;
 	}
 	
 	// Read controller from Reader. Reader may take from a connection or from an AI source.

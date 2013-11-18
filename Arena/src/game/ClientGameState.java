@@ -101,7 +101,7 @@ public class ClientGameState extends GameState {
 			draw(i, g);
 		}
 	}
-	
+
 	/**
 	 * Draw the effects
 	 * 
@@ -130,7 +130,7 @@ public class ClientGameState extends GameState {
 		//draw actual characters and stats
 		for (int i = 0; i < getNumberOfPlayers(); i++) {
 			if (getPlayer(i).isSuspend()) continue; //skip over suspended players
-			
+
 			g.setColor(Color.WHITE);
 			if (getMode() == STOCK) {
 				g.drawString("x"+getPlayer(i).getLives(), 3+(1+i)*WIDTH/5, 35);
@@ -147,7 +147,7 @@ public class ClientGameState extends GameState {
 				}
 			}
 			//draw the character's current state in box
-			draw(getPlayer(i), (1+i)*WIDTH/5-19, 18, g);
+			draw(getPlayer(i), (1+i)*WIDTH/5-11, 26, 1.0, g);
 			//draw the reload bar
 			if (getPlayer(i).getReload() > 0) {
 				g.setColor(Color.RED);
@@ -158,23 +158,21 @@ public class ClientGameState extends GameState {
 				String powername = "";
 				if (getPlayer(i).getPowerup() == Item.BIG) powername = "Gigantism";
 				if (getPlayer(i).getPowerup() == Item.MINI) powername = "Dwarfism";
-				if (getPlayer(i).getPowerup() == Item.DJUMP) powername = "Air jump";
+				if (getPlayer(i).getPowerup() == Item.DJUMP) powername = "Air Jump";
 				if (getPlayer(i).getPowerup() == Item.SPEED) powername = "Fast-Forward";
-				if (getPlayer(i).getPowerup() == Item.SSHOT) powername = "Bullet fever";
+				if (getPlayer(i).getPowerup() == Item.SSHOT) powername = "Hyper Shot";
 				if (getPlayer(i).getPowerup() == Item.CHANGE) {
 					if (getPlayer(i).getPowerupVar() == Warehouse.LIZARD) powername = "Reptilia";
 					if (getPlayer(i).getPowerupVar() == Warehouse.SLIME) powername = "Fluidity";
-					if (getPlayer(i).getPowerupVar() == Warehouse.CAPTAIN) powername = "Disposability";
-					if (getPlayer(i).getPowerupVar() == Warehouse.MARINE) powername = "Cybernetics";
-					if (getPlayer(i).getPowerupVar() == Warehouse.ROBOT) powername = "Ninjitsu";
-					if (getPlayer(i).getPowerupVar() == Warehouse.SCIENTIST) powername = "Engineering";
+					if (getPlayer(i).getPowerupVar() == Warehouse.CAPTAIN) powername = "Original";
+					if (getPlayer(i).getPowerupVar() == Warehouse.MARINE) powername = "Power Armor";
+					if (getPlayer(i).getPowerupVar() == Warehouse.ROBOT) powername = "Cybernetics";
 				}
-				if (getPlayer(i).getPowerup() == Item.HYPER) powername = "Overcharge";
+				if (getPlayer(i).getPowerup() == Item.HYPER) powername = "Invincibility";
 				g.drawString(powername, (1+i)*WIDTH/5-27, 56);
 			}
 		}
 		if (getMode() == TIME) {
-			//TODO: Adjust font and centering
 			g.setColor(Color.BLACK);
 			g.fillRoundRect(WIDTH/2-25, 10, 50, 35, 10, 10);
 			g.setColor(Color.WHITE);
@@ -196,10 +194,11 @@ public class ClientGameState extends GameState {
 	private void draw(Actor a, Graphics g) {
 		//don't draw dead guys
 		if (a.isDead()) return;
-		//if (a.isNoP()) return;
 
 		//fall through to position drawing method
-		draw(a, (int)a.getLeftEdge(), (int)a.getTopEdge(), g);
+		if (a.getPowerup() == Item.BIG) draw(a, (int)a.getHCenter(), (int)a.getVCenter(), 2.0, g);
+		else if (a.getPowerup() == Item.MINI) draw(a, (int)a.getHCenter(), (int)a.getVCenter(), 0.5, g);
+		else draw(a, (int)a.getHCenter(), (int)a.getVCenter(), 1.0, g);
 	}
 
 	/**
@@ -215,26 +214,24 @@ public class ClientGameState extends GameState {
 	 * @param g
 	 * 		graphics object to draw through
 	 */
-	private void draw(Actor a, int x, int y, Graphics g) {
+	private void draw(Actor a, int x, int y, double scale, Graphics g) {
 		//TODO: Make this draw an image with transparency instead
 
 		//respawn blink
 		if (a.isArmored() && a.getDeadTime() % 8 < 4) return;
 
-		//temporary colors
-		Color c[] = {Color.ORANGE, Color.GREEN, Color.BLUE, Color.DARK_GRAY, Color.MAGENTA, Color.BLACK};
-		g.setColor(c[a.getSkin()]);
-
 		//respawn timer
 		if (a.isDead()) {
-			g.fillArc(x-1, y-1, a.getW()+2, a.getH()+2, 90, (-360*a.getDeadTime())/a.getSpawnTime()-90);
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillArc(x-9, y-9, 18, 18, 90, (-360*a.getDeadTime())/(a.getSpawnTime()-20)-90);
 			return;
 		}
 
 		//temporary shape
-		g.fillOval(x, y, a.getW(), a.getH());
-		g.fillRect((int)x+a.getW()/2, y, -a.getW()*a.getDir()/2, a.getH());
-		g.fillRect(x, y, a.getW()*a.getDir()/2, a.getH());
+		if (a.getDir() > 0)
+			Wardrobe.drawChar(g, x, y, a.getSkin(), a.getFrame(), scale);
+		else
+			Wardrobe.drawCharFlip(g, x, y, a.getSkin(), a.getFrame(), scale);
 	}
 
 	/**
@@ -332,8 +329,24 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void draw(Shot s, Graphics g) {
-		g.setColor(Color.RED);
-		g.fillRect((int)s.getLeftEdge(), (int)s.getTopEdge(), s.getW(), s.getH());
+		if (s.getSkin() < Warehouse.CHAR_NUM) {
+			if (s.getVx() > 0)
+				Wardrobe.drawShot(g, (int)s.getHCenter(), (int)s.getVCenter(), 
+						s.getSkin(), 3-(s.getLifeTime()/10)%4, 1);
+			else
+				Wardrobe.drawShotFlip(g, (int)s.getHCenter(), (int)s.getVCenter(),
+						s.getSkin(), 3-(s.getLifeTime()/10)%4, 1);
+		}
+		else if (s.getSkin() == Warehouse.EXPLOSION) {
+			g.setColor(Color.RED);
+			g.fillOval((int)s.getLeftEdge()-s.getW()/4, (int)s.getTopEdge()-s.getH()/4, s.getW()*3/2, s.getH()*3/2);
+			g.setColor(Color.ORANGE);
+			g.fillOval((int)s.getLeftEdge(), (int)s.getTopEdge(), s.getW(), s.getH());
+		}
+		else {
+			g.setColor(Color.RED);
+			g.fillRect((int)s.getLeftEdge(), (int)s.getTopEdge(), s.getW(), s.getH());
+		}
 	}
 
 	/**
@@ -345,21 +358,12 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void draw(Item p, Graphics g) {
-		g.setColor(Color.YELLOW);
-		g.fillRect((int)p.getLeftEdge(), (int)p.getTopEdge(), p.getW(), p.getH());
-		g.setColor(Color.BLACK);
-		String name = "";
-		if (p.getType() == Item.BIG) name = "G";
-		if (p.getType() == Item.MINI) name = "D";
-		if (p.getType() == Item.DJUMP) name = "J";
-		if (p.getType() == Item.SPEED) name = "F";
-		if (p.getType() == Item.SSHOT) name = "B";
-		if (p.getType() == Item.CHANGE) name = "C";
-		if (p.getType() == Item.HYPER) name = "O";
-		if (p.getType() == Item.LIFE) name = "+";
-		g.drawString(name, (int)p.getLeftEdge()+3, (int)p.getBottomEdge()-3);
+		if ((p.getLifeTime()/9) % 7 > 3)
+			Wardrobe.drawPowerup(g, (int)p.getHCenter(), (int)p.getVCenter(), p.getSkin(), 7-(p.getLifeTime()/9)%7);
+		else
+			Wardrobe.drawPowerup(g, (int)p.getHCenter(), (int)p.getVCenter(), p.getSkin(), 0);
 	}
-	
+
 	/**
 	 * Draw an effect to the designated graphics object
 	 * 
@@ -369,6 +373,9 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void draw(Effect e, Graphics g) {
-		//TODO: Fill out
+		if (e.getType() >= 0)
+			Wardrobe.drawEffect(g, (int)e.getHCenter(), (int)e.getVCenter(), e.getSkin(), 5-e.getLife()/5);
+		else
+			Wardrobe.drawChar(g, (int)e.getHCenter(), (int)e.getVCenter(), e.getSkin(), 9, 1.0);
 	}
 }
