@@ -15,7 +15,6 @@ public class Client {
 	private ClientGameState game;
 	private Gson json;
 	private Controller controller;
-	private RetroView view;
 	private StopWatch timer;
 	private static int port = 5379;
 	private Message messageFromServer;
@@ -24,6 +23,7 @@ public class Client {
 	private String name;
 	private Boolean nameSent;
 	private ArrayList<String> nameList;
+	private View view;
 	
 	Client (InetAddress addr, int port, View v) throws IOException { 
 		setSocket(new Socket(addr,port)); // Establish connection
@@ -40,26 +40,7 @@ public class Client {
 		setNameSent(false);
 		setNameList(new ArrayList<String>());
 		
-		view.attachController(controller);
-		json = new Gson();
-	}
-	
-	Client (InetAddress addr, int port) throws IOException { 
-		setSocket(new Socket(addr,port)); // Establish connection
-		setStateString("Awaiting state from server.\n");
-		setReader(new BufferedReader(new InputStreamReader(getSocket().getInputStream())));
-		setWriter(new BufferedWriter(new OutputStreamWriter(getSocket().getOutputStream())));
-		setController(new Controller());
-		setView(new RetroView());
-		setTimer(new StopWatch(20));
-		setMessageFromServer(new Message(0,null));
-		setMessageToServer(new Message(0,null));
-		setGameResults(null);
-		setName("Player");
-		setNameSent(false);
-		setNameList(new ArrayList<String>());
-		
-		view.attachController(controller);
+		getView().attachController(getController());
 		json = new Gson();
 	}
 	
@@ -192,7 +173,7 @@ public class Client {
 		writeToServer(json.toJson(getController())); // There is also a Gson method to directly write to a Writer
 	}
 
-	public RetroView getView() {
+	public View getView() {
 		return view;
 	}
 
@@ -204,8 +185,8 @@ public class Client {
 		this.messageToServer = messageToServer;
 	}
 	
-	public void setView(RetroView view) {
-		this.view = view;
+	public void setView(View v) {
+		this.view = v;
 	}
 	
 	public void updateController() {
@@ -250,6 +231,7 @@ public class Client {
 		}
 	}
 	
+	/*
 	public static void main(String[] args) {
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 		InetAddress serverAddr = InetAddress.getLoopbackAddress();
@@ -288,7 +270,7 @@ public class Client {
 		
 		Client theClient = null;
 		try {
-			theClient = new Client(serverAddr,port);
+			theClient = new Client(serverAddr,port,new View(new Arena()));
 		}
 		catch (IOException e) {
 			System.err.println("Failed to create client.");
@@ -306,5 +288,5 @@ public class Client {
 			
 		System.out.println("Game over. Thanks for playing!");
 		System.exit(0); //super quit
-	}
+	}*/
 }

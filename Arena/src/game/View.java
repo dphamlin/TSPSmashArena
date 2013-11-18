@@ -55,8 +55,6 @@ public class View extends JFrame {
 		
 		arena = a;
 		control = new ControlListener(this);
-		this.addKeyListener(control);
-		//draw.addKeyListener(control);
 	    modeTabbedPane = new JTabbedPane();
 		jGo = new JButton("Go!");
 		hGo = new JButton("Go!");

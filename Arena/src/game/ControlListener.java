@@ -19,7 +19,7 @@ import javax.swing.KeyStroke;
  * 
  * @author Jacob Charles
  */
-public class ControlListener implements /*KeyListener,*/ActionListener{
+public class ControlListener implements ActionListener{
 	//controls (may eventually be reconfigurable)
 	private static final int KEY_UP = KeyEvent.VK_UP;
 	private static final int KEY_DOWN = KeyEvent.VK_DOWN;
