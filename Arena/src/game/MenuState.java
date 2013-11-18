@@ -15,6 +15,7 @@ public class MenuState {
 	public static final int MAIN = 0;
 	public static final int HOST = 1;
 	public static final int JOIN = 2;
+	public static final int RESULTS = 3;
 
 	private static final int WIDTH = 640;
 	private static final int HEIGHT = 480;
@@ -27,6 +28,7 @@ public class MenuState {
 	private String name = "A four-player battle platformer in space."; //name of the current menu
 	private int players = 2; //number of players for hosting
 	private String host = ""; //host's IP as a string
+	private GameResults result = null;
 
 
 	/**
@@ -100,6 +102,10 @@ public class MenuState {
 			//go back
 			if (esc || cursor == 2 && select) setState(MAIN);
 		}
+		else if (state == RESULTS) { //view results
+			//go back is only options
+			if (esc || cursor == 0 && select) setState(MAIN);
+		}
 
 		return 0; //no decision made
 	}
@@ -137,12 +143,18 @@ public class MenuState {
 		else if (state == JOIN) {
 			g.drawString("Join game", WIDTH/2-25, HEIGHT/4);
 			
-			if (!typing || loopNum % 40 < 20)
+			if (!typing || loopNum % 40 < 20) //blinking cursor
 				g.drawString("Host IP: "+host, WIDTH/2-10, HEIGHT/2-20);
 			else
 				g.drawString("Host IP: "+host+"|", WIDTH/2-10, HEIGHT/2-20);
 			g.drawString("Connect", WIDTH/2-10, HEIGHT/2);
 			g.drawString("Back", WIDTH/2-10, HEIGHT/2+20);
+		}
+		//results menu
+		else if (state == RESULTS) {
+			g.drawString("Results", WIDTH/2-25, HEIGHT/4);
+			//TODO: Display the results in here.
+			g.drawString("Back", WIDTH/2-10, HEIGHT/2-20);
 		}
 		g.fillOval(WIDTH/2-20, HEIGHT/2+20*cursor-30, 8, 8);
 	}
@@ -168,6 +180,10 @@ public class MenuState {
 			name = "Join game";
 			menuSize = 3;
 		}
+		if (state == RESULTS) {
+			name = "Results";
+			menuSize = 1;
+		}
 	}
 
 	/**
@@ -187,5 +203,12 @@ public class MenuState {
 	 */
 	public String getStateName() {
 		return name;
+	}
+	/**
+	 * @param r
+	 * 		results of the last game
+	 */
+	public void setResult(GameResults r) {
+		result = r;
 	}
 }
