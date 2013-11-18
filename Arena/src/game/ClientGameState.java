@@ -181,6 +181,9 @@ public class ClientGameState extends GameState {
 			sec %= 60;
 			g.drawString(min+":"+sec, WIDTH/2-15, 35);
 		}
+		//TODO: Remove debug text
+		g.setColor(Color.BLACK);
+		g.drawString("Effects: "+getEffects().size(), WIDTH/2-15, 75);
 	}
 
 	/**
@@ -358,21 +361,8 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void draw(Item p, Graphics g) {
-		/*g.setColor(Color.YELLOW);
-		g.fillRect((int)p.getLeftEdge(), (int)p.getTopEdge(), p.getW(), p.getH());
-		g.setColor(Color.BLACK);
-		String name = "";
-		if (p.getType() == Item.BIG) name = "G";
-		if (p.getType() == Item.MINI) name = "D";
-		if (p.getType() == Item.DJUMP) name = "J";
-		if (p.getType() == Item.SPEED) name = "F";
-		if (p.getType() == Item.SSHOT) name = "B";
-		if (p.getType() == Item.CHANGE) name = "C";
-		if (p.getType() == Item.HYPER) name = "O";
-		if (p.getType() == Item.LIFE) name = "+";
-		g.drawString(name, (int)p.getLeftEdge()+3, (int)p.getBottomEdge()-3);*/
-		if ((p.getLifeTime()/9) % 7 < 4)
-			Wardrobe.drawPowerup(g, (int)p.getHCenter(), (int)p.getVCenter(), p.getSkin(), (p.getLifeTime()/9)%7);
+		if ((p.getLifeTime()/9) % 7 > 3)
+			Wardrobe.drawPowerup(g, (int)p.getHCenter(), (int)p.getVCenter(), p.getSkin(), 7-(p.getLifeTime()/9)%7);
 		else
 			Wardrobe.drawPowerup(g, (int)p.getHCenter(), (int)p.getVCenter(), p.getSkin(), 0);
 	}
@@ -386,6 +376,6 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void draw(Effect e, Graphics g) {
-		//TODO: Fill out
+		Wardrobe.drawEffect(g, (int)e.getHCenter(), (int)e.getVCenter(), e.getSkin(), 5-e.getLife()/6);
 	}
 }

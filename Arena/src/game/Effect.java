@@ -1,8 +1,16 @@
 package game;
 
 public class Effect extends GameObject {
+	public static final int SPAWN = 0;
+	public static final int GRAB = 1;
+	public static final int DEATH = 2;
+	
 	private int t;
 	private int l;
+	
+	public Effect(int x, int y) {
+		super(x, y);
+	}
 	
 	/*getters and setter*/
 	public int getType() {
@@ -17,7 +25,7 @@ public class Effect extends GameObject {
 	public void setLife(int l) {
 		this.l = l;
 	}
-	public void decLif() {
+	public void decLife() {
 		this.l--;
 	}
 }

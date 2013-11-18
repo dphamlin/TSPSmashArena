@@ -100,7 +100,7 @@ public class ServerGameState extends GameState {
 				i--;
 			}
 		}
-		//power-up/item logic (with removal)
+		//special effect logic (with removal)
 		for(int i = 0; i < getEffects().size(); i++) {
 			update(getEffects().get(i));
 			//remove dead effects
@@ -501,6 +501,8 @@ public class ServerGameState extends GameState {
 			return;
 		}
 		a.setDead(false);
+		a.setVx(STOP);
+		a.setVy(STOP);
 		fall(a);
 		a.setHCenter(getSpawnX(a.getId()));
 		a.setVCenter(getSpawnY(a.getId()));
@@ -518,6 +520,9 @@ public class ServerGameState extends GameState {
 
 		a.setDeadTime(a.getDeadTime()+1); //respawn timer and spawn invincibility
 		if (a.getDeadTime() == a.getSpawnTime() && a.isDead()) respawn(a); //respawn at the time
+		if (a.getDeadTime() == a.getSpawnTime()-10 && a.isDead()) { //respawn effect
+			spawnEffect(getSpawnX(a.getId()), getSpawnY(a.getId()), Effect.SPAWN, 0); 
+		}
 
 		if (a.getReload() > 0) a.setReload(a.getReload()-1); //timer between shots
 		if (a.getReload() % 3 == 2 && a.getPowerup() == Item.SSHOT) { //faster reload for Supershot
@@ -606,7 +611,9 @@ public class ServerGameState extends GameState {
 	 * 		the effect to update
 	 */
 	private void update (Effect e) {
-		//TODO: Fill out
+		e.decLife();
+		if (e.getLife() <= 0) e.setDead(true);
+		move(e);
 	}
 
 	/**
@@ -650,6 +657,33 @@ public class ServerGameState extends GameState {
 		if (type == Item.CHANGE) p.setSubType((int)(Math.random()*(Warehouse.CHAR_NUM-1)));
 		if (type == Item.HYPER) p.setSubType(10*50);
 		getPowerups().add(p);
+	}
+
+	private void spawnEffect (int x, int y, int type, int subtype) {
+		//build a new shot, according to the Actor's specifications
+		Effect e = new Effect(x, y);
+
+		//dimensions yada yada
+		e.setH(16);
+		e.setW(16);
+		
+		//no velocity by default
+		e.setVx(0);
+		e.setVy(0);
+		
+		//position it
+		e.setHCenter(x);
+		e.setVCenter(y);
+		
+		//spawning effect
+		if (type == Effect.SPAWN) {
+			e.setType(Effect.SPAWN);
+			e.setLife(5*6);
+			e.setSkin(0);
+		}
+
+		//add the new bullet to the list of bullets
+		getEffects().add(e);
 	}
 
 	/**
@@ -1261,6 +1295,7 @@ public class ServerGameState extends GameState {
 	 * 		the effect to move
 	 */
 	private void move(Effect e) {
-		//TODO: Fill out
+		e.setX(e.getX()+e.getVx());
+		e.setY(e.getY()+e.getVy());
 	}
 }
