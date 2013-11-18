@@ -44,11 +44,11 @@ public class Server {
 		setNamesSent(true);
 		System.out.println("Starting and listening on: "+getCurrentInetAddress()+":"+port);
 	}
-	
+
 	public void setNamesSent(Boolean namesSent) {
 		this.namesSent = namesSent;
 	}
-	
+
 	public Boolean getNamesSent() {
 		return this.namesSent;
 	}
@@ -107,11 +107,11 @@ public class Server {
 	public ServerGameState getGameState() {
 		return game;
 	}
-	
+
 	public Gson getGson() {
 		return json;
 	}
-	
+
 	public void setGson(Gson json) {
 		this.json = json;
 	}
@@ -128,10 +128,10 @@ public class Server {
 	public void readMessagesFromAll(ArrayList<Participant> aParticipantList) {
 		getLock().lock();
 		try {
-			while(getCount() < getNumberOfPlayers())
+			while(getCount() != 0)
 				done.await();
 			done.signalAll();
-			
+
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} finally {
@@ -151,17 +151,14 @@ public class Server {
 	public void writeMessageToAll(ArrayList<Participant> aParticipantList) {
 		getLock().lock();
 		try {
-			while(getCount() > getNumberOfPlayers())
-				done.await();
+			setCount(getNumberOfPlayers());
 			done.signalAll();
-			
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		} finally {
 			getLock().unlock();
 		}
 	}
 
+	/*
 	// Updates messageFromClient for all participants.  The Server can interpret messages from the client.
 	public void readMessageFromAll(ArrayList<Participant> aParticipantList) {
 		for (Participant p: aParticipantList) {
@@ -175,7 +172,7 @@ public class Server {
 				setActivePlayerCount(getActivePlayerCount()-1);
 			}
 		}
-	}
+	}*/
 
 	// Writes the current game state to all clients as a JSON string
 	public void writeGameStateToAll(ArrayList<Participant> aParticipantList) { 
@@ -268,28 +265,46 @@ public class Server {
 		return this.threads[i];
 	}
 
-	public void runThreads() {
+	public void startThreads() {
 		for(int i = 0; i < getNumberOfPlayers(); i++){
-			this.getThread(i).run();
+			this.getThread(i).start();
 		}
 	}
-	
+
 	public void handleAllMessages(ArrayList<Participant> aParticipantList) {
+		getLock().lock();
+		//System.out.println(count);
+		try {
+			while(getCount() != 0){
+				done.await();
+			}
+
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			getLock().unlock();
+		}
+		//System.out.println("here to loop participant messages");
 		for (Participant p: aParticipantList) {
+			//System.out.println("participant message number:" + p.getMessageFromClient().getNumber());
 			if (p.getMessageFromClient().getNumber() == 2) { // 2 indicates a name message
+				//System.out.println("got a name");
 				p.setName(json.fromJson(p.getMessageFromClient().getMessage(),String.class));
 				setNamesSent(false);
 			}
 			else if (p.getMessageFromClient().getNumber() == 0) { // 0 indicates a Controller
+				//System.out.println("got a controller");
 				p.setController(json.fromJson(p.getMessageFromClient().getMessage(), Controller.class));
+				//System.out.println(p.getController().getDown());
 			}
 		}
 	}
-	
-	public ArrayList<String> getNameList(ArrayList<Participant> aParticipantList) {
-		ArrayList<String> nameList = new ArrayList<String>();
-		for (Participant p: aParticipantList) {
-			nameList.add(p.getName());
+
+	public String[] getNameList(ArrayList<Participant> aParticipantList) {
+		String[] nameList = new String[getNumberOfPlayers()];
+		for (int i=0;i<nameList.length;i++) {
+			nameList[i] = aParticipantList.get(i).getName();
+			System.out.println(nameList[i]);
 		}
 		return nameList;
 	}
@@ -330,18 +345,19 @@ public class Server {
 			System.err.println("Error connecting client to server.\n");
 		}
 
-		theServer.runThreads();
+		theServer.startThreads();
 
 		// All participants should connected; begin communication cycle
 		while (theServer.getActivePlayerCount() > 0) {
 
 			theServer.getTimer().loopStart(); //log start time
 
+
 			theServer.readMessagesFromAll(theServer.getParticipantList()); // Reads updated controllers into all participants
 			theServer.handleAllMessages(theServer.getParticipantList()); // Handles all messages received
-			//theServer.applyAllControls(theServer.getParticipantList()); // Applies controls for all participants
+			
 			//theServer.getGameState().update(); // updates game state using game logic
-
+			
 			if (theServer.getGameState().getEnd() == 1 && !theServer.resultsSent()) {
 				theServer.getMessage().setNumber(1);
 				theServer.getMessage().setMessage(theServer.json.toJson(theServer.getGameState().getResults()));
@@ -354,6 +370,7 @@ public class Server {
 			}	
 			else {
 				// GameState is updated by this point; send it to all
+				theServer.applyAllControls(theServer.getParticipantList()); // Applies controls for all participants
 				theServer.getGameState().update();
 				theServer.getMessage().setNumber(0);
 				theServer.getMessage().setMessage(theServer.json.toJson(theServer.getGameState().convert()));

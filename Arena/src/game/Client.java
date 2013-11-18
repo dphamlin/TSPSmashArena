@@ -22,7 +22,7 @@ public class Client {
 	private GameResults gameResults;
 	private String name;
 	private Boolean nameSent;
-	private ArrayList<String> nameList;
+	private String[] nameList;
 	private View view;
 	
 	Client (InetAddress addr, int port, View v) throws IOException { 
@@ -38,17 +38,16 @@ public class Client {
 		setGameResults(null);
 		setName("Player");
 		setNameSent(false);
-		setNameList(new ArrayList<String>());
 		
 		getView().attachController(getController());
 		json = new Gson();
 	}
 	
-	public void setNameList(ArrayList<String> nameList) {
+	public void setNameList(String[] nameList) {
 		this.nameList = nameList;
 	}
 	
-	public ArrayList<String> getNameList() {
+	public String[] getNameList() {
 		return this.nameList;
 	}
 	
@@ -100,6 +99,7 @@ public class Client {
 	}
 	
 	public void handleMessageFromServer() throws Exception {
+		//System.out.println(getMessageFromServer().getNumber());
 		if (getMessageFromServer().getNumber() == 0) {
 			setState(json.fromJson(getMessageFromServer().getMessage(), ClientGameState.class));
 		}
@@ -108,7 +108,7 @@ public class Client {
 			System.out.println("Game results received: " + getGameResults());
 		}
 		if (getMessageFromServer().getNumber() == 2) { // Name list received
-			setNameList((ArrayList<String>)json.fromJson(getMessageFromServer().getMessage(), ArrayList.class));
+			setNameList(json.fromJson(getMessageFromServer().getMessage(), String[].class));
 			System.out.println("Names received:");
 			for (String s: getNameList()) {
 				System.out.println(s);
@@ -211,11 +211,13 @@ public class Client {
 			updateController(); // Update controller
 			
 			if (getNameSent() == false) {
+				//System.out.println("here for sending the name");
 				getMessageToServer().setNumber(2);
 				getMessageToServer().setMessage(json.toJson(getName()));
 				setNameSent(true);
 			}
 			else {
+				//System.out.println("here to send controller");
 				getMessageToServer().setNumber(0);
 				getMessageToServer().setMessage(json.toJson(getController()));
 			}
@@ -223,10 +225,11 @@ public class Client {
 			//writeController(); // Write controller to the server
 			readMessageFromServer();
 			handleMessageFromServer();
-			//readGameState(); // Read the game state from the server and update the current game state
-
-			getView().reDraw(getState());// Client draws game state here!
 			
+			//readGameState(); // Read the game state from the server and update the current game state
+			if(getMessageFromServer().getNumber() == 0){
+				getView().reDraw(getState());// Client draws game state here!
+			}
 			getTimer().loopRest();// Rest for the rest of the loop
 		}
 	}

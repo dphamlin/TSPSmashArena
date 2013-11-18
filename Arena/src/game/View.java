@@ -100,6 +100,7 @@ public class View extends JFrame {
 		pack(); //FORCE it to be 640 x 480, this has given me grief
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); // Closing the window closes the game
 		toFront();
+		Wardrobe.init();
 	}
 
 	public String getMyIp(){
