@@ -21,7 +21,6 @@ public class ServerRunnable implements Runnable {
 
 			theServer.getLock().lock();
 			try {
-				//System.out.println(theServer.getCount() + "runner");
 				while(theServer.getCount() == 0){
 					theServer.getCondition().await();
 				}
@@ -42,7 +41,6 @@ public class ServerRunnable implements Runnable {
 				if(theServer.getCount() == 0){
 					theServer.getCondition().signalAll();
 				}
-				//System.out.println(theServer.getCount() + "runner");
 
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -72,10 +70,7 @@ public class ServerRunnable implements Runnable {
 				if(theServer.getCount() == 0){
 					theServer.getCondition().signalAll();
 				}
-				if(theServer.getCount() == 0){
-					theServer.getCondition().signalAll();
-				}
-
+				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} finally {

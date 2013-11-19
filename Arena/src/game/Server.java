@@ -27,6 +27,7 @@ public class Server {
 	private ServerRunnable[] runner;
 	private Thread[] threads;
 	private Boolean namesSent;
+	private String[] nameList;
 
 	Server(int port) throws IOException {
 		serverSocket = new ServerSocket(port);
@@ -273,7 +274,6 @@ public class Server {
 
 	public void handleAllMessages(ArrayList<Participant> aParticipantList) {
 		getLock().lock();
-		//System.out.println(count);
 		try {
 			while(getCount() != 0){
 				done.await();
@@ -284,27 +284,21 @@ public class Server {
 		} finally {
 			getLock().unlock();
 		}
-		//System.out.println("here to loop participant messages");
 		for (Participant p: aParticipantList) {
-			//System.out.println("participant message number:" + p.getMessageFromClient().getNumber());
 			if (p.getMessageFromClient().getNumber() == 2) { // 2 indicates a name message
-				//System.out.println("got a name");
 				p.setName(json.fromJson(p.getMessageFromClient().getMessage(),String.class));
 				setNamesSent(false);
 			}
 			else if (p.getMessageFromClient().getNumber() == 0) { // 0 indicates a Controller
-				//System.out.println("got a controller");
 				p.setController(json.fromJson(p.getMessageFromClient().getMessage(), Controller.class));
-				//System.out.println(p.getController().getDown());
 			}
 		}
 	}
 
 	public String[] getNameList(ArrayList<Participant> aParticipantList) {
-		String[] nameList = new String[getNumberOfPlayers()];
+		nameList = new String[getNumberOfPlayers()];
 		for (int i=0;i<nameList.length;i++) {
 			nameList[i] = aParticipantList.get(i).getName();
-			System.out.println(nameList[i]);
 		}
 		return nameList;
 	}
