@@ -19,7 +19,9 @@ public class Shot extends GameObject {
 	public static final int WEAK = 128; //dies against spikes
 	public static final int MOMENT = 256; //carries momentum of player
 	public static final int SHIELD = 512; //blocks other shots
-	private static final int MAX = 1024-1; //sum of all of the above
+	public static final int BIG = 1024; //is big
+	public static final int MINI = 2048; //is tiny
+	private static final int MAX = 4096-1; //sum of all of the above
 
 	private int t; //type
 	private int v; //extra variable
@@ -227,5 +229,19 @@ public class Shot extends GameObject {
 	public void setShield(boolean b) {
 		if (b) t |= SHIELD;
 		else t &= MAX-SHIELD;
+	}
+	public boolean isBig() {
+		return (t&BIG) > 0;
+	}
+	public void setBig(boolean b) {
+		if (b) t |= BIG;
+		else t &= MAX-BIG;
+	}
+	public boolean isMini() {
+		return (t&MINI) > 0;
+	}
+	public void setMini(boolean b) {
+		if (b) t |= MINI;
+		else t &= MAX-MINI;
 	}
 }

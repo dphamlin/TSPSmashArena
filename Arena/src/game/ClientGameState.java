@@ -330,12 +330,17 @@ public class ClientGameState extends GameState {
 	 */
 	private void draw(Shot s, Graphics g) {
 		if (s.getSkin() < Warehouse.CHAR_NUM) {
+			//scaling things
+			double sc = 1;
+			if (s.isBig()) sc = 2;
+			if (s.isMini()) sc = 0.5;
+			
 			if (s.getVx() > 0)
 				Wardrobe.drawShot(g, (int)s.getHCenter(), (int)s.getVCenter(), 
-						s.getSkin(), 3-(s.getLifeTime()/10)%4, 1);
+						s.getSkin(), 3-(s.getLifeTime()/10)%4, (float)sc);
 			else
 				Wardrobe.drawShotFlip(g, (int)s.getHCenter(), (int)s.getVCenter(),
-						s.getSkin(), 3-(s.getLifeTime()/10)%4, 1);
+						s.getSkin(), 3-(s.getLifeTime()/10)%4, (float)sc);
 		}
 		else if (s.getSkin() == Warehouse.EXPLOSION) {
 			g.setColor(Color.RED);

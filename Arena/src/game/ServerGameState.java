@@ -399,12 +399,14 @@ public class ServerGameState extends GameState {
 			s.setW(s.getW()*2);
 			s.setH(s.getH()*2);
 			s.setCenter(cx, cy);
+			s.setBig(true);
 		}
 		if (a.getPowerup() == Item.MINI) {
 			float cx = s.getHCenter(), cy = s.getVCenter();
 			s.setW(s.getW()/2);
 			s.setH(s.getH()/2);
 			s.setCenter(cx, cy);
+			s.setMini(true);
 		}
 
 		//add the new bullet to the list of bullets
