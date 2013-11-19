@@ -276,9 +276,9 @@ public class Warehouse {
 		//average firing
 		s.setReload(50);
 
-		//medium sized bubbles
-		s.setH(16);
-		s.setW(16);
+		//large bubbles
+		s.setH(15);
+		s.setW(15);
 
 		//slow-moving, long lasting
 		s.setLife(395);

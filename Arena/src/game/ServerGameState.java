@@ -74,6 +74,8 @@ public class ServerGameState extends GameState {
 	 * Apply user input first!
 	 */
 	public void update() {
+		//clear sound queue
+		resetSound();
 		//player logic
 		for (Actor a : getFighters()) {
 			update(a);
@@ -291,6 +293,7 @@ public class ServerGameState extends GameState {
 		a.setAirTime(1);
 		a.setOnLand(null);
 		a.setVy(-a.getJumpPower());
+		playSound(SoundBank.JUMP);
 	}
 
 	/**
@@ -411,6 +414,7 @@ public class ServerGameState extends GameState {
 
 		//add the new bullet to the list of bullets
 		getBullets().add(s);
+		playSound(SoundBank.SHOOT);
 	}
 
 	/**
@@ -426,6 +430,7 @@ public class ServerGameState extends GameState {
 		if (!isGameOver() && getMode() != MENU) {
 			a.loseLife();
 		}
+		playSound(SoundBank.DIE);
 	}
 
 	/**
@@ -445,6 +450,7 @@ public class ServerGameState extends GameState {
 				s2.setVar(s2.getVar()/2);
 			}
 			getBullets().add(s2);
+			playSound(SoundBank.BOOM);
 		}
 		s.setLifeTime(0);
 		s.setDead(true);
@@ -508,6 +514,7 @@ public class ServerGameState extends GameState {
 		fall(a);
 		a.setHCenter(getSpawnX(a.getId()));
 		a.setVCenter(getSpawnY(a.getId()));
+		playSound(SoundBank.SPAWN);
 	}
 
 	/**
@@ -843,6 +850,7 @@ public class ServerGameState extends GameState {
 			else if (a.getVy() > 0) a.setVy(1);
 			a.setOnLand(l); //tie you to THIS pipe
 			a.setPipe(true);
+			playSound(SoundBank.PIPE);
 		}
 		if (l.isPipe()) return; //temporary!
 
@@ -901,19 +909,23 @@ public class ServerGameState extends GameState {
 		if (v == TOP && l.isBounce()) {
 			a.setBottomEdge(l.getTopEdge()-.005);
 			a.setVy(-a.getVy()*(10+l.getVar())/10);
+			playSound(SoundBank.BOUNCE);
 		}
 		//bouncy platforms don't have the other sides
 		if (v == BOTTOM && l.isBounce() && !l.isPlatform()) {
 			a.setTopEdge(l.getBottomEdge()+.005);
 			a.setVy(-a.getVy()*(10+l.getVar())/10);
+			playSound(SoundBank.BOUNCE);
 		}
 		if (h == LEFT && l.isBounce() && !l.isPlatform()) {
 			a.setRightEdge(l.getLeftEdge()-.005);
 			a.setVx(-a.getVx()*(10+l.getVar())/10);
+			playSound(SoundBank.BOUNCE);
 		}
 		if (h == RIGHT && l.isBounce() && !l.isPlatform()) {
 			a.setLeftEdge(l.getRightEdge()+.005);
 			a.setVx(-a.getVx()*(10+l.getVar())/10);
+			playSound(SoundBank.BOUNCE);
 		}
 		if (l.isBounce()) { //bounced off, re-check collisions
 			v = vCollide(a, l);
@@ -1172,6 +1184,7 @@ public class ServerGameState extends GameState {
 			a.setGrab(true);
 			a.setUse(false);
 			spawnEffect(p, Effect.GRAB, 0);
+			playSound(SoundBank.PICKUP);
 		}
 	}
 

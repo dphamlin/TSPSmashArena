@@ -17,6 +17,7 @@ public abstract class GameState {
 	private ArrayList<Item> p = new ArrayList<Item>(); //power ups
 	private ArrayList<Effect> e = new ArrayList<Effect>(); //special effects
 	private int c = 1; //control signal
+	private int sn = 0; //sound mask
 
 	private int s = 0; //stage (default: holodeck)
 	private int fn = 0; //frame number
@@ -56,6 +57,7 @@ public abstract class GameState {
 		p = g.getPowerups();
 		e = g.getEffects();
 		setControl(g.isControl());
+		sn = g.sn;
 		s = g.getStage();
 		fn = g.getFrameNumber();
 		t = g.getTime();
@@ -290,8 +292,6 @@ public abstract class GameState {
 		return e;
 	}
 	
-	//TODO: Method to spawn special effects here
-	
 	/**
 	 * Check the number of players in the current game
 	 * 
@@ -331,6 +331,34 @@ public abstract class GameState {
 	public void setControl(boolean b) {
 		if (b) c = 1;
 		else c = 0;
+	}
+
+	/**
+	 * Tag a sound to be played
+	 * 
+	 * @param i
+	 * 		sound to play
+	 */
+	public void playSound(int i) {
+		sn |= (1<<i);
+	}
+
+	/**
+	 * 
+	 * @param i
+	 * 		sound to check
+	 * @return
+	 * 		true if sound should be played
+	 */
+	public boolean readSound(int i) {
+		return (sn&(1<<i)) != 0;
+	}
+	
+	/**
+	 * Reset sounds after each frame
+	 */
+	public void resetSound() {
+		sn = 0;
 	}
 	
 	/**

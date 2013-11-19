@@ -101,6 +101,7 @@ public class View extends JFrame {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); // Closing the window closes the game
 		toFront();
 		Wardrobe.init();
+		SoundBank.init();
 	}
 
 	public String getMyIp(){

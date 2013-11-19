@@ -17,6 +17,7 @@ public class TestDriver {
 	public static void main(String args[]) {
 		//initialize
 		Wardrobe.init();
+		SoundBank.init();
 		Controller c = new Controller();
 		RetroView v = new RetroView();
 		MenuState ms = new MenuState();
@@ -43,7 +44,7 @@ public class TestDriver {
 
 		//test players
 		gs.addPlayer();
-		//gs.addPlayer();
+		gs.addPlayer();
 		//gs.addPlayer();
 		//gs.addPlayer();
 

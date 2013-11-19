@@ -40,6 +40,7 @@ public class ClientGameState extends GameState {
 		drawBullets(g);
 		drawEffects(g);
 		drawStatus(g);
+		playSounds(); //not a draw TECHNICALLY but...
 	}
 
 	/**
@@ -142,7 +143,8 @@ public class ClientGameState extends GameState {
 			if (isGameOver()) {
 				for (Integer n : getWinners()) {
 					if (n == i) {
-						g.drawString("♛", 3+(1+i)*WIDTH/5, 24); //poorly-rendered crown
+						//TODO: Draw animated crown instead
+						Wardrobe.drawEffect(g, 9+(1+i)*WIDTH/5, 21, 0, 0);
 					}
 				}
 			}
@@ -203,7 +205,6 @@ public class ClientGameState extends GameState {
 
 	/**
 	 * Draw an actor to the designated graphics object
-	 * TODO: Have a better alternative than this
 	 * 
 	 * @param a
 	 * 		Actor to be drawn
@@ -215,8 +216,9 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void draw(Actor a, int x, int y, double scale, Graphics g) {
-		//TODO: Make this draw an image with transparency instead
-
+		//100% dead
+		if (getMode() == STOCK && a.getLives() <= 0) return;
+		
 		//respawn blink
 		if (a.isArmored() && a.getDeadTime() % 8 < 4) return;
 
@@ -382,5 +384,16 @@ public class ClientGameState extends GameState {
 			Wardrobe.drawEffect(g, (int)e.getHCenter(), (int)e.getVCenter(), e.getSkin(), 5-e.getLife()/5);
 		else
 			Wardrobe.drawChar(g, (int)e.getHCenter(), (int)e.getVCenter(), e.getSkin(), 9, 1.0);
+	}
+	
+	/**
+	 * Play all queued sounds
+	 */
+	private void playSounds() {
+		for (int i = 0; i < SoundBank.N_SAMPLES; i++) {
+			if (readSound(i)) {
+				SoundBank.play(i);
+			}
+		}
 	}
 }
