@@ -1087,11 +1087,13 @@ public class ServerGameState extends GameState {
 			//top and bottom
 			if (vCollide(s,l) != NONE) {
 				s.setVy(-s.getVy());
+				s.setLifeTime(s.getLifeTime() - 45);
 			}
 			//sides
 			else if (hCollide(s,l) != NONE) {
 				s.setVx(-s.getVx());
 				if (s.isAccel()) s.setVar(-s.getVar());
+				s.setLifeTime(s.getLifeTime() - 45);
 			}
 			//stuck inside
 			else if (overlap(s,l)) {

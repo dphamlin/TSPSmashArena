@@ -259,7 +259,7 @@ public class Warehouse {
 		s.setW(8);
 
 		//long range, mid speed
-		s.setLife(95);
+		s.setLife(475);
 		s.setSpeed(3.5);
 		s.setVSpeed(3.5);
 
@@ -274,14 +274,14 @@ public class Warehouse {
 		s.setSkin(BUBBLE);
 
 		//average firing
-		s.setReload(50);
+		s.setReload(55);
 
 		//large bubbles
 		s.setH(15);
 		s.setW(15);
 
 		//slow-moving, long lasting
-		s.setLife(395);
+		s.setLife(393);
 		s.setSpeed(1);
 
 		//bouncy bubbles slow down
@@ -470,7 +470,7 @@ public class Warehouse {
 		s.setW(640);
 
 		//drops straight
-		s.setLife(485);
+		s.setLife(500);
 		s.setSpeed(0);
 		//s.setVSpeed(-10);
 		s.setVSpeed(-12);
@@ -501,7 +501,6 @@ public class Warehouse {
 		s.setVar(12);
 		return s;
 	}
-
 
 	/*private methods to init each map*/
 	/**
