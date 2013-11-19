@@ -143,8 +143,7 @@ public class ClientGameState extends GameState {
 			if (isGameOver()) {
 				for (Integer n : getWinners()) {
 					if (n == i) {
-						//TODO: Draw animated crown instead
-						Wardrobe.drawEffect(g, 9+(1+i)*WIDTH/5, 21, 0, 0);
+						Wardrobe.drawEffect(g, 9+(1+i)*WIDTH/5, 21, 3, (getFrameNumber()/6)%6);
 					}
 				}
 			}

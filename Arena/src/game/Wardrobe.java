@@ -22,6 +22,7 @@ public class Wardrobe {
 	 */
 	public static void init() {
 		try {
+			//TODO: Load from "image" folder, which must be packaged with the .jar
 		    c = ImageIO.read(new File("character.png"));
 		    p = ImageIO.read(new File("powerup.png"));
 		    e = ImageIO.read(new File("effect.png"));
