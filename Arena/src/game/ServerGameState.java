@@ -16,8 +16,9 @@ public class ServerGameState extends GameState {
 	private static final int BOTTOM = 1;
 	private static final int NONE = 0;
 
-	//non-synchronized game results
-	GameResults res = new GameResults();
+	//non-synchronized data
+	private GameResults res = new GameResults();
+	private int sn_frame = 0; 
 
 	/**
 	 * Generic constructor
@@ -75,7 +76,10 @@ public class ServerGameState extends GameState {
 	 */
 	public void update() {
 		//clear sound queue
-		resetSound();
+		if (sn_frame != getFrameNumber()) {
+			resetSound();
+			sn_frame = getFrameNumber();
+		}
 		//player logic
 		for (Actor a : getFighters()) {
 			update(a);
@@ -143,6 +147,12 @@ public class ServerGameState extends GameState {
 	 * 		The controller data for input
 	 */
 	public void readControls(Actor a, Controller c) {
+		//clear sound queue
+		if (sn_frame != getFrameNumber()) {
+			resetSound();
+			sn_frame = getFrameNumber();
+		}
+
 		//dead take no input, nor those in pipes
 		if (a.isDead() || a.isPipe()) return;
 

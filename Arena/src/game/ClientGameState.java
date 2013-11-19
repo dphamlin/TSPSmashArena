@@ -389,7 +389,7 @@ public class ClientGameState extends GameState {
 	 * Play all queued sounds
 	 */
 	private void playSounds() {
-		for (int i = 0; i < SoundBank.N_SAMPLES; i++) {
+		for (int i = -1; i < SoundBank.N_SAMPLES; i++) {
 			if (readSound(i)) {
 				SoundBank.play(i);
 			}
