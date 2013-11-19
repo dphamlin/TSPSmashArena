@@ -553,7 +553,7 @@ public class ServerGameState extends GameState {
 		//die off
 		if (s.getLifeTime() <= 0) {
 			s.setDead(true);
-			spawnEffect(s, Effect.FADE, 0);
+			//spawnEffect(s, Effect.FADE, 0);
 			return;
 		}
 		s.setLifeTime(s.getLifeTime()-1);
@@ -1298,17 +1298,12 @@ public class ServerGameState extends GameState {
 		}
 
 		//out of bounds removal
-		/*if ((s.getBottomEdge() < -s.getH()*2 && s.getVy() < 0)
+		if ((s.getBottomEdge() < -s.getH()*2 && s.getVy() < 0)
 				|| (s.getTopEdge() > GameState.HEIGHT+s.getH()*2 && s.getVy() > 0)
 				|| (s.getRightEdge() < -s.getW()*2 && s.getVx() < 0)
 				|| (s.getLeftEdge() > GameState.WIDTH+s.getW()*2 && s.getVx() > 0)) {
 			s.setDead(true);
-		}*/
-		//out-of-bounds wraparound
-		if (s.getBottomEdge() < 0) s.setTopEdge(GameState.HEIGHT); //off top
-		if (s.getTopEdge() > GameState.HEIGHT) s.setBottomEdge(0); //off bottom
-		if (s.getRightEdge() < 0) s.setLeftEdge(GameState.WIDTH); //off left
-		if (s.getLeftEdge() > GameState.WIDTH) s.setRightEdge(0); //off right
+		}
 	}
 
 	/**
