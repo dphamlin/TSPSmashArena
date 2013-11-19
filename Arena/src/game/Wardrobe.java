@@ -23,9 +23,9 @@ public class Wardrobe {
 	public static void init() {
 		try {
 			//TODO: Load from "image" folder, which must be packaged with the .jar
-		    c = ImageIO.read(new File("character.png"));
-		    p = ImageIO.read(new File("powerup.png"));
-		    e = ImageIO.read(new File("effect.png"));
+		    c = ImageIO.read(new File("image/character.png"));
+		    p = ImageIO.read(new File("image/powerup.png"));
+		    e = ImageIO.read(new File("image/effect.png"));
 		    //TODO: Load tilesets
 		    //TODO: load backgrounds
 		} catch (IOException e) {
