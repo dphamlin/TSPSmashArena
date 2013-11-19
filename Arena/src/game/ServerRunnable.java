@@ -21,7 +21,7 @@ public class ServerRunnable implements Runnable {
 
 			theServer.getLock().lock();
 			try {
-				while(theServer.getCount() == 0){
+				while(!theServer.getRReady()){
 					theServer.getCondition().await();
 				}
 				Participant p = theServer.getParticipantList().get(i);
@@ -52,7 +52,7 @@ public class ServerRunnable implements Runnable {
 			// sends Message to client
 			theServer.getLock().lock();
 			try {
-				while(theServer.getCount() == 0){
+				while(!theServer.getWReady()){
 					theServer.getCondition().await();
 				}
 				Participant p = theServer.getParticipantList().get(i);
@@ -67,7 +67,9 @@ public class ServerRunnable implements Runnable {
 					}
 				}
 				theServer.setCount(theServer.getCount()-1);
+				System.out.println(theServer.getCount() + " runner");
 				if(theServer.getCount() == 0){
+					theServer.setWReady(false);
 					theServer.getCondition().signalAll();
 				}
 				

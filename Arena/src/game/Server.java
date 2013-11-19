@@ -23,7 +23,9 @@ public class Server {
 	private Boolean resultsSent;
 	private final Lock lock;
 	private final Condition done;
-	private int count = 0;
+	private int count;
+	private boolean readReady;
+	private boolean writeReady;
 	private ServerRunnable[] runner;
 	private Thread[] threads;
 	private Boolean namesSent;
@@ -128,9 +130,12 @@ public class Server {
 	// Reads new Controller objects from all participants in given list
 	public void readMessagesFromAll(ArrayList<Participant> aParticipantList) {
 		getLock().lock();
-		try {
-			while(getCount() != 0)
+		try{
+			while(getCount() > 0)
 				done.await();
+			setWReady(false);
+			setCount(getNumberOfPlayers());
+			setRReady(true);
 			done.signalAll();
 
 		} catch (InterruptedException e) {
@@ -153,6 +158,7 @@ public class Server {
 		getLock().lock();
 		try {
 			setCount(getNumberOfPlayers());
+			setWReady(true);
 			done.signalAll();
 		} finally {
 			getLock().unlock();
@@ -215,7 +221,6 @@ public class Server {
 				setActivePlayerCount(getActivePlayerCount() + 1);
 			}
 		}
-		setCount(getNumberOfPlayers());
 		setNumberOfPlayers(newParticipantList.size());
 		getServerSocket().close(); // Stop accepting connections
 		return newParticipantList;
@@ -262,6 +267,22 @@ public class Server {
 		this.count = c;
 	}
 
+	public boolean getRReady() {
+		return readReady;
+	}
+
+	public void setRReady(boolean read) {
+		this.readReady = read;
+	}
+	
+	public boolean getWReady() {
+		return writeReady;
+	}
+
+	public void setWReady(boolean write) {
+		this.writeReady = write;
+	}
+
 	public Thread getThread(int i){
 		return this.threads[i];
 	}
@@ -275,9 +296,10 @@ public class Server {
 	public void handleAllMessages(ArrayList<Participant> aParticipantList) {
 		getLock().lock();
 		try {
-			while(getCount() != 0){
+			while(getCount() > 0){
 				done.await();
 			}
+			setRReady(false);
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();
