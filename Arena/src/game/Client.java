@@ -73,10 +73,13 @@ public class Client {
 	}
 	
 	public void setState(GameState g) throws Exception {
-		if (g == null)
+		if (g == null){
 			throw new Exception("Null game state.");
-		
+		}
 		this.game = (ClientGameState) g; // Will be casting (ServerGameState) objects to ClientGameState
+		if(getNameList() != null){
+			this.game.setPlayerNames(getNameList());
+		}
 	}
 	
 	public ClientGameState getState(){
