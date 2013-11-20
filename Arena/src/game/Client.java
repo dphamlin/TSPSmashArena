@@ -36,8 +36,9 @@ public class Client {
 		setMessageFromServer(new Message(0,null));
 		setMessageToServer(new Message(0,null));
 		setGameResults(null);
-		setName("Player");
+		setName("");
 		setNameSent(false);
+		setNameList(null);
 		
 		getView().attachController(getController());
 		json = new Gson();
@@ -233,7 +234,9 @@ public class Client {
 			getTimer().loopRest();// Rest for the rest of the loop
 			
 			if(getController().getStart() > 50){//Disconnect on escape for 5 seconds
-				getSocket().close();
+				System.out.println("Closing connection.");
+				try{getSocket().close();}
+				catch(IOException e){}
 			}
 			
 		}

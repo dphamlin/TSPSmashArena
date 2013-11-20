@@ -13,13 +13,20 @@ public class Arena {
 	private int numPlayers;
 	private String ip;
 	private int port;
+	private Process serverProcess;
+	private Client theClient;
 
 	public static void main(String[] args){
 		mainView = new View(new Arena());
 	}
 	
+	public Arena(){
+		serverProcess = null;
+		theClient = null;
+	}
+	
 	public void host(int numberOfPlayers, int port){
-		Process serverProcess = null;
+		
 		String currentPath = Paths.get("").toAbsolutePath().toString();
 		String[] commandArgs = {"java","-cp",currentPath + File.pathSeparator + currentPath + 
 				"/lib/gson-2.2.4.jar" + File.pathSeparator + currentPath + "/bin" + File.pathSeparator + 
@@ -46,6 +53,7 @@ public class Arena {
 		
 		System.out.println("Terminating the server.");
 		serverProcess.destroy();
+		serverProcess = null;
 	}
 	
 	public void join(String ip, int port){
@@ -62,7 +70,6 @@ public class Arena {
 			System.exit(1);
 		}
 		
-		Client theClient = null;
 		try {
 			theClient = new Client(serverAddr, port, mainView);
 		}
@@ -74,9 +81,9 @@ public class Arena {
 		try {
 			theClient.play();
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		catch (Exception e) {}
+		
+		theClient = null;
 		mainView.gameDone();
 	}
 	
@@ -136,10 +143,17 @@ public class Arena {
 	}
 	
 	/**
-	 * @return the mainView
+	 * @return the serverProcess
 	 */
-	public View getMainView() {
-		return mainView;
+	public Process getServerProcess() {
+		return serverProcess;
+	}
+	
+	/**
+	 * @return the theClient
+	 */
+	public Client getTheClient() {
+		return theClient;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -16,6 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * Class for the GUI
@@ -42,7 +45,7 @@ public class View extends JFrame {
 	private Arena arena;
 	private CardLayout cl;
 	private ControlListener control;
-	
+
 	/**
 	 * Standard constructor
 	 */
@@ -52,17 +55,17 @@ public class View extends JFrame {
 		draw = new JPanel();
 		draw.setPreferredSize(new Dimension(640, 480));
 		this.setSize(640, 480);	
-		
+
 		arena = a;
 		control = new ControlListener(this);
-	    modeTabbedPane = new JTabbedPane();
+		modeTabbedPane = new JTabbedPane();
 		jGo = new JButton("Go!");
 		hGo = new JButton("Go!");
 		jGo.addActionListener(control);
 		hGo.addActionListener(control);
 		GridLayout hostGrid = new GridLayout(4,1);
 		GridLayout joinGrid = new GridLayout(4,1);
-		
+
 		host = new JPanel();
 		host.setPreferredSize(new Dimension(260,120));
 		host.setLayout(hostGrid);
@@ -73,7 +76,7 @@ public class View extends JFrame {
 		host.add(numPlayersLabel);
 		host.add(numPlayersField);
 		host.add(hGo);
-		
+
 		join = new JPanel();
 		join.setPreferredSize(new Dimension(260,120));
 		join.setLayout(joinGrid);
@@ -83,10 +86,10 @@ public class View extends JFrame {
 		join.add(ipLabel);
 		join.add(ipField);
 		join.add(jGo);
-		
+
 		modeTabbedPane.addTab("Join", join);
 		modeTabbedPane.addTab("Host", host);
-		
+
 		cl = new CardLayout();
 		cardPane = new JPanel(cl);
 		cardPane.add(modeTabbedPane, "mode");
@@ -94,14 +97,29 @@ public class View extends JFrame {
 		this.add(cardPane);
 		this.setTitle("Arena: Lobby");
 		cl.show(cardPane, "mode");
-		
+
 		setResizable(false);
 		setVisible(true);
-		pack(); //FORCE it to be 640 x 480, this has given me grief
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); // Closing the window closes the game
+		pack();
 		toFront();
-		Wardrobe.init();
+		
+		Wardrobe.init();//Load images and sounds
 		SoundBank.init();
+		
+		this.addWindowListener(new WindowAdapter() {// Closing the window gracefully closes the game
+			public void windowClosing(WindowEvent e) {
+				if(getArena().getTheClient() != null){//Close the socket and catch output.
+					System.out.println("Closing connection.");
+					try {getArena().getTheClient().getSocket().close();}
+					catch (IOException e1) {}
+				}
+				if(getArena().getServerProcess() != null){//Destroy server if it exists.
+					System.out.println("Terminating the server.");
+					getArena().getServerProcess().destroy();
+				}
+				System.exit(0);//Close the program.
+			}
+		});
 	}
 
 	public String getMyIp(){
@@ -157,11 +175,11 @@ public class View extends JFrame {
 		state.draw(backBuffer.getGraphics());
 		draw.getGraphics().drawImage(backBuffer, 0, 0, null);
 	}
-	
+
 	public void gameDone(){
 		cl.show(cardPane, "mode");
 	}
-	
+
 	/**
 	 * @return the cardPane
 	 */
@@ -259,7 +277,7 @@ public class View extends JFrame {
 	public void setCl(CardLayout cl) {
 		this.cl = cl;
 	}
-	
+
 	/**
 	 * @return the draw
 	 */
@@ -273,6 +291,6 @@ public class View extends JFrame {
 	public void setDraw(JPanel draw) {
 		this.draw = draw;
 	}
-	
+
 }
 
