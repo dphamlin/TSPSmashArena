@@ -316,7 +316,11 @@ public class Server {
 		}
 		for (Participant p: aParticipantList) {
 			if(p.isActive()){
-				if (p.getMessageFromClient().getNumber() == 2) { // 2 indicates a name message
+				if (p.getMessageFromClient() == null) {
+					p.setActive(false);
+					setActivePlayerCount(getActivePlayerCount() - 1);
+				}
+				else if (p.getMessageFromClient().getNumber() == 2) { // 2 indicates a name message
 					p.setName(json.fromJson(p.getMessageFromClient().getMessage(),String.class));
 					if (p.getName().compareTo("") == 0)
 						p.setName("Player " + (aParticipantList.indexOf(p) + 1));

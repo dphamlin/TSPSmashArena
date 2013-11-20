@@ -261,7 +261,7 @@ public class ServerGameState extends GameState {
 	private int getLivingPlayers() {
 		int n = 0;
 		for (Actor a : getFighters()) {
-			if (a.getLives() > 0) n++;
+			if (a.getLives() > 0 && !a.isSuspend()) n++;
 		}
 		return n;
 	}
