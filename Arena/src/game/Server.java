@@ -317,6 +317,8 @@ public class Server {
 		for (Participant p: aParticipantList) {
 			if (p.getMessageFromClient().getNumber() == 2) { // 2 indicates a name message
 				p.setName(json.fromJson(p.getMessageFromClient().getMessage(),String.class));
+				if (p.getName().compareTo("") == 0)
+					p.setName("Player " + (aParticipantList.indexOf(p) + 1));
 				setNamesSent(false);
 			}
 			else if (p.getMessageFromClient().getNumber() == 0) { // 0 indicates a Controller
