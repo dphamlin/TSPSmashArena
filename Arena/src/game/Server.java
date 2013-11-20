@@ -280,7 +280,7 @@ public class Server {
 	public void setRReady(boolean read) {
 		this.readReady = read;
 	}
-	
+
 	public boolean getWReady() {
 		return writeReady;
 	}
@@ -315,14 +315,16 @@ public class Server {
 			getLock().unlock();
 		}
 		for (Participant p: aParticipantList) {
-			if (p.getMessageFromClient().getNumber() == 2) { // 2 indicates a name message
-				p.setName(json.fromJson(p.getMessageFromClient().getMessage(),String.class));
-				if (p.getName().compareTo("") == 0)
-					p.setName("Player " + (aParticipantList.indexOf(p) + 1));
-				setNamesSent(false);
-			}
-			else if (p.getMessageFromClient().getNumber() == 0) { // 0 indicates a Controller
-				p.setController(json.fromJson(p.getMessageFromClient().getMessage(), Controller.class));
+			if(p.isActive()){
+				if (p.getMessageFromClient().getNumber() == 2) { // 2 indicates a name message
+					p.setName(json.fromJson(p.getMessageFromClient().getMessage(),String.class));
+					if (p.getName().compareTo("") == 0)
+						p.setName("Player " + (aParticipantList.indexOf(p) + 1));
+					setNamesSent(false);
+				}
+				else if (p.getMessageFromClient().getNumber() == 0) { // 0 indicates a Controller
+					p.setController(json.fromJson(p.getMessageFromClient().getMessage(), Controller.class));
+				}
 			}
 		}
 	}
@@ -381,9 +383,9 @@ public class Server {
 
 			theServer.readMessagesFromAll(theServer.getParticipantList()); // Reads updated controllers into all participants
 			theServer.handleAllMessages(theServer.getParticipantList()); // Handles all messages received
-			
+
 			//theServer.getGameState().update(); // updates game state using game logic
-			
+
 			if (theServer.getGameState().getEnd() == 1 && !theServer.resultsSent()) {
 				theServer.getMessage().setNumber(1);
 				theServer.getMessage().setMessage(theServer.json.toJson(theServer.getGameState().getResults()));
