@@ -231,6 +231,11 @@ public class Client {
 				getView().reDraw(getState());// Client draws game state here!
 			}
 			getTimer().loopRest();// Rest for the rest of the loop
+			
+			if(getController().getStart() > 250){//Disconnect on escape for 5 seconds
+				getSocket().close();
+			}
+			
 		}
 	}
 	
