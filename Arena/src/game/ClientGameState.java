@@ -10,6 +10,9 @@ import java.awt.Graphics;
 
 public class ClientGameState extends GameState {
 
+	//non-synched player name set
+	private String[] pn = {"Player 1", "Player 2", "Player 3", "Player 4",};
+
 	/**
 	 * Generic constructor
 	 */
@@ -126,7 +129,7 @@ public class ClientGameState extends GameState {
 		//draw spots for the number of players expected
 		for (int i = 0; i < getMaxPlayers() || i < getNumberOfPlayers(); i++) {
 			g.setColor(Color.BLACK);
-			g.fillRoundRect((1+i)*WIDTH/5-27, 10, 55, 36, 10, 10);
+			g.fillRoundRect((1+i)*WIDTH/5-27, 15, 55, 36, 10, 10);
 		}
 		//draw actual characters and stats
 		for (int i = 0; i < getNumberOfPlayers(); i++) {
@@ -134,25 +137,30 @@ public class ClientGameState extends GameState {
 
 			g.setColor(Color.WHITE);
 			if (getMode() == STOCK) {
-				g.drawString("x"+getPlayer(i).getLives(), 3+(1+i)*WIDTH/5, 35);
+				g.drawString("x"+getPlayer(i).getLives(), 3+(1+i)*WIDTH/5, 40);
 			}
 			if (getMode() == TIME) {
-				g.drawString(" "+getPlayer(i).getScore(), 3+(1+i)*WIDTH/5, 35);
+				g.drawString(" "+getPlayer(i).getScore(), 3+(1+i)*WIDTH/5, 40);
 			}
 			//tag winners
 			if (isGameOver()) {
 				for (Integer n : getWinners()) {
 					if (n == i) {
-						Wardrobe.drawEffect(g, 9+(1+i)*WIDTH/5, 21, 3, (getFrameNumber()/6)%6);
+						Wardrobe.drawEffect(g, 9+(1+i)*WIDTH/5, 26, 3, (getFrameNumber()/6)%6);
 					}
 				}
 			}
+			//draw the player's name just above
+			if (i < pn.length) {
+				g.setColor(Color.GREEN);
+				g.drawString(pn[i], (1+i)*WIDTH/5-26, 13);
+			}
 			//draw the character's current state in box
-			draw(getPlayer(i), (1+i)*WIDTH/5-11, 26, 1.0, g);
+			draw(getPlayer(i), (1+i)*WIDTH/5-11, 31, 1.0, g);
 			//draw the reload bar
 			if (getPlayer(i).getReload() > 0) {
 				g.setColor(Color.RED);
-				g.fillRect((1+i)*WIDTH/5-19, 38, (16*getPlayer(i).getReload())/getPlayer(i).getShotDelay(), 2);
+				g.fillRect((1+i)*WIDTH/5-19, 43, (16*getPlayer(i).getReload())/getPlayer(i).getShotDelay(), 2);
 			}
 			if (getPlayer(i).getPowerup() > 0) {
 				g.setColor(Color.BLACK);
@@ -170,7 +178,7 @@ public class ClientGameState extends GameState {
 					if (getPlayer(i).getPowerupVar() == Warehouse.ROBOT) powername = "Cybernetics";
 				}
 				if (getPlayer(i).getPowerup() == Item.HYPER) powername = "Invincibility";
-				g.drawString(powername, (1+i)*WIDTH/5-27, 56);
+				g.drawString(powername, (1+i)*WIDTH/5-27, 61);
 			}
 		}
 		if (getMode() == TIME) {
@@ -217,7 +225,7 @@ public class ClientGameState extends GameState {
 	private void draw(Actor a, int x, int y, double scale, Graphics g) {
 		//100% dead
 		if (getMode() == STOCK && a.getLives() <= 0) return;
-		
+
 		//respawn blink
 		if (a.isArmored() && a.getDeadTime() % 8 < 4) return;
 
@@ -335,7 +343,7 @@ public class ClientGameState extends GameState {
 			double sc = 1;
 			if (s.isBig()) sc = 2;
 			if (s.isMini()) sc = 0.5;
-			
+
 			if (s.getVx() > 0)
 				Wardrobe.drawShot(g, (int)s.getHCenter(), (int)s.getVCenter(), 
 						s.getSkin(), 3-(s.getLifeTime()/10)%4, (float)sc);
@@ -384,7 +392,7 @@ public class ClientGameState extends GameState {
 		else
 			Wardrobe.drawChar(g, (int)e.getHCenter(), (int)e.getVCenter(), e.getSkin(), 9, 1.0);
 	}
-	
+
 	/**
 	 * Play all queued sounds
 	 */
@@ -394,5 +402,22 @@ public class ClientGameState extends GameState {
 				SoundBank.play(i);
 			}
 		}
+	}
+
+	/**
+	 * @return the array of player names
+	 */
+	public String[] getPlayerNames() {
+		return pn;
+	}
+
+	/**
+	 * Set the names of the players
+	 * 
+	 * @param pn
+	 * 		new array of player names
+	 */
+	public void setPlayerNames(String[] pn) {
+		this.pn = pn;
 	}
 }
