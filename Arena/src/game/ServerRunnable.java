@@ -7,12 +7,12 @@ import java.util.concurrent.locks.*;
 public class ServerRunnable implements Runnable {
 	private Server theServer;
 	private int i;
-	private Participant p;
+	private RemoteParticipant p;
 
 	public ServerRunnable(Server s, int i){
 		theServer = s;
 		this.i = i;
-		p = theServer.getParticipantList().get(i);
+		p = (RemoteParticipant) theServer.getParticipantList().get(i);
 	}
 
 	public void run() {
@@ -34,6 +34,9 @@ public class ServerRunnable implements Runnable {
 				// thread will be responsible for changing 
 				// back to active on reconnect
 				try {
+					if(p.getSocket().isClosed()){
+						throw new IOException("Socket closed.");
+					}
 					p.readMessage();
 				}
 				catch (IOException e) {
@@ -86,7 +89,7 @@ public class ServerRunnable implements Runnable {
 					}
 				}
 			}
-			
+
 			theServer.getLock().lock();
 			try {
 				theServer.setCount(theServer.getCount()-1);
