@@ -987,22 +987,22 @@ public class ServerGameState extends GameState {
 		}
 
 		//supermode kills everything you touch
-		if (a.getPowerup() == Item.HYPER && overlap(a, b)) {
+		if (a.getPowerup() == Item.HYPER && b.getPowerup() != Item.HYPER && overlap(a, b)) {
 			kill(a, b);
 			return; //nothing else can happen
 		}
 
 		//supermode kills everything you touch
-		if (b.getPowerup() == Item.HYPER && overlap(a, b)) {
+		if (b.getPowerup() == Item.HYPER && a.getPowerup() != Item.HYPER && overlap(a, b)) {
 			kill(b, a);
 			return; //nothing else can happen
 		}
 
 		//land on enemy heads
-		if (!b.isArmored() && vCollide(a, b) == TOP) {
+		if (vCollide(a, b) == TOP) {
 			a.setBottomEdge(b.getTopEdge());
 			jump(a);
-			kill(a, b);
+			if (!b.isArmored()) kill(a, b);
 		}
 
 		//check horizontal collisions
