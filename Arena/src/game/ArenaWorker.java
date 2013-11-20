@@ -18,6 +18,10 @@ public class ArenaWorker extends SwingWorker<String, Arena>{
 		} else {
 			this.a.join(this.a.getIp(), this.a.getPort());
 		}
+		
+		if(!this.a.getMainView().isVisible()){
+			System.exit(0);
+		}
 		return " ";
 	}
 

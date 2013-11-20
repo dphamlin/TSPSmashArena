@@ -134,4 +134,12 @@ public class Arena {
 	public void setPort(int port) {
 		this.port = port;
 	}
+	
+	/**
+	 * @return the mainView
+	 */
+	public View getMainView() {
+		return mainView;
+	}
+
 }
