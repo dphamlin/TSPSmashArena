@@ -232,7 +232,7 @@ public class Client {
 			}
 			getTimer().loopRest();// Rest for the rest of the loop
 			
-			if(getController().getStart() > 250){//Disconnect on escape for 5 seconds
+			if(getController().getStart() > 50){//Disconnect on escape for 5 seconds
 				getSocket().close();
 			}
 			
