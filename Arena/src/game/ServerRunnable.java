@@ -1,49 +1,59 @@
 package game;
 
 import java.io.IOException;
+
 import java.util.concurrent.locks.*;
 
 public class ServerRunnable implements Runnable {
 	private Server theServer;
 	private int i;
+	private Participant p;
 
 	public ServerRunnable(Server s, int i){
 		theServer = s;
 		this.i = i;
+		p = theServer.getParticipantList().get(i);
 	}
 
-	@Override
 	public void run() {
 
 		// gets Message from client
 		while(true){
-
-
 			theServer.getLock().lock();
 			try {
 				while(!theServer.getRReady()){
 					theServer.getCondition().await();
 				}
-				Participant p = theServer.getParticipantList().get(i);
-				if (p.isActive()){ // Only try to read from active players;
-					// thread will be responsible for changing 
-					// back to active on reconnect
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} finally {
+				theServer.getLock().unlock();
+			}
+
+			if (p.isActive()){ // Only try to read from active players;
+				// thread will be responsible for changing 
+				// back to active on reconnect
+				try {
+					p.readMessage();
+				}
+				catch (IOException e) {
+					System.err.println("Participant disconnected on reading message. Set to inactive. " + e.getMessage());
+					p.setActive(false);
+					theServer.getActPlLock().lock();
 					try {
-						p.readMessage();
-					}
-					catch (IOException e) {
-						System.err.println("Participant disconnected on reading message. Set to inactive. " + e.getMessage());
-						p.setActive(false);
 						theServer.setActivePlayerCount(theServer.getActivePlayerCount()-1);
+					} finally {
+						theServer.getActPlLock().unlock();
 					}
 				}
+			}
+
+			theServer.getLock().lock();
+			try {
 				theServer.setCount(theServer.getCount()-1);
 				if(theServer.getCount() == 0){
 					theServer.getCondition().signalAll();
 				}
-
-			} catch (InterruptedException e) {
-				e.printStackTrace();
 			} finally {
 				theServer.getLock().unlock();
 			}
@@ -55,24 +65,34 @@ public class ServerRunnable implements Runnable {
 				while(!theServer.getWReady()){
 					theServer.getCondition().await();
 				}
-				Participant p = theServer.getParticipantList().get(i);
-				if (p.isActive()){
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} finally {
+				theServer.getLock().unlock();
+			}
+
+			if (p.isActive()){
+				try {
+					p.writeToClient(theServer.getGson().toJson(theServer.getMessage()));
+				}
+				catch (IOException e) {
+					System.err.println("Participant disconnected while writing message.  Set to inactive. " + e.getMessage());
+					p.setActive(false);
+					theServer.getActPlLock().lock();
 					try {
-						p.writeToClient(theServer.getGson().toJson(theServer.getMessage()));
-					}
-					catch (IOException e) {
-						System.err.println("Participant disconnected while writing message.  Set to inactive. " + e.getMessage());
-						p.setActive(false);
 						theServer.setActivePlayerCount(theServer.getActivePlayerCount()-1);
+					} finally {
+						theServer.getActPlLock().unlock();
 					}
 				}
+			}
+			
+			theServer.getLock().lock();
+			try {
 				theServer.setCount(theServer.getCount()-1);
 				if(theServer.getCount() == 0){
 					theServer.getCondition().signalAll();
 				}
-				
-			} catch (InterruptedException e) {
-				e.printStackTrace();
 			} finally {
 				theServer.getLock().unlock();
 			}

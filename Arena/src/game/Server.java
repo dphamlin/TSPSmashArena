@@ -22,6 +22,7 @@ public class Server {
 	private Message message;
 	private Boolean resultsSent;
 	private final Lock lock;
+	private final Lock actPlLock;
 	private final Condition done;
 	private int count;
 	private boolean readReady;
@@ -38,6 +39,7 @@ public class Server {
 		json = new Gson();
 		timer = new StopWatch(20);
 		lock = new ReentrantLock();
+		actPlLock = new ReentrantLock();
 		done = lock.newCondition();
 		setCount(0);
 		runner = new ServerRunnable[4];
@@ -218,8 +220,6 @@ public class Server {
 				p.setPlayer(getGameState().addPlayer());
 				newParticipantList.add(p);
 				System.out.println("Player: "+(i+1)+" connected.");
-				runner[i] = new ServerRunnable(this, i);
-				threads[i] = new Thread(runner[i]);
 				setActivePlayerCount(getActivePlayerCount() + 1);
 			}
 		}
@@ -257,6 +257,10 @@ public class Server {
 		return lock;
 	}
 
+	public Lock getActPlLock() {
+		return actPlLock;
+	}
+
 	public Condition getCondition() {
 		return done;
 	}
@@ -291,6 +295,8 @@ public class Server {
 
 	public void startThreads() {
 		for(int i = 0; i < getNumberOfPlayers(); i++){
+			runner[i] = new ServerRunnable(this, i);
+			threads[i] = new Thread(runner[i]);
 			this.getThread(i).start();
 		}
 	}
