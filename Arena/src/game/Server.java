@@ -134,7 +134,6 @@ public class Server {
 			while(getCount() > 0){
 				done.await();
 			}
-			System.out.println("1");
 			setWReady(false);
 			setCount(getNumberOfPlayers());
 			setRReady(true);
@@ -159,7 +158,6 @@ public class Server {
 	public void writeMessageToAll(ArrayList<Participant> aParticipantList) {
 		getLock().lock();
 		try {
-			System.out.println("3");
 			//System.out.println("readReady: " + readReady + "\nwriteReady: " + writeReady);
 			setCount(getNumberOfPlayers());
 			setWReady(true);
@@ -303,7 +301,6 @@ public class Server {
 			while(getCount() > 0){
 				done.await();
 			}
-			System.out.println("2");
 			setRReady(false);
 
 		} catch (InterruptedException e) {

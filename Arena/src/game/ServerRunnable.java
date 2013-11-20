@@ -24,7 +24,6 @@ public class ServerRunnable implements Runnable {
 				while(!theServer.getRReady()){
 					theServer.getCondition().await();
 				}
-				System.out.println("    Runner " + i + " 1");
 				Participant p = theServer.getParticipantList().get(i);
 				if (p.isActive()){ // Only try to read from active players;
 					// thread will be responsible for changing 
@@ -56,7 +55,6 @@ public class ServerRunnable implements Runnable {
 				while(!theServer.getWReady()){
 					theServer.getCondition().await();
 				}
-				System.out.println("    Runner " + i + " 2");
 				Participant p = theServer.getParticipantList().get(i);
 				if (p.isActive()){
 					try {
