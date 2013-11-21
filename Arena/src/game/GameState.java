@@ -353,7 +353,7 @@ public abstract class GameState {
 	public boolean readSound(int i) {
 		return (sn&(1<<i)) != 0;
 	}
-	
+
 	/**
 	 * Reset sounds after each frame
 	 */
