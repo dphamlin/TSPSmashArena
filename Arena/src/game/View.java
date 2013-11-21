@@ -2,8 +2,10 @@ package game;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -40,11 +42,19 @@ public class View extends JFrame {
 	private JLabel ipLabel;
 	private JLabel yourIP;
 	private JTextField ipField;
+	private JTextField nameField;
+	private JTextField hostPortField;
+	private JTextField joinPortField;
+	private JLabel nameLabel;
+	private JLabel portLabel;
 	private JLabel numPlayersLabel;
+	private JLabel warningLabel;
+	private JLabel welcomeLabel;
 	private JTextField numPlayersField;
 	private Arena arena;
 	private CardLayout cl;
 	private ControlListener control;
+	private String ip;
 
 	/**
 	 * Standard constructor
@@ -54,38 +64,58 @@ public class View extends JFrame {
 		setTitle("TSPArena");
 		draw = new JPanel();
 		draw.setPreferredSize(new Dimension(640, 480));
-		this.setSize(640, 480);	
+		this.setSize(640, 480);
 
 		arena = a;
 		control = new ControlListener(this);
 		modeTabbedPane = new JTabbedPane();
-		jGo = new JButton("Go!");
-		hGo = new JButton("Go!");
+		jGo = new JButton("Join!");
+		hGo = new JButton("Host!");
 		jGo.addActionListener(control);
 		hGo.addActionListener(control);
-		GridLayout hostGrid = new GridLayout(4,1);
-		GridLayout joinGrid = new GridLayout(4,1);
+		
+		GridBagLayout hostGrid = new GridBagLayout();
+		GridBagLayout joinGrid = new GridBagLayout();
+		GridBagLayout modeGrid = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
 
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.gridy = 1;
+		c.gridx = 1;
+		c.insets = new Insets(10,50,10,50);
 		host = new JPanel();
-		host.setPreferredSize(new Dimension(260,120));
 		host.setLayout(hostGrid);
+		this.ip = null;
 		yourIP = new JLabel("Your IP is: "+getMyIp());
-		numPlayersLabel = new JLabel("Number of players (1-4) :");
+		numPlayersLabel = new JLabel("Enter the number of players 1-4: ");
 		numPlayersField = new JTextField();
-		host.add(yourIP);
-		host.add(numPlayersLabel);
-		host.add(numPlayersField);
-		host.add(hGo);
+		numPlayersField.setPreferredSize(new Dimension(25,25));
+		host.add(yourIP,c);
+		c.gridy = 2;
+		host.add(numPlayersLabel,c);
+		c.gridy = 3;
+		c.weightx = 1.0;
+		host.add(numPlayersField,c);
+		c.gridy = 4;
+		host.add(hGo,c);
 
+		c.gridy = 1;
+		c.gridx = 1;
 		join = new JPanel();
-		join.setPreferredSize(new Dimension(260,120));
 		join.setLayout(joinGrid);
+		welcomeLabel = new JLabel("Welcome to TSP-Arena!");
 		ipLabel = new JLabel("Enter an IP to connect to :");
 		ipField = new JTextField();
-		join.add(new JLabel("Welcome to TSP-Arena!"));
-		join.add(ipLabel);
-		join.add(ipField);
-		join.add(jGo);
+		ipField.setPreferredSize(new Dimension(125,25));
+		join.add(welcomeLabel,c);
+		c.gridy = 2;
+		join.add(ipLabel,c);
+		c.gridy = 3;
+		join.add(ipField,c);
+		c.gridy = 4;
+		join.add(jGo, c);
+		c.gridy = 5;
 
 		modeTabbedPane.addTab("Join", join);
 		modeTabbedPane.addTab("Host", host);
@@ -102,10 +132,10 @@ public class View extends JFrame {
 		setVisible(true);
 		pack();
 		toFront();
-		
+
 		Wardrobe.init();//Load images and sounds
 		SoundBank.init();
-		
+
 		this.addWindowListener(new WindowAdapter() {// Closing the window gracefully closes the game
 			public void windowClosing(WindowEvent e) {
 				if(getArena().getTheClient() != null){//Close the socket and catch output.
@@ -123,31 +153,36 @@ public class View extends JFrame {
 	}
 
 	public String getMyIp(){
-		Enumeration<NetworkInterface> nets = null;
-		try {
-			nets = NetworkInterface.getNetworkInterfaces();//Get list of all network interfaces
-		} catch (SocketException e) {
-			nets = null;
-		}
-		if(nets != null){
-			for (NetworkInterface netint : Collections.list(nets)){
-				try {//Find the interface that is active and host is communicating on
-					if(netint.isUp() && !netint.isPointToPoint() && !netint.isVirtual() && !netint.isLoopback()){
-						Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
-						for (InetAddress inetAddress : Collections.list(inetAddresses)) {
-							String inet = inetAddress.toString();
-							inet = inet.substring(1);//Find the address on the interface we want that is "real" and IPv4.
-							if(inet.substring(0,7).compareTo("169.254") != 0 && !inet.contains(":")){
-								return inet;
+		if(ip == null){
+			Enumeration<NetworkInterface> nets = null;
+			try {
+				nets = NetworkInterface.getNetworkInterfaces();//Get list of all network interfaces
+			} catch (SocketException e) {
+				nets = null;
+			}
+			if(nets != null){
+				for (NetworkInterface netint : Collections.list(nets)){
+					try {//Find the interface that is active and host is communicating on
+						if(netint.isUp() && !netint.isPointToPoint() && !netint.isVirtual() && !netint.isLoopback()){
+							Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
+							for (InetAddress inetAddress : Collections.list(inetAddresses)) {
+								String inet = inetAddress.toString();
+								inet = inet.substring(1);//Find the address on the interface we want that is "real" and IPv4.
+								if(inet.substring(0,7).compareTo("169.254") != 0 && !inet.contains(":")){
+									this.ip = inet;
+								}
 							}
 						}
+					} catch (SocketException e) {
+						System.err.println("Unable to get local address server is utilizing.");
 					}
-				} catch (SocketException e) {
-					System.err.println("Unable to get local address server is utilizing.");
 				}
 			}
+			else{
+				this.ip = "Unknown.Address";
+			}
 		}
-		return "Unknown.Address";
+		return this.ip;
 	}
 
 	/**
@@ -157,7 +192,11 @@ public class View extends JFrame {
 	 * 		the controller object to be connected
 	 */
 	public void attachController(Controller c) {
-		draw.getGraphics().drawString("Waiting for game to start...", 340-75, 240+5); //pre-join text
+		String greet = "            Waiting for game to start...";
+		if(getArena().isHost()){
+			greet = "Waiting for players... Your IP: "+getMyIp();
+		}
+		draw.getGraphics().drawString(greet, 180, 245); //pre-join text
 		control.setContoller(c);
 	}
 
@@ -168,8 +207,8 @@ public class View extends JFrame {
 	 * 		game state to draw
 	 */
 	public void reDraw(ClientGameState state){
-		if (!this.getTitle().equals("TSPArena: "+state.getMapName())) {
-			this.setTitle("TSPArena: "+state.getMapName());
+		if (!this.getTitle().equals("Arena: "+state.getMapName())) {
+			this.setTitle("Arena: "+state.getMapName());
 		}
 		Image backBuffer = createImage(640, 480);
 		state.draw(backBuffer.getGraphics());
@@ -177,6 +216,7 @@ public class View extends JFrame {
 	}
 
 	public void gameDone(){
+		this.setTitle("Arena: Lobby");
 		cl.show(cardPane, "mode");
 	}
 

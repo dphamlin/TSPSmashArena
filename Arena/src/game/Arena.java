@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 import com.google.gson.*;
 
 public class Arena {
-	
+
 	private static View mainView;
 	private boolean host;
 	private int numPlayers;
@@ -19,19 +19,19 @@ public class Arena {
 	public static void main(String[] args){
 		mainView = new View(new Arena());
 	}
-	
+
 	public Arena(){
 		serverProcess = null;
 		theClient = null;
 	}
-	
+
 	public void host(int numberOfPlayers, int port){
-		
+
 		String currentPath = Paths.get("").toAbsolutePath().toString();
 		String[] commandArgs = {"java","-cp",currentPath + File.pathSeparator + currentPath + 
 				"/lib/gson-2.2.4.jar" + File.pathSeparator + currentPath + "/bin" + File.pathSeparator + 
 				currentPath + "/arena.jar","game.Server",String.valueOf(numberOfPlayers),Integer.toString(port)};
-		
+
 		try {
 			ProcessBuilder processBuilder = new ProcessBuilder(commandArgs);
 			processBuilder.redirectErrorStream(true);
@@ -43,19 +43,19 @@ public class Arena {
 			System.err.println("IOException attempting to start the server.");
 			System.exit(1);
 		}
-		
+
 		if (serverProcess == null) {
 			System.err.println("Failed to execute the server.");
 			System.exit(1);
 		}
-		
+
 		join("localhost", port);
-		
+
 		System.out.println("Terminating the server.");
 		serverProcess.destroy();
 		serverProcess = null;
 	}
-	
+
 	public void join(String ip, int port){
 		InetAddress serverAddr = null;
 		try {
@@ -63,30 +63,28 @@ public class Arena {
 		}
 		catch (UnknownHostException uhe) {
 			System.out.println("Could not resolve the server address.  Unknown host.");
-			System.exit(1);
 		}
 		catch (Exception e) {
 			System.out.println("Could not aquire the server address.  Unspecified error.");
-			System.exit(1);
 		}
-		
-		try {
-			theClient = new Client(serverAddr, port, mainView);
+
+		if(serverAddr != null){
+			try {
+				theClient = new Client(serverAddr, port, mainView);
+				System.out.println("Client Started");
+			}
+			catch (IOException e) {
+				System.err.println("Failed to create game client. " + e.getMessage());
+			}
+			try {
+				theClient.play();
+			}
+			catch (Exception e) {}
+			theClient = null;
 		}
-		catch (IOException e) {
-			System.err.println("Failed to create game client. " + e.getMessage());
-			System.exit(1);
-		}
-		System.out.println("Client Started");
-		try {
-			theClient.play();
-		}
-		catch (Exception e) {}
-		
-		theClient = null;
 		mainView.gameDone();
 	}
-	
+
 	/**
 	 * @return the numPlayers
 	 */
@@ -141,14 +139,14 @@ public class Arena {
 	public void setPort(int port) {
 		this.port = port;
 	}
-	
+
 	/**
 	 * @return the serverProcess
 	 */
 	public Process getServerProcess() {
 		return serverProcess;
 	}
-	
+
 	/**
 	 * @return the theClient
 	 */
