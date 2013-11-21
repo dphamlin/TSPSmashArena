@@ -80,6 +80,7 @@ public class ServerGameState extends GameState {
 			resetSound();
 			sn_frame = getFrameNumber();
 		}
+
 		//player logic
 		for (Actor a : getFighters()) {
 			update(a);

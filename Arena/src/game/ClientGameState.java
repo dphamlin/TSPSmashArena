@@ -170,13 +170,14 @@ public class ClientGameState extends GameState {
 				if (getPlayer(i).getPowerup() == Item.DJUMP) powername = "Air Jump";
 				if (getPlayer(i).getPowerup() == Item.SPEED) powername = "Fast-Forward";
 				if (getPlayer(i).getPowerup() == Item.SSHOT) powername = "Hyper Shot";
-				if (getPlayer(i).getPowerup() == Item.CHANGE) {
+				if (getPlayer(i).getPowerup() == Item.CHANGE) powername = "Mutation";
+				/*{
 					if (getPlayer(i).getPowerupVar() == Warehouse.LIZARD) powername = "Reptilia";
 					if (getPlayer(i).getPowerupVar() == Warehouse.SLIME) powername = "Fluidity";
 					if (getPlayer(i).getPowerupVar() == Warehouse.CAPTAIN) powername = "Original";
 					if (getPlayer(i).getPowerupVar() == Warehouse.MARINE) powername = "Power Armor";
 					if (getPlayer(i).getPowerupVar() == Warehouse.ROBOT) powername = "Cybernetics";
-				}
+				}*/
 				if (getPlayer(i).getPowerup() == Item.HYPER) powername = "Invincibility";
 				g.drawString(powername, (1+i)*WIDTH/5-27, 61);
 			}

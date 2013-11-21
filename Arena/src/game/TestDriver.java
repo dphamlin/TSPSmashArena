@@ -20,19 +20,19 @@ public class TestDriver {
 		SoundBank.init();
 		Controller c = new Controller();
 		RetroView v = new RetroView();
-		MenuState ms = new MenuState();
+		//MenuState ms = new MenuState();
 		StopWatch t = new StopWatch(20);
 		v.attachController(c);
 
 		//menu test loop
 		int prog = 0;
-		while (prog == 0 && v.isVisible()) {
+		/*while (prog == 0 && v.isVisible()) {
 			t.loopStart();
 			c.update();
 			prog = ms.update(c);
 			v.reDraw(ms);
 			t.loopRest();
-		}
+		}*/
 
 		//menu based actions
 		if (prog == MenuState.HOST); //TODO: Host, in theory
@@ -44,7 +44,7 @@ public class TestDriver {
 
 		//test players
 		gs.addPlayer();
-		gs.addPlayer();
+		//gs.addPlayer();
 		//gs.addPlayer();
 		//gs.addPlayer();
 
