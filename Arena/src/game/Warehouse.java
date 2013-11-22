@@ -71,8 +71,8 @@ public class Warehouse {
 
 		//agile on ground, sluggish in air
 		r.setRunFrict(.3);
-		r.setAirFrict(.03);
-		r.setMaxSpeed(4);
+		r.setAirFrict(.045);
+		r.setMaxSpeed(3.9);
 
 		//powerful jump
 		r.setJumpPower(8.6);
@@ -132,14 +132,14 @@ public class Warehouse {
 		//average land speed, a bit weaker in the air
 		r.setRunFrict(.2);
 		r.setAirFrict(.05);
-		r.setMaxSpeed(3);
+		r.setMaxSpeed(3.1);
 
 		//middling jump
 		r.setJumpPower(8.0);
-		r.setJumpHold(5);
+		r.setJumpHold(6);
 
 		//average fall
-		r.setGrav(.63);
+		r.setGrav(.62);
 		r.setTermVel(7);
 
 		//weak fall control
@@ -148,7 +148,7 @@ public class Warehouse {
 
 		//quick respawn, long spawn armor
 		r.setSpawnTime(45);
-		r.setSpawnInv(90);
+		r.setSpawnInv(100);
 
 		//basic raygun
 		r.setShotType(raygun());
@@ -259,7 +259,7 @@ public class Warehouse {
 		s.setW(8);
 
 		//long range, mid speed
-		s.setLife(475);
+		s.setLife(435);
 		s.setSpeed(3.5);
 		s.setVSpeed(3.5);
 
@@ -295,15 +295,15 @@ public class Warehouse {
 		s.setSkin(RAYGUN);
 
 		//fast fire
-		s.setReload(45);
+		s.setReload(42);
 
 		//small lasers
 		s.setH(2);
 		s.setW(20);
 
 		//mid speed long range
-		s.setLife(65);
-		s.setSpeed(4);
+		s.setLife(68);
+		s.setSpeed(4.4);
 
 		//standard type
 		s.setType(0);
