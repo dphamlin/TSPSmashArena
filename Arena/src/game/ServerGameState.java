@@ -983,27 +983,21 @@ public class ServerGameState extends GameState {
 	 */
 	private void collide(Actor a, Actor b) {
 		//can't hit yourself, a dead guy, or an invincible guy
-		if (a == b || a.isDead() || b.isDead()) {
+		if (a == b || a.isDead() || b.isDead() || b.isArmored()) {
 			return;
-		}
-
-		//supermode kills everything you touch
-		if (a.getPowerup() == Item.HYPER && b.getPowerup() != Item.HYPER && overlap(a, b)) {
-			kill(a, b);
-			return; //nothing else can happen
-		}
-
-		//supermode kills everything you touch
-		if (b.getPowerup() == Item.HYPER && a.getPowerup() != Item.HYPER && overlap(a, b)) {
-			kill(b, a);
-			return; //nothing else can happen
 		}
 
 		//land on enemy heads
 		if (vCollide(a, b) == TOP) {
 			a.setBottomEdge(b.getTopEdge());
 			jump(a);
-			if (!b.isArmored()) kill(a, b);
+			kill(a, b);
+		}
+
+		//supermode kills everything you touch
+		if (a.getPowerup() == Item.HYPER && overlap(a, b)) {
+			kill(a, b);
+			return; //nothing else can happen
 		}
 
 		//check horizontal collisions

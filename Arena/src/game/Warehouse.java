@@ -132,7 +132,7 @@ public class Warehouse {
 		//average land speed, a bit weaker in the air
 		r.setRunFrict(.2);
 		r.setAirFrict(.05);
-		r.setMaxSpeed(3.1);
+		r.setMaxSpeed(3);
 
 		//middling jump
 		r.setJumpPower(8.0);
@@ -295,7 +295,7 @@ public class Warehouse {
 		s.setSkin(RAYGUN);
 
 		//fast fire
-		s.setReload(42);
+		s.setReload(43);
 
 		//small lasers
 		s.setH(2);
@@ -303,7 +303,7 @@ public class Warehouse {
 
 		//mid speed long range
 		s.setLife(68);
-		s.setSpeed(4.4);
+		s.setSpeed(4.2);
 
 		//standard type
 		s.setType(0);
