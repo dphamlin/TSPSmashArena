@@ -2,6 +2,7 @@ package game;
 
 import java.util.*;
 import java.io.*;
+import java.net.ServerSocket;
 import java.nio.file.Paths;
 
 public class Metaserver {
@@ -54,10 +55,22 @@ public class Metaserver {
 	}
 	
 	public int getAvailablePort() {
+		ServerSocket s = null;
 		int[] portStatusArray = getPortStatusArray(); // Get reference to portArray
 		for (int i=0;i<portStatusArray.length;i++) {
-			if (getPortStatusArray()[i] == 0)
-				return first+i; // Return the port number of the first available port found
+			if (getPortStatusArray()[i] == 0){
+				try {
+					s = new ServerSocket(first +i);
+				} catch (IOException e) {
+					portStatusArray[i] = 1; //Set port unavailable if we can't start the socket listening.
+				}
+				if(s != null){
+					try {
+						s.close();//If the socket compleated git rid of it
+					} catch (IOException e) {}
+					return first+i; // Return the port number of the first available port found
+				}
+			}
 		}
 		return -1; // No available ports found; return -1 indicating error
 	}
