@@ -252,14 +252,14 @@ public class Warehouse {
 		s.setSkin(FIREBALL);
 
 		//quick firing
-		s.setReload(45);
+		s.setReload(47);
 
 		//small shots
 		s.setH(8);
 		s.setW(8);
 
 		//long range, mid speed
-		s.setLife(435);
+		s.setLife(400);
 		s.setSpeed(3.5);
 		s.setVSpeed(3.5);
 
