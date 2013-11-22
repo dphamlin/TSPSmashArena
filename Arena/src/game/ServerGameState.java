@@ -253,6 +253,7 @@ public class ServerGameState extends GameState {
 		//time out
 		else if (getMode() == TIME) {
 			setEnd(getFrameNumber() > getTime() || (getActivePlayers() == 1 && getNumberOfPlayers() > 1));
+			if (getFrameNumber() < getTime()) {setTime(getFrameNumber());}
 		}
 	}
 

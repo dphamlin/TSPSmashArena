@@ -252,16 +252,16 @@ public class Warehouse {
 		s.setSkin(FIREBALL);
 
 		//quick firing
-		s.setReload(47);
+		s.setReload(50);
 
 		//small shots
 		s.setH(8);
 		s.setW(8);
 
 		//long range, mid speed
-		s.setLife(400);
-		s.setSpeed(3);
-		s.setVSpeed(3);
+		s.setLife(360);
+		s.setSpeed(2.8);
+		s.setVSpeed(2.8);
 
 		//bounce across the ground
 		s.setType(Shot.GRAV+Shot.BOUNCE);
