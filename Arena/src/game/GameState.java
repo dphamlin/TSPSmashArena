@@ -194,6 +194,7 @@ public abstract class GameState {
 		if (getMode() == TIME && isGameOver()) {
 			int hiscore = 0;
 			for (Actor a : getFighters()) {
+				if (a.isSuspend()) continue;
 				if (a.getScore() > hiscore) { //score is higher, lose old winners
 					hiscore = a.getScore();
 					winners.clear();

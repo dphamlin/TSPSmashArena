@@ -260,12 +260,12 @@ public class Warehouse {
 
 		//long range, mid speed
 		s.setLife(400);
-		s.setSpeed(3.5);
-		s.setVSpeed(3.5);
+		s.setSpeed(3);
+		s.setVSpeed(3);
 
 		//bounce across the ground
 		s.setType(Shot.GRAV+Shot.BOUNCE);
-		s.setVar(35);
+		s.setVar(30);
 		return s;
 	}
 	//slow, lingering bubbles

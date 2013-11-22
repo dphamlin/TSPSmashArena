@@ -252,7 +252,7 @@ public class ServerGameState extends GameState {
 		}
 		//time out
 		else if (getMode() == TIME) {
-			setEnd(getFrameNumber() > getTime());
+			setEnd(getFrameNumber() > getTime() || (getActivePlayers() == 1 && getNumberOfPlayers() > 1));
 		}
 	}
 
@@ -263,6 +263,15 @@ public class ServerGameState extends GameState {
 		int n = 0;
 		for (Actor a : getFighters()) {
 			if (a.getLives() > 0 && !a.isSuspend()) n++;
+		}
+		return n;
+	}
+	
+	//check non-suspended players
+	private int getActivePlayers() {
+		int n = 0;
+		for (Actor a : getFighters()) {
+			if (!a.isSuspend()) n++;
 		}
 		return n;
 	}
