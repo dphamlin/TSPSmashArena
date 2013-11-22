@@ -407,7 +407,7 @@ public class ServerGameState extends GameState {
 			}
 			s.setPierce(true);
 		}
-		//giant/micro shots
+		//giant shots
 		if (a.getPowerup() == Item.BIG) {
 			float cx = s.getHCenter(), cy = s.getVCenter();
 			s.setW(s.getW()*2);
@@ -415,13 +415,13 @@ public class ServerGameState extends GameState {
 			s.setCenter(cx, cy);
 			s.setBig(true);
 		}
-		if (a.getPowerup() == Item.MINI) {
+		/*if (a.getPowerup() == Item.MINI) {
 			float cx = s.getHCenter(), cy = s.getVCenter();
 			s.setW(s.getW()/2);
 			s.setH(s.getH()/2);
 			s.setCenter(cx, cy);
 			s.setMini(true);
-		}
+		}*/
 
 		//add the new bullet to the list of bullets
 		getBullets().add(s);
@@ -454,12 +454,12 @@ public class ServerGameState extends GameState {
 		if (s.isBomb()) {
 			Shot s2 = new Shot(Warehouse.getShots()[Warehouse.EXPLOSION], s);
 			//adjust explosion size
-			if (s.getSource() >= 0 && getPlayer(s.getSource()).getPowerup() == Item.BIG) {
+			if (s.getSource() >= 0 && s.isBig()) {
 				s2.setVar(s2.getVar()*2);
 			}
-			else if (s.getSource() >= 0 && getPlayer(s.getSource()).getPowerup() == Item.MINI) {
+			/*else if (s.getSource() >= 0 && s.isMini()) {
 				s2.setVar(s2.getVar()/2);
-			}
+			}*/
 			getBullets().add(s2);
 			playSound(SoundBank.BOOM);
 		}
@@ -765,8 +765,10 @@ public class ServerGameState extends GameState {
 	 */
 	private boolean overlap (GameObject a, GameObject b) {
 		//check that the edges are pushed through
-		if (a.getBottomEdge()+a.getVy() >= b.getTopEdge() && a.getTopEdge() <= b.getBottomEdge()) {
-			if (a.getRightEdge() >= b.getLeftEdge() && a.getLeftEdge() <= b.getRightEdge()) {
+		if (a.getBottomEdge()+a.getVy() >= b.getTopEdge()+b.getVy()
+				&& a.getTopEdge()+a.getVy() <= b.getBottomEdge()+b.getVy()) {
+			if (a.getRightEdge()+a.getVx() >= b.getLeftEdge()+b.getVx()
+					&& a.getLeftEdge()+a.getVx() <= b.getRightEdge()+b.getVx()) {
 				return true;
 			}
 		}
@@ -983,27 +985,21 @@ public class ServerGameState extends GameState {
 	 */
 	private void collide(Actor a, Actor b) {
 		//can't hit yourself, a dead guy, or an invincible guy
-		if (a == b || a.isDead() || b.isDead()) {
+		if (a == b || a.isDead() || b.isDead() || b.isArmored()) {
 			return;
-		}
-
-		//supermode kills everything you touch
-		if (a.getPowerup() == Item.HYPER && b.getPowerup() != Item.HYPER && overlap(a, b)) {
-			kill(a, b);
-			return; //nothing else can happen
-		}
-
-		//supermode kills everything you touch
-		if (b.getPowerup() == Item.HYPER && a.getPowerup() != Item.HYPER && overlap(a, b)) {
-			kill(b, a);
-			return; //nothing else can happen
 		}
 
 		//land on enemy heads
 		if (vCollide(a, b) == TOP) {
 			a.setBottomEdge(b.getTopEdge());
 			jump(a);
-			if (!b.isArmored()) kill(a, b);
+			kill(a, b);
+		}
+
+		//supermode kills everything you touch
+		if (a.getPowerup() == Item.HYPER && overlap(a, b)) {
+			kill(a, b);
+			return; //nothing else can happen
 		}
 
 		//check horizontal collisions
