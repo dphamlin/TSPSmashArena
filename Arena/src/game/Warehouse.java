@@ -65,7 +65,7 @@ public class Warehouse {
 
 	/*private method to init each character*/
 	//lizard man
-	private static RoleModel lizardman() { //TODO: Make useful movement
+	private static RoleModel lizardman() {
 		RoleModel r = new RoleModel();
 		r.setSkin(LIZARD);
 
@@ -252,20 +252,20 @@ public class Warehouse {
 		s.setSkin(FIREBALL);
 
 		//quick firing
-		s.setReload(47);
+		s.setReload(55);
 
 		//small shots
-		s.setH(8);
-		s.setW(8);
+		s.setH(5);
+		s.setW(5);
 
 		//long range, mid speed
-		s.setLife(400);
-		s.setSpeed(3.5);
-		s.setVSpeed(3.5);
+		s.setLife(360);
+		s.setSpeed(2.8);
+		s.setVSpeed(2.8);
 
 		//bounce across the ground
 		s.setType(Shot.GRAV+Shot.BOUNCE);
-		s.setVar(35);
+		s.setVar(30);
 		return s;
 	}
 	//slow, lingering bubbles
@@ -340,7 +340,7 @@ public class Warehouse {
 		s.setReload(30);
 
 		//long blades
-		s.setH(4);
+		s.setH(6);
 		s.setW(20);
 
 		//short range
@@ -547,6 +547,8 @@ public class Warehouse {
 	private static Blueprint holodeck() {
 		Blueprint b = new Blueprint();
 		b.setId(HOLODECK);
+		b.setBg(HOLODECK);
+		b.setBgm(HOLODECK);
 		b.setName("Level select");
 
 		//character change chambers
@@ -621,6 +623,8 @@ public class Warehouse {
 	private static Blueprint alienPlanet() {
 		Blueprint b = new Blueprint();
 		b.setId(PLANET);
+		b.setBg(PLANET);
+		b.setBgm(PLANET);
 		b.setName("Alien Planet Surface");
 
 		//meteor shooter
@@ -667,9 +671,10 @@ public class Warehouse {
 	private static Blueprint factory() {
 		Blueprint b = new Blueprint();
 		b.setId(FACTORY);
+		b.setBg(FACTORY);
+		b.setBgm(FACTORY);
 		b.setName("Factory");
 
-		//TODO: build actual map (in a not-terrible way)
 		//floor+lower walls
 		b.add(5*16, 29*16, 35*16, 2*16, SOLID);
 		b.add(2*16, 29*16, 3*16, 2*16, PLATFORM);

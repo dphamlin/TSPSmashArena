@@ -54,6 +54,7 @@ public class ClientGameState extends GameState {
 	 */
 	private void drawBackground(Graphics g) {
 		//TODO: Clear with a background image instead
+		//Wardrobe.drawBackground(g, Warehouse.getMaps()[getStage()].getBg());
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 640, 480);
 	}
@@ -171,7 +172,7 @@ public class ClientGameState extends GameState {
 				if (getPlayer(i).getPowerup() == Item.SPEED) powername = "Fast-Forward";
 				if (getPlayer(i).getPowerup() == Item.SSHOT) powername = "Hyper Shot";
 				if (getPlayer(i).getPowerup() == Item.CHANGE) powername = "Mutation";
-				/*{
+				/*if (getPlayer(i).getPowerup() == Item.CHANGE) {
 					if (getPlayer(i).getPowerupVar() == Warehouse.LIZARD) powername = "Reptilia";
 					if (getPlayer(i).getPowerupVar() == Warehouse.SLIME) powername = "Fluidity";
 					if (getPlayer(i).getPowerupVar() == Warehouse.CAPTAIN) powername = "Original";
@@ -233,7 +234,7 @@ public class ClientGameState extends GameState {
 		//respawn timer
 		if (a.isDead()) {
 			g.setColor(Color.LIGHT_GRAY);
-			g.fillArc(x-9, y-9, 18, 18, 90, (-360*a.getDeadTime())/(a.getSpawnTime()-20)-90);
+			g.fillArc(x-9, y-9, 18, 18, 90, (-360*a.getDeadTime())/(a.getSpawnTime()-15)-90);
 			return;
 		}
 

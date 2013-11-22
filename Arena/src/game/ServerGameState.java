@@ -252,7 +252,8 @@ public class ServerGameState extends GameState {
 		}
 		//time out
 		else if (getMode() == TIME) {
-			setEnd(getFrameNumber() > getTime());
+			setEnd(getFrameNumber() > getTime() || (getActivePlayers() == 1 && getNumberOfPlayers() > 1));
+			if (isGameOver() && getFrameNumber() < getTime()) {setTime(getFrameNumber());}
 		}
 	}
 
@@ -263,6 +264,17 @@ public class ServerGameState extends GameState {
 		int n = 0;
 		for (Actor a : getFighters()) {
 			if (a.getLives() > 0 && !a.isSuspend()) n++;
+		}
+		return n;
+	}
+	
+	/**
+	 * @return the number of players still joined
+	 */
+	private int getActivePlayers() {
+		int n = 0;
+		for (Actor a : getFighters()) {
+			if (!a.isSuspend()) n++;
 		}
 		return n;
 	}
@@ -677,7 +689,7 @@ public class ServerGameState extends GameState {
 		p.setSkin(type-1);
 		if (type == Item.DJUMP) p.setSubType(1);
 		if (type == Item.CHANGE) p.setSubType((int)(Math.random()*(Warehouse.CHAR_NUM-1)));
-		if (type == Item.HYPER) p.setSubType(10*50);
+		if (type == Item.HYPER) p.setSubType(7*50);
 		getPowerups().add(p);
 	}
 
@@ -765,10 +777,10 @@ public class ServerGameState extends GameState {
 	 */
 	private boolean overlap (GameObject a, GameObject b) {
 		//check that the edges are pushed through
-		if (a.getBottomEdge()+a.getVy() >= b.getTopEdge()+b.getVy()
-				&& a.getTopEdge()+a.getVy() <= b.getBottomEdge()+b.getVy()) {
-			if (a.getRightEdge()+a.getVx() >= b.getLeftEdge()+b.getVx()
-					&& a.getLeftEdge()+a.getVx() <= b.getRightEdge()+b.getVx()) {
+		if (a.getBottomEdge() >= b.getTopEdge()
+				&& a.getTopEdge() <= b.getBottomEdge()) {
+			if (a.getRightEdge() >= b.getLeftEdge()
+					&& a.getLeftEdge() <= b.getRightEdge()) {
 				return true;
 			}
 		}
@@ -997,7 +1009,8 @@ public class ServerGameState extends GameState {
 		}
 
 		//supermode kills everything you touch
-		if (a.getPowerup() == Item.HYPER && overlap(a, b)) {
+		if (a.getPowerup() == Item.HYPER
+				&& (hCollide(a, b) != NONE || vCollide(a, b) != NONE || overlap(a, b))) {
 			kill(a, b);
 			return; //nothing else can happen
 		}
