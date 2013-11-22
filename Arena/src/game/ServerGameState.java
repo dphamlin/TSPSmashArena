@@ -777,10 +777,10 @@ public class ServerGameState extends GameState {
 	 */
 	private boolean overlap (GameObject a, GameObject b) {
 		//check that the edges are pushed through
-		if (a.getBottomEdge()+a.getVy() >= b.getTopEdge()+b.getVy()
-				&& a.getTopEdge()+a.getVy() <= b.getBottomEdge()+b.getVy()) {
-			if (a.getRightEdge()+a.getVx() >= b.getLeftEdge()+b.getVx()
-					&& a.getLeftEdge()+a.getVx() <= b.getRightEdge()+b.getVx()) {
+		if (a.getBottomEdge() >= b.getTopEdge()
+				&& a.getTopEdge() <= b.getBottomEdge()) {
+			if (a.getRightEdge() >= b.getLeftEdge()
+					&& a.getLeftEdge() <= b.getRightEdge()) {
 				return true;
 			}
 		}
@@ -1009,7 +1009,8 @@ public class ServerGameState extends GameState {
 		}
 
 		//supermode kills everything you touch
-		if (a.getPowerup() == Item.HYPER && overlap(a, b)) {
+		if (a.getPowerup() == Item.HYPER
+				&& (hCollide(a, b) != NONE || vCollide(a, b) != NONE || overlap(a, b))) {
 			kill(a, b);
 			return; //nothing else can happen
 		}

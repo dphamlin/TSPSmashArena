@@ -65,7 +65,7 @@ public class Warehouse {
 
 	/*private method to init each character*/
 	//lizard man
-	private static RoleModel lizardman() { //TODO: Make useful movement
+	private static RoleModel lizardman() {
 		RoleModel r = new RoleModel();
 		r.setSkin(LIZARD);
 
@@ -547,6 +547,7 @@ public class Warehouse {
 	private static Blueprint holodeck() {
 		Blueprint b = new Blueprint();
 		b.setId(HOLODECK);
+		b.setBg(HOLODECK);
 		b.setBgm(HOLODECK);
 		b.setName("Level select");
 
@@ -622,6 +623,7 @@ public class Warehouse {
 	private static Blueprint alienPlanet() {
 		Blueprint b = new Blueprint();
 		b.setId(PLANET);
+		b.setBg(PLANET);
 		b.setBgm(PLANET);
 		b.setName("Alien Planet Surface");
 
@@ -669,10 +671,10 @@ public class Warehouse {
 	private static Blueprint factory() {
 		Blueprint b = new Blueprint();
 		b.setId(FACTORY);
+		b.setBg(FACTORY);
 		b.setBgm(FACTORY);
 		b.setName("Factory");
 
-		//TODO: build actual map (in a not-terrible way)
 		//floor+lower walls
 		b.add(5*16, 29*16, 35*16, 2*16, SOLID);
 		b.add(2*16, 29*16, 3*16, 2*16, PLATFORM);

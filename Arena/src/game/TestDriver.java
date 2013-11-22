@@ -49,7 +49,7 @@ public class TestDriver {
 		//gs.addPlayer();
 
 		//main loop
-		while (v.isVisible()) {
+		while (v.isVisible() && c.getStart() < 50) {
 			t.loopStart();
 			c.update();
 			for (int i = 0; i < gs.getNumberOfPlayers(); i++){
