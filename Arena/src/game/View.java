@@ -84,7 +84,7 @@ public class View extends JFrame {
 		c.gridheight = 1;
 		c.gridy = 1;
 		c.gridx = 1;
-		c.insets = new Insets(20,0,20,0);
+		c.insets = new Insets(20,10,20,10);
 		host = new JPanel();
 		host.setLayout(hostGrid);
 		this.ip = null;
