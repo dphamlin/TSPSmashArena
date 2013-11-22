@@ -68,7 +68,7 @@ public class Metaserver {
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 		
 		// Get number of players for new Server
-		System.out.println("Please enter the number of players (maximum 4, default 4): ");
+		System.out.print("Please enter the number of players (maximum 4, default 4): ");
 		try {
 			numberOfPlayers = Integer.parseInt(inputReader.readLine());
 			if (numberOfPlayers <= 0 || numberOfPlayers > 4)  // Must be between 1 and 4
@@ -106,7 +106,7 @@ public class Metaserver {
 		}
 		
 		// Add info about new process to the serverInfoList and mark port as used
-		getServerInfoList().add(new ServerInfo(numberOfPlayers,port,serverProcess));
+		getServerInfoList().add(new ServerInfo(numberOfPlayers,port,(port-getFirst()+1),serverProcess));
 		getPortStatusArray()[port-getFirst()] = 1;
 		String outputStr = numberOfPlayers + "-player server started on port " + port + ".";
 		return outputStr;
@@ -117,9 +117,9 @@ public class Metaserver {
 		ArrayList<ServerInfo> serverInfoList = getServerInfoList();
 		String outputStr = "";
 		outputStr += "List of " + serverInfoList.size() + " servers:\n";
-		outputStr += "SERVER\tPORT\tPLAYERS\n";
+		outputStr += "GAME\tPORT\tPLAYERS\n";
 		for (ServerInfo info: serverInfoList) {
-			outputStr += (serverInfoList.indexOf(info)+1) + "\t" + info.getPort() + "\t" + info.getNumberOfPlayers() + "\n";
+			outputStr += info.getGameNumber() + "\t" + info.getPort() + "\t" + info.getNumberOfPlayers() + "\n";
 		}
 		return outputStr;
 	}
@@ -161,8 +161,8 @@ public class Metaserver {
 	// Version that prompts for server number
 	public String killServer() throws Exception{
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
-		System.out.println(listServers());
-		System.out.println("Please enter the number of the server to terminate (from list)");
+		System.out.print(listServers());
+		System.out.print("Enter game number to kill: ");
 		int target = -1;
 		try {
 			target = Integer.parseInt(inputReader.readLine());
@@ -174,20 +174,25 @@ public class Metaserver {
 	}
 	
 	// Kill a specific server
-	public String killServer(int serverNumber) throws Exception{
-		int index = serverNumber-1;
+	public String killServer(int gameNumber) throws Exception{
+		int index = gameNumber;
 		ArrayList<ServerInfo> serverInfoList = getServerInfoList();
-		if (index < 0 || index >= serverInfoList.size()) { // Index needs to be valid
+		if (index < 0 || index > getLast()-getFirst()) { // Index needs to be valid
 			throw new Exception("Not a valid server.");
 		}
-		serverInfoList.get(index).getProcess().destroy();
-		try {
-			serverInfoList.get(index).getProcess().waitFor();
+		String outputStr = "Could not find game to terminate.";
+		for(ServerInfo info : serverInfoList){
+			if(info.getGameNumber() == gameNumber){
+				info.getProcess().destroy();
+				try {
+					info.getProcess().waitFor();
+				}
+				catch (InterruptedException e) {
+					System.err.println(e.getMessage());
+				}
+				outputStr = info.getNumberOfPlayers() + " -player game #- " + info.getGameNumber() + " terminated.";
+			}
 		}
-		catch (InterruptedException e) {
-			System.err.println(e.getMessage());
-		}
-		String outputStr = serverInfoList.get(index).getNumberOfPlayers() + "-player game on port " + serverInfoList.get(index).getPort() + " terminated.";
 		cleanList();
 		return outputStr;
 	}
@@ -197,7 +202,8 @@ public class Metaserver {
 		outputStr += "n / new:\tcreate a new server\n";
 		outputStr += "k / kill:\tkill a specific server from the list\n";
 		outputStr += "ka / killall:\tkill all servers\n";
-		outputStr += "q / quit:\tkill all servers and quit";
+		outputStr += "c / clean:\tremove all terminated servers\n";
+		outputStr += "q / quit:\tkill all servers and exit";
 		return outputStr;
 	}
 	
@@ -209,7 +215,7 @@ public class Metaserver {
 		System.out.println("Welcome to the metaserver.");
 		
 		// Default range from 5380 to 5389
-		int first = 5380;
+		int first = 5379;
 		int last = 5389;
 		
 		// args[0] should be first port, args[1] should be last port
@@ -228,7 +234,7 @@ public class Metaserver {
 			}
 			catch (Exception e) {
 				System.out.println("Invalid command-line arguments: " + e.getMessage() + ".  Using default port range (5380 - 5389).");
-				first = 5380;
+				first = 5379;
 				last = 5389;
 			}
 
@@ -237,7 +243,7 @@ public class Metaserver {
 		Metaserver metaserver = new Metaserver(first, last);
 		
 		while (command.compareToIgnoreCase("q") != 0 && command.compareToIgnoreCase("quit") != 0) {
-			System.out.println("Please enter a command:");
+			System.out.print("Arena-meta #> ");
 		
 			try {
 				command = inputReader.readLine();
@@ -280,8 +286,9 @@ public class Metaserver {
 				System.out.println(metaserver.help());
 			}
 		}
-		System.out.println("Metaserver terminating.  Killing all servers.");
+		System.out.println("Metaserver terminating. --> Killing all servers.");
 		System.out.println(metaserver.killAll());
+		System.out.println("Goodbye!");
 		System.exit(0);
 	}
 }
