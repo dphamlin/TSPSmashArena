@@ -17,7 +17,7 @@ import javax.swing.KeyStroke;
 /**
  * Update the buffers in a Controller object using actual key input
  * 
- * @author Jacob Charles
+ * @author Jacob Charles, James Hannah
  */
 public class ControlListener implements ActionListener{
 	//controls (may eventually be reconfigurable)
@@ -119,37 +119,52 @@ public class ControlListener implements ActionListener{
 		ControlListener.c = c;
 	}
 
+	/**
+	 * Action Preformed on GUI.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == v.getjGo()){
+		int port;
+		if(e.getSource() == v.getjGo()){//if the user pressed the join button
 			String ip = v.getIpField().getText();
-			if(ip != null){
+			try{
+				port = Integer.parseInt(v.getJoinPortField().getText());
+			} catch (NumberFormatException ne) {
+				port = 0;
+			}
+			if(ip != null && port > 1024){//check ip and port
 				v.getCl().show(v.getCardPane(), "draw");
 				v.getArena().setHost(false);
 				v.getArena().setIp(ip);
-				v.getArena().setPort(5379);
+				v.getArena().setPort(port);//Set up arena and start worker.
 				ArenaWorker worker = new ArenaWorker(v.getArena());
 				worker.execute();
 			}
 		}
-		else if(e.getSource() == v.gethGo()){
-			int numPlayers = 0;
+		else if(e.getSource() == v.gethGo()){//if the user pressed the host button
+			int numPlayers;
 			try{
 				numPlayers = Integer.parseInt(v.getNumPlayersField().getText());
 			} catch (NumberFormatException ne) {
 				numPlayers = 0;
 			}
-			if(numPlayers < 5 && numPlayers > 0){
+			try{
+				port = Integer.parseInt(v.getJoinPortField().getText());
+			} catch (NumberFormatException ne) {
+				port = 0;
+			}
+			if(port > 1024 && (numPlayers < 5 && numPlayers > 0)){//check the port and number of players
 				v.getCl().show(v.getCardPane(), "draw");
 				v.getArena().setHost(true);
 				v.getArena().setNumPlayers(numPlayers);
-				v.getArena().setPort(5379);
+				v.getArena().setPort(port);//set up arena and start worker
 				ArenaWorker worker = new ArenaWorker(v.getArena());
 				worker.execute();
 			}
 		}
 	}
 
+	//Abstract action classes for each key event.
 	static class leftPressed extends AbstractAction{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {

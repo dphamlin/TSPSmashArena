@@ -36,7 +36,7 @@ public class Client {
 		setMessageFromServer(new Message(0,null));
 		setMessageToServer(new Message(0,null));
 		setGameResults(null);
-		setName("");
+		setUpName();
 		setNameSent(false);
 		setNameList(null);
 		
@@ -58,6 +58,22 @@ public class Client {
 	
 	public Boolean getNameSent() {
 		return this.nameSent;
+	}
+	
+	public void setUpName() {
+		String name;
+		if(getView().getArena().isHost()){ 
+			name = getView().getHostPlayerField().getText();
+		}
+		else{ 
+			name = getView().getJoinPlayerField().getText();
+		}
+		if(name != null){
+			setName(name);
+		}
+		else{
+			setName("");
+		}
 	}
 	
 	public void setName(String name) {

@@ -25,7 +25,7 @@ import java.awt.event.WindowEvent;
 /**
  * Class for the GUI
  * 
- * @author Jacob Charles, Dean Hamlin, James Hannah
+ * @author James Hannah, Jacob Charles, Dean Hamlin
  *
  */
 
@@ -37,18 +37,21 @@ public class View extends JFrame {
 	private JPanel host;
 	private JPanel join;
 	private JPanel result;
+	private JPanel spectate;
 	private JButton jGo;
 	private JButton hGo;
 	private JLabel ipLabel;
 	private JLabel yourIP;
 	private JTextField ipField;
-	private JTextField nameField;
+	private JTextField hostPlayerField;
+	private JTextField joinPlayerField;
 	private JTextField hostPortField;
 	private JTextField joinPortField;
-	private JLabel nameLabel;
-	private JLabel portLabel;
+	private JLabel hostPlayerLabel;
+	private JLabel joinPlayerLabel;
+	private JLabel hostPortLabel;
+	private JLabel joinPortLabel;
 	private JLabel numPlayersLabel;
-	private JLabel warningLabel;
 	private JLabel welcomeLabel;
 	private JTextField numPlayersField;
 	private Arena arena;
@@ -61,7 +64,6 @@ public class View extends JFrame {
 	 */
 	public View(Arena a) {
 		super();
-		setTitle("TSPArena");
 		draw = new JPanel();
 		draw.setPreferredSize(new Dimension(640, 480));
 		this.setSize(640, 480);
@@ -76,47 +78,97 @@ public class View extends JFrame {
 		
 		GridBagLayout hostGrid = new GridBagLayout();
 		GridBagLayout joinGrid = new GridBagLayout();
-		GridBagLayout modeGrid = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
 
-		c.gridwidth = 1;
+		c.gridwidth = 3;
 		c.gridheight = 1;
 		c.gridy = 1;
 		c.gridx = 1;
-		c.insets = new Insets(10,50,10,50);
+		c.insets = new Insets(20,0,20,0);
 		host = new JPanel();
 		host.setLayout(hostGrid);
 		this.ip = null;
-		yourIP = new JLabel("Your IP is: "+getMyIp());
+		yourIP = new JLabel("Your IP is: "+getMyIP());
 		numPlayersLabel = new JLabel("Enter the number of players 1-4: ");
+		hostPlayerLabel = new JLabel("Enter your player name:");
+		hostPortLabel = new JLabel("Port to listen on > 1024: ");
 		numPlayersField = new JTextField();
+		hostPlayerField = new JTextField();
+		hostPortField = new JTextField();
+		hostPortField.setText("5379");
 		numPlayersField.setPreferredSize(new Dimension(25,25));
+		hostPortField.setPreferredSize(new Dimension(43,25));
+		hostPlayerField.setPreferredSize(new Dimension(75,25));
+		
 		host.add(yourIP,c);
 		c.gridy = 2;
-		host.add(numPlayersLabel,c);
+		c.gridwidth = 2;
+		host.add(hostPlayerLabel,c);
+		c.gridwidth = 1;
+		c.gridx = 3;
+		host.add(hostPlayerField,c);
+		c.gridwidth = 2;
+		c.gridx = 1;
 		c.gridy = 3;
-		c.weightx = 1.0;
-		host.add(numPlayersField,c);
+		host.add(hostPortLabel,c);
+		c.gridwidth = 1;
+		c.gridx = 3;
+		host.add(hostPortField,c);
+		c.gridwidth = 2;
+		c.gridx = 1;
 		c.gridy = 4;
+		host.add(numPlayersLabel,c);
+		c.gridwidth = 1;
+		c.gridx = 3;
+		host.add(numPlayersField,c);
+		c.gridwidth = 2;
+		c.gridy = 5;
+		c.gridx = 2;
 		host.add(hGo,c);
 
+		c.gridwidth = 3;
 		c.gridy = 1;
 		c.gridx = 1;
 		join = new JPanel();
 		join.setLayout(joinGrid);
 		welcomeLabel = new JLabel("Welcome to TSP-Arena!");
-		ipLabel = new JLabel("Enter an IP to connect to :");
+		ipLabel = new JLabel("IP/Hostname to connect to: ");
+		joinPortLabel = new JLabel("Port to connect to > 1024: ");
+		joinPlayerLabel = new JLabel("Enter your player name: ");
 		ipField = new JTextField();
+		joinPortField = new JTextField();
+		joinPlayerField = new JTextField();
+		joinPortField.setText("5379");
 		ipField.setPreferredSize(new Dimension(125,25));
+		joinPortField.setPreferredSize(new Dimension(43,25));
+		joinPlayerField.setPreferredSize(new Dimension(75,25));
+		
 		join.add(welcomeLabel,c);
+		c.gridwidth = 2;
 		c.gridy = 2;
-		join.add(ipLabel,c);
+		join.add(joinPlayerLabel,c);
+		c.gridwidth = 1;
+		c.gridx = 3;
+		join.add(joinPlayerField,c);
+		c.gridwidth = 2;
+		c.gridx = 1;
 		c.gridy = 3;
+		join.add(ipLabel,c);
+		c.gridwidth = 1;
+		c.gridx = 3;
 		join.add(ipField,c);
+		c.gridwidth = 2;
+		c.gridx = 1;
 		c.gridy = 4;
-		join.add(jGo, c);
+		join.add(joinPortLabel,c);
+		c.gridwidth = 1;
+		c.gridx = 3;
+		join.add(joinPortField,c);
+		c.gridwidth = 2;
 		c.gridy = 5;
-
+		c.gridx = 2;
+		join.add(jGo, c);
+		
 		modeTabbedPane.addTab("Join", join);
 		modeTabbedPane.addTab("Host", host);
 
@@ -152,7 +204,11 @@ public class View extends JFrame {
 		});
 	}
 
-	public String getMyIp(){
+	/**
+	 * Finds the IP of the computer running arena.
+	 * @return String the IP
+	 */
+	public String getMyIP(){
 		if(ip == null){
 			Enumeration<NetworkInterface> nets = null;
 			try {
@@ -194,7 +250,7 @@ public class View extends JFrame {
 	public void attachController(Controller c) {
 		String greet = "            Waiting for game to start...";
 		if(getArena().isHost()){
-			greet = "Waiting for players... Your IP: "+getMyIp();
+			greet = "Waiting for players... Your IP: "+getMyIP();
 		}
 		draw.getGraphics().drawString(greet, 180, 245); //pre-join text
 		control.setContoller(c);
@@ -215,9 +271,40 @@ public class View extends JFrame {
 		draw.getGraphics().drawImage(backBuffer, 0, 0, null);
 	}
 
+	/**
+	 * Reset the view after a game has been completed.
+	 */
 	public void gameDone(){
 		this.setTitle("Arena: Lobby");
 		cl.show(cardPane, "mode");
+	}
+	
+	/**
+	 * @return the hostPlayerField
+	 */
+	public JTextField getHostPlayerField() {
+		return hostPlayerField;
+	}
+
+	/**
+	 * @return the joinPlayerField
+	 */
+	public JTextField getJoinPlayerField() {
+		return joinPlayerField;
+	}
+
+	/**
+	 * @return the hostPortField
+	 */
+	public JTextField getHostPortField() {
+		return hostPortField;
+	}
+
+	/**
+	 * @return the joinPortField
+	 */
+	public JTextField getJoinPortField() {
+		return joinPortField;
 	}
 
 	/**
@@ -228,38 +315,17 @@ public class View extends JFrame {
 	}
 
 	/**
-	 * @param cardPane the cardPane to set
-	 */
-	public void setCardPane(JPanel cardPane) {
-		this.cardPane = cardPane;
-	}
-
-	/**
 	 * @return the ipField
 	 */
 	public JTextField getIpField() {
 		return ipField;
 	}
-
-	/**
-	 * @param ipField the ipField to set
-	 */
-	public void setIpField(JTextField ipField) {
-		this.ipField = ipField;
-	}
-
+	
 	/**
 	 * @return the numPlayersField
 	 */
 	public JTextField getNumPlayersField() {
 		return numPlayersField;
-	}
-
-	/**
-	 * @param numPlayersField the numPlayersField to set
-	 */
-	public void setNumPlayersField(JTextField numPlayersField) {
-		this.numPlayersField = numPlayersField;
 	}
 
 	/**
@@ -270,24 +336,10 @@ public class View extends JFrame {
 	}
 
 	/**
-	 * @param jGo the jGo to set
-	 */
-	public void setjGo(JButton jGo) {
-		this.jGo = jGo;
-	}
-
-	/**
 	 * @return the hGo
 	 */
 	public JButton gethGo() {
 		return hGo;
-	}
-
-	/**
-	 * @param hGo the hGo to set
-	 */
-	public void sethGo(JButton hGo) {
-		this.hGo = hGo;
 	}
 
 	/**
@@ -312,24 +364,10 @@ public class View extends JFrame {
 	}
 
 	/**
-	 * @param cl the cl to set
-	 */
-	public void setCl(CardLayout cl) {
-		this.cl = cl;
-	}
-
-	/**
 	 * @return the draw
 	 */
 	public JPanel getDraw() {
 		return draw;
-	}
-
-	/**
-	 * @param draw the draw to set
-	 */
-	public void setDraw(JPanel draw) {
-		this.draw = draw;
 	}
 
 }
