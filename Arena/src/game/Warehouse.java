@@ -255,8 +255,8 @@ public class Warehouse {
 		s.setReload(50);
 
 		//small shots
-		s.setH(8);
-		s.setW(8);
+		s.setH(5);
+		s.setW(5);
 
 		//long range, mid speed
 		s.setLife(360);
@@ -340,7 +340,7 @@ public class Warehouse {
 		s.setReload(30);
 
 		//long blades
-		s.setH(4);
+		s.setH(6);
 		s.setW(20);
 
 		//short range
