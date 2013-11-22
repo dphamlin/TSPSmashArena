@@ -14,7 +14,6 @@ public class Blueprint {
 	private int spawnX[] = {0,0,0,0}; //spawn point array (max 4 players)
 	private int spawnY[] = {0,0,0,0};
 	private int bg, bgm; //image, music, etc?
-	private int tileset; //id for a tile set from a big storage set of them
 	private int id; //map number for internal use
 
 	/**
@@ -92,12 +91,6 @@ public class Blueprint {
 	}
 	public void setBgm(int bgm) {
 		this.bgm = bgm;
-	}
-	public int getTileset() {
-		return tileset;
-	}
-	public void setTileset(int tileset) {
-		this.tileset = tileset;
 	}
 	public int getSpawnX(int i) {
 		return spawnX[i];

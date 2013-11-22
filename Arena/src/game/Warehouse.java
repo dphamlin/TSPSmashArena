@@ -547,6 +547,7 @@ public class Warehouse {
 	private static Blueprint holodeck() {
 		Blueprint b = new Blueprint();
 		b.setId(HOLODECK);
+		b.setBgm(HOLODECK);
 		b.setName("Level select");
 
 		//character change chambers
@@ -621,6 +622,7 @@ public class Warehouse {
 	private static Blueprint alienPlanet() {
 		Blueprint b = new Blueprint();
 		b.setId(PLANET);
+		b.setBgm(PLANET);
 		b.setName("Alien Planet Surface");
 
 		//meteor shooter
@@ -667,6 +669,7 @@ public class Warehouse {
 	private static Blueprint factory() {
 		Blueprint b = new Blueprint();
 		b.setId(FACTORY);
+		b.setBgm(FACTORY);
 		b.setName("Factory");
 
 		//TODO: build actual map (in a not-terrible way)
