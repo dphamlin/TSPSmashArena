@@ -22,7 +22,7 @@ public class Land extends GameObject {
 	public static final int CHAR = 2048; //change characters (var = target character)
 	public static final int OPTION = 4096; //for in game options (var = various things)
 	public static final int GUN = 8192; //emits shots (var = bullet to emit)
-	public static final int COLOR = 16384; //painted a different color (temp)
+	public static final int MUTE = 16384; //makes no sound
 	public static final int PSPAWN = 32768; //capable of spawning powerups
 	private static final int MAX = 65536-1; //sum of all previous
 
@@ -33,6 +33,9 @@ public class Land extends GameObject {
 	
 	/**
 	 * Construct a rectangular land at the set space
+	 * 
+	 * @param s
+	 * 		skin
 	 * @param x
 	 * 		left edge
 	 * @param y
@@ -44,14 +47,17 @@ public class Land extends GameObject {
 	 * @param t
 	 * 		bitmask of the platform type
 	 */
-	public Land(int x, int y, int w, int h, int t) {
+	public Land(int s, int x, int y, int w, int h, int t) {
 		super(x, y, w, h);
+		this.setSkin(s);
 		this.t = t;
 	}
 	
 	/**
 	 * Construct a rectangular land at the set space
 	 * 
+	 * @param s
+	 * 		skin
 	 * @param x
 	 * 		left edge
 	 * @param y
@@ -65,8 +71,9 @@ public class Land extends GameObject {
 	 * @param v
 	 * 		extra data for certain types
 	 */
-	public Land(int x, int y, int w, int h, int t, int v) {
+	public Land(int s, int x, int y, int w, int h, int t, int v) {
 		super(x, y, w, h);
+		this.setSkin(s);
 		this.t = t;
 		this.v = v;
 	}
@@ -170,12 +177,12 @@ public class Land extends GameObject {
 		if (b) t |= GUN;
 		else t &= MAX-GUN;
 	}
-	public boolean isColor() {
-		return (t&COLOR) > 0;
+	public boolean isMute() {
+		return (t&MUTE) > 0;
 	}
-	public void setColor(boolean b) {
-		if (b) t |= COLOR;
-		else t &= MAX-COLOR;
+	public void setMute(boolean b) {
+		if (b) t |= MUTE;
+		else t &= MAX-MUTE;
 	}
 	public boolean isPowerSpawn() {
 		return (t&PSPAWN) > 0;

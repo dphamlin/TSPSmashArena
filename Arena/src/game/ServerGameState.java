@@ -875,7 +875,7 @@ public class ServerGameState extends GameState {
 			else if (a.getVy() > 0) a.setVy(1);
 			a.setOnLand(l); //tie you to THIS pipe
 			a.setPipe(true);
-			playSound(SoundBank.PIPE);
+			if (!l.isMute()) playSound(SoundBank.PIPE);
 		}
 		if (l.isPipe()) return; //temporary!
 
@@ -934,23 +934,23 @@ public class ServerGameState extends GameState {
 		if (v == TOP && l.isBounce()) {
 			a.setBottomEdge(l.getTopEdge()-.005);
 			a.setVy(-a.getVy()*(10+l.getVar())/10);
-			playSound(SoundBank.BOUNCE);
+			if (!l.isMute()) playSound(SoundBank.BOUNCE);
 		}
 		//bouncy platforms don't have the other sides
 		if (v == BOTTOM && l.isBounce() && !l.isPlatform()) {
 			a.setTopEdge(l.getBottomEdge()+.005);
 			a.setVy(-a.getVy()*(10+l.getVar())/10);
-			playSound(SoundBank.BOUNCE);
+			if (!l.isMute()) playSound(SoundBank.BOUNCE);
 		}
 		if (h == LEFT && l.isBounce() && !l.isPlatform()) {
 			a.setRightEdge(l.getLeftEdge()-.005);
 			a.setVx(-a.getVx()*(10+l.getVar())/10);
-			playSound(SoundBank.BOUNCE);
+			if (!l.isMute()) playSound(SoundBank.BOUNCE);
 		}
 		if (h == RIGHT && l.isBounce() && !l.isPlatform()) {
 			a.setLeftEdge(l.getRightEdge()+.005);
 			a.setVx(-a.getVx()*(10+l.getVar())/10);
-			playSound(SoundBank.BOUNCE);
+			if (!l.isMute()) playSound(SoundBank.BOUNCE);
 		}
 		if (l.isBounce()) { //bounced off, re-check collisions
 			v = vCollide(a, l);
@@ -1076,6 +1076,7 @@ public class ServerGameState extends GameState {
 				else {
 					setNextMode(STOCK);
 				}
+				if (!l.isMute()) playSound(SoundBank.BOUNCE);
 			}
 			//option changing
 			if (l.isOption() && l.getVar() == 1) {
@@ -1087,10 +1088,11 @@ public class ServerGameState extends GameState {
 				}
 				else if (getNextMode() == TIME) {
 					setTime(getTime()+2*60*50);
-					if (getTime() > 20*60*50) setTime(1*60*50);
-					else if (getTime() > 10*60*50) setTime(20*60*50);
+					if (getTime() > 10*60*50) setTime(1*60*50);
+					//else if (getTime() > 10*60*50) setTime(20*60*50);
 					else if (getTime() > 5*60*50) setTime(10*60*50);
 				}
+				if (!l.isMute()) playSound(SoundBank.BOUNCE);
 			}
 			//switch blocks
 			if (l.isSwitch()) {

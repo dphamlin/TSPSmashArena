@@ -42,8 +42,8 @@ public class Blueprint {
 	 * @param t
 	 * 		land type bitmask
 	 */
-	public void add(int x, int y, int h, int w, int t) {
-		Land l = new Land(x, y, h, w, t, 0);
+	public void add(int s, int x, int y, int h, int w, int t) {
+		Land l = new Land(s, x, y, h, w, t, 0);
 		add(l);
 	}
 	
@@ -62,8 +62,8 @@ public class Blueprint {
 	 * @param v
 	 * 		extra data for certain types
 	 */
-	public void add(int x, int y, int h, int w, int t, int v) {
-		Land l = new Land(x, y, h, w, t, v);
+	public void add(int s, int x, int y, int h, int w, int t, int v) {
+		Land l = new Land(s, x, y, h, w, t, v);
 		add(l);
 	}
 

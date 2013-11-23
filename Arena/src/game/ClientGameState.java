@@ -254,6 +254,19 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void draw(Land l, Graphics g) {
+		//abandon drawing
+		if (l.isHatch() && !isControl()) { //disabled toggles
+			return;
+		}
+		else if (l.isNHatch() && isControl()) { //disabled negative toggles
+			return;
+		}
+
+		//draw the tile map
+		Wardrobe.drawLand(g, (int)l.getLeftEdge(), (int)l.getTopEdge(),
+				(int)l.getRightEdge(), (int)l.getBottomEdge(), l.getSkin());
+	}
+	/*private void draw(Land l, Graphics g) {
 		//TODO: Draw composite images instead
 
 		//abandon drawing
@@ -329,7 +342,7 @@ public class ClientGameState extends GameState {
 			if (getNextMode() == TIME) s = ""+getTime()/(60*50)+":"+(getTime()/500)%6+""+(getTime()/50)%10;
 			g.drawString(s, (int)l.getHCenter()-12, (int)l.getVCenter()+4);
 		}
-	}
+	}*/
 
 	/**
 	 * Draw a shot to the designated graphics object

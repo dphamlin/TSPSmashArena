@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -26,7 +27,7 @@ public class Wardrobe {
 			c = ImageIO.read(new File("image/character.png"));
 			p = ImageIO.read(new File("image/powerup.png"));
 			e = ImageIO.read(new File("image/effect.png"));
-			//TODO: Load tilesets
+			t = ImageIO.read(new File("image/tile.png"));
 			//TODO: load backgrounds
 		} catch (IOException e) {
 			System.out.println("Failed to load images.");
@@ -180,8 +181,11 @@ public class Wardrobe {
 	 * 		which frame to draw from
 	 */
 	public static void drawLand(Graphics g, int x1, int y1, int x2, int y2, int skin) {
+		//skip invisibles for efficiency
+		if (skin < 0) return;
+		
 		//top-left
-		g.drawImage(t, x1, y1, x1, y1+8, 0, skin*24, 8, skin*24+8, null);
+		g.drawImage(t, x1, y1, x1+8, y1+8, 0, skin*24, 8, skin*24+8, null);
 		for (int x = x1+8; x < x2-8; x+= 8) {
 			//top
 			g.drawImage(t, x, y1, x+8, y1+8, 8, skin*24, 16, skin*24+8, null);
@@ -189,9 +193,9 @@ public class Wardrobe {
 		//top-right
 		g.drawImage(t, x2-8, y1, x2, y1+8, 16, skin*24, 24, skin*24+8, null);
 		
-		for (int y = y1+8; y < x2-8; y+= 8) {
+		for (int y = y1+8; y < y2-8; y+= 8) {
 			//left
-			g.drawImage(t, x1, y, x1, y+8, 0, skin*24+8, 8, skin*24+16, null);
+			g.drawImage(t, x1, y, x1+8, y+8, 0, skin*24+8, 8, skin*24+16, null);
 			for (int x = x1+8; x < x2-8; x+= 8) {
 				//middle
 				g.drawImage(t, x, y, x+8, y+8, 8, skin*24+8, 16, skin*24+16, null);
@@ -201,7 +205,7 @@ public class Wardrobe {
 		}
 		
 		//bottom-left
-		g.drawImage(t, x1, y2-8, x1, y2, 0, skin*24+16, 8, skin*24+24, null);
+		g.drawImage(t, x1, y2-8, x1+8, y2, 0, skin*24+16, 8, skin*24+24, null);
 		for (int x = x1+8; x < x2-8; x+= 8) {
 			//bottom
 			g.drawImage(t, x, y2-8, x+8, y2, 8, skin*24+16, 16, skin*24+24, null);

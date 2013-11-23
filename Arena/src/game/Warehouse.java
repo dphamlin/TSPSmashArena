@@ -526,6 +526,7 @@ public class Warehouse {
 	 * The level is 640 x 480, so extend around ~16 pixels beyond that to make sure.
 	 */
 
+	//shortcuts to flags
 	public static final int SOLID = 1; //solid all around (includes top)
 	public static final int PLATFORM = 2; //solid top
 	public static final int DANGER = 4; //kill on contact
@@ -540,8 +541,14 @@ public class Warehouse {
 	public static final int CHAR = 2048; //change characters (var = target character)
 	public static final int OPTION = 4096; //for in game options (var = various things)
 	public static final int GUN = 8192; //emits shots (var = bullet to emit)
-	public static final int COLOR = 16384; //painted a different color (temp)
+	public static final int MUTE = 16384; //makes no sound
 	public static final int PSPAWN = 32768; //capable of spawning powerups
+	
+	//tile skins
+	public static final int NONE = -1;
+	public static final int METAL = 0;
+	public static final int GRATE = 1;
+	public static final int TUBE = 2;
 
 	//level select / menu world
 	private static Blueprint holodeck() {
@@ -552,64 +559,63 @@ public class Warehouse {
 		b.setName("Level select");
 
 		//character change chambers
-		b.add(-1*16, -1*16, 3*16, 6*16, SOLID);
-		b.add(2*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, LIZARD);
-		b.add(2*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, LIZARD);
-		b.add(5*16, -1*16, 4*16, 6*16, SOLID);
-		b.add(9*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, SLIME);
-		b.add(9*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, SLIME);
-		b.add(12*16, -1*16, 4*16, 6*16, SOLID);
-		b.add(16*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, MARINE);
-		b.add(16*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, MARINE);
-		b.add(19*16, -1*16, 4*16, 6*16, SOLID);
-		b.add(23*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, ROBOT);
-		b.add(23*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, ROBOT);
-		b.add(26*16, -1*16, 8*16, 6*16, SOLID);
-		b.add(34*16, -1*16, 3*16, 3*16, BOUNCE|CHAR, CAPTAIN);
-		b.add(34*16, -1*16, 3*16, 5*16, PIPE|SOLID|COLOR, CAPTAIN);
-		b.add(37*16, -1*16, 4*16, 6*16, SOLID);
+		b.add(METAL, -1*16, -1*16, 3*16, 6*16, SOLID);
+		b.add(NONE, 2*16, -1*16, 3*16, 3*16, BOUNCE|CHAR|MUTE, LIZARD);
+		b.add(TUBE, 2*16, -1*16, 3*16, 5*16, PIPE|SOLID, LIZARD);
+		b.add(METAL, 5*16, -1*16, 4*16, 6*16, SOLID);
+		b.add(NONE, 9*16, -1*16, 3*16, 3*16, BOUNCE|CHAR|MUTE, SLIME);
+		b.add(TUBE, 9*16, -1*16, 3*16, 5*16, PIPE|SOLID, SLIME);
+		b.add(METAL, 12*16, -1*16, 4*16, 6*16, SOLID);
+		b.add(NONE, 16*16, -1*16, 3*16, 3*16, BOUNCE|CHAR|MUTE, MARINE);
+		b.add(TUBE, 16*16, -1*16, 3*16, 5*16, PIPE|SOLID, MARINE);
+		b.add(METAL, 19*16, -1*16, 4*16, 6*16, SOLID);
+		b.add(NONE, 23*16, -1*16, 3*16, 3*16, BOUNCE|CHAR|MUTE, ROBOT);
+		b.add(TUBE, 23*16, -1*16, 3*16, 5*16, PIPE|SOLID, ROBOT);
+		b.add(METAL, 26*16, -1*16, 8*16, 6*16, SOLID);
+		b.add(NONE, 34*16, -1*16, 3*16, 3*16, BOUNCE|CHAR|MUTE, CAPTAIN);
+		b.add(TUBE, 34*16, -1*16, 3*16, 5*16, PIPE|SOLID, CAPTAIN);
+		b.add(METAL, 37*16, -1*16, 4*16, 6*16, SOLID);
 
 		//top/'attic' ladders
-		b.add(2*16, 8*16, 3*16, 16, PLATFORM);
-		b.add(9*16, 8*16, 3*16, 16, PLATFORM);
-		b.add(16*16, 8*16, 3*16, 16, PLATFORM);
-		b.add(23*16, 8*16, 3*16, 16, PLATFORM);
-		b.add(34*16, 8*16, 3*16, 16, PLATFORM);
+		b.add(GRATE, 2*16, 8*16, 3*16, 16, PLATFORM);
+		b.add(GRATE, 9*16, 8*16, 3*16, 16, PLATFORM);
+		b.add(GRATE, 16*16, 8*16, 3*16, 16, PLATFORM);
+		b.add(GRATE, 23*16, 8*16, 3*16, 16, PLATFORM);
+		b.add(GRATE, 34*16, 8*16, 3*16, 16, PLATFORM);
 
 		//top floor
-		b.add(-1*16, 11*16, 18*16, 2*16, SOLID);
-		b.add(17*16, 11*16, 6*16, 16, PLATFORM);
-		b.add(23*16, 11*16, 18*16, 2*16, SOLID);
+		b.add(METAL, -1*16, 11*16, 18*16, 2*16, SOLID);
+		b.add(GRATE, 17*16, 11*16, 6*16, 16, PLATFORM);
+		b.add(METAL, 23*16, 11*16, 18*16, 2*16, SOLID);
 
 		//middle/top ladder
-		b.add(18*16, 15*16, 4*16, 16, PLATFORM);
+		b.add(GRATE, 18*16, 15*16, 4*16, 16, PLATFORM);
 
 		//option change blocks
-		b.add(11*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|HATCH|SWITCH, 0); //stock
-		b.add(8*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|HATCH, 1); //stock adjust
-		b.add(27*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|NHATCH|SWITCH, 0); //time
-		b.add(30*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|NHATCH, 1); //time adjust
+		b.add(METAL, 11*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|HATCH|SWITCH, 0); //stock
+		b.add(METAL, 8*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|HATCH, 1); //stock adjust
+		b.add(METAL, 27*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|NHATCH|SWITCH, 0); //time
+		b.add(METAL, 30*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|NHATCH, 1); //time adjust
 
 		//middle floor
-		b.add(-1*16, 19*16, 7*16, 16, PLATFORM);
-		b.add(6*16, 19*16, 28*16, 2*16, SOLID);
-		b.add(34*16, 19*16, 7*16, 16, PLATFORM);
+		b.add(GRATE, -1*16, 19*16, 7*16, 16, PLATFORM);
+		b.add(METAL, 6*16, 19*16, 28*16, 2*16, SOLID);
+		b.add(GRATE, 34*16, 19*16, 7*16, 16, PLATFORM);
 
 		//bottom/middle ladders
-		b.add(1*16, 23*16, 4*16, 16, PLATFORM);
-		b.add(35*16, 23*16, 4*16, 16, PLATFORM);
+		b.add(GRATE, 1*16, 23*16, 4*16, 16, PLATFORM);
+		b.add(GRATE, 35*16, 23*16, 4*16, 16, PLATFORM);
 
 		//base floor + warps
-		b.add(-1*16, 27*16, 13*16, 4*16, SOLID);
-		b.add(12*16, 27*16, 4*16, 1*16, PLATFORM);
-		//b.add(12*16, 30*16, 4*16, 1*16, BOUNCE|WARP, DEMO);
-		b.add(12*16, 30*16, 4*16, 1*16, BOUNCE|WARP, PLANET);
-		b.add(12*16, 27*16+1, 4*16, 3*16, PIPE|COLOR, CAPTAIN); //planet portal
-		b.add(16*16, 27*16, 8*16, 4*16, SOLID);
-		b.add(24*16, 27*16, 4*16, 1*16, PLATFORM);
-		b.add(24*16, 30*16, 4*16, 1*16, BOUNCE|WARP, FACTORY);
-		b.add(24*16, 27*16+1, 4*16, 3*16, PIPE|COLOR, MARINE); //factory portal
-		b.add(28*16, 27*16, 13*16, 4*16, SOLID);
+		b.add(METAL, -1*16, 27*16, 13*16, 4*16, SOLID);
+		b.add(GRATE, 12*16, 27*16, 4*16, 1*16, PLATFORM);
+		b.add(METAL, 12*16, 30*16, 4*16, 1*16, BOUNCE|WARP, PLANET);
+		b.add(TUBE, 12*16, 27*16+1, 4*16, 3*16, PIPE, CAPTAIN); //planet portal
+		b.add(METAL, 16*16, 27*16, 8*16, 4*16, SOLID);
+		b.add(GRATE, 24*16, 27*16, 4*16, 1*16, PLATFORM);
+		b.add(METAL, 24*16, 30*16, 4*16, 1*16, BOUNCE|WARP, FACTORY);
+		b.add(TUBE, 24*16, 27*16+1, 4*16, 3*16, PIPE, MARINE); //factory portal
+		b.add(METAL, 28*16, 27*16, 13*16, 4*16, SOLID);
 
 		//add spawn points
 		b.setSpawn(0, 68+0*WIDTH/4, 9*16+8);
@@ -628,36 +634,36 @@ public class Warehouse {
 		b.setName("Alien Planet Surface");
 
 		//meteor shooter
-		b.add(1*16, -9*16, 38*16, 8*16, GUN|PSPAWN, METEOR);
+		b.add(NONE, 1*16, -9*16, 38*16, 8*16, GUN|PSPAWN, METEOR);
 
 		//cave
-		b.add(-1*16, 16*16, 3*16, 15*16, SOLID);
-		b.add(38*16, 16*16, 3*16, 15*16, SOLID);
-		b.add(1*16, 27*16, 17*16, 4*16, SOLID);
-		b.add(22*16, 27*16, 17*16, 4*16, SOLID);
+		b.add(METAL, -1*16, 16*16, 3*16, 15*16, SOLID);
+		b.add(METAL, 38*16, 16*16, 3*16, 15*16, SOLID);
+		b.add(METAL, 1*16, 27*16, 17*16, 4*16, SOLID);
+		b.add(METAL, 22*16, 27*16, 17*16, 4*16, SOLID);
 		//cannon escape
-		b.add(18*16, 27*16, 4*16, 1*16, PLATFORM);
-		b.add(18*16, 29*16, 4*16, 1*16, BOUNCE, 180);
-		b.add(18*16, 27*16+1, 4*16, 4*16, PIPE|SOLID|COLOR, MARINE);
+		b.add(METAL, 18*16, 27*16, 4*16, 1*16, PLATFORM);
+		b.add(METAL, 18*16, 29*16, 4*16, 1*16, BOUNCE|MUTE, 180);
+		b.add(METAL, 18*16, 27*16+1, 4*16, 4*16, PIPE|SOLID, MARINE);
 
 		//surface
-		b.add(-1*16, 15*16, 15*16, 1*16, SOLID|MOVE, 8);
-		b.add(14*16, 15*16, 5*16, 1*16, PLATFORM|MOVE, 22);
-		b.add(21*16, 15*16, 5*16, 1*16, PLATFORM|MOVE, -22);
-		b.add(26*16, 15*16, 15*16, 1*16, SOLID|MOVE, -8);
+		b.add(METAL, -1*16, 15*16, 15*16, 1*16, SOLID|MOVE, 8);
+		b.add(METAL, 14*16, 15*16, 5*16, 1*16, PLATFORM|MOVE, 22);
+		b.add(METAL, 21*16, 15*16, 5*16, 1*16, PLATFORM|MOVE, -22);
+		b.add(METAL, 26*16, 15*16, 15*16, 1*16, SOLID|MOVE, -8);
 
 		//internal platforms
-		b.add(18*16, 21*16, 2*16, 1*16, PLATFORM|MOVE, -8);
-		b.add(20*16, 21*16, 2*16, 1*16, PLATFORM|MOVE, 8);
+		b.add(METAL, 18*16, 21*16, 2*16, 1*16, PLATFORM|MOVE, -8);
+		b.add(METAL, 20*16, 21*16, 2*16, 1*16, PLATFORM|MOVE, 8);
 		
-		b.add(36*16, 24*16, 2*16, 1*16, PLATFORM);
-		b.add(8*16, 22*16, 4*16, 1*16, PLATFORM);
+		b.add(METAL, 36*16, 24*16, 2*16, 1*16, PLATFORM);
+		b.add(METAL, 8*16, 22*16, 4*16, 1*16, PLATFORM);
 		
-		b.add(24*16, 18*16, 1*16, 1*16, PLATFORM);
+		b.add(METAL, 24*16, 18*16, 1*16, 1*16, PLATFORM);
 
 		//lava waves!
-		b.add(WIDTH/2, HEIGHT*7/2-64, 1, 1, GUN, LAVAWAVE);
-		b.add(WIDTH/2, HEIGHT*2+32, 1, 1, GUN, LAVAWARN);
+		b.add(NONE, WIDTH/2, HEIGHT*7/2-64, 1, 1, GUN, LAVAWAVE);
+		b.add(NONE, WIDTH/2, HEIGHT*2+32, 1, 1, GUN, LAVAWARN);
 
 		//spawn points
 		b.setSpawn(0, 5*16, 14*16);
@@ -676,45 +682,45 @@ public class Warehouse {
 		b.setName("Factory");
 
 		//floor+lower walls
-		b.add(5*16, 29*16, 35*16, 2*16, SOLID);
-		b.add(2*16, 29*16, 3*16, 2*16, PLATFORM);
-		b.add(2*16, 29*16+1, 3*16, 3*16, PIPE);
-		b.add(2*16, 29*16, 3*16, 2*16, COLOR, LIZARD);
-		b.add(-1*16, 16*16, 3*16, 14*16, SOLID);
-		b.add(38*16, 16*16, 3*16, 14*16, SOLID);
+		b.add(METAL, 5*16, 29*16, 35*16, 2*16, SOLID);
+		b.add(METAL, 2*16, 29*16, 3*16, 2*16, PLATFORM);
+		b.add(METAL, 2*16, 29*16+1, 3*16, 3*16, PIPE);
+		b.add(METAL, 2*16, 29*16, 3*16, 2*16, 0);
+		b.add(METAL, -1*16, 16*16, 3*16, 14*16, SOLID);
+		b.add(METAL, 38*16, 16*16, 3*16, 14*16, SOLID);
 		
 		//melter
-		b.add(29*16, 28*16, 1*16, 1*16, SOLID);
-		b.add(30*16, 28*16, 8*16, 1*16, SOLID|DANGER|GUN, LAVABALL);
+		b.add(METAL, 29*16, 28*16, 1*16, 1*16, SOLID);
+		b.add(METAL, 30*16, 28*16, 8*16, 1*16, SOLID|DANGER|GUN, LAVABALL);
 		
 		//upper walls+ceiling
-		b.add(-1*16, -1*16, 3*16, 14*16, SOLID);
-		b.add(38*16, 1*16, 3*16, 12*16, SOLID);
-		b.add(2*16, -1*16, 3*16, 2*16, PIPE);
-		b.add(2*16, -1*16, 3*16, 2*16, COLOR, LIZARD);
-		b.add(5*16, -1*16, 35*16, 2*16, SOLID);
+		b.add(METAL, -1*16, -1*16, 3*16, 14*16, SOLID);
+		b.add(METAL, 38*16, 1*16, 3*16, 12*16, SOLID);
+		b.add(METAL, 2*16, -1*16, 3*16, 2*16, PIPE);
+		b.add(METAL, 2*16, -1*16, 3*16, 2*16, SOLID);  //visual producer
+		b.add(METAL, 5*16, -1*16, 35*16, 2*16, SOLID);
 		
 		//middle wraparound
-		b.add(2*16, 16*16, 3*16, 2*16, SOLID);
-		b.add(5*16, 12*16, 3*16, 6*16, SOLID);
-		b.add(30*16, 16*16, 8*16, 2*16, SOLID);
+		b.add(METAL, 2*16, 16*16, 3*16, 2*16, SOLID);
+		b.add(METAL, 5*16, 12*16, 3*16, 6*16, SOLID);
+		b.add(METAL, 30*16, 16*16, 8*16, 2*16, SOLID);
 		
 		//top production
-		b.add(0*16, 5*16, 10*16, 2*16, SOLID|MOVE, 19);
-		b.add(1*16, 4*16, 1, 1, PSPAWN);
-		b.add(0*16, 3*16, 2*16, 2*16, COLOR, SLIME);
+		b.add(METAL, 0*16, 5*16, 10*16, 2*16, SOLID|MOVE, 19);
+		b.add(METAL, 1*16, 4*16, 1, 1, PSPAWN);
+		b.add(METAL, 0*16, 3*16, 2*16, 2*16, 0); //visual producer
 		
 		//middle production
-		b.add(30*16, 20*16, 8*16, 2*16, SOLID|MOVE, -19);
-		b.add(37*16, 19*16, 1, 1, PSPAWN);
-		b.add(36*16, 18*16, 2*16, 2*16, SOLID|COLOR, SLIME);
+		b.add(METAL, 30*16, 20*16, 8*16, 2*16, SOLID|MOVE, -19);
+		b.add(METAL, 37*16, 19*16, 1, 1, PSPAWN);
+		b.add(METAL, 36*16, 18*16, 2*16, 2*16, SOLID); //visual producer
 
 		//middle carry
-		b.add(10*16, 16*16, 10*16, 2*16, PLATFORM|MOVE, 19);
-		b.add(20*16, 24*16, 11*16, 2*16, PLATFORM|MOVE, 19);
+		b.add(METAL, 10*16, 16*16, 10*16, 2*16, PLATFORM|MOVE, 19);
+		b.add(METAL, 20*16, 24*16, 11*16, 2*16, PLATFORM|MOVE, 19);
 		
 		//spring lift
-		b.add(13*16, 25*16, 3*16, 1*16, PLATFORM|BOUNCE, 15);
+		b.add(METAL, 13*16, 25*16, 3*16, 1*16, PLATFORM|BOUNCE, 15);
 		
 		//spawn points
 		b.setSpawn(0, 2*16, 15*16);
@@ -731,17 +737,17 @@ public class Warehouse {
 		b.setName("Test level");
 
 		//build various test platforms
-		b.add(WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, SOLID|PSPAWN);
-		b.add(WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, PLATFORM|MOVE|HATCH, 18);
-		b.add(WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, BOUNCE|SOLID, 2);
-		b.add(WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, PLATFORM|SLIP|NHATCH);
-		b.add(20, HEIGHT/2-50, 50, 50, SOLID|DANGER);
-		b.add(WIDTH-70, HEIGHT/2-50, 50, 50, SOLID|DANGER);
+		b.add(METAL, WIDTH/4, HEIGHT*3/4, WIDTH/2, 48, SOLID|PSPAWN);
+		b.add(METAL, WIDTH/4, HEIGHT*3/4-40, WIDTH/8, 4, PLATFORM|MOVE|HATCH, 18);
+		b.add(METAL, WIDTH*7/16, HEIGHT*3/4-90, WIDTH/8, 24, BOUNCE|SOLID, 2);
+		b.add(METAL, WIDTH*5/8, HEIGHT*3/4-40, WIDTH/8, 4, PLATFORM|SLIP|NHATCH);
+		b.add(METAL, 20, HEIGHT/2-50, 50, 50, SOLID|DANGER);
+		b.add(METAL, WIDTH-70, HEIGHT/2-50, 50, 50, SOLID|DANGER);
 
-		b.add(WIDTH/4+10, HEIGHT*3/4-160, 25, 25, SOLID|HATCH|SWITCH|BOUNCE);
-		b.add(WIDTH*3/4-35, HEIGHT*3/4-160, 25, 25, SOLID|NHATCH|SWITCH|BOUNCE);
+		b.add(METAL, WIDTH/4+10, HEIGHT*3/4-160, 25, 25, SOLID|HATCH|SWITCH|BOUNCE);
+		b.add(METAL, WIDTH*3/4-35, HEIGHT*3/4-160, 25, 25, SOLID|NHATCH|SWITCH|BOUNCE);
 
-		b.add(WIDTH/2-10, HEIGHT/4, 20, 20, GUN, EXPLOSION);
+		b.add(METAL, WIDTH/2-10, HEIGHT/4, 20, 20, GUN, EXPLOSION);
 
 		//add spawn points
 		b.setSpawn(0, 150, 60);
