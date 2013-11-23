@@ -680,7 +680,7 @@ public class ServerGameState extends GameState {
 		//TODO: Spawn properly, constructors, the whole shabang
 		p.setW(14);
 		p.setH(14);
-		p.setLifeTime(650);
+		p.setLifeTime(700);
 		p.setHCenter(x);
 		p.setVCenter(y);
 		p.setVx(0);

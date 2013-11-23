@@ -252,7 +252,7 @@ public class Warehouse {
 		s.setSkin(FIREBALL);
 
 		//quick firing
-		s.setReload(55);
+		s.setReload(53);
 
 		//small shots
 		s.setH(5);
@@ -428,13 +428,13 @@ public class Warehouse {
 		s.setW(8);
 
 		//short hops up
-		s.setLife(30);
+		s.setLife(50);
 		s.setSpeed(0);
-		s.setVSpeed(-5);
+		s.setVSpeed(-5.8);
 
 		//bounce across the ground
 		s.setType(Shot.GRAV|Shot.PHASE);
-		s.setVar(35);
+		s.setVar(32);
 		return s;
 	}
 	private static ShotModel meteor() {
@@ -682,23 +682,27 @@ public class Warehouse {
 		b.setName("Factory");
 
 		//floor+lower walls
-		b.add(METAL, 5*16, 29*16, 35*16, 2*16, SOLID);
+		b.add(METAL, 5*16, 29*16, 10*16, 2*16, SOLID);
+		b.add(METAL, 25*16, 29*16, 10*16, 2*16, SOLID);
 		b.add(METAL, 2*16, 29*16, 3*16, 2*16, PLATFORM);
-		b.add(METAL, 2*16, 29*16+1, 3*16, 3*16, PIPE);
-		b.add(METAL, 2*16, 29*16, 3*16, 2*16, 0);
+		b.add(TUBE, 2*16, 29*16+1, 3*16, 3*16, PIPE);
+		b.add(METAL, 35*16, 29*16, 3*16, 2*16, PLATFORM);
+		b.add(TUBE, 35*16, 29*16+1, 3*16, 3*16, PIPE);
 		b.add(METAL, -1*16, 16*16, 3*16, 14*16, SOLID);
 		b.add(METAL, 38*16, 16*16, 3*16, 14*16, SOLID);
 		
 		//melter
-		b.add(METAL, 29*16, 28*16, 1*16, 1*16, SOLID);
-		b.add(METAL, 30*16, 28*16, 8*16, 1*16, SOLID|DANGER|GUN, LAVABALL);
+		b.add(METAL, 15*16, 28*16, 1*16, 3*16, SOLID);
+		b.add(METAL, 16*16, 29*16, 8*16, 2*16, DANGER|GUN, LAVABALL);
+		b.add(NONE, 16*16, 29*16+4, 8*16, 1*16, BOUNCE, 5);
+		b.add(METAL, 24*16, 28*16, 1*16, 3*16, SOLID);
 		
 		//upper walls+ceiling
 		b.add(METAL, -1*16, -1*16, 3*16, 14*16, SOLID);
-		b.add(METAL, 38*16, 1*16, 3*16, 12*16, SOLID);
-		b.add(METAL, 2*16, -1*16, 3*16, 2*16, PIPE);
-		b.add(METAL, 2*16, -1*16, 3*16, 2*16, SOLID);  //visual producer
-		b.add(METAL, 5*16, -1*16, 35*16, 2*16, SOLID);
+		b.add(METAL, 38*16, -1*16, 3*16, 14*16, SOLID);
+		b.add(TUBE, 2*16, -1*16, 3*16, 2*16, PIPE);
+		b.add(TUBE, 35*16, -1*16, 3*16, 2*16, PIPE);
+		b.add(METAL, 5*16, -1*16, 30*16, 2*16, SOLID);
 		
 		//middle wraparound
 		b.add(METAL, 2*16, 16*16, 3*16, 2*16, SOLID);
@@ -707,20 +711,21 @@ public class Warehouse {
 		
 		//top production
 		b.add(METAL, 0*16, 5*16, 10*16, 2*16, SOLID|MOVE, 19);
-		b.add(METAL, 1*16, 4*16, 1, 1, PSPAWN);
+		b.add(NONE, 1*16, 4*16, 1, 1, PSPAWN);
 		b.add(METAL, 0*16, 3*16, 2*16, 2*16, 0); //visual producer
 		
 		//middle production
-		b.add(METAL, 30*16, 20*16, 8*16, 2*16, SOLID|MOVE, -19);
-		b.add(METAL, 37*16, 19*16, 1, 1, PSPAWN);
-		b.add(METAL, 36*16, 18*16, 2*16, 2*16, SOLID); //visual producer
+		b.add(METAL, 32*16, 20*16, 8*16, 2*16, SOLID|MOVE, -19);
+		b.add(NONE, 39*16, 19*16, 1, 1, PSPAWN);
+		b.add(METAL, 38*16, 18*16, 2*16, 2*16, SOLID); //visual producer
 
 		//middle carry
-		b.add(METAL, 10*16, 16*16, 10*16, 2*16, PLATFORM|MOVE, 19);
-		b.add(METAL, 20*16, 24*16, 11*16, 2*16, PLATFORM|MOVE, 19);
+		b.add(GRATE, 9*16, 13*16, 18*16, 1*16, PLATFORM|MOVE, 19);
+		b.add(GRATE, 22*16, 21*16, 10*16, 1*16, PLATFORM|MOVE, -19);
 		
 		//spring lift
-		b.add(METAL, 13*16, 25*16, 3*16, 1*16, PLATFORM|BOUNCE, 15);
+		b.add(METAL, 10*16, 25*16, 3*16, 1*16, PLATFORM|BOUNCE, 15);
+		b.add(METAL, 27*16, 25*16, 3*16, 1*16, PLATFORM|BOUNCE, 10);
 		
 		//spawn points
 		b.setSpawn(0, 2*16, 15*16);
