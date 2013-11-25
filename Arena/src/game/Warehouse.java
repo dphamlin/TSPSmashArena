@@ -527,28 +527,29 @@ public class Warehouse {
 	 */
 
 	//shortcuts to flags
-	public static final int SOLID = 1; //solid all around (includes top)
-	public static final int PLATFORM = 2; //solid top
-	public static final int DANGER = 4; //kill on contact
-	public static final int BOUNCE = 8; //bouncy (var = bounciness mod, 0 = 100%, 5 = 150%, -2 = 80%, etc.)
-	public static final int SLIP = 16; //slippery
-	public static final int MOVE = 32; //moves you (var = speed*10)
-	public static final int HATCH = 64; //appears when control is on
-	public static final int NHATCH = 128; //appears when controls is off
-	public static final int SWITCH = 256; //toggles control when hit
-	public static final int PIPE = 512; //slide in, slide out
-	public static final int WARP = 1024; //for in-game level select (var = target level)
-	public static final int CHAR = 2048; //change characters (var = target character)
-	public static final int OPTION = 4096; //for in game options (var = various things)
-	public static final int GUN = 8192; //emits shots (var = bullet to emit)
-	public static final int MUTE = 16384; //makes no sound
-	public static final int PSPAWN = 32768; //capable of spawning powerups
+	public static final int SOLID = Land.SOLID; //solid all around (includes top)
+	public static final int PLATFORM = Land.PLATFORM; //solid top
+	public static final int DANGER = Land.DANGER; //kill on contact
+	public static final int BOUNCE = Land.BOUNCE; //bouncy (var = bounciness mod, 0 = 100%, 5 = 150%, -2 = 80%, etc.)
+	public static final int SLIP = Land.SLIP; //slippery
+	public static final int MOVE = Land.MOVE; //moves you (var = speed*10)
+	public static final int HATCH = Land.HATCH; //appears when control is on
+	public static final int NHATCH = Land.NHATCH; //appears when controls is off
+	public static final int SWITCH = Land.SWITCH; //toggles control when hit
+	public static final int PIPE = Land.PIPE; //slide in, slide out
+	public static final int WARP = Land.WARP; //for in-game level select (var = target level)
+	public static final int CHAR = Land.CHAR; //change characters (var = target character)
+	public static final int OPTION = Land.OPTION; //for in game options (var = various things)
+	public static final int GUN = Land.GUN; //emits shots (var = bullet to emit)
+	public static final int MUTE = Land.MUTE; //makes no sound
+	public static final int PSPAWN = Land.PSPAWN; //capable of spawning powerups
 	
 	//tile skins
 	public static final int NONE = -1;
 	public static final int METAL = 0;
 	public static final int GRATE = 1;
 	public static final int TUBE = 2;
+	public static final int TV = 3;
 
 	//level select / menu world
 	private static Blueprint holodeck() {
@@ -592,10 +593,8 @@ public class Warehouse {
 		b.add(GRATE, 18*16, 15*16, 4*16, 16, PLATFORM);
 
 		//option change blocks
-		b.add(METAL, 11*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|HATCH|SWITCH, 0); //stock
-		b.add(METAL, 8*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|HATCH, 1); //stock adjust
-		b.add(METAL, 27*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|NHATCH|SWITCH, 0); //time
-		b.add(METAL, 30*16, 14*16, 2*16, 2*16, SOLID|BOUNCE|OPTION|NHATCH, 1); //time adjust
+		b.add(TV, 11*16, 14*16, 3*16, 2*16, SOLID|BOUNCE|OPTION, 0); //mode
+		b.add(TV, 26*16, 14*16, 3*16, 2*16, SOLID|BOUNCE|OPTION, 1); //parameter
 
 		//middle floor
 		b.add(GRATE, -1*16, 19*16, 7*16, 16, PLATFORM);
@@ -610,11 +609,11 @@ public class Warehouse {
 		b.add(METAL, -1*16, 27*16, 13*16, 4*16, SOLID);
 		b.add(GRATE, 12*16, 27*16, 4*16, 1*16, PLATFORM);
 		b.add(METAL, 12*16, 30*16, 4*16, 1*16, BOUNCE|WARP, PLANET);
-		b.add(TUBE, 12*16, 27*16+1, 4*16, 3*16, PIPE, CAPTAIN); //planet portal
+		b.add(TUBE, 12*16, 27*16+1, 4*16, 4*16, PIPE); //planet portal
 		b.add(METAL, 16*16, 27*16, 8*16, 4*16, SOLID);
 		b.add(GRATE, 24*16, 27*16, 4*16, 1*16, PLATFORM);
 		b.add(METAL, 24*16, 30*16, 4*16, 1*16, BOUNCE|WARP, FACTORY);
-		b.add(TUBE, 24*16, 27*16+1, 4*16, 3*16, PIPE, MARINE); //factory portal
+		b.add(TUBE, 24*16, 27*16+1, 4*16, 4*16, PIPE); //factory portal
 		b.add(METAL, 28*16, 27*16, 13*16, 4*16, SOLID);
 
 		//add spawn points

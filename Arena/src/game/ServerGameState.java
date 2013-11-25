@@ -918,8 +918,8 @@ public class ServerGameState extends GameState {
 				}
 				else if (getNextMode() == TIME) {
 					setTime(getTime()+2*60*50);
-					if (getTime() > 20*60*50) setTime(1*60*50);
-					else if (getTime() > 10*60*50) setTime(20*60*50);
+					if (getTime() > 10*60*50) setTime(1*60*50);
+					//else if (getTime() > 10*60*50) setTime(20*60*50);
 					else if (getTime() > 5*60*50) setTime(10*60*50);
 				}
 			}

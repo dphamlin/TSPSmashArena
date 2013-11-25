@@ -265,9 +265,21 @@ public class ClientGameState extends GameState {
 		//draw the tile map
 		Wardrobe.drawLand(g, (int)l.getLeftEdge(), (int)l.getTopEdge(),
 				(int)l.getRightEdge(), (int)l.getBottomEdge(), l.getSkin());
+
+		//text on option blocks
+		g.setColor(Color.WHITE);
+		if (l.isOption() && l.getVar() == 0) {//mode change
+			if (getNextMode() == STOCK) g.drawString("Stock", (int)l.getHCenter()-15, (int)l.getVCenter()+4);
+			if (getNextMode() == TIME) g.drawString("Time", (int)l.getHCenter()-14, (int)l.getVCenter()+4);
+		}
+		else if (l.isOption() && l.getVar() == 1) { //value change
+			String s = "";
+			if (getNextMode() == STOCK) s = "x"+getStock();
+			if (getNextMode() == TIME) s = ""+getTime()/(60*50)+":"+(getTime()/500)%6+""+(getTime()/50)%10;
+			g.drawString(s, (int)l.getHCenter()-14, (int)l.getVCenter()+4);
+		}
 	}
 	/*private void draw(Land l, Graphics g) {
-		//TODO: Draw composite images instead
 
 		//abandon drawing
 		if (l.isHatch() && !isControl()) { //disabled toggles
