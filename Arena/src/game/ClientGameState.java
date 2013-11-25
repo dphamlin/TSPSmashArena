@@ -54,9 +54,9 @@ public class ClientGameState extends GameState {
 	 */
 	private void drawBackground(Graphics g) {
 		//TODO: Clear with a background image instead
-		//Wardrobe.drawBackground(g, Warehouse.getMaps()[getStage()].getBg());
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 640, 480);
+		//Wardrobe.drawBackground(g, Warehouse.getMaps()[getStage()].getBg());
 	}
 
 	/**
@@ -263,8 +263,20 @@ public class ClientGameState extends GameState {
 		}
 
 		//draw the tile map
-		Wardrobe.drawLand(g, (int)l.getLeftEdge(), (int)l.getTopEdge(),
-				(int)l.getRightEdge(), (int)l.getBottomEdge(), l.getSkin());
+		if (l.isAnimate()) {
+			Wardrobe.drawLand(g, (int)l.getLeftEdge(), (int)l.getTopEdge(),
+					(int)l.getRightEdge(), (int)l.getBottomEdge(),
+					l.getSkin()+(getFrameNumber()/6)%4);
+		}
+		else if (l.isRAnimate()){
+			Wardrobe.drawLand(g, (int)l.getLeftEdge(), (int)l.getTopEdge(),
+					(int)l.getRightEdge(), (int)l.getBottomEdge(),
+					l.getSkin()+3-(getFrameNumber()/6)%4);
+		}
+		else {
+			Wardrobe.drawLand(g, (int)l.getLeftEdge(), (int)l.getTopEdge(),
+					(int)l.getRightEdge(), (int)l.getBottomEdge(), l.getSkin());
+		}
 
 		//text on option blocks
 		g.setColor(Color.WHITE);

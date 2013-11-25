@@ -24,7 +24,10 @@ public class Land extends GameObject {
 	public static final int GUN = 8192; //emits shots (var = bullet to emit)
 	public static final int MUTE = 16384; //makes no sound
 	public static final int PSPAWN = 32768; //capable of spawning powerups
-	private static final int MAX = 65536-1; //sum of all previous
+	public static final int SOUND = 65536; //makes a sound when touched (var = sound made)
+	public static final int ANIMATE = 131072; //animated tile
+	public static final int R_ANIMATE = 262144; //animated tile backwards
+	private static final int MAX = 524288-1; //sum of all previous
 
 	//current type is a bitmask
 	private int t; //type
@@ -190,6 +193,27 @@ public class Land extends GameObject {
 	public void setPowerSpawn(boolean b) {
 		if (b) t |= PSPAWN;
 		else t &= MAX-PSPAWN;
+	}
+	public boolean isSound() {
+		return (t&SOUND) > 0;
+	}
+	public void setSound(boolean b) {
+		if (b) t |= SOUND;
+		else t &= MAX-SOUND;
+	}
+	public boolean isAnimate() {
+		return (t&ANIMATE) > 0;
+	}
+	public void setAnimate(boolean b) {
+		if (b) t |= ANIMATE;
+		else t &= MAX-ANIMATE;
+	}
+	public boolean isRAnimate() {
+		return (t&R_ANIMATE) > 0;
+	}
+	public void setRAnimate(boolean b) {
+		if (b) t |= R_ANIMATE;
+		else t &= MAX-R_ANIMATE;
 	}
 	public int getVar() {
 		return v;

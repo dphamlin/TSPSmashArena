@@ -543,6 +543,9 @@ public class Warehouse {
 	public static final int GUN = Land.GUN; //emits shots (var = bullet to emit)
 	public static final int MUTE = Land.MUTE; //makes no sound
 	public static final int PSPAWN = Land.PSPAWN; //capable of spawning powerups
+	public static final int SOUND = Land.SOUND; //makes a sound when touched (var = sound made)
+	public static final int ANIMATE = Land.ANIMATE; //animated tile
+	public static final int R_ANIMATE = Land.R_ANIMATE; //backwards animated tile
 	
 	//tile skins
 	public static final int NONE = -1;
@@ -550,6 +553,8 @@ public class Warehouse {
 	public static final int GRATE = 1;
 	public static final int TUBE = 2;
 	public static final int TV = 3;
+	public static final int BELT = 4; //animated
+	public static final int B_BELT = 8; //animated
 
 	//level select / menu world
 	private static Blueprint holodeck() {
@@ -561,21 +566,27 @@ public class Warehouse {
 
 		//character change chambers
 		b.add(METAL, -1*16, -1*16, 3*16, 6*16, SOLID);
+		b.add(NONE, 2*16, -1*16, 3*16, 3*16, SOUND, SoundBank.SPAWN);
 		b.add(NONE, 2*16, -1*16, 3*16, 3*16, BOUNCE|CHAR|MUTE, LIZARD);
 		b.add(TUBE, 2*16, -1*16, 3*16, 5*16, PIPE|SOLID, LIZARD);
 		b.add(METAL, 5*16, -1*16, 4*16, 6*16, SOLID);
+		b.add(NONE, 9*16, -1*16, 3*16, 3*16, SOUND, SoundBank.SPAWN);
 		b.add(NONE, 9*16, -1*16, 3*16, 3*16, BOUNCE|CHAR|MUTE, SLIME);
 		b.add(TUBE, 9*16, -1*16, 3*16, 5*16, PIPE|SOLID, SLIME);
 		b.add(METAL, 12*16, -1*16, 4*16, 6*16, SOLID);
+		b.add(NONE, 16*16, -1*16, 3*16, 3*16, SOUND, SoundBank.SPAWN);
 		b.add(NONE, 16*16, -1*16, 3*16, 3*16, BOUNCE|CHAR|MUTE, MARINE);
 		b.add(TUBE, 16*16, -1*16, 3*16, 5*16, PIPE|SOLID, MARINE);
 		b.add(METAL, 19*16, -1*16, 4*16, 6*16, SOLID);
+		b.add(NONE, 23*16, -1*16, 3*16, 3*16, SOUND, SoundBank.SPAWN);
 		b.add(NONE, 23*16, -1*16, 3*16, 3*16, BOUNCE|CHAR|MUTE, ROBOT);
 		b.add(TUBE, 23*16, -1*16, 3*16, 5*16, PIPE|SOLID, ROBOT);
 		b.add(METAL, 26*16, -1*16, 8*16, 6*16, SOLID);
+		b.add(NONE, 34*16, -1*16, 3*16, 3*16, SOUND, SoundBank.DIE);
 		b.add(NONE, 34*16, -1*16, 3*16, 3*16, BOUNCE|CHAR|MUTE, CAPTAIN);
 		b.add(TUBE, 34*16, -1*16, 3*16, 5*16, PIPE|SOLID, CAPTAIN);
 		b.add(METAL, 37*16, -1*16, 4*16, 6*16, SOLID);
+		//TODO: Add visible tags
 
 		//top/'attic' ladders
 		b.add(GRATE, 2*16, 8*16, 3*16, 16, PLATFORM);
@@ -593,8 +604,10 @@ public class Warehouse {
 		b.add(GRATE, 18*16, 15*16, 4*16, 16, PLATFORM);
 
 		//option change blocks
-		b.add(TV, 11*16, 14*16, 3*16, 2*16, SOLID|BOUNCE|OPTION, 0); //mode
-		b.add(TV, 26*16, 14*16, 3*16, 2*16, SOLID|BOUNCE|OPTION, 1); //parameter
+		b.add(TV, 11*16, 14*16, 3*16, 2*16, SOUND, SoundBank.PICKUP);
+		b.add(TV, 11*16, 14*16, 3*16, 2*16, SOLID|BOUNCE|OPTION|MUTE, 0); //mode
+		b.add(TV, 26*16, 14*16, 3*16, 2*16, SOUND, SoundBank.PICKUP);
+		b.add(TV, 26*16, 14*16, 3*16, 2*16, SOLID|BOUNCE|OPTION|MUTE, 1); //parameter
 
 		//middle floor
 		b.add(GRATE, -1*16, 19*16, 7*16, 16, PLATFORM);
@@ -608,13 +621,14 @@ public class Warehouse {
 		//base floor + warps
 		b.add(METAL, -1*16, 27*16, 13*16, 4*16, SOLID);
 		b.add(GRATE, 12*16, 27*16, 4*16, 1*16, PLATFORM);
-		b.add(METAL, 12*16, 30*16, 4*16, 1*16, BOUNCE|WARP, PLANET);
+		b.add(METAL, 12*16, 30*16, 4*16, 1*16, BOUNCE|WARP|MUTE, PLANET);
 		b.add(TUBE, 12*16, 27*16+1, 4*16, 4*16, PIPE); //planet portal
 		b.add(METAL, 16*16, 27*16, 8*16, 4*16, SOLID);
 		b.add(GRATE, 24*16, 27*16, 4*16, 1*16, PLATFORM);
-		b.add(METAL, 24*16, 30*16, 4*16, 1*16, BOUNCE|WARP, FACTORY);
+		b.add(METAL, 24*16, 30*16, 4*16, 1*16, BOUNCE|WARP|MUTE, FACTORY);
 		b.add(TUBE, 24*16, 27*16+1, 4*16, 4*16, PIPE); //factory portal
 		b.add(METAL, 28*16, 27*16, 13*16, 4*16, SOLID);
+		//TODO: Add visible tags
 
 		//add spawn points
 		b.setSpawn(0, 68+0*WIDTH/4, 9*16+8);
@@ -709,23 +723,23 @@ public class Warehouse {
 		b.add(METAL, 30*16, 16*16, 8*16, 2*16, SOLID);
 		
 		//top production
-		b.add(METAL, 0*16, 5*16, 10*16, 2*16, SOLID|MOVE, 19);
+		b.add(B_BELT, 0*16, 5*16, 10*16, 2*16, SOLID|MOVE|ANIMATE, 19);
 		b.add(NONE, 1*16, 4*16, 1, 1, PSPAWN);
-		b.add(METAL, 0*16, 3*16, 2*16, 2*16, 0); //visual producer
+		b.add(METAL, 0*16, 3*16, 2*16, 4*16, 0); //visual producer
 		
 		//middle production
-		b.add(METAL, 32*16, 20*16, 8*16, 2*16, SOLID|MOVE, -19);
+		b.add(B_BELT, 32*16, 20*16, 8*16, 2*16, SOLID|MOVE|R_ANIMATE, -19);
 		b.add(NONE, 39*16, 19*16, 1, 1, PSPAWN);
-		b.add(METAL, 38*16, 18*16, 2*16, 2*16, SOLID); //visual producer
+		b.add(METAL, 38*16, 18*16, 2*16, 4*16, SOLID); //visual producer
 
 		//middle carry
-		b.add(GRATE, 9*16, 13*16, 18*16, 1*16, PLATFORM|MOVE, 19);
-		b.add(GRATE, 22*16, 21*16, 10*16, 1*16, PLATFORM|MOVE, -19);
-		
+		b.add(BELT, 9*16, 13*16, 18*16, 1*16, PLATFORM|MOVE|ANIMATE, 19);
+		b.add(BELT, 22*16, 21*16, 10*16, 1*16, PLATFORM|MOVE|R_ANIMATE, -19);
+
 		//spring lift
 		b.add(METAL, 10*16, 25*16, 3*16, 1*16, PLATFORM|BOUNCE, 15);
 		b.add(METAL, 27*16, 25*16, 3*16, 1*16, PLATFORM|BOUNCE, 10);
-		
+
 		//spawn points
 		b.setSpawn(0, 2*16, 15*16);
 		b.setSpawn(1, 38*16, 15*16);

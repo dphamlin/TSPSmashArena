@@ -868,6 +868,11 @@ public class ServerGameState extends GameState {
 		int h = hCollide(a, l);
 		boolean ov = overlap(a, l);
 
+		//sound effect blocks
+		if (l.isSound() && (hCollide(a, l) != NONE || vCollide(a, l) != NONE)) {
+			playSound(l.getVar());
+		}
+		
 		//slightly hackish "pipes", vertical only
 		if (l.isPipe() && !a.isPipe() && ov) {
 			a.setVx(0);
