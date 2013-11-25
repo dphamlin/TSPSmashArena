@@ -553,7 +553,7 @@ public class ServerGameState extends GameState {
 		a.setDeadTime(a.getDeadTime()+1); //respawn timer and spawn invincibility
 		if (a.getDeadTime() == a.getSpawnTime() && a.isDead()) respawn(a); //respawn at the time
 		if (a.getDeadTime() == a.getSpawnTime()-22 && a.isDead()) { //respawn effect
-			spawnEffect(getSpawnX(a.getId()), getSpawnY(a.getId()), Effect.SPAWN, 0);
+			spawnEffect(getSpawnX(a.getId()), getSpawnY(a.getId())+2, Effect.SPAWN, 0);
 		}
 
 		if (a.getReload() > 0) a.setReload(a.getReload()-1); //timer between shots
