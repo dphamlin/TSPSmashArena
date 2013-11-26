@@ -125,7 +125,7 @@ public class Warehouse {
 		return r;
 	}
 	//dashing captain
-	private static RoleModel captain() { //TODO: Make thoroughly average
+	private static RoleModel captain() {
 		RoleModel r = new RoleModel();
 		r.setSkin(CAPTAIN);
 
@@ -215,7 +215,7 @@ public class Warehouse {
 		return r;
 	}
 	//mad scientist
-	private static RoleModel madScientist() { //TODO: Make a unique movement style
+	private static RoleModel madScientist() {
 		RoleModel r = new RoleModel();
 		r.setSkin(SCIENTIST);
 
@@ -252,7 +252,7 @@ public class Warehouse {
 		s.setSkin(FIREBALL);
 
 		//quick firing
-		s.setReload(53);
+		s.setReload(52);
 
 		//small shots
 		s.setH(5);
@@ -302,7 +302,7 @@ public class Warehouse {
 		s.setW(20);
 
 		//mid speed long range
-		s.setLife(68);
+		s.setLife(75);
 		s.setSpeed(4.2);
 
 		//standard type
@@ -554,9 +554,10 @@ public class Warehouse {
 	public static final int GRATE = 1;
 	public static final int TUBE = 2;
 	public static final int TV = 3;
-	public static final int BELT = 4; //animated
-	public static final int B_BELT = 8; //animated
-	public static final int LAVA = 12; //animated
+	public static final int SPRING = 4;
+	public static final int BELT = 5; //animated
+	public static final int B_BELT = 9; //animated
+	public static final int LAVA = 13; //animated
 
 	//level select / menu world
 	private static Blueprint holodeck() {
@@ -719,7 +720,7 @@ public class Warehouse {
 
 		//melter
 		b.add(METAL, 15*16, 28*16, 1*16, 3*16, SOLID);
-		b.add(METAL, 16*16, 29*16, 8*16, 2*16, DANGER|GUN, LAVABALL);
+		b.add(LAVA, 16*16, 29*16, 8*16, 2*16, DANGER|GUN|ANIMATE, LAVABALL);
 		b.add(NONE, 16*16, 29*16+4, 8*16, 1*16, BOUNCE, 5);
 		b.add(METAL, 24*16, 28*16, 1*16, 3*16, SOLID);
 
@@ -750,8 +751,8 @@ public class Warehouse {
 		b.add(BELT, 22*16, 21*16, 10*16, 1*16, PLATFORM|MOVE|R_ANIMATE, -19);
 
 		//spring lift
-		b.add(METAL, 10*16, 25*16, 3*16, 1*16, PLATFORM|BOUNCE, 15);
-		b.add(METAL, 27*16, 25*16, 3*16, 1*16, PLATFORM|BOUNCE, 10);
+		b.add(SPRING, 10*16, 25*16, 3*16, 1*16, PLATFORM|BOUNCE, 15);
+		b.add(SPRING, 27*16, 25*16, 3*16, 1*16, PLATFORM|BOUNCE, 10);
 
 		//spawn points
 		b.setSpawn(0, 2*16, 15*16);

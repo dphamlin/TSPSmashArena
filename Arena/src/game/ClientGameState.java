@@ -56,7 +56,7 @@ public class ClientGameState extends GameState {
 		//TODO: Clear with a background image instead
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 640, 480);
-		//Wardrobe.drawBackground(g, Warehouse.getMaps()[getStage()].getBg());
+		Wardrobe.drawBackground(g, Warehouse.getMaps()[getStage()].getBg());
 	}
 
 	/**
@@ -126,7 +126,6 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void drawStatus(Graphics g) {
-		//if (getMode() == MENU) return; //temporarily blind status until gametime
 		//draw spots for the number of players expected
 		for (int i = 0; i < getMaxPlayers() || i < getNumberOfPlayers(); i++) {
 			g.setColor(Color.BLACK);
@@ -143,18 +142,12 @@ public class ClientGameState extends GameState {
 			if (getMode() == TIME) {
 				g.drawString(" "+getPlayer(i).getScore(), 3+(1+i)*WIDTH/5, 40);
 			}
-			//tag winners
-			if (isGameOver()) {
-				for (Integer n : getWinners()) {
-					if (n == i) {
-						Wardrobe.drawEffect(g, 9+(1+i)*WIDTH/5, 26, 3, (getFrameNumber()/6)%6);
-					}
-				}
-			}
 			//draw the player's name just above
 			if (i < pn.length) {
-				g.setColor(Color.GREEN);
-				g.drawString(pn[i], (1+i)*WIDTH/5-26, 13);
+				g.setColor(Color.BLACK);
+				g.fillRoundRect((1+i)*WIDTH/5-33, 0, 66, 14, 10, 10);
+				g.setColor(Color.WHITE);
+				g.drawString(pn[i], (1+i)*WIDTH/5-28, 11);
 			}
 			//draw the character's current state in box
 			draw(getPlayer(i), (1+i)*WIDTH/5-11, 31, 1.0, g);
@@ -163,6 +156,7 @@ public class ClientGameState extends GameState {
 				g.setColor(Color.RED);
 				g.fillRect((1+i)*WIDTH/5-19, 43, (16*getPlayer(i).getReload())/getPlayer(i).getShotDelay(), 2);
 			}
+			//indicate the player's powerup
 			if (getPlayer(i).getPowerup() > 0) {
 				g.setColor(Color.BLACK);
 				String powername = "";
@@ -171,18 +165,19 @@ public class ClientGameState extends GameState {
 				if (getPlayer(i).getPowerup() == Item.DJUMP) powername = "Air Jump";
 				if (getPlayer(i).getPowerup() == Item.SPEED) powername = "Fast-Forward";
 				if (getPlayer(i).getPowerup() == Item.SSHOT) powername = "Hyper Shot";
-				if (getPlayer(i).getPowerup() == Item.CHANGE) powername = "Mutation";
-				/*if (getPlayer(i).getPowerup() == Item.CHANGE) {
-					if (getPlayer(i).getPowerupVar() == Warehouse.LIZARD) powername = "Reptilia";
-					if (getPlayer(i).getPowerupVar() == Warehouse.SLIME) powername = "Fluidity";
-					if (getPlayer(i).getPowerupVar() == Warehouse.CAPTAIN) powername = "Original";
-					if (getPlayer(i).getPowerupVar() == Warehouse.MARINE) powername = "Power Armor";
-					if (getPlayer(i).getPowerupVar() == Warehouse.ROBOT) powername = "Cybernetics";
-				}*/
+				if (getPlayer(i).getPowerup() == Item.CHANGE) powername = "Transformation";
 				if (getPlayer(i).getPowerup() == Item.HYPER) powername = "Invincibility";
 				g.drawString(powername, (1+i)*WIDTH/5-27, 61);
 			}
 		}
+		//crown winners
+		for (Integer i : getWinners()) {
+			if ((getFrameNumber()/6)%9 < 6)
+				Wardrobe.drawEffect(g, 9+(1+i)*WIDTH/5, 26, 3, (getFrameNumber()/6)%9);
+			else
+				Wardrobe.drawEffect(g, 9+(1+i)*WIDTH/5, 26, 3, 0);
+		}
+		//draw the timer
 		if (getMode() == TIME) {
 			g.setColor(Color.BLACK);
 			g.fillRoundRect(WIDTH/2-25, 10, 50, 35, 10, 10);
@@ -210,6 +205,16 @@ public class ClientGameState extends GameState {
 		if (a.getPowerup() == Item.BIG) draw(a, (int)a.getHCenter(), (int)a.getVCenter(), 2.0, g);
 		else if (a.getPowerup() == Item.MINI) draw(a, (int)a.getHCenter(), (int)a.getVCenter(), 0.5, g);
 		else draw(a, (int)a.getHCenter(), (int)a.getVCenter(), 1.0, g);
+
+		//crown a winner
+		for (Integer n : getWinners()) {
+			if (n == a.getId()) {
+				if ((getFrameNumber()/6)%9 < 6)
+					Wardrobe.drawEffect(g, (int)a.getHCenter(), (int)a.getTopEdge()-6, 3, (getFrameNumber()/6)%9);
+				else
+					Wardrobe.drawEffect(g, (int)a.getHCenter(), (int)a.getTopEdge()-6, 3, 0);
+			}
+		}
 	}
 
 	/**
@@ -225,20 +230,25 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void draw(Actor a, int x, int y, double scale, Graphics g) {
-		//100% dead
-		if (getMode() == STOCK && a.getLives() <= 0) return;
 
 		//respawn blink
-		if (a.isArmored() && a.getDeadTime() % 8 < 4) return;
+		if (!a.isDead() && a.isArmored() && a.getDeadTime() % 10 < 5) return;
 
 		//respawn timer
 		if (a.isDead()) {
-			g.setColor(Color.LIGHT_GRAY);
-			g.fillArc(x-9, y-9, 18, 18, 90, (-360*a.getDeadTime())/(a.getSpawnTime()-15)-90);
+			if ((a.getLives() > 0 || getMode() != STOCK) && (a.getDeadTime() <= a.getSpawnTime()-16))
+			{
+				g.setColor(Color.GRAY);
+				g.fillArc(x-10, y-10, 20, 20, 90, 360-360*a.getDeadTime()/(a.getSpawnTime()-16));
+			}
+			else if (a.getLives() > 0 || getMode() != STOCK) {
+				Wardrobe.drawChar(g, x, y, a.getSkin(), 5, scale);
+			}
+			else Wardrobe.drawChar(g, x, y, a.getSkin(), 9, scale);
 			return;
 		}
 
-		//temporary shape
+		//draw the regular sprite
 		if (a.getDir() > 0)
 			Wardrobe.drawChar(g, x, y, a.getSkin(), a.getFrame(), scale);
 		else
@@ -282,7 +292,7 @@ public class ClientGameState extends GameState {
 		}
 
 		//text on option blocks
-		g.setColor(Color.WHITE);
+		g.setColor(Color.BLACK);
 		if (l.isOption() && l.getVar() == 0) {//mode change
 			if (getNextMode() == STOCK) g.drawString("Stock", (int)l.getHCenter()-15, (int)l.getVCenter()+4);
 			if (getNextMode() == TIME) g.drawString("Time", (int)l.getHCenter()-14, (int)l.getVCenter()+4);
@@ -402,11 +412,10 @@ public class ClientGameState extends GameState {
 		else if (s.getSkin() == Warehouse.METEOR) {
 			Wardrobe.drawMisc(g, (int)s.getHCenter(), (int)s.getVCenter(), Warehouse.ROBOT+4);
 		}
-		//TODO: Restore when lava texture is added
-		/*else if (s.getSkin() == Warehouse.LAVAWAVE) {
+		else if (s.getSkin() == Warehouse.LAVAWAVE) {
 			Wardrobe.drawLand(g, (int)s.getLeftEdge(), (int)s.getTopEdge(),
-					(int)s.getRightEdge(), (int)s.getBottomEdge(), Warehouse.LAVA);
-		}*/
+					(int)s.getRightEdge(), (int)s.getBottomEdge(), Warehouse.LAVA+3-(s.getLifeTime()/6)%4);
+		}
 		else {
 			g.setColor(Color.RED);
 			g.fillRect((int)s.getLeftEdge(), (int)s.getTopEdge(), s.getW(), s.getH());

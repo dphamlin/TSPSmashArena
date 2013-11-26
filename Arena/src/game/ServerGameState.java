@@ -298,6 +298,9 @@ public class ServerGameState extends GameState {
 		else if (a.getOnLand() == null) {
 			a.setFrame(6); //falling frame
 		}
+		else if (Math.abs(a.getVx()) > .1 && a.isLean() && a.getPowerup() == Item.SPEED) {
+			a.setFrame((getFrameNumber()/6)%4+1); //running frames
+		}
 		else if (Math.abs(a.getVx()) > .1 && a.isLean()) {
 			a.setFrame((getFrameNumber()/11)%4+1); //running frames
 		}
@@ -527,10 +530,10 @@ public class ServerGameState extends GameState {
 		a.setDead(false);
 		a.setVx(STOP);
 		a.setVy(STOP);
+		a.setDir(RIGHT);
 		fall(a);
 		a.setHCenter(getSpawnX(a.getId()));
 		a.setVCenter(getSpawnY(a.getId()));
-		playSound(SoundBank.SPAWN);
 	}
 
 	/**
@@ -545,8 +548,10 @@ public class ServerGameState extends GameState {
 
 		a.setDeadTime(a.getDeadTime()+1); //respawn timer and spawn invincibility
 		if (a.getDeadTime() == a.getSpawnTime() && a.isDead()) respawn(a); //respawn at the time
-		if (a.getDeadTime() == a.getSpawnTime()-22 && a.isDead()) { //respawn effect
+		if (a.getDeadTime() == a.getSpawnTime()-20 && a.isDead() &&
+				(a.getLives() > 0 || getMode() != STOCK)) { //respawn effect
 			spawnEffect(getSpawnX(a.getId()), getSpawnY(a.getId())+2, Effect.SPAWN, 0);
+			playSound(SoundBank.SPAWN);
 		}
 
 		if (a.getReload() > 0) a.setReload(a.getReload()-1); //timer between shots

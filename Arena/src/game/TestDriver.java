@@ -44,7 +44,7 @@ public class TestDriver {
 
 		//test players
 		gs.addPlayer();
-		//gs.addPlayer();
+		gs.addPlayer();
 		//gs.addPlayer();
 		//gs.addPlayer();
 

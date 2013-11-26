@@ -3,7 +3,7 @@ import java.io.*;
 
 public class SoundBank {
 	
-	//sounds to be usable
+	//general sounds
 	public static final int PICKUP = 0;
 	public static final int BOOM = 1;
 	public static final int DIE = 2;
@@ -18,7 +18,11 @@ public class SoundBank {
 	// Populate with file names
 	private static String[] filenameList =
 		{"sound/pickup.wav", "sound/skid5.wav", "sound/skid6.wav",
-		"sound/soft_hit2.wav", "sound/pipe2.wav", "sound/spawn.wav"};
+		"sound/soft_hit2.wav", "sound/pipe2.wav", "sound/spawn.wav",
+		"sound/captain_shoot.wav", "sound/lizard_shoot.wav", "sound/slime_shoot.wav", //player shots
+		"sound/marine_shoot.wav", "sound/robot_shoot.wav", 
+		"sound/captain_jump.wav", "sound/lizard_jump.wav", "sound/slime_jump.wav", //player jumps
+		"sound/marine_jump.wav", "sound/robot_jump.wav"};
 	private static File[] fileList;
 
 	// Call this before you try to use any sounds
