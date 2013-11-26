@@ -316,7 +316,7 @@ public class ServerGameState extends GameState {
 		a.setAirTime(1);
 		a.setOnLand(null);
 		a.setVy(-a.getJumpPower());
-		playSound(SoundBank.JUMP);
+		playSound(SoundBank.JUMP+a.getModel());
 	}
 
 	/**
@@ -427,17 +427,10 @@ public class ServerGameState extends GameState {
 			s.setCenter(cx, cy);
 			s.setBig(true);
 		}
-		/*if (a.getPowerup() == Item.MINI) {
-			float cx = s.getHCenter(), cy = s.getVCenter();
-			s.setW(s.getW()/2);
-			s.setH(s.getH()/2);
-			s.setCenter(cx, cy);
-			s.setMini(true);
-		}*/
 
 		//add the new bullet to the list of bullets
 		getBullets().add(s);
-		playSound(SoundBank.SHOOT);
+		playSound(SoundBank.SHOOT+a.getModel());
 	}
 
 	/**

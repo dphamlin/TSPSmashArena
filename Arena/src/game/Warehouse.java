@@ -454,7 +454,7 @@ public class Warehouse {
 		s.setVSpeed(4);
 
 		//fall straight blow up
-		s.setType(Shot.BOMB);
+		s.setType(Shot.BOMB+Shot.BIG);
 		s.setVar(0);
 		return s;
 	}
@@ -587,7 +587,7 @@ public class Warehouse {
 		b.add(NONE, 34*16, -1*16, 3*16, 3*16, BOUNCE|CHAR|MUTE, CAPTAIN);
 		b.add(TUBE, 34*16, -1*16, 3*16, 5*16, PIPE|SOLID, CAPTAIN);
 		b.add(METAL, 37*16, -1*16, 4*16, 6*16, SOLID);
-		
+
 		//character tags
 		b.add(LIZARD, 6*16, 3*16+4, 1*16, 1*16, IMAGE);
 		b.add(SLIME, 13*16, 3*16+4, 1*16, 1*16, IMAGE);
@@ -661,9 +661,11 @@ public class Warehouse {
 		b.add(METAL, 38*16, 16*16, 3*16, 15*16, SOLID);
 		b.add(METAL, 1*16, 27*16, 17*16, 4*16, SOLID);
 		b.add(METAL, 22*16, 27*16, 17*16, 4*16, SOLID);
+
 		//cannon escape
 		b.add(METAL, 18*16, 27*16, 4*16, 1*16, PLATFORM);
-		b.add(METAL, 18*16, 29*16, 4*16, 1*16, BOUNCE|MUTE, 180);
+		b.add(METAL, 18*16, 29*16, 4*16, 1*16, SOUND, SoundBank.BOOM);
+		b.add(METAL, 18*16, 29*16, 4*16, 1*16, BOUNCE|MUTE, 175);
 		b.add(METAL, 18*16, 27*16+1, 4*16, 4*16, PIPE|SOLID, MARINE);
 
 		//surface
@@ -675,10 +677,10 @@ public class Warehouse {
 		//internal platforms
 		b.add(METAL, 18*16, 21*16, 2*16, 1*16, PLATFORM|MOVE, -8);
 		b.add(METAL, 20*16, 21*16, 2*16, 1*16, PLATFORM|MOVE, 8);
-		
+
 		b.add(METAL, 36*16, 24*16, 2*16, 1*16, PLATFORM);
 		b.add(METAL, 8*16, 22*16, 4*16, 1*16, PLATFORM);
-		
+
 		b.add(METAL, 24*16, 18*16, 1*16, 1*16, PLATFORM);
 
 		//lava waves!
@@ -710,30 +712,30 @@ public class Warehouse {
 		b.add(TUBE, 35*16, 29*16+1, 3*16, 3*16, PIPE);
 		b.add(METAL, -1*16, 16*16, 3*16, 14*16, SOLID);
 		b.add(METAL, 38*16, 16*16, 3*16, 14*16, SOLID);
-		
+
 		//melter
 		b.add(METAL, 15*16, 28*16, 1*16, 3*16, SOLID);
 		b.add(METAL, 16*16, 29*16, 8*16, 2*16, DANGER|GUN, LAVABALL);
 		b.add(NONE, 16*16, 29*16+4, 8*16, 1*16, BOUNCE, 5);
 		b.add(METAL, 24*16, 28*16, 1*16, 3*16, SOLID);
-		
+
 		//upper walls+ceiling
 		b.add(METAL, -1*16, -1*16, 3*16, 14*16, SOLID);
 		b.add(METAL, 38*16, -1*16, 3*16, 14*16, SOLID);
 		b.add(TUBE, 2*16, -1*16, 3*16, 2*16, PIPE);
 		b.add(TUBE, 35*16, -1*16, 3*16, 2*16, PIPE);
 		b.add(METAL, 5*16, -1*16, 30*16, 2*16, SOLID);
-		
+
 		//middle wraparound
 		b.add(METAL, 2*16, 16*16, 3*16, 2*16, SOLID);
 		b.add(METAL, 5*16, 12*16, 3*16, 6*16, SOLID);
 		b.add(METAL, 30*16, 16*16, 8*16, 2*16, SOLID);
-		
+
 		//top production
 		b.add(B_BELT, 0*16, 5*16, 10*16, 2*16, SOLID|MOVE|ANIMATE, 19);
 		b.add(NONE, 1*16, 4*16, 1, 1, PSPAWN);
 		b.add(METAL, 0*16, 3*16, 2*16, 4*16, 0); //visual producer
-		
+
 		//middle production
 		b.add(B_BELT, 32*16, 20*16, 8*16, 2*16, SOLID|MOVE|R_ANIMATE, -19);
 		b.add(NONE, 39*16, 19*16, 1, 1, PSPAWN);
