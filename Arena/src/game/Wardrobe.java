@@ -16,6 +16,7 @@ public class Wardrobe {
 	public static Image p = null; //powerups
 	public static Image e = null; //effects
 	public static Image t = null; //tilesets
+	public static Image m = null; //misc graphics
 	public static Image b = null; //backgrounds
 
 	/**
@@ -28,6 +29,7 @@ public class Wardrobe {
 			p = ImageIO.read(new File("image/powerup.png"));
 			e = ImageIO.read(new File("image/effect.png"));
 			t = ImageIO.read(new File("image/tile.png"));
+			m = ImageIO.read(new File("image/misc.png"));
 			//TODO: load backgrounds
 		} catch (IOException e) {
 			System.out.println("Failed to load images.");
@@ -212,5 +214,23 @@ public class Wardrobe {
 		}
 		//bottom-right
 		g.drawImage(t, x2-8, y2-8, x2, y2, 16, skin*24+16, 24, skin*24+24, null);
+	}
+	
+	/**
+	 * Cut a sprite from the sheet and draw it
+	 * 
+	 * @param g
+	 * 		the graphics object for drawing
+	 * @param x
+	 * 		the x position to draw at
+	 * @param y
+	 * 		the y position to draw at
+	 * @param skin
+	 * 		which powerup to use
+	 * @param frame
+	 * 		which frame to draw from
+	 */
+	public static void drawMisc(Graphics g, int x, int y, int skin) {
+		g.drawImage(m, x-16, y-16, x+16, y+16, 0, skin*32, 32, skin*32+32, null);
 	}
 }

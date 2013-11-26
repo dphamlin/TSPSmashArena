@@ -27,7 +27,8 @@ public class Land extends GameObject {
 	public static final int SOUND = 65536; //makes a sound when touched (var = sound made)
 	public static final int ANIMATE = 131072; //animated tile
 	public static final int R_ANIMATE = 262144; //animated tile backwards
-	private static final int MAX = 524288-1; //sum of all previous
+	public static final int IMAGE = 524288; //draw a special image instead of a tilemap
+	private static final int MAX = 1048576-1; //sum of all previous
 
 	//current type is a bitmask
 	private int t; //type
@@ -214,6 +215,13 @@ public class Land extends GameObject {
 	public void setRAnimate(boolean b) {
 		if (b) t |= R_ANIMATE;
 		else t &= MAX-R_ANIMATE;
+	}
+	public boolean isImage() {
+		return (t&IMAGE) > 0;
+	}
+	public void setImage(boolean b) {
+		if (b) t |= IMAGE;
+		else t &= MAX-IMAGE;
 	}
 	public int getVar() {
 		return v;

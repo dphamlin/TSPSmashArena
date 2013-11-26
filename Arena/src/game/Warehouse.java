@@ -546,7 +546,8 @@ public class Warehouse {
 	public static final int SOUND = Land.SOUND; //makes a sound when touched (var = sound made)
 	public static final int ANIMATE = Land.ANIMATE; //animated tile
 	public static final int R_ANIMATE = Land.R_ANIMATE; //backwards animated tile
-	
+	public static final int IMAGE = Land.IMAGE; //draw a special image instead of a tilemap
+
 	//tile skins
 	public static final int NONE = -1;
 	public static final int METAL = 0;
@@ -586,7 +587,13 @@ public class Warehouse {
 		b.add(NONE, 34*16, -1*16, 3*16, 3*16, BOUNCE|CHAR|MUTE, CAPTAIN);
 		b.add(TUBE, 34*16, -1*16, 3*16, 5*16, PIPE|SOLID, CAPTAIN);
 		b.add(METAL, 37*16, -1*16, 4*16, 6*16, SOLID);
-		//TODO: Add visible tags
+		
+		//character tags
+		b.add(LIZARD, 6*16, 3*16+4, 1*16, 1*16, IMAGE);
+		b.add(SLIME, 13*16, 3*16+4, 1*16, 1*16, IMAGE);
+		b.add(MARINE, 20*16, 3*16+4, 1*16, 1*16, IMAGE);
+		b.add(ROBOT, 27*16, 3*16+4, 1*16, 1*16, IMAGE);
+		b.add(CAPTAIN, 32*16, 3*16+4, 1*16, 1*16, IMAGE);
 
 		//top/'attic' ladders
 		b.add(GRATE, 2*16, 8*16, 3*16, 16, PLATFORM);

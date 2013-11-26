@@ -263,7 +263,10 @@ public class ClientGameState extends GameState {
 		}
 
 		//draw the tile map
-		if (l.isAnimate()) {
+		if (l.isImage()) {
+			Wardrobe.drawMisc(g, (int)l.getHCenter(), (int)l.getVCenter(), l.getSkin());
+		}
+		else if (l.isAnimate()) {
 			Wardrobe.drawLand(g, (int)l.getLeftEdge(), (int)l.getTopEdge(),
 					(int)l.getRightEdge(), (int)l.getBottomEdge(),
 					l.getSkin()+(getFrameNumber()/6)%4);
