@@ -442,7 +442,7 @@ public class Warehouse {
 		s.setSkin(METEOR);
 
 		//slow firing
-		s.setReload(250);
+		s.setReload(245);
 
 		//huge shots
 		s.setH(32);
@@ -451,7 +451,7 @@ public class Warehouse {
 		//drops straight
 		s.setLife(200);
 		s.setSpeed(0);
-		s.setVSpeed(4);
+		s.setVSpeed(4.8);
 
 		//fall straight blow up
 		s.setType(Shot.BOMB+Shot.BIG);
