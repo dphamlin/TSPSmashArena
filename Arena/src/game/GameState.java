@@ -22,7 +22,7 @@ public abstract class GameState {
 	private int s = 0; //stage (default: holodeck)
 	private int fn = 0; //frame number
 	private int t = 50*60; //overall game time (default 1 min)
-	private int ml = 5; //starting lives (default 5)
+	private int ml = 3; //starting lives (default 3)
 	private int m = MENU, nm = STOCK; //mode and impending mode (default starts on MENU)
 	private int end = 0; //is the game over?
 	private int np = 0; //expected number of players (0 is no limit)

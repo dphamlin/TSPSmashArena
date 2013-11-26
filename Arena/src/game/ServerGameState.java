@@ -267,7 +267,7 @@ public class ServerGameState extends GameState {
 		}
 		return n;
 	}
-	
+
 	/**
 	 * @return the number of players still joined
 	 */
@@ -865,7 +865,7 @@ public class ServerGameState extends GameState {
 		if (l.isSound() && (hCollide(a, l) != NONE || vCollide(a, l) != NONE)) {
 			playSound(l.getVar());
 		}
-		
+
 		//slightly hackish "pipes", vertical only
 		if (l.isPipe() && !a.isPipe() && ov) {
 			a.setVx(0);
@@ -1061,6 +1061,11 @@ public class ServerGameState extends GameState {
 		//out-of-phase platforms ignored
 		if (l.isHatch() && !isControl()) return;
 		if (l.isNHatch() && isControl()) return;
+
+		//sound effect blocks
+		if (l.isSound() && (hCollide(s, l) != NONE || vCollide(s, l) != NONE)) {
+			playSound(l.getVar());
+		}
 
 		//flip option/switch blocks
 		if (hCollide(s,l) != NONE || vCollide(s,l) != NONE || overlap(s,l)) {

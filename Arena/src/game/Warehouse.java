@@ -556,6 +556,7 @@ public class Warehouse {
 	public static final int TV = 3;
 	public static final int BELT = 4; //animated
 	public static final int B_BELT = 8; //animated
+	public static final int LAVA = 12; //animated
 
 	//level select / menu world
 	private static Blueprint holodeck() {
@@ -627,15 +628,18 @@ public class Warehouse {
 
 		//base floor + warps
 		b.add(METAL, -1*16, 27*16, 13*16, 4*16, SOLID);
-		b.add(GRATE, 12*16, 27*16, 4*16, 1*16, PLATFORM);
+		b.add(NONE, 12*16, 27*16, 4*16, 1*16, PLATFORM);
 		b.add(METAL, 12*16, 30*16, 4*16, 1*16, BOUNCE|WARP|MUTE, PLANET);
 		b.add(TUBE, 12*16, 27*16+1, 4*16, 4*16, PIPE); //planet portal
 		b.add(METAL, 16*16, 27*16, 8*16, 4*16, SOLID);
-		b.add(GRATE, 24*16, 27*16, 4*16, 1*16, PLATFORM);
+		b.add(NONE, 24*16, 27*16, 4*16, 1*16, PLATFORM);
 		b.add(METAL, 24*16, 30*16, 4*16, 1*16, BOUNCE|WARP|MUTE, FACTORY);
 		b.add(TUBE, 24*16, 27*16+1, 4*16, 4*16, PIPE); //factory portal
 		b.add(METAL, 28*16, 27*16, 13*16, 4*16, SOLID);
-		//TODO: Add visible tags
+
+		//level signs
+		b.add(ROBOT+PLANET, 17*16, 28*16-8, 1*16, 1*16, IMAGE);
+		b.add(ROBOT+FACTORY, 29*16, 28*16-8, 1*16, 1*16, IMAGE);
 
 		//add spawn points
 		b.setSpawn(0, 68+0*WIDTH/4, 9*16+8);
@@ -663,25 +667,25 @@ public class Warehouse {
 		b.add(METAL, 22*16, 27*16, 17*16, 4*16, SOLID);
 
 		//cannon escape
-		b.add(METAL, 18*16, 27*16, 4*16, 1*16, PLATFORM);
-		b.add(METAL, 18*16, 29*16, 4*16, 1*16, SOUND, SoundBank.BOOM);
-		b.add(METAL, 18*16, 29*16, 4*16, 1*16, BOUNCE|MUTE, 175);
-		b.add(METAL, 18*16, 27*16+1, 4*16, 4*16, PIPE|SOLID, MARINE);
+		b.add(NONE, 18*16, 27*16, 4*16, 1*16, PLATFORM);
+		b.add(NONE, 18*16, 29*16, 4*16, 1*16, SOUND, SoundBank.BOOM);
+		b.add(NONE, 18*16, 29*16, 4*16, 1*16, BOUNCE|MUTE, 175);
+		b.add(TUBE, 18*16, 27*16+1, 4*16, 4*16, PIPE);
 
 		//surface
-		b.add(METAL, -1*16, 15*16, 15*16, 1*16, SOLID|MOVE, 8);
-		b.add(METAL, 14*16, 15*16, 5*16, 1*16, PLATFORM|MOVE, 22);
-		b.add(METAL, 21*16, 15*16, 5*16, 1*16, PLATFORM|MOVE, -22);
-		b.add(METAL, 26*16, 15*16, 15*16, 1*16, SOLID|MOVE, -8);
+		b.add(B_BELT, -1*16, 15*16, 15*16, 1*16, SOLID|MOVE|ANIMATE, 8);
+		b.add(BELT, 14*16, 15*16, 5*16, 1*16, PLATFORM|MOVE|ANIMATE, 22);
+		b.add(BELT, 21*16, 15*16, 5*16, 1*16, PLATFORM|MOVE|R_ANIMATE, -22);
+		b.add(B_BELT, 26*16, 15*16, 15*16, 1*16, SOLID|MOVE|R_ANIMATE, -8);
 
 		//internal platforms
-		b.add(METAL, 18*16, 21*16, 2*16, 1*16, PLATFORM|MOVE, -8);
-		b.add(METAL, 20*16, 21*16, 2*16, 1*16, PLATFORM|MOVE, 8);
+		b.add(BELT, 18*16, 21*16, 2*16, 1*16, PLATFORM|MOVE|R_ANIMATE, -8);
+		b.add(BELT, 20*16, 21*16, 2*16, 1*16, PLATFORM|MOVE|ANIMATE, 8);
 
-		b.add(METAL, 36*16, 24*16, 2*16, 1*16, PLATFORM);
-		b.add(METAL, 8*16, 22*16, 4*16, 1*16, PLATFORM);
+		b.add(GRATE, 36*16, 24*16, 2*16, 1*16, PLATFORM);
+		b.add(GRATE, 8*16, 22*16, 4*16, 1*16, PLATFORM);
 
-		b.add(METAL, 24*16, 18*16, 1*16, 1*16, PLATFORM);
+		b.add(GRATE, 24*16, 18*16, 1*16, 1*16, PLATFORM);
 
 		//lava waves!
 		b.add(NONE, WIDTH/2, HEIGHT*7/2-64, 1, 1, GUN, LAVAWAVE);

@@ -399,6 +399,11 @@ public class ClientGameState extends GameState {
 			g.setColor(Color.ORANGE);
 			g.fillOval((int)s.getLeftEdge(), (int)s.getTopEdge(), s.getW(), s.getH());
 		}
+		//TODO: Restore when lava texture is added
+		/*else if (s.getSkin() == Warehouse.LAVAWAVE) {
+			Wardrobe.drawLand(g, (int)s.getLeftEdge(), (int)s.getTopEdge(),
+					(int)s.getRightEdge(), (int)s.getBottomEdge(), Warehouse.LAVA);
+		}*/
 		else {
 			g.setColor(Color.RED);
 			g.fillRect((int)s.getLeftEdge(), (int)s.getTopEdge(), s.getW(), s.getH());
