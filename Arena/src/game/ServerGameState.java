@@ -876,6 +876,7 @@ public class ServerGameState extends GameState {
 			a.setVx(0);
 			if (a.getVy() < 0) a.setVy(-1);
 			else if (a.getVy() > 0) a.setVy(1);
+			a.setHCenter(l.getHCenter());
 			a.setOnLand(l); //tie you to THIS pipe
 			a.setPipe(true);
 			if (!l.isMute()) playSound(SoundBank.PIPE);

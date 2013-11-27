@@ -14,7 +14,7 @@ public class MusicBank {
 	//load songs
 	public static String fileList[] =
 		{"music/Dub Feral.mp3", "music/Cortosis.mp3",
-		"music/Junkyard Tribe.mp3", "music/.mp3"};
+		"music/Junkyard Tribe.mp3"};
 	public static MusicThread currentTrack = null;
 	public static Media[] mediaList;
 

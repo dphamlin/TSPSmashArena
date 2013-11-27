@@ -82,7 +82,7 @@ public class Arena {
 			catch (Exception e) {}
 			theClient = null;
 		}
-		//TODO: MusicBank.stop();
+		MusicBank.stop();
 		mainView.gameDone();
 	}
 

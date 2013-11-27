@@ -661,6 +661,9 @@ public class Warehouse {
 
 		//meteor shooter
 		b.add(NONE, 1*16, -9*16, 38*16, 8*16, GUN|PSPAWN, METEOR);
+		
+		//sky barrier
+		b.add(NONE, -16, -6, 640+32, 0, BOUNCE|MUTE, -9);
 
 		//cave
 		b.add(METAL, -1*16, 16*16, 3*16, 15*16, SOLID);
@@ -709,6 +712,10 @@ public class Warehouse {
 		b.setBgm(FACTORY);
 		b.setName("Factory");
 
+		//spring lift
+		b.add(SPRING, 10*16, 28*16+10, 3*16, 1*16, PLATFORM|BOUNCE, 16);
+		b.add(SPRING, 27*16, 28*16+10, 3*16, 1*16, PLATFORM|BOUNCE, 12);
+		
 		//floor+lower walls
 		b.add(METAL, 5*16, 29*16, 10*16, 2*16, SOLID);
 		b.add(METAL, 25*16, 29*16, 10*16, 2*16, SOLID);
@@ -750,10 +757,6 @@ public class Warehouse {
 		//middle carry
 		b.add(BELT, 9*16, 13*16, 18*16, 1*16, PLATFORM|MOVE|ANIMATE, 19);
 		b.add(BELT, 22*16, 21*16, 10*16, 1*16, PLATFORM|MOVE|R_ANIMATE, -19);
-
-		//spring lift
-		b.add(SPRING, 10*16, 28*16+10, 3*16, 1*16, PLATFORM|BOUNCE, 15);
-		b.add(SPRING, 27*16, 28*16+10, 3*16, 1*16, PLATFORM|BOUNCE, 10);
 
 		//spawn points
 		b.setSpawn(0, 2*16, 15*16);
