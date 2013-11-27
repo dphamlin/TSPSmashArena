@@ -28,6 +28,7 @@ public class Warehouse {
 	public static final int HOLODECK = 0;
 	public static final int PLANET = 1;
 	public static final int FACTORY = 2;
+	public static final int SNOW = 3;
 	public static final int DEMO = -1; //dummied out but data still exists for now
 
 	//dimensions for easy level building

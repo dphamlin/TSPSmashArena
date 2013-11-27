@@ -185,8 +185,9 @@ public class View extends JFrame {
 		pack();
 		toFront();
 
-		Wardrobe.init();//Load images and sounds
+		Wardrobe.init();//Load images, sounds, and music
 		SoundBank.init();
+		//TODO: MusicBank.init();
 
 		this.addWindowListener(new WindowAdapter() {// Closing the window gracefully closes the game
 			public void windowClosing(WindowEvent e) {
