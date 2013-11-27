@@ -640,8 +640,8 @@ public class Warehouse {
 		b.add(METAL, 28*16, 27*16, 13*16, 4*16, SOLID);
 
 		//level signs
-		b.add(ROBOT+PLANET, 17*16, 28*16-8, 1*16, 1*16, IMAGE);
-		b.add(ROBOT+FACTORY, 29*16, 28*16-8, 1*16, 1*16, IMAGE);
+		b.add(ROBOT+PLANET, 17*16, 28*16, 1*16, 1*16, IMAGE);
+		b.add(ROBOT+FACTORY, 29*16, 28*16, 1*16, 1*16, IMAGE);
 
 		//add spawn points
 		b.setSpawn(0, 68+0*WIDTH/4, 9*16+8);
@@ -752,8 +752,8 @@ public class Warehouse {
 		b.add(BELT, 22*16, 21*16, 10*16, 1*16, PLATFORM|MOVE|R_ANIMATE, -19);
 
 		//spring lift
-		b.add(SPRING, 10*16, 25*16, 3*16, 1*16, PLATFORM|BOUNCE, 15);
-		b.add(SPRING, 27*16, 25*16, 3*16, 1*16, PLATFORM|BOUNCE, 10);
+		b.add(SPRING, 10*16, 28*16+10, 3*16, 1*16, PLATFORM|BOUNCE, 15);
+		b.add(SPRING, 27*16, 28*16+10, 3*16, 1*16, PLATFORM|BOUNCE, 10);
 
 		//spawn points
 		b.setSpawn(0, 2*16, 15*16);

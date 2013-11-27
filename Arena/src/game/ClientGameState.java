@@ -59,9 +59,6 @@ public class ClientGameState extends GameState {
 	 * 		graphics object to draw through
 	 */
 	private void drawBackground(Graphics g) {
-		//TODO: Clear with a background image instead
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 640, 480);
 		Wardrobe.drawBackground(g, Warehouse.getMaps()[getStage()].getBg());
 	}
 

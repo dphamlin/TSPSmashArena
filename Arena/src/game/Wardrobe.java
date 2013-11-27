@@ -30,7 +30,7 @@ public class Wardrobe {
 			e = ImageIO.read(new File("image/effect.png"));
 			t = ImageIO.read(new File("image/tile.png"));
 			m = ImageIO.read(new File("image/misc.png"));
-			//TODO: load backgrounds
+			b = ImageIO.read(new File("image/background.png"));
 		} catch (IOException e) {
 			System.out.println("Failed to load images.");
 		}
@@ -45,7 +45,7 @@ public class Wardrobe {
 	 * 		the background to draw
 	 */
 	public static void drawBackground(Graphics g, int skin) {
-		g.drawImage(b, 0, 0, 0, 480*skin, null);
+		g.drawImage(b, 0, 0, 640, 480, 0, 480*skin, 640, 480*(skin+1), null);
 	}
 
 	/**
