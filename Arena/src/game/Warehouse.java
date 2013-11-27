@@ -561,6 +561,10 @@ public class Warehouse {
 	public static final int BELT = 7; //animated
 	public static final int B_BELT = 11; //animated
 	public static final int LAVA = 15; //animated
+	public static final int SAND = 19; //animated
+	public static final int RSAND = 23; //animated
+	public static final int ROCK = 27;
+	public static final int LTUBE = 28;
 
 	//level select / menu world
 	private static Blueprint holodeck() {
@@ -668,31 +672,31 @@ public class Warehouse {
 		b.add(NONE, -16, -6, 640+32, 0, BOUNCE|MUTE, -9);
 
 		//cave
-		b.add(METAL, -1*16, 16*16, 3*16, 15*16, SOLID);
-		b.add(METAL, 38*16, 16*16, 3*16, 15*16, SOLID);
-		b.add(METAL, 1*16, 27*16, 17*16, 4*16, SOLID);
-		b.add(METAL, 22*16, 27*16, 17*16, 4*16, SOLID);
+		b.add(ROCK, -1*16, 16*16, 3*16, 15*16, SOLID);
+		b.add(ROCK, 38*16, 16*16, 3*16, 15*16, SOLID);
+		b.add(ROCK, 1*16, 27*16, 17*16, 4*16, SOLID);
+		b.add(ROCK, 22*16, 27*16, 17*16, 4*16, SOLID);
 
 		//cannon escape
 		b.add(NONE, 18*16, 27*16, 4*16, 1*16, PLATFORM);
 		b.add(NONE, 18*16, 29*16, 4*16, 1*16, SOUND, SoundBank.BOOM);
 		b.add(NONE, 18*16, 29*16, 4*16, 1*16, BOUNCE|MUTE, 175);
-		b.add(TUBE, 18*16, 27*16+1, 4*16, 4*16, PIPE);
+		b.add(LTUBE, 18*16, 27*16+1, 4*16, 4*16, PIPE);
 
-		//surface
-		b.add(B_BELT, -1*16, 15*16, 15*16, 1*16, SOLID|MOVE|ANIMATE, 8);
-		b.add(BELT, 14*16, 15*16, 5*16, 1*16, PLATFORM|MOVE|ANIMATE, 22);
-		b.add(BELT, 21*16, 15*16, 5*16, 1*16, PLATFORM|MOVE|R_ANIMATE, -22);
-		b.add(B_BELT, 26*16, 15*16, 15*16, 1*16, SOLID|MOVE|R_ANIMATE, -8);
+		//surface sand
+		b.add(SAND, 13*16, 15*16, 6*16, 1*16, PLATFORM|MOVE|ANIMATE, 22);
+		b.add(SAND, 21*16, 15*16, 6*16, 1*16, PLATFORM|MOVE|R_ANIMATE, -22);
+		b.add(RSAND, -1*16, 15*16, 15*16, 1*16, SOLID|MOVE|ANIMATE, 8);
+		b.add(RSAND, 26*16, 15*16, 15*16, 1*16, SOLID|MOVE|R_ANIMATE, -8);
 
 		//internal platforms
-		b.add(BELT, 18*16, 21*16, 2*16, 1*16, PLATFORM|MOVE|R_ANIMATE, -8);
-		b.add(BELT, 20*16, 21*16, 2*16, 1*16, PLATFORM|MOVE|ANIMATE, 8);
+		b.add(SAND, 18*16, 21*16, 2*16, 1*16, PLATFORM|MOVE|R_ANIMATE, -8);
+		b.add(SAND, 20*16, 21*16, 2*16, 1*16, PLATFORM|MOVE|ANIMATE, 8);
 
-		b.add(GRATE, 36*16, 24*16, 2*16, 1*16, PLATFORM);
-		b.add(GRATE, 8*16, 22*16, 4*16, 1*16, PLATFORM);
+		b.add(SAND, 36*16, 24*16, 2*16, 1*16, PLATFORM);
+		b.add(SAND, 8*16, 22*16, 4*16, 1*16, PLATFORM);
 
-		b.add(GRATE, 24*16, 18*16, 1*16, 1*16, PLATFORM);
+		b.add(SAND, 24*16, 18*16, 1*16, 1*16, PLATFORM);
 
 		//lava waves!
 		b.add(NONE, WIDTH/2, HEIGHT*7/2-64, 1, 1, GUN, LAVAWAVE);
