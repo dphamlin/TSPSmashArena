@@ -556,9 +556,11 @@ public class Warehouse {
 	public static final int TUBE = 2;
 	public static final int TV = 3;
 	public static final int SPRING = 4;
-	public static final int BELT = 5; //animated
-	public static final int B_BELT = 9; //animated
-	public static final int LAVA = 13; //animated
+	public static final int OUTBOX = 5;
+	public static final int BOXLIGHT = 6;
+	public static final int BELT = 7; //animated
+	public static final int B_BELT = 11; //animated
+	public static final int LAVA = 15; //animated
 
 	//level select / menu world
 	private static Blueprint holodeck() {
@@ -745,14 +747,16 @@ public class Warehouse {
 		b.add(METAL, 30*16, 16*16, 8*16, 2*16, SOLID);
 
 		//top production
+		b.add(BOXLIGHT, -1*16, 3*16, 3*16, 4*16+4, 0);
 		b.add(B_BELT, 0*16, 5*16, 10*16, 2*16, SOLID|MOVE|ANIMATE, 19);
 		b.add(NONE, 1*16, 4*16, 1, 1, PSPAWN);
-		b.add(METAL, 0*16, 3*16, 2*16, 4*16, 0); //visual producer
+		b.add(OUTBOX, -1*16, 3*16, 3*16, 4*16+4, 0);
 
 		//middle production
+		b.add(BOXLIGHT, 38*16, 18*16, 3*16, 4*16+4, 0);
 		b.add(B_BELT, 32*16, 20*16, 8*16, 2*16, SOLID|MOVE|R_ANIMATE, -19);
 		b.add(NONE, 39*16, 19*16, 1, 1, PSPAWN);
-		b.add(METAL, 38*16, 18*16, 2*16, 4*16, SOLID); //visual producer
+		b.add(OUTBOX, 38*16, 18*16, 3*16, 4*16+4, 0);
 
 		//middle carry
 		b.add(BELT, 9*16, 13*16, 18*16, 1*16, PLATFORM|MOVE|ANIMATE, 19);
