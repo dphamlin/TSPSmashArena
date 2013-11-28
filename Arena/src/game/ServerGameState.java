@@ -332,6 +332,8 @@ public class ServerGameState extends GameState {
 		if (a.getAirTime() > 0 && a.getAirTime() <= a.getJumpHold()
 				&& a.getVy() <= 2*a.getGrav()-a.getJumpPower()) {
 			a.setVy(-a.getJumpPower());
+			if (a.getModel() == Warehouse.MARINE && a.getAirTime() % 8 == 0)
+				playSound(SoundBank.JUMP+Warehouse.MARINE);
 		}
 	}
 
@@ -1219,7 +1221,7 @@ public class ServerGameState extends GameState {
 		if (overlap(a,p)) {
 			p.setDead(true);
 			a.setPowerup(p.getType());
-			a.setPowerupVar(p.getSubType());
+			if (p.getType() != Item.LIFE) a.setPowerupVar(p.getSubType());
 			a.setGrab(true);
 			a.setUse(false);
 			spawnEffect(p, Effect.GRAB, 0);

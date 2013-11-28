@@ -11,18 +11,20 @@ public class SoundBank {
 	public static final int PIPE = 4;
 	public static final int SPAWN = 5;
 	//per-character sounds
-	public static final int SHOOT = 6;
-	public static final int JUMP = 6+Warehouse.CHAR_NUM;
-	public static final int N_SAMPLES = 6; //total number
+	public static final int JUMP = 6;
+	public static final int SHOOT = 6+Warehouse.CHAR_NUM;
+	public static final int N_SAMPLES = 11; //total number
 
 	// Populate with file names
 	private static String[] filenameList =
 		{"sound/pickup.wav", "sound/skid5.wav", "sound/skid6.wav",
 		"sound/soft_hit2.wav", "sound/pipe2.wav", "sound/spawn.wav",
+		
+		"sound/hop.wav", "sound/hop.wav", "sound/hop.wav", //player jumps
+		"sound/rumble.wav", "sound/hop.wav",
+		
 		"sound/captain_shoot.wav", "sound/lizard_shoot.wav", "sound/slime_shoot.wav", //player shots
-		"sound/marine_shoot.wav", "sound/robot_shoot.wav", 
-		"sound/captain_jump.wav", "sound/lizard_jump.wav", "sound/slime_jump.wav", //player jumps
-		"sound/marine_jump.wav", "sound/robot_jump.wav"};
+		"sound/mortar.wav", "sound/robot_shoot.wav",};
 	private static File[] fileList;
 
 	// Call this before you try to use any sounds
