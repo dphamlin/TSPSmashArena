@@ -299,7 +299,7 @@ public class Warehouse {
 		s.setReload(43);
 
 		//small lasers
-		s.setH(2);
+		s.setH(3);
 		s.setW(20);
 
 		//mid speed long range
@@ -341,7 +341,7 @@ public class Warehouse {
 		s.setReload(30);
 
 		//long blades
-		s.setH(6);
+		s.setH(7);
 		s.setW(20);
 
 		//short range
