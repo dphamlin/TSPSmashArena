@@ -307,6 +307,9 @@ public class Actor extends GameObject {
 
 	//getter and setter for basic player type
 	public int getModel() {
+		if (p == Item.CHANGE) {
+			return pv;			
+		}
 		return m;
 	}
 	//also sets derived fields

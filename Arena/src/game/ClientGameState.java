@@ -158,15 +158,17 @@ public class ClientGameState extends GameState {
 			//indicate the player's powerup
 			if (getPlayer(i).getPowerup() > 0) {
 				g.setColor(Color.BLACK);
+				g.fillRoundRect((1+i)*WIDTH/5-30, 52, 61, 15, 10, 10);
+				g.setColor(Color.WHITE);
 				String powername = "";
-				if (getPlayer(i).getPowerup() == Item.BIG) powername = "Gigantism";
-				if (getPlayer(i).getPowerup() == Item.MINI) powername = "Dwarfism";
+				if (getPlayer(i).getPowerup() == Item.BIG) powername = "Growth";
+				if (getPlayer(i).getPowerup() == Item.MINI) powername = "Shrink";
 				if (getPlayer(i).getPowerup() == Item.DJUMP) powername = "Air Jump";
-				if (getPlayer(i).getPowerup() == Item.SPEED) powername = "Fast-Forward";
-				if (getPlayer(i).getPowerup() == Item.SSHOT) powername = "Hyper Shot";
-				if (getPlayer(i).getPowerup() == Item.CHANGE) powername = "Transformation";
-				if (getPlayer(i).getPowerup() == Item.HYPER) powername = "Invincibility";
-				g.drawString(powername, (1+i)*WIDTH/5-27, 61);
+				if (getPlayer(i).getPowerup() == Item.SPEED) powername = "Speed up";
+				if (getPlayer(i).getPowerup() == Item.SSHOT) powername = "Magnum";
+				if (getPlayer(i).getPowerup() == Item.CHANGE) powername = "Change";
+				if (getPlayer(i).getPowerup() == Item.HYPER) powername = "Shield";
+				g.drawString(powername, (1+i)*WIDTH/5-25, 64);
 			}
 		}
 		//crown winners

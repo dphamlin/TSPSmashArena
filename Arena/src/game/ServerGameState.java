@@ -332,7 +332,7 @@ public class ServerGameState extends GameState {
 		if (a.getAirTime() > 0 && a.getAirTime() <= a.getJumpHold()
 				&& a.getVy() <= 2*a.getGrav()-a.getJumpPower()) {
 			a.setVy(-a.getJumpPower());
-			if (a.getModel() == Warehouse.MARINE && a.getAirTime() % 8 == 0)
+			if (a.getModel() == Warehouse.MARINE && a.getAirTime() % 7 == 0)
 				playSound(SoundBank.JUMP+Warehouse.MARINE);
 		}
 	}

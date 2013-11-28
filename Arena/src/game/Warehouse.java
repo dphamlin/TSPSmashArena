@@ -41,7 +41,7 @@ public class Warehouse {
 		{raygun(), fireball(), bubble(), mortar(), beamSword(), boomerang(), missile(), explosion(),
 		lavaball(), meteor(), lavaWave(), lavaWarning()};
 	private static Blueprint maps[] = 
-		{holodeck(), alienPlanet(), factory()};
+		{holodeck(), alienPlanet(), factory(), snow()};
 
 	/**
 	 * @return Array of selectable characters
@@ -565,6 +565,9 @@ public class Warehouse {
 	public static final int RSAND = 23; //animated
 	public static final int ROCK = 27;
 	public static final int LTUBE = 28;
+	public static final int SNOWY = 29;
+	public static final int ICY = 30;
+	public static final int CLOUD = 31;
 
 	//level select / menu world
 	private static Blueprint holodeck() {
@@ -598,11 +601,11 @@ public class Warehouse {
 		b.add(METAL, 37*16, -1*16, 4*16, 6*16, SOLID);
 
 		//character tags
-		b.add(LIZARD, 6*16, 3*16+4, 1*16, 1*16, IMAGE);
-		b.add(SLIME, 13*16, 3*16+4, 1*16, 1*16, IMAGE);
-		b.add(MARINE, 20*16, 3*16+4, 1*16, 1*16, IMAGE);
-		b.add(ROBOT, 27*16, 3*16+4, 1*16, 1*16, IMAGE);
-		b.add(CAPTAIN, 32*16, 3*16+4, 1*16, 1*16, IMAGE);
+		b.add(LIZARD, 6*16-4, 3*16+4, 1*16, 1*16, IMAGE);
+		b.add(SLIME, 13*16-4, 3*16+4, 1*16, 1*16, IMAGE);
+		b.add(MARINE, 20*16-4, 3*16+4, 1*16, 1*16, IMAGE);
+		b.add(ROBOT, 27*16-4, 3*16+4, 1*16, 1*16, IMAGE);
+		b.add(CAPTAIN, 32*16+4, 3*16+4, 1*16, 1*16, IMAGE);
 
 		//top/'attic' ladders
 		b.add(GRATE, 2*16, 8*16, 3*16, 16, PLATFORM);
@@ -635,19 +638,24 @@ public class Warehouse {
 		b.add(GRATE, 35*16, 23*16, 4*16, 16, PLATFORM);
 
 		//base floor + warps
-		b.add(METAL, -1*16, 27*16, 13*16, 4*16, SOLID);
-		b.add(NONE, 12*16, 27*16, 4*16, 1*16, PLATFORM);
-		b.add(METAL, 12*16, 30*16, 4*16, 1*16, BOUNCE|WARP|MUTE, PLANET);
-		b.add(TUBE, 12*16, 27*16+1, 4*16, 4*16, PIPE); //planet portal
-		b.add(METAL, 16*16, 27*16, 8*16, 4*16, SOLID);
-		b.add(NONE, 24*16, 27*16, 4*16, 1*16, PLATFORM);
-		b.add(METAL, 24*16, 30*16, 4*16, 1*16, BOUNCE|WARP|MUTE, FACTORY);
-		b.add(TUBE, 24*16, 27*16+1, 4*16, 4*16, PIPE); //factory portal
-		b.add(METAL, 28*16, 27*16, 13*16, 4*16, SOLID);
+		b.add(METAL, -1*16, 27*16, 10*16, 4*16, SOLID);
+		b.add(NONE, 9*16, 27*16, 4*16, 1*16, PLATFORM);
+		b.add(METAL, 9*16, 30*16, 4*16, 1*16, BOUNCE|WARP|MUTE, PLANET);
+		b.add(TUBE, 9*16, 27*16+1, 4*16, 4*16, PIPE); //planet portal
+		b.add(METAL, 13*16, 27*16, 5*16, 4*16, SOLID);
+		b.add(NONE, 18*16, 27*16, 4*16, 1*16, PLATFORM);
+		b.add(METAL, 18*16, 30*16, 4*16, 1*16, BOUNCE|WARP|MUTE, FACTORY);
+		b.add(TUBE, 18*16, 27*16+1, 4*16, 4*16, PIPE); //factory portal
+		b.add(METAL, 22*16, 27*16, 5*16, 4*16, SOLID);
+		b.add(NONE, 27*16, 27*16, 4*16, 1*16, PLATFORM);
+		b.add(METAL, 27*16, 30*16, 4*16, 1*16, BOUNCE|WARP|MUTE, SNOW);
+		b.add(TUBE, 27*16, 27*16+1, 4*16, 4*16, PIPE); //snow portal
+		b.add(METAL, 31*16, 27*16, 10*16, 4*16, SOLID);
 
 		//level signs
-		b.add(ROBOT+PLANET, 17*16, 28*16, 1*16, 1*16, IMAGE);
-		b.add(ROBOT+FACTORY, 29*16, 28*16, 1*16, 1*16, IMAGE);
+		b.add(ROBOT+PLANET, 14*16-4, 28*16-4, 1*16, 1*16, IMAGE);
+		b.add(ROBOT+FACTORY, 23*16-4, 28*16-4, 1*16, 1*16, IMAGE);
+		b.add(ROBOT+SNOW, 32*16-4, 28*16-4, 1*16, 1*16, IMAGE);
 
 		//add spawn points
 		b.setSpawn(0, 68+0*WIDTH/4, 9*16+8);
@@ -723,20 +731,18 @@ public class Warehouse {
 		b.add(SPRING, 27*16, 28*16+10, 3*16, 1*16, PLATFORM|BOUNCE, 12);
 		
 		//floor+lower walls
-		b.add(METAL, 5*16, 29*16, 10*16, 2*16, SOLID);
-		b.add(METAL, 25*16, 29*16, 10*16, 2*16, SOLID);
-		b.add(METAL, 2*16, 29*16, 3*16, 2*16, PLATFORM);
+		b.add(METAL, 5*16, 29*16, 11*16, 2*16, SOLID);
+		b.add(METAL, 24*16, 29*16, 11*16, 2*16, SOLID);
+		b.add(NONE, 2*16, 29*16, 3*16, 2*16, PLATFORM);
 		b.add(TUBE, 2*16, 29*16+1, 3*16, 3*16, PIPE);
-		b.add(METAL, 35*16, 29*16, 3*16, 2*16, PLATFORM);
+		b.add(NONE, 35*16, 29*16, 3*16, 2*16, PLATFORM);
 		b.add(TUBE, 35*16, 29*16+1, 3*16, 3*16, PIPE);
 		b.add(METAL, -1*16, 16*16, 3*16, 14*16, SOLID);
 		b.add(METAL, 38*16, 16*16, 3*16, 14*16, SOLID);
 
 		//melter
-		b.add(METAL, 15*16, 28*16, 1*16, 3*16, SOLID);
 		b.add(LAVA, 16*16, 29*16, 8*16, 2*16, DANGER|GUN|ANIMATE, LAVABALL);
 		b.add(NONE, 16*16, 29*16+4, 8*16, 1*16, BOUNCE, 5);
-		b.add(METAL, 24*16, 28*16, 1*16, 3*16, SOLID);
 
 		//upper walls+ceiling
 		b.add(METAL, -1*16, -1*16, 3*16, 14*16, SOLID);
@@ -772,6 +778,40 @@ public class Warehouse {
 		b.setSpawn(2, 10*16, 35*16);
 		b.setSpawn(3, 20*16, 15*16);
 
+		return b;
+	}
+	//peaceful snow level
+	private static Blueprint snow() {
+		Blueprint b = new Blueprint();
+		b.setId(SNOW);
+		b.setBg(SNOW);
+		b.setBgm(SNOW);
+		b.setName("Snowy Hills");
+		
+		//powerup dropper
+		b.add(NONE, 1*16, -9*16, 38*16, 8*16, PSPAWN);
+		
+		//clouds in the sky
+		b.add(CLOUD, 16*16, 7*16, 8*16, 1*16, PLATFORM);
+		b.add(CLOUD, 4*16, 10*16, 4*16, 1*16, PLATFORM);
+		b.add(CLOUD, 26*16, 16*16, 6*16, 1*16, PLATFORM);
+
+		//leftmost hills
+		b.add(SNOWY, 3*16, 18*16, 7*16, 13*16, SOLID);
+		b.add(SNOWY, -1*16, 21*16, 5*16, 10*16, SOLID);
+		b.add(SNOWY, 9*16, 23*16, 6*16, 8*16, SOLID);
+
+		//rightmost hills and ice
+		b.add(SNOWY, 22*16, 27*16, 3*16, 6*16, SOLID);
+		b.add(ICY, 25*16-1, 27*16, 14*16, 6*16, SOLID|SLIP);
+		b.add(SNOWY, 37*16-1, 21*16, 5*16, 10*16, SOLID);
+		
+		//spawn points
+		b.setSpawn(0, 5*16, 16*16);
+		b.setSpawn(1, 10*16, 16*16);
+		b.setSpawn(2, 30*16, 16*16);
+		b.setSpawn(3, 35*16, 16*16);
+		
 		return b;
 	}
 	//test environment
