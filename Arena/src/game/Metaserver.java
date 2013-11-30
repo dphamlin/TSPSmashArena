@@ -102,7 +102,7 @@ public class Metaserver {
 		}
 		catch (Exception e) {
 			System.out.println("Invalid number of spectators: " + e.getMessage() + ".  Using default value (0 spectators)");
-			numberOfPlayers = 0;
+			numberOfSpectators = 0;
 		}
 		
 		int port = getAvailablePort(); // Get available port in range
