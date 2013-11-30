@@ -94,7 +94,7 @@ public class Metaserver {
 		}
 		
 		// Get number of spectators for new Server
-		System.out.println("Please enter the number of spectators.");
+		System.out.println("Please enter the number of spectators (default 0): ");
 		try {
 			numberOfSpectators = Integer.parseInt(inputReader.readLine());
 			if (numberOfSpectators < 0)
