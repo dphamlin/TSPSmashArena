@@ -24,6 +24,7 @@ public class Client {
 	private Boolean nameSent;
 	private String[] nameList;
 	private View view;
+	private Boolean spectator;
 	
 	Client (InetAddress addr, int port, View v) throws IOException { 
 		setSocket(new Socket(addr,port)); // Establish connection
@@ -39,9 +40,18 @@ public class Client {
 		setUpName();
 		setNameSent(false);
 		setNameList(null);
+		setIsSpectator(false);
 		
 		getView().attachController(getController());
 		json = new Gson();
+	}
+	
+	public void setIsSpectator (Boolean spectator) {
+		this.spectator = spectator;
+	}
+	
+	public Boolean isSpectator() {
+		return this.spectator;
 	}
 	
 	public void setNameList(String[] nameList) {
@@ -133,6 +143,10 @@ public class Client {
 			for (String s: getNameList()) {
 				System.out.println(s);
 			}
+		}
+		if (getMessageFromServer().getNumber() == 3) { // Spectator status notification
+			System.out.println("Notified of spectator status.");
+			setIsSpectator(true);
 		}
 	}
 	
@@ -230,23 +244,23 @@ public class Client {
 			
 			updateController(); // Update controller
 			
-			if (getNameSent() == false) {
-				//System.out.println("here for sending the name");
-				getMessageToServer().setNumber(2);
-				getMessageToServer().setMessage(json.toJson(getName()));
-				setNameSent(true);
+			if (!(isSpectator())) {	
+				if (getNameSent() == false) {
+					//System.out.println("here for sending the name");
+					getMessageToServer().setNumber(2);
+					getMessageToServer().setMessage(json.toJson(getName()));
+					setNameSent(true);
+				}
+				else {
+					//System.out.println("here to send controller");
+					getMessageToServer().setNumber(0);
+					getMessageToServer().setMessage(json.toJson(getController()));
+				}
+				writeMessageToServer();
 			}
-			else {
-				//System.out.println("here to send controller");
-				getMessageToServer().setNumber(0);
-				getMessageToServer().setMessage(json.toJson(getController()));
-			}
-			writeMessageToServer();
-			//writeController(); // Write controller to the server
 			readMessageFromServer();
 			handleMessageFromServer();
 			
-			//readGameState(); // Read the game state from the server and update the current game state
 			if(getMessageFromServer().getNumber() == 0){
 				getView().reDraw(getState());// Client draws game state here!
 			}

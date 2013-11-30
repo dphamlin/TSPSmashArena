@@ -14,6 +14,8 @@ public class RemoteParticipant extends Participant {
 		this.setReader(new BufferedReader(new InputStreamReader(getSocket().getInputStream())));
 		this.setWriter(new BufferedWriter(new OutputStreamWriter(getSocket().getOutputStream())));
 		this.setName("");
+		this.setIsSpectator(false);
+		this.setIsConfirmedSpectator(false);
 		setActive(true);
 		json = new Gson();
 	}

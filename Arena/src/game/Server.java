@@ -31,6 +31,7 @@ public class Server {
 	private Thread[] threads;
 	private Boolean namesSent;
 	private String[] nameList;
+	private int numberOfSpectators = 0;
 
 	Server(int port) throws IOException {
 		serverSocket = new ServerSocket(port);
@@ -48,6 +49,14 @@ public class Server {
 		setMessage(new Message(0,null));
 		setNamesSent(true);
 		System.out.println("Starting and listening on: "+getCurrentInetAddress()+":"+port);
+	}
+	
+	public void setNumberOfSpectators(int numberOfSpectators) {
+		this.numberOfSpectators = numberOfSpectators;
+	}
+	
+	public int getNumberOfSpectators() {
+		return this.numberOfSpectators;
 	}
 
 	public void setNamesSent(Boolean namesSent) {
@@ -137,7 +146,7 @@ public class Server {
 				done.await();
 			}
 			setWReady(false);
-			setCount(getNumberOfPlayers());
+			setCount(getNumberOfPlayers() + getNumberOfSpectators());
 			setRReady(true);
 			done.signalAll();
 
@@ -161,7 +170,7 @@ public class Server {
 		getLock().lock();
 		try {
 			//System.out.println("readReady: " + readReady + "\nwriteReady: " + writeReady);
-			setCount(getNumberOfPlayers());
+			setCount(getNumberOfPlayers() + getNumberOfSpectators());
 			setWReady(true);
 			done.signalAll();
 		} finally {
@@ -208,7 +217,7 @@ public class Server {
 		ArrayList<Participant> newParticipantList = new ArrayList<Participant>();
 
 		// Try to accept a connection; if successful, add a Participant with that connected socket
-		for (int i=0;i<num;i++) { 
+		for (int i=0;i<num+1;i++) { // TESTING: hardcoded one-spectator
 			try {
 				s = getServerSocket().accept();
 			}
@@ -217,13 +226,18 @@ public class Server {
 			}
 			if (s != null) {
 				RemoteParticipant p = new RemoteParticipant(s);
-				p.setPlayer(getGameState().addPlayer());
+				if (i >= num) {
+					p.setIsSpectator(true);
+					setNumberOfSpectators(getNumberOfSpectators() + 1);
+				}
+				else
+					p.setPlayer(getGameState().addPlayer());
 				newParticipantList.add(p);
 				System.out.println("Player: "+(i+1)+" connected.");
 				setActivePlayerCount(getActivePlayerCount() + 1);
 			}
 		}
-		setNumberOfPlayers(newParticipantList.size());
+		setNumberOfPlayers(num);
 		getServerSocket().close(); // Stop accepting connections
 		return newParticipantList;
 	}
@@ -238,10 +252,12 @@ public class Server {
 
 	public void applyAllControls(ArrayList<Participant> aParticipantList) {
 		for (Participant p: aParticipantList) {
-			if (p.isActive())
-				getGameState().readControls(p);
-			else
-				getGameState().suspendPlayer(p);
+			if (!p.isSpectator()) {
+				if (p.isActive())
+					getGameState().readControls(p);
+				else
+					getGameState().suspendPlayer(p);
+			}
 		}
 	}
 
@@ -294,7 +310,9 @@ public class Server {
 	}
 
 	public void startThreads() {
-		for(int i = 0; i < getNumberOfPlayers(); i++){
+		runner = new ServerRunnable[getNumberOfPlayers() + getNumberOfSpectators()];
+		threads = new Thread[getNumberOfPlayers() + getNumberOfSpectators()];
+		for(int i = 0; i < getNumberOfPlayers() + getNumberOfSpectators(); i++){
 			runner[i] = new ServerRunnable(this, i);
 			threads[i] = new Thread(runner[i]);
 			this.getThread(i).start();
@@ -315,7 +333,7 @@ public class Server {
 			getLock().unlock();
 		}
 		for (Participant p: aParticipantList) {
-			if(p.isActive()){
+			if(p.isActive() && !p.isSpectator()){
 				if (p.getMessageFromClient() == null) {
 					p.setActive(false);
 					setActivePlayerCount(getActivePlayerCount() - 1);
@@ -383,7 +401,6 @@ public class Server {
 		while (theServer.getActivePlayerCount() > 0) {
 
 			theServer.getTimer().loopStart(); //log start time
-
 
 			theServer.readMessagesFromAll(theServer.getParticipantList()); // Reads updated controllers into all participants
 			theServer.handleAllMessages(theServer.getParticipantList()); // Handles all messages received

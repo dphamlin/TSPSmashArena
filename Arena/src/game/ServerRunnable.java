@@ -34,10 +34,11 @@ public class ServerRunnable implements Runnable {
 				// thread will be responsible for changing 
 				// back to active on reconnect
 				try {
-					if(p.getSocket().isClosed()){
+					if (p.getSocket().isClosed()){
 						throw new IOException("Socket closed.");
 					}
-					p.readMessage();
+					if (!p.isSpectator())
+						p.readMessage();
 				}
 				catch (IOException e) {
 					System.err.println("Participant disconnected on reading message. Set to inactive. " + e.getMessage());
@@ -76,7 +77,14 @@ public class ServerRunnable implements Runnable {
 
 			if (p.isActive()){
 				try {
-					p.writeToClient(theServer.getGson().toJson(theServer.getMessage()));
+					if (p.isSpectator() && !p.isConfirmedSpectator()) {
+						System.out.println("About to send a 3");
+						p.writeToClient(theServer.getGson().toJson((new Message(3,null))));
+						p.setIsConfirmedSpectator(true);
+						theServer.setNamesSent(false);
+					}
+					else
+						p.writeToClient(theServer.getGson().toJson(theServer.getMessage()));
 				}
 				catch (IOException e) {
 					System.err.println("Participant disconnected while writing message.  Set to inactive. " + e.getMessage());

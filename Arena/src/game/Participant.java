@@ -13,6 +13,24 @@ public abstract class Participant {
 	protected Boolean active;
 	protected Message messageFromClient;
 	protected String name;
+	protected Boolean spectator;
+	protected Boolean confirmedSpectator;
+	
+	public void setIsSpectator(Boolean spectator) {
+		this.spectator = spectator;
+	}
+	
+	public Boolean isSpectator() {
+		return this.spectator;
+	}
+	
+	public void setIsConfirmedSpectator(Boolean confirmedSpectator) {
+		this.confirmedSpectator = confirmedSpectator;
+	}
+	
+	public Boolean isConfirmedSpectator() {
+		return this.confirmedSpectator;
+	}
 	
 	public void setName(String name) {
 		this.name = name;
