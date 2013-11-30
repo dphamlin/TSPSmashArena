@@ -217,7 +217,7 @@ public class Server {
 		ArrayList<Participant> newParticipantList = new ArrayList<Participant>();
 
 		// Try to accept a connection; if successful, add a Participant with that connected socket
-		for (int i=0;i<num+1;i++) { // TESTING: hardcoded one-spectator
+		for (int i=0;i<num+getNumberOfSpectators();i++) { // TESTING: hardcoded one-spectator
 			try {
 				s = getServerSocket().accept();
 			}
@@ -228,7 +228,6 @@ public class Server {
 				RemoteParticipant p = new RemoteParticipant(s);
 				if (i >= num) {
 					p.setIsSpectator(true);
-					setNumberOfSpectators(getNumberOfSpectators() + 1);
 				}
 				else
 					p.setPlayer(getGameState().addPlayer());
@@ -364,16 +363,24 @@ public class Server {
 	public static void main(String []args) {
 		int port = 5379;
 		int numberOfPlayers = 2;
+		int numberOfSpectators = 0;
+		
 		if (args.length > 0){
 			numberOfPlayers = Integer.parseInt(args[0]); // args[0] is not just program name in Java
 			if (args.length > 1){
 				port = Integer.parseInt(args[1]); //port may be passed in as second arg
+				if (args.length > 2) { // Number of spectators specified
+					numberOfSpectators = Integer.parseInt(args[2]);
+				}
 			}
 		}
 		else {
 			System.out.println("Please enter the number of players:");
 			Scanner inputScanner = new Scanner(System.in);
 			numberOfPlayers = inputScanner.nextInt();
+			System.out.println("Please enter the number of spectators:");
+			numberOfSpectators = inputScanner.nextInt();
+			inputScanner.close();
 		} 
 
 		Server theServer = null;
@@ -386,6 +393,8 @@ public class Server {
 		}
 
 		theServer.setNumberOfPlayers(numberOfPlayers);
+		theServer.setNumberOfSpectators(numberOfSpectators);
+		
 
 		// Connect clients and adds them to the participantList
 		try {
