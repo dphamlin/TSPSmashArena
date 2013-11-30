@@ -78,6 +78,7 @@ public class Metaserver {
 	public String newServer() throws Exception{
 		cleanList();
 		int numberOfPlayers = 4;
+		int numberOfSpectators = 0;
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 		
 		// Get number of players for new Server
@@ -92,6 +93,18 @@ public class Metaserver {
 			numberOfPlayers = 4;
 		}
 		
+		// Get number of spectators for new Server
+		System.out.println("Please enter the number of spectators.");
+		try {
+			numberOfSpectators = Integer.parseInt(inputReader.readLine());
+			if (numberOfSpectators < 0)
+				throw new Exception("The number of spectators cannot be negative.");
+		}
+		catch (Exception e) {
+			System.out.println("Invalid number of spectators: " + e.getMessage() + ".  Using default value (0 spectators)");
+			numberOfPlayers = 0;
+		}
+		
 		int port = getAvailablePort(); // Get available port in range
 		if (port == -1) {
 			throw new Exception("No ports available in range.  Please try again later.");
@@ -102,7 +115,7 @@ public class Metaserver {
 		String currentPath = Paths.get("").toAbsolutePath().toString();
 		String[] commandArgs = {"java","-cp",currentPath + File.pathSeparator + currentPath + 
 				"/lib/gson-2.2.4.jar" + File.pathSeparator + currentPath + "/bin" + File.pathSeparator + 
-				currentPath + "/metaserver.jar","game.Server",String.valueOf(numberOfPlayers),Integer.toString(port)};
+				currentPath + "/metaserver.jar","game.Server",String.valueOf(numberOfPlayers),Integer.toString(port),String.valueOf(numberOfSpectators)};
 		
 		try {
 			ProcessBuilder processBuilder = new ProcessBuilder(commandArgs);
