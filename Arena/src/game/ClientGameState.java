@@ -219,6 +219,7 @@ public class ClientGameState extends GameState {
 		
 		//show their name
 		g.setColor(Color.WHITE);
+		if (getStage() == Warehouse.SNOW) g.setColor(Color.BLACK);
 		g.drawString(pn[a.getId()], (int)a.getHCenter()-22, (int)a.getTopEdge()-12);
 	}
 
