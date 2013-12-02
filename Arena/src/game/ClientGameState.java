@@ -216,6 +216,10 @@ public class ClientGameState extends GameState {
 					Wardrobe.drawEffect(g, (int)a.getHCenter(), (int)a.getTopEdge()-6, 3, 0);
 			}
 		}
+		
+		//show their name
+		g.setColor(Color.WHITE);
+		g.drawString(pn[a.getId()], (int)a.getHCenter()-22, (int)a.getTopEdge()-12);
 	}
 
 	/**
