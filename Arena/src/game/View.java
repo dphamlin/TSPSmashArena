@@ -290,7 +290,21 @@ public class View extends JFrame {
 	 */
 	public void gameDone(){
 		this.setTitle("Arena: Lobby");
+		GameResults theResults = null;
+		if(arena.getTheClient() != null){
+			theResults = arena.getTheClient().getGameResults();
+		}
+		if(theResults != null){
+			setResults(theResults);
+		}
 		cl.show(cardPane, "mode");
+	}
+	
+	/**
+	 * Sets the results from the last finnished game into the results tab.
+	 */
+	public void setResults(GameResults r){
+		
 	}
 	
 	/**

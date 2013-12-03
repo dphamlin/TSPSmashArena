@@ -80,10 +80,11 @@ public class Arena {
 				theClient.play();
 			}
 			catch (Exception e) {}
-			theClient = null;
 		}
-		MusicBank.stop();
+		
 		mainView.gameDone();
+		theClient = null;
+		MusicBank.stop();
 	}
 
 	/**
