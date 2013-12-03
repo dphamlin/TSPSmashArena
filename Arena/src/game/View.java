@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 
@@ -19,6 +20,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.PlainDocument;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -33,7 +39,7 @@ import java.awt.event.WindowEvent;
 public class View extends JFrame {
 	//Generated serial ID to suppress warnings
 	private static final long serialVersionUID = -3351297602875841880L;
-	
+
 	//swing components
 	private CardLayout cl;
 	private JPanel draw;
@@ -59,11 +65,12 @@ public class View extends JFrame {
 	private JLabel welcomeLabel;
 	private JLabel resultHeader;
 	private JTextField numPlayersField;
-	
+
 	//instance stuff
 	private Arena arena;
 	private ControlListener control;
 	private String ip;
+	private String lastMap;
 
 	/**
 	 * Standard constructor
@@ -81,7 +88,7 @@ public class View extends JFrame {
 		hGo = new JButton("Host!");
 		jGo.addActionListener(control);
 		hGo.addActionListener(control);
-		
+
 		GridBagLayout hostGrid = new GridBagLayout();
 		GridBagLayout joinGrid = new GridBagLayout();
 		GridBagLayout resultGrid = new GridBagLayout();
@@ -106,7 +113,8 @@ public class View extends JFrame {
 		numPlayersField.setPreferredSize(new Dimension(25,25));
 		hostPortField.setPreferredSize(new Dimension(43,25));
 		hostPlayerField.setPreferredSize(new Dimension(75,25));
-		
+		hostPlayerField.setDocument(new JTextFieldLimit(7));
+
 		host.add(yourIP,c);
 		c.gridy = 2;
 		c.gridwidth = 2;
@@ -149,7 +157,8 @@ public class View extends JFrame {
 		ipField.setPreferredSize(new Dimension(125,25));
 		joinPortField.setPreferredSize(new Dimension(43,25));
 		joinPlayerField.setPreferredSize(new Dimension(75,25));
-		
+		joinPlayerField.setDocument(new JTextFieldLimit(7));
+
 		join.add(welcomeLabel,c);
 		c.gridwidth = 2;
 		c.gridy = 2;
@@ -175,7 +184,7 @@ public class View extends JFrame {
 		c.gridy = 5;
 		c.gridx = 2;
 		join.add(jGo, c);
-		
+
 		c.gridwidth = 3;
 		c.gridy = 1;
 		c.gridx = 1;
@@ -183,7 +192,7 @@ public class View extends JFrame {
 		result.setLayout(resultGrid);
 		resultHeader = new JLabel("No game info yet.");
 		result.add(resultHeader, c);
-		
+
 		modeTabbedPane.addTab("Join", join);
 		modeTabbedPane.addTab("Host", host);
 		modeTabbedPane.addTab("Result",result);
@@ -196,6 +205,7 @@ public class View extends JFrame {
 		this.setTitle("Arena: Lobby");
 		cl.show(cardPane, "mode");
 
+		setLastMap(" ");
 		setResizable(false);
 		setVisible(true);
 		pack();
@@ -280,8 +290,12 @@ public class View extends JFrame {
 	 * 		game state to draw
 	 */
 	public void reDraw(ClientGameState state){
-		if (!this.getTitle().equals("Arena: "+state.getMapName())) {
-			this.setTitle("Arena: "+state.getMapName());
+		String name = state.getMapName();
+		if(!getLastMap().equals(name)){
+			setLastMap(name);
+		}
+		if (!this.getTitle().equals("Arena: "+name)) {
+			this.setTitle("Arena: "+name);
 		}
 		Image backBuffer = createImage(640, 480);
 		state.draw(backBuffer.getGraphics());
@@ -300,16 +314,22 @@ public class View extends JFrame {
 		if(theResults != null){
 			setResults(theResults);
 		}
+		setLastMap(" ");
 		cl.show(cardPane, "mode");
 	}
-	
+
 	/**
 	 * Sets the results from the last finished game into the results tab.
 	 */
 	public void setResults(GameResults r){
-		
+		ArrayList<ActorResults> ar = r.getResults();
+		ArrayList<Integer> win = r.getWinners();
+		int mode = r.getMode();
+		int stock = r.getStock();
+		int time = r.getTime();
+
 	}
-	
+
 	/**
 	 * @return the hostPlayerField
 	 */
@@ -351,7 +371,7 @@ public class View extends JFrame {
 	public JTextField getIpField() {
 		return ipField;
 	}
-	
+
 	/**
 	 * @return the numPlayersField
 	 */
@@ -401,5 +421,45 @@ public class View extends JFrame {
 		return draw;
 	}
 
+	/**
+	 * @return the lastMap
+	 */
+	public String getLastMap() {
+		return lastMap;
+	}
+
+	/**
+	 * @param lastMap the lastMap to set
+	 */
+	public void setLastMap(String lastMap) {
+		this.lastMap = lastMap;
+	}
+
+	class JTextFieldLimit extends PlainDocument {
+		/**
+		 * Generated serial ID suppresses warnings
+		 */
+		private static final long serialVersionUID = -5666930309413781015L;
+		private int limit;
+		
+		JTextFieldLimit(int limit) {
+			super();
+			this.limit = limit;
+		}
+
+		JTextFieldLimit(int limit, boolean upper) {
+			super();
+			this.limit = limit;
+		}
+
+		public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
+			if (str == null)
+				return;
+
+			if ((getLength() + str.length()) <= limit) {
+				super.insertString(offset, str, attr);
+			}
+		}
+	}
 }
 
