@@ -31,31 +31,34 @@ import java.awt.event.WindowEvent;
 
 public class View extends JFrame {
 
+	//swing components
+	private CardLayout cl;
 	private JPanel draw;
 	private JPanel cardPane;
-	private JTabbedPane modeTabbedPane;
 	private JPanel host;
 	private JPanel join;
 	private JPanel result;
-	private JPanel spectate;
 	private JButton jGo;
 	private JButton hGo;
-	private JLabel ipLabel;
-	private JLabel yourIP;
+	private JTabbedPane modeTabbedPane;
 	private JTextField ipField;
 	private JTextField hostPlayerField;
 	private JTextField joinPlayerField;
 	private JTextField hostPortField;
 	private JTextField joinPortField;
+	private JLabel ipLabel;
+	private JLabel yourIP;
 	private JLabel hostPlayerLabel;
 	private JLabel joinPlayerLabel;
 	private JLabel hostPortLabel;
 	private JLabel joinPortLabel;
 	private JLabel numPlayersLabel;
 	private JLabel welcomeLabel;
+	private JLabel resultHeader;
 	private JTextField numPlayersField;
+	
+	//instance stuff
 	private Arena arena;
-	private CardLayout cl;
 	private ControlListener control;
 	private String ip;
 
@@ -78,6 +81,7 @@ public class View extends JFrame {
 		
 		GridBagLayout hostGrid = new GridBagLayout();
 		GridBagLayout joinGrid = new GridBagLayout();
+		GridBagLayout resultGrid = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
 
 		c.gridwidth = 3;
@@ -169,8 +173,17 @@ public class View extends JFrame {
 		c.gridx = 2;
 		join.add(jGo, c);
 		
+		c.gridwidth = 3;
+		c.gridy = 1;
+		c.gridx = 1;
+		result = new JPanel();
+		result.setLayout(resultGrid);
+		resultHeader = new JLabel("No game info yet.");
+		result.add(resultHeader, c);
+		
 		modeTabbedPane.addTab("Join", join);
 		modeTabbedPane.addTab("Host", host);
+		modeTabbedPane.addTab("Result",result);
 
 		cl = new CardLayout();
 		cardPane = new JPanel(cl);
