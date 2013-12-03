@@ -8,8 +8,8 @@ package game;
 import java.util.ArrayList;
 
 public class ActorResults {
-	private ArrayList<Integer> d = new ArrayList<Integer>();; //deaths
-	private ArrayList<Integer> k = new ArrayList<Integer>();; //kills
+	private ArrayList<Integer> d = new ArrayList<Integer>(); //deaths
+	private ArrayList<Integer> k = new ArrayList<Integer>(); //kills
 	private int l; //remaining lives
 
 	//getters and setters
