@@ -2,14 +2,9 @@ package game;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
@@ -166,6 +161,11 @@ public class ControlListener implements ActionListener{
 
 	//Abstract action classes for each key event.
 	static class leftPressed extends AbstractAction{
+		/**
+		 * generated serial to suppress warnings
+		 */
+		private static final long serialVersionUID = -4886804893231055972L;
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			c.setLeft(true);
@@ -173,6 +173,11 @@ public class ControlListener implements ActionListener{
 	}
 
 	static class leftReleased extends AbstractAction{
+		/**
+		 * generated serial to suppress warnings
+		 */
+		private static final long serialVersionUID = 7835730970619702608L;
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			c.setLeft(false);
@@ -180,6 +185,11 @@ public class ControlListener implements ActionListener{
 	}
 
 	static class rightPressed extends AbstractAction{
+		/**
+		 * generated serial to suppress warnings
+		 */
+		private static final long serialVersionUID = -3591946708471060346L;
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			c.setRight(true);
@@ -187,6 +197,11 @@ public class ControlListener implements ActionListener{
 	}
 
 	static class rightReleased extends AbstractAction{
+		/**
+		 * generated serial to suppress warnings
+		 */
+		private static final long serialVersionUID = -5478435890018151109L;
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			c.setRight(false);
@@ -194,6 +209,11 @@ public class ControlListener implements ActionListener{
 	}
 
 	static class upPressed extends AbstractAction{
+		/**
+		 * generated serial to suppress warnings
+		 */
+		private static final long serialVersionUID = -4115521643458613030L;
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			c.setUp(true);
@@ -201,6 +221,11 @@ public class ControlListener implements ActionListener{
 	}
 
 	static class upReleased extends AbstractAction{
+		/**
+		 * generated serial to suppress warnings
+		 */
+		private static final long serialVersionUID = 9134607484250654925L;
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			c.setUp(false);
@@ -208,6 +233,11 @@ public class ControlListener implements ActionListener{
 	}
 
 	static class downPressed extends AbstractAction{
+		/**
+		 * generated serial to suppress warnings
+		 */
+		private static final long serialVersionUID = -2353656107396910815L;
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			c.setDown(true);
@@ -215,6 +245,11 @@ public class ControlListener implements ActionListener{
 	}
 
 	static class downReleased extends AbstractAction{
+		/**
+		 * generated serial to suppress warnings
+		 */
+		private static final long serialVersionUID = -6010055355016031548L;
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			c.setDown(false);
@@ -222,6 +257,11 @@ public class ControlListener implements ActionListener{
 	}
 
 	static class jumpPressed extends AbstractAction{
+		/**
+		 * generated serial to suppress warnings
+		 */
+		private static final long serialVersionUID = -8108677304761704349L;
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			c.setJump(true);
@@ -229,6 +269,11 @@ public class ControlListener implements ActionListener{
 	}
 
 	static class jumpReleased extends AbstractAction{
+		/**
+		 * generated serial to suppress warnings
+		 */
+		private static final long serialVersionUID = 651023788291983995L;
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			c.setJump(false);
@@ -236,6 +281,11 @@ public class ControlListener implements ActionListener{
 	}
 
 	static class firePressed extends AbstractAction{
+		/**
+		 * generated serial to suppress warnings
+		 */
+		private static final long serialVersionUID = 2603106652557807488L;
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			c.setFire(true);
@@ -243,6 +293,11 @@ public class ControlListener implements ActionListener{
 	}
 
 	static class fireReleased extends AbstractAction{
+		/**
+		 * generated serial to suppress warnings
+		 */
+		private static final long serialVersionUID = -4127790348238725822L;
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			c.setFire(false);
@@ -250,6 +305,11 @@ public class ControlListener implements ActionListener{
 	}
 
 	static class startPressed extends AbstractAction{
+		/**
+		 * generated serial to suppress warnings
+		 */
+		private static final long serialVersionUID = 1297957199382345574L;
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			c.setStart(true);
@@ -257,6 +317,11 @@ public class ControlListener implements ActionListener{
 	}
 
 	static class startReleased extends AbstractAction{
+		/**
+		 * generated serial to suppress warnings
+		 */
+		private static final long serialVersionUID = -5326323446301818867L;
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			c.setStart(false);

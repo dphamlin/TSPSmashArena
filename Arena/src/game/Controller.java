@@ -1,7 +1,5 @@
 package game;
 
-import javax.swing.JComponent;
-
 /**
  * Class to hold the buttons
  * 
@@ -43,7 +41,6 @@ public class Controller {
 
 	/**
 	 * Internal update method, track hold times for buttons
-	 * TODO: Find an appropriate location for this method
 	 */
 	public void update() {
 		//up

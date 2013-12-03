@@ -1,10 +1,7 @@
 package game;
-import java.util.*;
 import java.io.*;
 import java.net.*;
 import java.nio.file.Paths;
-
-import com.google.gson.*;
 
 public class Arena {
 

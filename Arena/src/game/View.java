@@ -29,8 +29,11 @@ import java.awt.event.WindowEvent;
  *
  */
 
-public class View extends JFrame {
 
+public class View extends JFrame {
+	//Generated serial ID to suppress warnings
+	private static final long serialVersionUID = -3351297602875841880L;
+	
 	//swing components
 	private CardLayout cl;
 	private JPanel draw;
@@ -301,7 +304,7 @@ public class View extends JFrame {
 	}
 	
 	/**
-	 * Sets the results from the last finnished game into the results tab.
+	 * Sets the results from the last finished game into the results tab.
 	 */
 	public void setResults(GameResults r){
 		

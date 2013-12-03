@@ -1,5 +1,4 @@
 package game;
-import java.util.*;
 import java.io.*;
 import java.net.*;
 
@@ -16,7 +15,6 @@ public class Client {
 	private Gson json;
 	private Controller controller;
 	private StopWatch timer;
-	private static int port = 5379;
 	private Message messageFromServer;
 	private Message messageToServer;
 	private GameResults gameResults;
