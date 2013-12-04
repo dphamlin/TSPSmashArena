@@ -81,7 +81,7 @@ public class Arena {
 		
 		mainView.gameDone();
 		theClient = null;
-		MusicBank.stop();
+		//MusicBank.stop();
 	}
 
 	/**

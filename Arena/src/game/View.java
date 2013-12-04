@@ -14,15 +14,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
 import java.awt.event.WindowAdapter;
@@ -64,6 +66,11 @@ public class View extends JFrame {
 	private JLabel numPlayersLabel;
 	private JLabel welcomeLabel;
 	private JLabel resultHeader;
+	private JLabel resultMode;
+	private JLabel resultMax;
+	private JLabel resultWinner;
+	private JLabel resultPl[];
+	private DefaultListModel<String>[] resultLists;
 	private JTextField numPlayersField;
 
 	//instance stuff
@@ -77,6 +84,7 @@ public class View extends JFrame {
 	/**
 	 * Standard constructor
 	 */
+	@SuppressWarnings("unchecked")
 	public View(Arena a) {
 		super();
 		draw = new JPanel();
@@ -156,6 +164,7 @@ public class View extends JFrame {
 		joinPortField = new JTextField();
 		joinPlayerField = new JTextField();
 		joinPortField.setText("5379");
+		ipField.setText("colossus.it.mtu.edu");
 		ipField.setPreferredSize(new Dimension(125,25));
 		joinPortField.setPreferredSize(new Dimension(43,25));
 		joinPlayerField.setPreferredSize(new Dimension(75,25));
@@ -186,15 +195,69 @@ public class View extends JFrame {
 		c.gridy = 5;
 		c.gridx = 2;
 		join.add(jGo, c);
-
+		
+		resultLists = new DefaultListModel[4];
 		c.gridwidth = 1;
 		c.gridy = 1;
 		c.gridx = 1;
 		result = new JPanel();
 		result.setLayout(resultGrid);
 		resultHeader = new JLabel("No game results yet.");
+		resultMode = new JLabel("- ");
+		resultMax = new JLabel("- ");
+		resultWinner = new JLabel(" - - ");
+		resultPl = new JLabel[4];
+		resultPl[0] = new JLabel(" - ");
+		resultPl[1] = new JLabel(" - ");
+		resultPl[2] = new JLabel(" - ");
+		resultPl[3] = new JLabel(" - ");
+		
+		resultLists[0] = new DefaultListModel<String>();
+		JList<String> resultList1 = new JList<String>(resultLists[0]);
+		JScrollPane resultScroll1 = new JScrollPane(resultList1);
+		resultScroll1.setColumnHeaderView(resultPl[0]);
+		resultScroll1.setPreferredSize(new Dimension(125, 300));
+		
+		resultLists[1] = new DefaultListModel<String>();
+		JList<String> resultList2 = new JList<String>(resultLists[1]);
+		JScrollPane resultScroll2 = new JScrollPane(resultList2);
+		resultScroll2.setColumnHeaderView(resultPl[1]);
+		resultScroll2.setPreferredSize(new Dimension(125, 300));
+		
+		resultLists[2] = new DefaultListModel<String>();
+		JList<String> resultList3 = new JList<String>(resultLists[2]);
+		JScrollPane resultScroll3 = new JScrollPane(resultList3);
+		resultScroll3.setColumnHeaderView(resultPl[2]);
+		resultScroll3.setPreferredSize(new Dimension(125, 300));
+		
+		resultLists[3] = new DefaultListModel<String>();
+		JList<String> resultList4 = new JList<String>(resultLists[3]);
+		JScrollPane resultScroll4 = new JScrollPane(resultList4);
+		resultScroll4.setColumnHeaderView(resultPl[3]);
+		resultScroll4.setPreferredSize(new Dimension(125, 300));
+		
+		result.add(resultMode, c);
+		c.gridx = 2;
+		c.gridwidth = 2;
 		result.add(resultHeader, c);
-
+		c.gridx = 4;
+		c.gridwidth = 1;
+		result.add(resultMax, c);
+		c.gridy = 2;
+		c.gridx = 1;
+		c.gridwidth = 4;
+		result.add(resultWinner,c);
+		c.gridy = 3;
+		c.gridx = 1;
+		c.gridwidth = 1;
+		result.add(resultScroll1, c);
+		c.gridx = 2;
+		result.add(resultScroll2, c);
+		c.gridx = 3;
+		result.add(resultScroll3, c);
+		c.gridx = 4;
+		result.add(resultScroll4, c);
+		
 		modeTabbedPane.addTab("Join", join);
 		modeTabbedPane.addTab("Host", host);
 		modeTabbedPane.addTab("Result",result);
@@ -215,7 +278,7 @@ public class View extends JFrame {
 
 		Wardrobe.init();//Load images, sounds, and music
 		SoundBank.init();
-		MusicBank.init();
+		//MusicBank.init();
 
 		this.addWindowListener(new WindowAdapter() {// Closing the window gracefully closes the game
 			public void windowClosing(WindowEvent e) {
@@ -312,9 +375,10 @@ public class View extends JFrame {
 		GameResults theResults = null;
 		if(arena.getTheClient() != null){
 			theResults = arena.getTheClient().getGameResults();
-		}
-		if(theResults != null){
-			setResults(theResults);
+			if(theResults != null){
+				modeTabbedPane.setSelectedIndex(2);
+				setResults(theResults);
+			}
 		}
 		setLastMap(" ");
 		cl.show(cardPane, "mode");
@@ -329,17 +393,55 @@ public class View extends JFrame {
 		ArrayList<Integer> win = r.getWinners();
 		int mode = r.getMode();
 		int stock = r.getStock();
-		int time = r.getTime();
-		int maxWidth = ar.size();
+		int time = r.getTime()/3000;
 		
-		GridBagConstraints c = new GridBagConstraints();
-		
-		
-		
-		for(int i = 0;  i < ar.size(); i++){
-			
+		resultHeader.setText(getLastMap()+" Results");
+		if(mode == 1){
+			resultMode.setText("Mode: Stock");
+			resultMax.setText("Lives: "+stock);
 		}
-
+		else{
+			resultMode.setText("Mode: Timed");
+			resultMax.setText("Minuets: "+time);
+		}
+		
+		String winner = "Winner";
+		if(win.size() == 1){
+			winner += " - "+names[win.get(0)];
+		}
+		else if(win.size() > 1){
+			winner += "s - ";
+			for(int i = 0;  i < win.size(); i++){
+				winner += names[win.get(i)];
+				if(i != win.size()-1){
+					winner += ", ";
+				}
+			}
+		}
+		else{
+			winner = "- no winner -";
+		}
+		resultWinner.setText(winner);
+		
+		for(int i = 0; i < ar.size(); i++){
+			ActorResults a = ar.get(i);
+			resultPl[i].setText(names[i]);
+			ArrayList<Integer> kills = a.getKills();
+			resultLists[i].addElement("Killed -------- "+kills.size());
+			for(int j = 0; j < kills.size(); j++){
+				resultLists[i].addElement("    "+names[kills.get(j)]);
+			}
+			ArrayList<Integer> deaths = a.getDeaths();
+			resultLists[i].addElement("Died From ----- "+deaths.size());
+			for(int j = 0; j < deaths.size(); j++){
+				if(deaths.get(j) == -1){
+					resultLists[i].addElement("    "+getLastMap());
+				}
+				else{
+					resultLists[i].addElement("    "+names[deaths.get(j)]);
+				}
+			}
+		}
 	}
 
 	/**
@@ -445,6 +547,20 @@ public class View extends JFrame {
 	 */
 	public void setLastMap(String lastMap) {
 		this.lastMap = lastMap;
+	}
+
+	/**
+	 * @return the resultPl
+	 */
+	public JLabel[] getResultPl() {
+		return resultPl;
+	}
+
+	/**
+	 * @return the resultLists
+	 */
+	public DefaultListModel<String>[] getResultLists() {
+		return resultLists;
 	}
 
 	class JTextFieldLimit extends PlainDocument {

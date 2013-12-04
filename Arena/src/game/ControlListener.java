@@ -5,7 +5,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
@@ -134,6 +136,14 @@ public class ControlListener implements ActionListener{
 				v.getArena().setPort(port);//Set up arena and start worker.
 				ArenaWorker worker = new ArenaWorker(v.getArena());
 				worker.execute();
+				JLabel[] r = v.getResultPl();
+				DefaultListModel<String>[] l = v.getResultLists();
+				for(int i = 0; i < r.length; i++){
+					r[i].setText(" - ");
+				}
+				for(int i = 0; i < l.length; i++){
+					l[i].removeAllElements();
+				}
 			}
 		}
 		else if(e.getSource() == v.gethGo()){//if the user pressed the host button
@@ -155,6 +165,14 @@ public class ControlListener implements ActionListener{
 				v.getArena().setPort(port);//set up arena and start worker
 				ArenaWorker worker = new ArenaWorker(v.getArena());
 				worker.execute();
+				JLabel[] r = v.getResultPl();
+				DefaultListModel<String>[] l = v.getResultLists();
+				for(int i = 0; i < r.length; i++){
+					r[i].setText(" - ");
+				}
+				for(int i = 0; i < l.length; i++){
+					l[i].removeAllElements();
+				}
 			}
 		}
 	}
