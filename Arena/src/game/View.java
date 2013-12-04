@@ -168,7 +168,7 @@ public class View extends JFrame {
 		joinPortField = new JTextField();
 		joinPlayerField = new JTextField();
 		joinPortField.setText("5379");
-		ipField.setText("colossus.it.mtu.edu");
+		//ipField.setText("colossus.it.mtu.edu");
 		ipField.setPreferredSize(new Dimension(125,25));
 		joinPortField.setPreferredSize(new Dimension(43,25));
 		joinPlayerField.setPreferredSize(new Dimension(75,25));
@@ -290,7 +290,7 @@ public class View extends JFrame {
 		}
 			
 		modeTabbedPane.addTab("Join", join);
-		//modeTabbedPane.addTab("Host", host);
+		modeTabbedPane.addTab("Host", host);
 		modeTabbedPane.addTab("Result",result);
 		modeTabbedPane.addTab("Info",info);
 
