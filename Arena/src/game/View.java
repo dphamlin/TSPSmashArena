@@ -71,6 +71,8 @@ public class View extends JFrame {
 	private ControlListener control;
 	private String ip;
 	private String lastMap;
+	
+	private static final int name_length = 8;
 
 	/**
 	 * Standard constructor
@@ -113,7 +115,7 @@ public class View extends JFrame {
 		numPlayersField.setPreferredSize(new Dimension(25,25));
 		hostPortField.setPreferredSize(new Dimension(43,25));
 		hostPlayerField.setPreferredSize(new Dimension(75,25));
-		hostPlayerField.setDocument(new JTextFieldLimit(7));
+		hostPlayerField.setDocument(new JTextFieldLimit(name_length));
 
 		host.add(yourIP,c);
 		c.gridy = 2;
@@ -157,7 +159,7 @@ public class View extends JFrame {
 		ipField.setPreferredSize(new Dimension(125,25));
 		joinPortField.setPreferredSize(new Dimension(43,25));
 		joinPlayerField.setPreferredSize(new Dimension(75,25));
-		joinPlayerField.setDocument(new JTextFieldLimit(7));
+		joinPlayerField.setDocument(new JTextFieldLimit(name_length));
 
 		join.add(welcomeLabel,c);
 		c.gridwidth = 2;
@@ -185,12 +187,12 @@ public class View extends JFrame {
 		c.gridx = 2;
 		join.add(jGo, c);
 
-		c.gridwidth = 3;
+		c.gridwidth = 1;
 		c.gridy = 1;
 		c.gridx = 1;
 		result = new JPanel();
 		result.setLayout(resultGrid);
-		resultHeader = new JLabel("No game info yet.");
+		resultHeader = new JLabel("No game results yet.");
 		result.add(resultHeader, c);
 
 		modeTabbedPane.addTab("Join", join);
@@ -322,11 +324,21 @@ public class View extends JFrame {
 	 * Sets the results from the last finished game into the results tab.
 	 */
 	public void setResults(GameResults r){
+		String[] names = getArena().getTheClient().getNameList(); 
 		ArrayList<ActorResults> ar = r.getResults();
 		ArrayList<Integer> win = r.getWinners();
 		int mode = r.getMode();
 		int stock = r.getStock();
 		int time = r.getTime();
+		int maxWidth = ar.size();
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
+		
+		
+		for(int i = 0;  i < ar.size(); i++){
+			
+		}
 
 	}
 
