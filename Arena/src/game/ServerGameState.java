@@ -1260,7 +1260,7 @@ public class ServerGameState extends GameState {
 				a.setPipe(false);
 				fall(a);
 			}
-			if (!a.isDead()) a.setDeadTime((a.getSpawnTime()+a.getSpawnInv())/10*10-4);
+			if (!a.isDead()) a.setDeadTime((a.getSpawnTime()+a.getSpawnInv())/10*10-24);
 		}
 		//apply ground friction (moving ground)
 		else if (a.getOnLand() != null && a.getOnLand().isMove()) {
