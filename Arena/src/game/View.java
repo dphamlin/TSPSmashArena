@@ -408,7 +408,7 @@ public class View extends JFrame {
 		if(arena.getTheClient() != null){
 			theResults = arena.getTheClient().getGameResults();
 			if(theResults != null){
-				modeTabbedPane.setSelectedIndex(2);
+				modeTabbedPane.setSelectedIndex(1);
 				setResults(theResults);
 			}
 			else{
