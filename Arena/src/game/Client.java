@@ -133,17 +133,17 @@ public class Client {
 		}
 		if (getMessageFromServer().getNumber() == 1) {
 			setGameResults(json.fromJson(getMessageFromServer().getMessage(),GameResults.class));
-			System.out.println("Game results received: " + getGameResults());
+			//System.out.println("Game results received: " + getGameResults());
 		}
 		if (getMessageFromServer().getNumber() == 2) { // Name list received
 			setNameList(json.fromJson(getMessageFromServer().getMessage(), String[].class));
-			System.out.println("Names received:");
+			/*System.out.println("Names received:");
 			for (String s: getNameList()) {
 				System.out.println(s);
-			}
+			}*/
 		}
 		if (getMessageFromServer().getNumber() == 3) { // Spectator status notification
-			System.out.println("Notified of spectator status.");
+			//System.out.println("Notified of spectator status.");
 			setIsSpectator(true);
 		}
 	}
