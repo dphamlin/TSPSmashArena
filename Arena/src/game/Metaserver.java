@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 
 public class Metaserver {
 	
-	private Metaserver theMetaserver; // The metaserver itself
 	private int first; // The first port in the range
 	private int last; // The last port in the range
 	private int[] portStatusArray; // Tracks whether port is taken yet
