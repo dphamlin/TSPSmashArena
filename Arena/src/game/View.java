@@ -290,7 +290,7 @@ public class View extends JFrame {
 		}
 			
 		modeTabbedPane.addTab("Join", join);
-		modeTabbedPane.addTab("Host", host);
+		//modeTabbedPane.addTab("Host", host);
 		modeTabbedPane.addTab("Result",result);
 		modeTabbedPane.addTab("Info",info);
 
