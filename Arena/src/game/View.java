@@ -6,6 +6,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -49,6 +52,7 @@ public class View extends JFrame {
 	private JPanel host;
 	private JPanel join;
 	private JPanel result;
+	private JPanel info;
 	private JButton jGo;
 	private JButton hGo;
 	private JTabbedPane modeTabbedPane;
@@ -196,13 +200,13 @@ public class View extends JFrame {
 		c.gridx = 2;
 		join.add(jGo, c);
 		
-		resultLists = new DefaultListModel[4];
 		c.gridwidth = 1;
 		c.gridy = 1;
 		c.gridx = 1;
 		result = new JPanel();
 		result.setLayout(resultGrid);
-		resultHeader = new JLabel("No game results yet.");
+		resultLists = new DefaultListModel[4];
+		resultHeader = new JLabel("No game results.");
 		resultMode = new JLabel("- ");
 		resultMax = new JLabel("- ");
 		resultWinner = new JLabel(" - - ");
@@ -258,9 +262,37 @@ public class View extends JFrame {
 		c.gridx = 4;
 		result.add(resultScroll4, c);
 		
+		c.gridwidth = 1;
+		c.gridy = 1;
+		c.gridx = 1;
+		info = new JPanel();
+		DefaultListModel<String> textSpace = new DefaultListModel<String>();
+		JList<String> infoList = new JList<String>(textSpace);
+		JScrollPane infoScroll= new JScrollPane(infoList);
+		infoScroll.setPreferredSize(new Dimension(620, 440));
+		info.add(infoScroll, c);
+		
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader("readme.txt"));
+			String line;
+			try {
+				while ((line = br.readLine()) != null) {
+					textSpace.addElement(line);
+				}
+			} catch (IOException e1) {}
+			try {
+				br.close();
+			} catch (IOException e1) {}
+		} catch (FileNotFoundException e2) {
+			textSpace.removeAllElements();
+			textSpace.addElement("No readme found.");
+		}
+			
 		modeTabbedPane.addTab("Join", join);
 		modeTabbedPane.addTab("Host", host);
 		modeTabbedPane.addTab("Result",result);
+		modeTabbedPane.addTab("Info",info);
 
 		cl = new CardLayout();
 		cardPane = new JPanel(cl);
@@ -379,6 +411,12 @@ public class View extends JFrame {
 				modeTabbedPane.setSelectedIndex(2);
 				setResults(theResults);
 			}
+			else{
+				resultHeader.setText("No game results.");
+				resultMode.setText(" - ");
+				resultMax.setText(" - ");
+				resultWinner.setText(" - - ");
+			}
 		}
 		setLastMap(" ");
 		cl.show(cardPane, "mode");
@@ -401,8 +439,8 @@ public class View extends JFrame {
 			resultMax.setText("Lives: "+stock);
 		}
 		else{
-			resultMode.setText("Mode: Timed");
-			resultMax.setText("Minuets: "+time);
+			resultMode.setText("Mode: Time");
+			resultMax.setText("Minutes: "+time);
 		}
 		
 		String winner = "Winner";
