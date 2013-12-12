@@ -3,6 +3,8 @@ import java.io.*;
 import java.net.*;
 import java.nio.file.Paths;
 
+import javafx.embed.swing.JFXPanel;
+
 public class Arena {
 
 	private static View mainView;
@@ -81,7 +83,7 @@ public class Arena {
 		
 		mainView.gameDone();
 		theClient = null;
-		//MusicBank.stop();
+		MusicBank.stop();
 	}
 
 	/**

@@ -44,8 +44,8 @@ public class ClientGameState extends GameState {
 		drawEffects(g);
 		drawStatus(g);
 		playSounds(); //not a draw TECHNICALLY but...
-		//if (getFrameNumber() == 5) //start music on first frame
-			//MusicBank.play(Warehouse.getMaps()[getStage()].getBgm());
+		if (getFrameNumber() == 5) //start music on first frame
+			MusicBank.play(Warehouse.getMaps()[getStage()].getBgm());
 	}
 
 	/**

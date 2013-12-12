@@ -1,6 +1,9 @@
 package game;
 import javafx.scene.media.*;
+
 import java.io.*;
+
+import javafx.application.Application;
 import javafx.embed.swing.*;
 
 public class MusicBank {
@@ -20,7 +23,7 @@ public class MusicBank {
 
 	// Static init(), as for the Soundbank
 	public static void init() {
-		new JFXPanel(); // Apparently, this is needed to prevent IllegalStateException
+		//new JFXPanel(); // Apparently, this is needed to prevent IllegalStateException
 		mediaList = new Media[fileList.length];
 		for (int i=0;i<fileList.length;i++)
 			mediaList[i] = new Media(new File(fileList[i]).toURI().toString());
@@ -36,10 +39,12 @@ public class MusicBank {
 			new Thread(currentTrack).start();
 		}
 		else { // Track already running; end before starting new track
-			currentTrack.getMediaPlayer().stop();
-			currentTrack.setMediaPlayer(new MediaPlayer(mediaList[index]));
-			currentTrack.getMediaPlayer().setCycleCount(MediaPlayer.INDEFINITE);
-			currentTrack.getMediaPlayer().play();
+			if (currentTrack.getMediaPlayer() != null) {
+				currentTrack.getMediaPlayer().stop();
+				currentTrack.setMediaPlayer(new MediaPlayer(mediaList[index]));
+				currentTrack.getMediaPlayer().setCycleCount(MediaPlayer.INDEFINITE);
+				currentTrack.getMediaPlayer().play();
+			}
 		}
 
 	}

@@ -7,10 +7,15 @@ public class MusicThread implements Runnable {
 	private MediaPlayer mediaPlayer;
 	
 	MusicThread(Media media) {
-		//new JFXPanel(); // Allows the exception to be passed without incident, but a exception-free solution is still desired.
-		setMedia(media);
-		setMediaPlayer(new MediaPlayer(media));
-		getMediaPlayer().setCycleCount(MediaPlayer.INDEFINITE);
+		try {
+			setMedia(media);
+			setMediaPlayer(new MediaPlayer(media));
+			getMediaPlayer().setCycleCount(MediaPlayer.INDEFINITE);
+		}
+		catch (Exception e) {
+			setMedia(null);
+			setMediaPlayer(null);
+		}
 	}
 	
 	public void setMedia(Media media) {
@@ -22,7 +27,6 @@ public class MusicThread implements Runnable {
 	}
 	
 	public void setMediaPlayer(MediaPlayer mediaPlayer) {
-		//new JFXPanel();
 		this.mediaPlayer = mediaPlayer;
 	}
 	
@@ -31,7 +35,12 @@ public class MusicThread implements Runnable {
 	}
 	
 	public void run() {
-		getMediaPlayer().play();
+		try {
+			getMediaPlayer().play();
+		}
+		catch (Exception e) {
+			
+		}
 	}
 	
 	
